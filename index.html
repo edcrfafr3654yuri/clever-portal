@@ -1466,6 +1466,9 @@ db.ref('bannedRoles').on('value',s=>{
     const remaining=bannedRoles[currentRole]-Date.now();
     if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}showToast('You have been banned.');logout()}
   }
+  Object.keys(bannedRoles).forEach(function(role){
+    if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
+  });
 });
 var _lastMsgTimestamp=0,_chatInitialized=false;
 var _unreadChatCount=0;
