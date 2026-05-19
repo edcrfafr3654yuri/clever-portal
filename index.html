@@ -1134,9 +1134,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <label>&#128218; Audit Log</label>
       <button id="clearAuditLogBtn" class="btn-clear" style="margin-bottom:4px">Clear Audit Log</button>
       <div class="audit-log-list" id="auditLogList"></div>
-      <div class="section-divider"></div>
-      <label>&#128279; Alt Accounts</label>
-      <div id="altAccountList" style="margin-top:6px"></div>
+
     </details>
   </div>
 </div>
@@ -1274,7 +1272,7 @@ let currentRole=null,currentDisplayName=null;
 let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={};
 let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
-let deviceFingerprints={};
+
 let profilePictures={};
 let pendingAppeals={},pendingRecos={},pendingAccountRequests={},deniedAccountRequests={};
 let rateLimitEnabled=false;
@@ -1434,7 +1432,7 @@ document.getElementById('clearAuditLogBtn').addEventListener('click',function(){
 var _renderUserMgmtTimer=null;
 function queueRenderUserMgmt(){clearTimeout(_renderUserMgmtTimer);_renderUserMgmtTimer=setTimeout(renderUserMgmt,50)}
 db.ref('validPasswords').on('value',s=>{validPasswords=s.val()||{};queueRenderUserMgmt()});
-db.ref('deviceFingerprints').on('value',s=>{deviceFingerprints=s.val()||{};renderAltAccounts()});
+
 db.ref('roleDisplayNames').on('value',s=>{roleDisplayNames=s.val()||{};rebuildUserDropdown();queueRenderUserMgmt()});
 db.ref('adminUsers').on('value',s=>{
   var oldAdminUsers=adminUsers;
@@ -1916,7 +1914,7 @@ function loginAsRole(role){
   presRef.set({name:currentDisplayName,timestamp:Date.now()});presRef.onDisconnect().remove();
   var deviceId=getDeviceFingerprint();
   localStorage.setItem('docosDeviceId',deviceId);localStorage.setItem('docosRole',role);
-  db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
+
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
   if(chatLocked&&!isAdmin){document.querySelector('.input-row').classList.add('locked');messageInput.placeholder='Chat is locked...';}
   else{document.querySelector('.input-row').classList.remove('locked');messageInput.placeholder='Type a message...';messageInput.focus();}
@@ -2144,19 +2142,6 @@ function renderBannedList(){
     div.appendChild(span);div.appendChild(btn);bannedListDiv.appendChild(div);
   });
   if(!mutedListDiv.hasChildNodes()&&!bannedListDiv.hasChildNodes())bannedListDiv.innerHTML='<span style="color:var(--text7);font-size:12px">None</span>';
-}
-function renderAltAccounts(){
-  var div=document.getElementById('altAccountList');if(!div)return;div.innerHTML='';
-  var fpToRoles={};
-  Object.keys(deviceFingerprints).forEach(role=>{var fps=deviceFingerprints[role];Object.keys(fps).forEach(fp=>{if(!fpToRoles[fp])fpToRoles[fp]=[];if(fpToRoles[fp].indexOf(role)===-1)fpToRoles[fp].push(role)})});
-  var groups=Object.keys(fpToRoles).filter(fp=>fpToRoles[fp].length>=2).map(fp=>({fp,roles:fpToRoles[fp]}));
-  if(!groups.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No alts detected</span>';return}
-  groups.forEach(g=>{
-    var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='flex-start';item.style.gap='3px';
-    var names=g.roles.map(r=>'<span style="color:#ff9800;font-weight:700">'+(roleDisplayNames[r]||r)+'</span>').join(' <span style="color:var(--text7)">&amp;</span> ');
-    item.innerHTML='<div style="font-size:12px">🔗 '+names+'</div><div style="font-size:10px;color:var(--text7)">Same device · ID: <span style="font-family:monospace;color:var(--text6)">'+g.fp+'</span></div>';
-    div.appendChild(item);
-  });
 }
 
 function triggerMuteFeedback(role){
