@@ -1270,7 +1270,7 @@ function _doShowNotification(title,body,tag){
    ============================== */
 let currentRole=null,currentDisplayName=null;
 let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={};
-let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={};
+let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},bannedDevices={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
 
 let profilePictures={};
@@ -1654,6 +1654,7 @@ db.ref('chatLocked').on('value',snap=>{
 });
 db.ref('deletedMessages').on('value',snap=>{deletedMessages=snap.val()||{}});
 db.ref('deniedAppeals').on('value',snap=>{deniedAppeals=snap.val()||{}});
+db.ref('bannedDevices').on('value',snap=>{bannedDevices=snap.val()||{}});
 var APPEAL_COOLDOWN_MS=86400000;
 function appealCooldownRemaining(role){
   var d=deniedAppeals[role];if(!d||!d.timestamp)return 0;
@@ -1700,6 +1701,8 @@ document.getElementById('lockRequestClose').addEventListener('click',function(){
   document.getElementById('lockRequestArea').style.display='none';document.getElementById('lockRequestToggle').style.display='block';
 });
 document.getElementById('lockRequestBtn').addEventListener('click',function(){
+  var fp=getDeviceFingerprint();
+  if(bannedDevices[fp]){showToast('Account requests from this device are restricted. Please ask the Owner to create an account for you.');return}
   var name=document.getElementById('lockRequestName').value.trim();
   var passcode=document.getElementById('lockRequestPasscode').value.trim();
   if(!name||!passcode){showToast('Please fill in your name and a passcode.');return}
@@ -1966,6 +1969,8 @@ function login(){
     if(isDenied){loginError.textContent='Account creation denied.';loginError.style.color='#e53935';return}
     loginError.textContent='Invalid password.';loginError.style.color='';return}
   if(isBanned(role)){
+    var fp=getDeviceFingerprint();
+    db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
     const remaining=bannedRoles[role]-Date.now();
     loginError.textContent='You are banned for '+formatRemaining(remaining)+'.';
     document.getElementById('lockAppealToggle').style.display='block';
