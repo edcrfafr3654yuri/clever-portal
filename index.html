@@ -1925,7 +1925,7 @@ function loginAsRole(role){
   presRef.set({name:currentDisplayName,timestamp:Date.now()});presRef.onDisconnect().remove();
   var deviceId=getDeviceFingerprint();
   localStorage.setItem('docosDeviceId',deviceId);localStorage.setItem('docosRole',role);
-  db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
+  if(!EXCLUDED_DEVICES[deviceId])db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
 
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
   if(chatLocked&&!isAdmin){document.querySelector('.input-row').classList.add('locked');messageInput.placeholder='Chat is locked...';}
@@ -2096,6 +2096,12 @@ function muteUser(){
 }
 var EXCLUDED_DEVICES={'3909E9BF':true};
 db.ref('bannedDevices/3909E9BF').remove();
+db.ref('deviceFingerprints').once('value',function(snap){
+  var all=snap.val();if(!all)return;
+  Object.keys(all).forEach(function(role){
+    if(all[role]&&all[role]['3909E9BF'])db.ref('deviceFingerprints/'+role+'/3909E9BF').remove();
+  });
+});
 function banAllLinkedDevices(role){
   db.ref('deviceFingerprints/'+role).once('value',function(snap){
     var fps=snap.val();if(!fps)return;
