@@ -1656,6 +1656,11 @@ db.ref('chatLocked').on('value',snap=>{
 });
 db.ref('deletedMessages').on('value',snap=>{deletedMessages=snap.val()||{}});
 db.ref('deniedAppeals').on('value',snap=>{deniedAppeals=snap.val()||{}});
+var APPEAL_COOLDOWN_MS=86400000;
+function appealCooldownRemaining(role){
+  var d=deniedAppeals[role];if(!d||!d.timestamp)return 0;
+  var left=d.timestamp+APPEAL_COOLDOWN_MS-Date.now();return left>0?left:0;
+}
 var _prevAppealCount=0,_prevRecoCount=0,_modNotifInit=false;
 db.ref('appeals').on('value',snap=>{
   var prev=Object.keys(pendingAppeals).length;
@@ -1970,7 +1975,14 @@ function login(){
     document.getElementById('lockAppealArea').style.display='none';
     document.getElementById('lockAppealSent').style.display='none';
     document.getElementById('lockAppealText').value='';
-    document.getElementById('lockAppealDenied').style.display=deniedAppeals[role]?'block':'none';
+    var banCooldown=appealCooldownRemaining(role);
+    if(banCooldown>0){
+      document.getElementById('lockAppealDenied').style.display='block';
+      document.getElementById('lockAppealDenied').textContent='Your appeal was denied. You can appeal again in '+formatRemaining(banCooldown)+'.';
+      document.getElementById('lockAppealToggle').style.display='none';
+    }else{
+      document.getElementById('lockAppealDenied').style.display='none';
+    }
     return;
   }
   loginAsRole(role);
@@ -2150,9 +2162,10 @@ function renderAltAccounts(){
 function triggerMuteFeedback(role){
   const remaining=mutedRoles[role]-Date.now();
   muteWarning.textContent='You are muted for '+formatRemaining(remaining)+'.';
-  if(deniedAppeals[role]){
+  var cooldown=appealCooldownRemaining(role);
+  if(cooldown>0){
     document.getElementById('muteAppealRow').style.display='none';
-    muteWarning.textContent+=' Your appeal was denied.';
+    muteWarning.textContent+=' Your appeal was denied. You can appeal again in '+formatRemaining(cooldown)+'.';
   }else{
     document.getElementById('muteAppealRow').style.display='flex';
   }
@@ -2546,6 +2559,7 @@ document.getElementById('lockAppealToggle').addEventListener('click',function(){
 document.getElementById('lockAppealBtn').addEventListener('click',()=>{
   const area=document.getElementById('lockAppealArea'),role=area.dataset.role,text=document.getElementById('lockAppealText').value.trim();
   if(!text||!role){showToast('Please write your appeal.');return}
+  var cd=appealCooldownRemaining(role);if(cd>0){showToast('You can appeal again in '+formatRemaining(cd)+'.');return}
   const displayName=roleDisplayNames[role]||role;
   db.ref('deniedAppeals').child(role).remove();
   db.ref('appeals').push({role,name:displayName,type:'ban',reason:text,timestamp:Date.now()}).then(()=>{
@@ -2553,7 +2567,7 @@ document.getElementById('lockAppealBtn').addEventListener('click',()=>{
   }).catch(console.error);
 });
 document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
-  if(deniedAppeals[currentRole]){showToast('Your appeal was denied. You cannot submit another.');return}
+  var cd=appealCooldownRemaining(currentRole);if(cd>0){showToast('Your appeal was denied. You can appeal again in '+formatRemaining(cd)+'.');return}
   const text=document.getElementById('muteAppealInput').value.trim();if(!text||!currentRole){showToast('Please write your appeal.');return}
   db.ref('appeals').push({role:currentRole,name:currentDisplayName,type:'mute',reason:text,timestamp:Date.now()}).then(()=>{
     showToast('Appeal submitted!');document.getElementById('muteAppealRow').style.display='none';document.getElementById('muteAppealInput').value='';
