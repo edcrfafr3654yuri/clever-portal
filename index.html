@@ -949,6 +949,14 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <button class="lock-appeal-btn" id="lockAppealBtn">Submit Appeal</button>
       <div class="lock-appeal-sent" id="lockAppealSent" style="display:none">Appeal submitted!</div>
     </div>
+    <button class="lock-appeal-btn" id="lockRequestToggle" style="margin-top:12px;width:auto;padding:6px 20px;background:linear-gradient(135deg,#2e7d32,#1b5e20)">Request an Account</button>
+    <div class="lock-appeal-area" id="lockRequestArea" style="display:none">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;text-align:center;position:relative">Please use your real name. Your request will be reviewed by an admin.<button class="lock-appeal-close" id="lockRequestClose" style="top:50%;transform:translateY(-50%);right:-2px">&times;</button></div>
+      <input type="text" id="lockRequestName" class="lock-input" placeholder="Your real name" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <input type="text" id="lockRequestPasscode" class="lock-input" placeholder="Choose a passcode" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <button class="lock-appeal-btn" id="lockRequestBtn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Submit Request</button>
+      <div class="lock-appeal-sent" id="lockRequestSent" style="display:none">Request submitted! Please wait for approval.</div>
+    </div>
   </div>
   <div class="lock-branding">DocOS</div>
 </div>
@@ -965,7 +973,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
         <div class="icon-label" id="iconLabel-settings">Settings</div>
       </div>
       <div class="desktop-icon" data-app="mod" id="modDesktopIcon" ondblclick="openApp('mod')" onclick="if(window.innerWidth<=768)openApp('mod')" style="left:10px;top:310px;display:none">
-        <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128736;<span id="modIconBadge" style="display:none;position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:#f44336;color:#fff;font-size:10px;font-weight:700;text-align:center;line-height:18px;padding:0 4px;box-shadow:0 2px 6px rgba(0,0,0,.4)"></span></div>
+        <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128736;<div id="modIconBadgeStack" style="position:absolute;top:-4px;right:-6px;display:flex;flex-direction:column;gap:2px;align-items:flex-end"><span id="modBadgeAcctReq" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#66bb6a"></span><span id="modBadgeAppeals" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#ff9800"></span><span id="modBadgeRecos" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#42a5f5"></span></div></div>
         <div class="icon-label" id="iconLabel-mod">Mod Panel</div>
       </div>
       <div class="desktop-icon" data-app="videocall" ondblclick="openApp('videocall')" onclick="if(window.innerWidth<=768)openApp('videocall')" style="left:10px;top:210px">
@@ -1008,7 +1016,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
   <div id="headerThemeSlot" style="margin-left:auto;display:none"></div>
   <div class="header-right" style="display:none">
     <button id="recoButton" style="display:none">&#128172; Recommend</button>
-    <div class="gear-wrapper" id="gearWrapper" style="display:none"><div class="gear-icon" id="gearIcon">&#9881;</div><div class="notif-badge" id="notifBadge">0</div></div>
+    <div class="gear-wrapper" id="gearWrapper" style="display:none"><div class="gear-icon" id="gearIcon">&#9881;</div><div style="display:flex;flex-direction:column;gap:1px;align-items:flex-end;position:absolute;top:-2px;right:-8px"><div class="notif-badge" id="notifBadgeAcctReq" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeAppeals" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeRecos" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div></div></div>
     <button id="logoutButton" style="display:none">Logout</button>
   </div>
 </div>
@@ -1087,10 +1095,13 @@ summary{font-size:calc(13px * var(--fs-scale))}
     </details>
     <details>
       <summary><span class="section-icon">&#128172;</span> Feedback <span id="feedbackBadge" style="display:none;min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:4px;vertical-align:middle"></span></summary>
-      <label style="color:var(--text5)">Appeals</label>
+      <label style="color:#66bb6a;font-weight:600">Account Requests <span id="acctReqBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
+      <div id="acctReqList"></div>
+      <div class="section-divider"></div>
+      <label style="color:#ff9800;font-weight:600">Appeals <span id="appealsBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
       <div id="appealsList"></div>
       <div class="section-divider"></div>
-      <label style="color:var(--accent)">Recommendations</label>
+      <label style="color:#42a5f5;font-weight:600">Recommendations <span id="recosBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
       <div id="recoList"></div>
     </details>
     <details id="userMgmtSection">
@@ -1265,7 +1276,7 @@ let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
 let deviceFingerprints={};
 let profilePictures={};
-let pendingAppeals={},pendingRecos={};
+let pendingAppeals={},pendingRecos={},pendingAccountRequests={},deniedAccountRequests={};
 let rateLimitEnabled=false;
 let auditLog={};
 
@@ -1448,10 +1459,10 @@ db.ref('adminUsers').on('value',s=>{
   });
 });
 db.ref('profilePictures').on('value',s=>{profilePictures=s.val()||{};renderOnlineUsers();updateTaskbarAvatar();updateLockAvatar();if(typeof window._settingsPfpRefresh==='function')window._settingsPfpRefresh();db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})})});
-db.ref('mutedRoles').on('value',s=>{mutedRoles=s.val()||{};renderMutedList();renderOnlineUsers()});
+db.ref('mutedRoles').on('value',s=>{mutedRoles=s.val()||{};renderMutedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt()});
 db.ref('onlineUsers').on('value',s=>{onlineUsers=s.val()||{};renderOnlineUsers();if(typeof _vcRenderUsers==='function'&&!_vcInCall&&!_gcInGroupCall)_vcRenderUsers();});
 db.ref('bannedRoles').on('value',s=>{
-  bannedRoles=s.val()||{};renderBannedList();renderOnlineUsers();
+  bannedRoles=s.val()||{};renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
     if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}showToast('You have been banned.');logout()}
@@ -1664,7 +1675,41 @@ db.ref('recommendations').on('value',snap=>{
     if(newest)showToast('New recommendation from '+(newest.name||newest.role));
   }
 });
+db.ref('pendingAccountRequests').on('value',snap=>{
+  var prev=Object.keys(pendingAccountRequests).length;
+  pendingAccountRequests=snap.val()||{};renderAccountReqs();updateNotifBadge();
+  var cur=Object.keys(pendingAccountRequests).length;
+  if(_modNotifInit&&cur>prev&&(currentRole==='Admin'||currentRole==='Owner')){
+    var newest=null;Object.keys(pendingAccountRequests).forEach(function(k){var a=pendingAccountRequests[k];if(!newest||a.timestamp>newest.timestamp)newest=a});
+    if(newest)showToast('New account request from '+(newest.name||'Unknown'));
+  }
+});
+db.ref('deniedAccountRequests').on('value',snap=>{deniedAccountRequests=snap.val()||{}});
 setTimeout(function(){_modNotifInit=true},3000);
+
+/* ==============================
+   ACCOUNT REQUESTS
+   ============================== */
+document.getElementById('lockRequestToggle').addEventListener('click',function(){
+  document.getElementById('lockRequestArea').style.display='block';this.style.display='none';
+});
+document.getElementById('lockRequestClose').addEventListener('click',function(){
+  document.getElementById('lockRequestArea').style.display='none';document.getElementById('lockRequestToggle').style.display='block';
+});
+document.getElementById('lockRequestBtn').addEventListener('click',function(){
+  var name=document.getElementById('lockRequestName').value.trim();
+  var passcode=document.getElementById('lockRequestPasscode').value.trim();
+  if(!name||!passcode){showToast('Please fill in your name and a passcode.');return}
+  if(validPasswords[passcode]){showToast('That passcode is already in use. Choose a different one.');return}
+  var alreadyPending=false;
+  Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===passcode)alreadyPending=true});
+  if(alreadyPending){showToast('A request with that passcode is already pending.');return}
+  db.ref('pendingAccountRequests').push({name:name,passcode:passcode,timestamp:Date.now()}).then(function(){
+    document.getElementById('lockRequestSent').style.display='block';
+    document.getElementById('lockRequestName').value='';
+    document.getElementById('lockRequestPasscode').value='';
+  }).catch(console.error);
+});
 
 /* ==============================
    HELPERS
@@ -1675,7 +1720,16 @@ function linkify(str){var urlRe=/(https?:\/\/[^\s<]+)/g;return escHtml(str).repl
 function rebuildUserDropdown(){
   userSelect.innerHTML='<option value="">-- Select role --</option>';
   Object.keys(roleDisplayNames).forEach(role=>{
-    const opt=document.createElement('option');opt.value=role;opt.textContent=roleDisplayNames[role]||role;userSelect.appendChild(opt);
+    const opt=document.createElement('option');opt.value=role;
+    var label=roleDisplayNames[role]||role;
+    var tags=[];
+    if(isBanned(role))tags.push('Banned');
+    if(isMuted(role))tags.push('Muted');
+    if(tags.length)label+=' ('+tags.join(', ')+')';
+    opt.textContent=label;
+    if(isBanned(role))opt.style.color='#f44336';
+    else if(isMuted(role))opt.style.color='#ff9800';
+    userSelect.appendChild(opt);
   });
 }
 function getDurationMs(amount,unit){
@@ -1902,7 +1956,12 @@ function loginAsRole(role){
 function login(){
   const pass=passwordInput.value.trim();loginError.textContent='';
   const role=validPasswords[pass];
-  if(!role){loginError.textContent='Invalid password.';return}
+  if(!role){
+    var isPending=false;Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===pass)isPending=true});
+    if(isPending){loginError.textContent='Account not reviewed yet.';loginError.style.color='#ff9800';return}
+    var isDenied=false;Object.keys(deniedAccountRequests).forEach(function(k){if(deniedAccountRequests[k].passcode===pass)isDenied=true});
+    if(isDenied){loginError.textContent='Account creation declined.';loginError.style.color='#e53935';return}
+    loginError.textContent='Invalid password.';loginError.style.color='';return}
   if(isBanned(role)){
     const remaining=bannedRoles[role]-Date.now();
     loginError.textContent='You are banned for '+formatRemaining(remaining)+'.';
@@ -2002,6 +2061,7 @@ function muteUser(){
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(role==='Admin'&&currentRole!=='Admin'){showToast('You cannot mute the Owner.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot mute another admin.');return}
+  if(isMuted(role)){showToast((roleDisplayNames[role]||role)+' is already muted.');return}
   const displayName=roleDisplayNames[role]||role;
   db.ref('mutedRoles').child(role).set(Date.now()+dur.ms).then(()=>{
     showToast('Muted '+displayName+' for '+dur.label+'.');
@@ -2015,6 +2075,7 @@ function banUser(){
   const role=userSelect.value,dur=getSelectedDuration();
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot ban another admin.');return}
+  if(isBanned(role)){showToast((roleDisplayNames[role]||role)+' is already banned.');return}
   if(role==='Admin'&&currentRole!=='Admin'){
     var punishedRole=currentRole,punishedName=currentDisplayName||currentRole;
     skipAutoKick=true;showDemotePopup();
@@ -2089,7 +2150,12 @@ function renderAltAccounts(){
 function triggerMuteFeedback(role){
   const remaining=mutedRoles[role]-Date.now();
   muteWarning.textContent='You are muted for '+formatRemaining(remaining)+'.';
-  document.getElementById('muteAppealRow').style.display='flex';
+  if(deniedAppeals[role]){
+    document.getElementById('muteAppealRow').style.display='none';
+    muteWarning.textContent+=' Your appeal was denied.';
+  }else{
+    document.getElementById('muteAppealRow').style.display='flex';
+  }
   messageInput.classList.add('shake');sendButton.classList.add('shake');
   setTimeout(()=>{messageInput.classList.remove('shake');sendButton.classList.remove('shake')},300);
 }
@@ -2487,6 +2553,7 @@ document.getElementById('lockAppealBtn').addEventListener('click',()=>{
   }).catch(console.error);
 });
 document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
+  if(deniedAppeals[currentRole]){showToast('Your appeal was denied. You cannot submit another.');return}
   const text=document.getElementById('muteAppealInput').value.trim();if(!text||!currentRole){showToast('Please write your appeal.');return}
   db.ref('appeals').push({role:currentRole,name:currentDisplayName,type:'mute',reason:text,timestamp:Date.now()}).then(()=>{
     showToast('Appeal submitted!');document.getElementById('muteAppealRow').style.display='none';document.getElementById('muteAppealInput').value='';
@@ -2496,18 +2563,31 @@ document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
 function updateNotifBadge(){
   var appealCount=Object.keys(pendingAppeals).length;
   var recoCount=Object.keys(pendingRecos).length;
-  const count=appealCount+recoCount;
-  const badge=document.getElementById('notifBadge');
-  if(badge){if(count>0){badge.style.display='flex';badge.textContent=count}else{badge.style.display='none'}}
-  /* Update Mod Panel desktop icon badge */
-  var modBadge=document.getElementById('modIconBadge');
-  if(modBadge){
-    if(count>0){modBadge.style.display='inline-block';modBadge.textContent=count}
-    else{modBadge.style.display='none'}
-  }
+  var acctReqCount=Object.keys(pendingAccountRequests).length;
+  const count=appealCount+recoCount+acctReqCount;
+  var nba=document.getElementById('notifBadgeAcctReq');
+  if(nba){if(acctReqCount>0){nba.style.display='inline-block';nba.textContent=acctReqCount}else{nba.style.display='none'}}
+  var nbp=document.getElementById('notifBadgeAppeals');
+  if(nbp){if(appealCount>0){nbp.style.display='inline-block';nbp.textContent=appealCount}else{nbp.style.display='none'}}
+  var nbr=document.getElementById('notifBadgeRecos');
+  if(nbr){if(recoCount>0){nbr.style.display='inline-block';nbr.textContent=recoCount}else{nbr.style.display='none'}}
+  /* Update Mod Panel desktop icon badges (stacked) */
+  var mba=document.getElementById('modBadgeAcctReq');
+  if(mba){if(acctReqCount>0){mba.style.display='inline-block';mba.textContent=acctReqCount}else{mba.style.display='none'}}
+  var mbp=document.getElementById('modBadgeAppeals');
+  if(mbp){if(appealCount>0){mbp.style.display='inline-block';mbp.textContent=appealCount}else{mbp.style.display='none'}}
+  var mbr=document.getElementById('modBadgeRecos');
+  if(mbr){if(recoCount>0){mbr.style.display='inline-block';mbr.textContent=recoCount}else{mbr.style.display='none'}}
   /* Update Feedback section badges */
   var fb=document.getElementById('feedbackBadge');
   if(fb){if(count>0){fb.style.display='inline-block';fb.textContent=count}else{fb.style.display='none'}}
+  /* Individual feedback type badges */
+  var ab=document.getElementById('appealsBadge');
+  if(ab){if(appealCount>0){ab.style.display='inline-block';ab.textContent=appealCount}else{ab.style.display='none'}}
+  var rb=document.getElementById('recosBadge');
+  if(rb){if(recoCount>0){rb.style.display='inline-block';rb.textContent=recoCount}else{rb.style.display='none'}}
+  var arb=document.getElementById('acctReqBadge');
+  if(arb){if(acctReqCount>0){arb.style.display='inline-block';arb.textContent=acctReqCount}else{arb.style.display='none'}}
 
   /* Update taskbar item badge if Mod Panel window is open */
   var tbItems=document.querySelectorAll('.tb-item[data-app="mod"]');
@@ -2526,10 +2606,43 @@ function updateNotifBadge(){
     }
   });
 }
+function renderAccountReqs(){
+  var div=document.getElementById('acctReqList');if(!div)return;div.innerHTML='';
+  var keys=Object.keys(pendingAccountRequests);
+  if(!keys.length){div.innerHTML='<span style="color:#66bb6a;font-size:12px;opacity:.6">No pending requests</span>';return}
+  keys.forEach(function(key){
+    var req=pendingAccountRequests[key];
+    var item=document.createElement('div');item.className='appeal-item';
+    var meta=document.createElement('div');meta.className='appeal-meta';
+    meta.innerHTML='<strong>'+escHtml(req.name)+'</strong> \u2022 passcode: <span style="font-family:monospace;color:var(--text6)">'+escHtml(req.passcode)+'</span>';
+    var actions=document.createElement('div');actions.className='appeal-actions';
+    var approveBtn=document.createElement('button');approveBtn.style.background='#2e7d32';approveBtn.style.color='#fff';approveBtn.textContent='Approve';
+    approveBtn.onclick=function(){
+      var roleKey='Member_'+Date.now();
+      var updates={};
+      updates['/validPasswords/'+req.passcode]=roleKey;
+      updates['/roleDisplayNames/'+roleKey]=req.name;
+      db.ref().update(updates).then(function(){
+        db.ref('pendingAccountRequests').child(key).remove();
+        showToast('Approved account for '+req.name);
+        logAudit('account','Approved account request for '+req.name);
+      }).catch(console.error);
+    };
+    var denyBtn=document.createElement('button');denyBtn.className='deny-btn';denyBtn.textContent='Deny';
+    denyBtn.onclick=function(){
+      db.ref('pendingAccountRequests').child(key).remove();
+      db.ref('deniedAccountRequests').push({name:req.name,passcode:req.passcode,timestamp:Date.now()});
+      showToast('Denied account request for '+req.name);
+      logAudit('account','Denied account request for '+req.name);
+    };
+    actions.appendChild(approveBtn);actions.appendChild(denyBtn);
+    item.appendChild(meta);item.appendChild(actions);div.appendChild(item);
+  });
+}
 function renderAppeals(){
   const div=document.getElementById('appealsList');if(!div)return;div.innerHTML='';
   const keys=Object.keys(pendingAppeals);
-  if(!keys.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No pending appeals</span>';return}
+  if(!keys.length){div.innerHTML='<span style="color:#ff9800;font-size:12px;opacity:.6">No pending appeals</span>';return}
   keys.forEach(key=>{
     const a=pendingAppeals[key];
     const item=document.createElement('div');item.className='appeal-item';
@@ -2569,7 +2682,7 @@ document.getElementById('taskbarRecoBtn').addEventListener('click',openRecoModal
 function renderRecos(){
   var div=document.getElementById('recoList');if(!div)return;div.innerHTML='';
   var keys=Object.keys(pendingRecos);
-  if(!keys.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No recommendations</span>';return}
+  if(!keys.length){div.innerHTML='<span style="color:#42a5f5;font-size:12px;opacity:.6">No recommendations</span>';return}
   keys.forEach(key=>{
     var r=pendingRecos[key];var item=document.createElement('div');item.className='appeal-item';
     var meta=document.createElement('div');meta.className='appeal-meta';meta.innerHTML='<strong>'+(r.name||r.role)+'</strong> \u2022 Recommendation';
@@ -2621,13 +2734,30 @@ function renderUserMgmt(){
   var div=document.getElementById('userMgmtList');if(!div)return;div.innerHTML='';
   var roleToPass={};Object.keys(validPasswords).forEach(pass=>{roleToPass[validPasswords[pass]]=pass});
   var roles=Object.keys(roleDisplayNames);if(!roles.length){div.textContent='No users';return}
+  roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
   roles.forEach(role=>{
     var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='stretch';item.style.gap='4px';
     var topRow=document.createElement('div');topRow.style.display='flex';topRow.style.justifyContent='space-between';topRow.style.alignItems='center';
     var info=document.createElement('span');info.style.fontSize='12px';
     var displayName=roleDisplayNames[role]||role,passcode=roleToPass[role]||'?';
     var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
-    info.innerHTML='<b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span> <span style="color:var(--text7);font-size:10px">pass: '+escHtml(passcode)+'</span>';
+    var statusTags=[];
+    if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px">BANNED</span>');
+    if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
+    var statusHtml=statusTags.length?' '+statusTags.join(' '):'';
+    var maskedPass=passcode.replace(/./g,'\u2022');
+    info.innerHTML='<b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+' <span style="color:var(--text7);font-size:10px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span></span> <button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>';
+    var eyeBtn=info.querySelector('.um-eye');
+    var passSpan=info.querySelector('.um-pass');
+    (function(eb,ps,pc){
+      var showing=false;
+      eb.addEventListener('click',function(e){
+        e.stopPropagation();
+        showing=!showing;
+        ps.textContent=showing?pc:pc.replace(/./g,'\u2022');
+        eb.style.opacity=showing?'.7':'.4';
+      });
+    })(eyeBtn,passSpan,passcode);
     topRow.appendChild(info);
     if(role!=='Admin'){
       var delBtn=document.createElement('button');delBtn.className='small-btn';delBtn.style.cssText='background:none;color:#e53935;border:1px solid rgba(229,57,53,.3);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;white-space:nowrap';delBtn.textContent='✕ Remove';delBtn.onmouseover=function(){this.style.background='#e53935';this.style.color='#fff';this.style.borderColor='#e53935'};delBtn.onmouseout=function(){this.style.background='none';this.style.color='#e53935';this.style.borderColor='rgba(229,57,53,.3)'};
@@ -2869,6 +2999,8 @@ var appDefs={
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Desktop</label>'+
         '<button id="settingsResetDesktop" style="'+btnStyle+'">Reset Icon Positions</button>'+
         '<div style="'+smallStyle+';margin-top:6px">Restore desktop icons to their default positions</div></div>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Password</label>'+
+        '<button id="settingsChangePassBtn" style="'+btnStyle+'">Change Password</button></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">About</label>'+
         '<div style="'+smallStyle+'">DocOS v1.2 &mdash; A desktop environment for your apps.<br>Drag icons to rearrange, right-click to rename.</div></div>';
 
@@ -3007,6 +3139,62 @@ var appDefs={
             resetIconPositions();
             if(currentRole)localStorage.removeItem('docosIconPositions_'+currentRole);
             showToast('Desktop icons reset to default positions.');
+          };
+        }
+
+        var cpBtn=d.querySelector('#settingsChangePassBtn');
+        if(cpBtn){
+          cpBtn.onclick=function(){
+            var existing=document.querySelector('.cp-overlay');if(existing)existing.remove();
+            var overlay=document.createElement('div');overlay.className='cp-overlay';
+            overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+            var modal=document.createElement('div');
+            modal.style.cssText='position:relative;background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:28px 28px 22px;width:340px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+            var closeBtn=document.createElement('button');
+            closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5,#888);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px';
+            closeBtn.textContent='\u00d7';closeBtn.onclick=function(){overlay.remove()};
+            var inpStyle='width:100%;padding:9px 10px;padding-right:36px;border-radius:8px;border:1px solid var(--border2,#444);background:var(--input-bg,#2a2a3a);color:var(--text,#eee);font-size:13px;outline:none;box-sizing:border-box;';
+            var wrapStyle='position:relative;margin-bottom:8px;';
+            var eyeSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+            var eyeBtnStyle='position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:.4;transition:opacity .15s;background:none;border:none;color:var(--text,#eee);padding:2px;';
+            modal.innerHTML='<h3 style="margin:0 0 16px;font-size:16px;font-weight:700;color:var(--text,#eee)">Change Password</h3>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpOldPass" placeholder="Current password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpOldPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpNewPass" placeholder="New password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpNewPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpConfirmPass" placeholder="Confirm new password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpConfirmPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<button id="cpSubmitBtn" style="width:100%;padding:10px;border:none;border-radius:8px;background:var(--accent,#00aaff);color:#fff;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px">Change Password</button>'+
+              '<div id="cpMsg" style="font-size:12px;margin-top:8px;min-height:16px;text-align:center"></div>';
+            modal.insertBefore(closeBtn,modal.firstChild);
+            overlay.appendChild(modal);
+            overlay.addEventListener('mousedown',function(e){if(e.target===overlay)overlay.remove()});
+            document.body.appendChild(overlay);
+            setTimeout(function(){
+              modal.querySelectorAll('.cp-eye').forEach(function(btn){
+                btn.addEventListener('click',function(){
+                  var inp=document.getElementById(this.dataset.for);
+                  if(inp.type==='password'){inp.type='text';this.style.opacity='.7'}
+                  else{inp.type='password';this.style.opacity='.4'}
+                });
+                btn.addEventListener('mouseover',function(){this.style.opacity='.7'});
+                btn.addEventListener('mouseout',function(){var inp=document.getElementById(this.dataset.for);this.style.opacity=inp.type==='text'?'.7':'.4'});
+              });
+              document.getElementById('cpSubmitBtn').onclick=function(){
+                var msg=document.getElementById('cpMsg');
+                var oldP=document.getElementById('cpOldPass').value.trim();
+                var newP=document.getElementById('cpNewPass').value.trim();
+                var confP=document.getElementById('cpConfirmPass').value.trim();
+                msg.style.color='#f44336';msg.textContent='';
+                if(!oldP||!newP||!confP){msg.textContent='Please fill in all fields.';return}
+                if(validPasswords[oldP]!==currentRole){msg.textContent='Current password is incorrect.';return}
+                if(newP!==confP){msg.textContent='New passwords do not match.';return}
+                if(newP===oldP){msg.textContent='New password must be different.';return}
+                if(validPasswords[newP]){msg.textContent='That password is already in use.';return}
+                var updates={};updates['/validPasswords/'+oldP]=null;updates['/validPasswords/'+newP]=currentRole;
+                db.ref().update(updates).then(function(){
+                  msg.style.color='#4caf50';msg.textContent='Password changed!';
+                  setTimeout(function(){overlay.remove()},1200);
+                }).catch(function(e){msg.textContent='Error: '+e.message});
+              };
+            },0);
           };
         }
       },0);
