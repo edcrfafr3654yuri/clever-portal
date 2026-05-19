@@ -1917,6 +1917,7 @@ function loginAsRole(role){
   presRef.set({name:currentDisplayName,timestamp:Date.now()});presRef.onDisconnect().remove();
   var deviceId=getDeviceFingerprint();
   localStorage.setItem('docosDeviceId',deviceId);localStorage.setItem('docosRole',role);
+  db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
 
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
   if(chatLocked&&!isAdmin){document.querySelector('.input-row').classList.add('locked');messageInput.placeholder='Chat is locked...';}
@@ -2085,6 +2086,14 @@ function muteUser(){
     durationInput.value='';
   }).catch(console.error);
 }
+function banAllLinkedDevices(role){
+  db.ref('deviceFingerprints/'+role).once('value',function(snap){
+    var fps=snap.val();if(!fps)return;
+    Object.keys(fps).forEach(function(fp){
+      db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
+    });
+  });
+}
 function banUser(){
   if(!isAnyAdmin())return;
   const role=userSelect.value,dur=getSelectedDuration();
@@ -2095,6 +2104,7 @@ function banUser(){
     var punishedRole=currentRole,punishedName=currentDisplayName||currentRole;
     skipAutoKick=true;showDemotePopup();
     db.ref('bannedRoles').child(punishedRole).set(Date.now()+3600000);
+    banAllLinkedDevices(punishedRole);
     db.ref('adminUsers').child(punishedRole).remove();
     db.ref('chatMessages').push({text:punishedName+' tried to ban the Owner and was demoted to Member and banned for 1 hour.',senderRole:'System',senderName:'System',timestamp:Date.now()});
     logAudit('demote',punishedName+' demoted & banned for trying to ban Owner');
@@ -2102,6 +2112,7 @@ function banUser(){
   }
   const displayName2=roleDisplayNames[role]||role;
   db.ref('bannedRoles').child(role).set(Date.now()+dur.ms).then(()=>{
+    banAllLinkedDevices(role);
     showToast('Banned '+displayName2+' for '+dur.label+'.');
     db.ref('chatMessages').push({text:displayName2+' was banned for '+dur.label+'.',senderRole:'System',senderName:'System',timestamp:Date.now()});
     logAudit('ban','Banned '+displayName2+' for '+dur.label);
