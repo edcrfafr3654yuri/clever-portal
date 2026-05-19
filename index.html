@@ -1120,6 +1120,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <button id="lockChatButton" style="background:linear-gradient(135deg,var(--orange),#bf360c)">Lock Chat</button>
       <button style="background:linear-gradient(135deg,#c62828,#b71c1c)" id="deleteAllChatButton">Delete All Chat</button>
       <button style="background:linear-gradient(135deg,#555,#444)" id="chatCacheButton">&#128451; Chat Cache</button>
+      <button style="background:linear-gradient(135deg,#37474f,#263238)" id="deviceIdsButton">&#128274; Device IDs</button>
       <div class="section-divider"></div>
       <label>&#9881; Settings</label>
       <div class="toggle-row">
@@ -1655,6 +1656,8 @@ db.ref('chatLocked').on('value',snap=>{
 db.ref('deletedMessages').on('value',snap=>{deletedMessages=snap.val()||{}});
 db.ref('deniedAppeals').on('value',snap=>{deniedAppeals=snap.val()||{}});
 db.ref('bannedDevices').on('value',snap=>{bannedDevices=snap.val()||{}});
+var deviceFingerprints={};
+db.ref('deviceFingerprints').on('value',snap=>{deviceFingerprints=snap.val()||{}});
 var APPEAL_COOLDOWN_MS=86400000;
 function appealCooldownRemaining(role){
   var d=deniedAppeals[role];if(!d||!d.timestamp)return 0;
@@ -2742,6 +2745,67 @@ document.getElementById('chatCacheButton').addEventListener('click',function(){
   };
   modal.appendChild(closeBtn);modal.appendChild(title);modal.appendChild(listDiv);modal.appendChild(clearBtn);
   overlay.appendChild(modal);overlay.onclick=e=>{if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
+});
+
+document.getElementById('deviceIdsButton').addEventListener('click',function(){
+  var existing=document.querySelector('.deviceid-overlay');if(existing){existing.remove();return}
+  var overlay=document.createElement('div');overlay.className='deviceid-overlay';
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+  var modal=document.createElement('div');
+  modal.style.cssText='position:relative;background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:28px 28px 22px;width:500px;max-width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+  var closeBtn=document.createElement('button');
+  closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5,#888);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px';
+  closeBtn.textContent='\u00d7';closeBtn.onclick=function(){overlay.remove()};
+  var title=document.createElement('h3');title.style.cssText='margin:0 0 16px;font-size:16px;font-weight:700;color:var(--text,#eee)';title.textContent='Device IDs';
+  var listDiv=document.createElement('div');
+  var roles=Object.keys(roleDisplayNames);
+  if(!roles.length){listDiv.innerHTML='<span style="color:var(--text7);font-size:12px">No users</span>'}
+  else{
+    roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
+    roles.forEach(function(role){
+      var item=document.createElement('div');
+      item.style.cssText='padding:10px 12px;border-bottom:1px solid var(--border,#333)';
+      var displayName=roleDisplayNames[role]||role;
+      var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+      var header=document.createElement('div');
+      header.innerHTML='<b style="font-size:13px">'+escHtml(displayName)+'</b> <span style="color:var(--text6);font-size:11px">('+roleTag+')</span>';
+      item.appendChild(header);
+      var fps=deviceFingerprints[role];
+      if(fps&&Object.keys(fps).length){
+        Object.keys(fps).forEach(function(fp){
+          var row=document.createElement('div');
+          row.style.cssText='font-size:11px;color:var(--text7);margin-top:4px;display:flex;align-items:center;gap:6px';
+          var isBannedDevice=!!bannedDevices[fp];
+          var label=document.createElement('span');
+          label.style.cssText='font-family:monospace;color:var(--text6);background:var(--bg3,#2a2a3a);padding:2px 6px;border-radius:4px';
+          label.textContent=fp;
+          row.appendChild(label);
+          if(isBannedDevice){
+            var tag=document.createElement('span');
+            tag.style.cssText='color:#f44336;font-weight:700;font-size:10px';
+            tag.textContent='BANNED';
+            row.appendChild(tag);
+          }
+          var lastLogin=fps[fp]&&fps[fp].lastLogin?new Date(fps[fp].lastLogin).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+          if(lastLogin){
+            var time=document.createElement('span');
+            time.style.cssText='color:var(--text7);font-size:10px';
+            time.textContent=lastLogin;
+            row.appendChild(time);
+          }
+          item.appendChild(row);
+        });
+      }else{
+        var noDevices=document.createElement('div');
+        noDevices.style.cssText='font-size:11px;color:var(--text7);margin-top:4px;font-style:italic';
+        noDevices.textContent='No devices recorded';
+        item.appendChild(noDevices);
+      }
+      listDiv.appendChild(item);
+    });
+  }
+  modal.appendChild(closeBtn);modal.appendChild(title);modal.appendChild(listDiv);
+  overlay.appendChild(modal);overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
 });
 
 /* ==============================
