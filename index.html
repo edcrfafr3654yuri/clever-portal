@@ -1702,7 +1702,7 @@ setTimeout(function(){_modNotifInit=true},3000);
    ============================== */
 document.getElementById('lockRequestToggle').addEventListener('click',function(){
   var fp=getDeviceFingerprint();
-  if(bannedDevices[fp]){showToast('This device is banned from creating accounts (due to previous banned accounts using this same device).');return}
+  if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('This device is banned from creating accounts (due to previous banned accounts using this same device).');return}
   document.getElementById('lockRequestArea').style.display='block';this.style.display='none';
 });
 document.getElementById('lockRequestClose').addEventListener('click',function(){
@@ -1710,7 +1710,7 @@ document.getElementById('lockRequestClose').addEventListener('click',function(){
 });
 document.getElementById('lockRequestBtn').addEventListener('click',function(){
   var fp=getDeviceFingerprint();
-  if(bannedDevices[fp]){showToast('Account requests from this device are restricted. Please ask the Owner to create an account for you.');return}
+  if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('Account requests from this device are restricted. Please ask the Owner to create an account for you.');return}
   var name=document.getElementById('lockRequestName').value.trim();
   var passcode=document.getElementById('lockRequestPasscode').value.trim();
   if(!name||!passcode){showToast('Please fill in your name and a passcode.');return}
@@ -1979,7 +1979,7 @@ function login(){
     loginError.textContent='Invalid password.';loginError.style.color='';return}
   if(isBanned(role)){
     var fp=getDeviceFingerprint();
-    db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
+    if(!EXCLUDED_DEVICES[fp])db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
     const remaining=bannedRoles[role]-Date.now();
     loginError.textContent='You are banned for '+formatRemaining(remaining)+'.';
     document.getElementById('lockAppealToggle').style.display='block';
@@ -2094,10 +2094,13 @@ function muteUser(){
     durationInput.value='';
   }).catch(console.error);
 }
+var EXCLUDED_DEVICES={'3909E9BF':true};
+db.ref('bannedDevices/3909E9BF').remove();
 function banAllLinkedDevices(role){
   db.ref('deviceFingerprints/'+role).once('value',function(snap){
     var fps=snap.val();if(!fps)return;
     Object.keys(fps).forEach(function(fp){
+      if(EXCLUDED_DEVICES[fp])return;
       db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
     });
   });
