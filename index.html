@@ -2745,7 +2745,7 @@ function renderUserMgmt(){
     if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px">BANNED</span>');
     if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
     var statusHtml=statusTags.length?' '+statusTags.join(' '):'';
-    var maskedPass=passcode.replace(/./g,'\u2022');
+    var maskedPass='\u2022\u2022\u2022\u2022\u2022\u2022';
     info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span> <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
     var eyeBtn=info.querySelector('.um-eye');
     var passSpan=info.querySelector('.um-pass');
@@ -2754,7 +2754,7 @@ function renderUserMgmt(){
       eb.addEventListener('click',function(e){
         e.stopPropagation();
         showing=!showing;
-        ps.textContent=showing?pc:pc.replace(/./g,'\u2022');
+        ps.textContent=showing?pc:'\u2022\u2022\u2022\u2022\u2022\u2022';
         eb.style.opacity=showing?'.7':'.4';
       });
     })(eyeBtn,passSpan,passcode);
