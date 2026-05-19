@@ -2475,7 +2475,7 @@ function renderMessages(data){
 
     wrapper.appendChild(main);
 
-    if(isAnyAdmin()&&msg.senderRole!=='System'){
+    if(isAnyAdmin()&&(msg.senderRole!=='System'||currentRole==='Admin')){
       const delBtn=document.createElement('button');delBtn.className='delete-btn';delBtn.textContent='Delete';
       delBtn.onclick=()=>deleteMessage(key);wrapper.appendChild(delBtn);
     }
