@@ -1960,7 +1960,7 @@ function login(){
     var isPending=false;Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===pass)isPending=true});
     if(isPending){loginError.textContent='Account not reviewed yet.';loginError.style.color='#ff9800';return}
     var isDenied=false;Object.keys(deniedAccountRequests).forEach(function(k){if(deniedAccountRequests[k].passcode===pass)isDenied=true});
-    if(isDenied){loginError.textContent='Account creation declined.';loginError.style.color='#e53935';return}
+    if(isDenied){loginError.textContent='Account creation denied.';loginError.style.color='#e53935';return}
     loginError.textContent='Invalid password.';loginError.style.color='';return}
   if(isBanned(role)){
     const remaining=bannedRoles[role]-Date.now();
