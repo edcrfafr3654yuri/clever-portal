@@ -1695,6 +1695,8 @@ setTimeout(function(){_modNotifInit=true},3000);
    ACCOUNT REQUESTS
    ============================== */
 document.getElementById('lockRequestToggle').addEventListener('click',function(){
+  var fp=getDeviceFingerprint();
+  if(bannedDevices[fp]){showToast('This device is banned from creating accounts (due to previous banned accounts using this same device).');return}
   document.getElementById('lockRequestArea').style.display='block';this.style.display='none';
 });
 document.getElementById('lockRequestClose').addEventListener('click',function(){
