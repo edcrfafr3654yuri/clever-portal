@@ -342,7 +342,7 @@ html,body{background:var(--bg);color:var(--text)}
 .edit-cancel-btn{background:var(--border2);color:var(--text3)}
 
 /* Toast */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);color:var(--text);padding:10px 20px;border-radius:8px;font-size:13px;z-index:100;opacity:0;transition:all .3s ease;border:1px solid var(--border2);box-shadow:0 4px 16px rgba(0,0,0,.4);pointer-events:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);color:var(--text);padding:10px 20px;border-radius:8px;font-size:13px;z-index:99999;opacity:0;transition:all .3s ease;border:1px solid var(--border2);box-shadow:0 4px 16px rgba(0,0,0,.4);pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* Reply preview bar */
@@ -949,6 +949,14 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <button class="lock-appeal-btn" id="lockAppealBtn">Submit Appeal</button>
       <div class="lock-appeal-sent" id="lockAppealSent" style="display:none">Appeal submitted!</div>
     </div>
+    <button class="lock-appeal-btn" id="lockRequestToggle" style="margin-top:12px;width:auto;padding:6px 20px;background:linear-gradient(135deg,#2e7d32,#1b5e20)">Request an Account</button>
+    <div class="lock-appeal-area" id="lockRequestArea" style="display:none">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;text-align:center;position:relative">Please use your real name. Your request will be reviewed by an admin.<button class="lock-appeal-close" id="lockRequestClose" style="top:50%;transform:translateY(-50%);right:-2px">&times;</button></div>
+      <input type="text" id="lockRequestName" class="lock-input" placeholder="Your real name" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <input type="text" id="lockRequestPasscode" class="lock-input" placeholder="Choose a passcode" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <button class="lock-appeal-btn" id="lockRequestBtn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Submit Request</button>
+      <div class="lock-appeal-sent" id="lockRequestSent" style="display:none">Account request submitted. Waiting for Admin review.</div>
+    </div>
   </div>
   <div class="lock-branding">DocOS</div>
 </div>
@@ -965,7 +973,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
         <div class="icon-label" id="iconLabel-settings">Settings</div>
       </div>
       <div class="desktop-icon" data-app="mod" id="modDesktopIcon" ondblclick="openApp('mod')" onclick="if(window.innerWidth<=768)openApp('mod')" style="left:10px;top:310px;display:none">
-        <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128736;<span id="modIconBadge" style="display:none;position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:#f44336;color:#fff;font-size:10px;font-weight:700;text-align:center;line-height:18px;padding:0 4px;box-shadow:0 2px 6px rgba(0,0,0,.4)"></span></div>
+        <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128736;<div id="modIconBadgeStack" style="position:absolute;top:-4px;right:-6px;display:flex;flex-direction:column;gap:2px;align-items:flex-end"><span id="modBadgeAcctReq" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#66bb6a"></span><span id="modBadgeAppeals" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#ff9800"></span><span id="modBadgeRecos" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#42a5f5"></span></div></div>
         <div class="icon-label" id="iconLabel-mod">Mod Panel</div>
       </div>
       <div class="desktop-icon" data-app="videocall" ondblclick="openApp('videocall')" onclick="if(window.innerWidth<=768)openApp('videocall')" style="left:10px;top:210px">
@@ -975,6 +983,10 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <div class="desktop-icon" data-app="appdesigner" id="appDesignerIcon" ondblclick="openApp('appdesigner')" onclick="if(window.innerWidth<=768)openApp('appdesigner')" style="left:10px;top:410px;display:none">
         <div class="icon-img" style="background:linear-gradient(135deg,#7c4dff,#536dfe)">&#128295;</div>
         <div class="icon-label" id="iconLabel-appdesigner">App Manager</div>
+      </div>
+      <div class="desktop-icon" data-app="music" ondblclick="openApp('music')" onclick="if(window.innerWidth<=768)openApp('music')" style="left:10px;top:710px">
+        <div class="icon-img" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">&#127925;</div>
+        <div class="icon-label" id="iconLabel-music">Music</div>
       </div>
       <div class="desktop-icon" data-app="appstore" ondblclick="openApp('appstore')" onclick="if(window.innerWidth<=768)openApp('appstore')" style="left:10px;top:610px">
         <div class="icon-img" style="background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7)"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
@@ -1008,7 +1020,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
   <div id="headerThemeSlot" style="margin-left:auto;display:none"></div>
   <div class="header-right" style="display:none">
     <button id="recoButton" style="display:none">&#128172; Recommend</button>
-    <div class="gear-wrapper" id="gearWrapper" style="display:none"><div class="gear-icon" id="gearIcon">&#9881;</div><div class="notif-badge" id="notifBadge">0</div></div>
+    <div class="gear-wrapper" id="gearWrapper" style="display:none"><div class="gear-icon" id="gearIcon">&#9881;</div><div style="display:flex;flex-direction:column;gap:1px;align-items:flex-end;position:absolute;top:-2px;right:-8px"><div class="notif-badge" id="notifBadgeAcctReq" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeAppeals" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeRecos" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div></div></div>
     <button id="logoutButton" style="display:none">Logout</button>
   </div>
 </div>
@@ -1087,10 +1099,13 @@ summary{font-size:calc(13px * var(--fs-scale))}
     </details>
     <details>
       <summary><span class="section-icon">&#128172;</span> Feedback <span id="feedbackBadge" style="display:none;min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:4px;vertical-align:middle"></span></summary>
-      <label style="color:var(--text5)">Appeals</label>
+      <label style="color:#66bb6a;font-weight:600">Account Requests <span id="acctReqBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
+      <div id="acctReqList"></div>
+      <div class="section-divider"></div>
+      <label style="color:#ff9800;font-weight:600">Appeals <span id="appealsBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
       <div id="appealsList"></div>
       <div class="section-divider"></div>
-      <label style="color:var(--accent)">Recommendations</label>
+      <label style="color:#42a5f5;font-weight:600">Recommendations <span id="recosBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
       <div id="recoList"></div>
     </details>
     <details id="userMgmtSection">
@@ -1109,6 +1124,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <button id="lockChatButton" style="background:linear-gradient(135deg,var(--orange),#bf360c)">Lock Chat</button>
       <button style="background:linear-gradient(135deg,#c62828,#b71c1c)" id="deleteAllChatButton">Delete All Chat</button>
       <button style="background:linear-gradient(135deg,#555,#444)" id="chatCacheButton">&#128451; Chat Cache</button>
+      <button style="background:linear-gradient(135deg,#37474f,#263238)" id="deviceIdsButton">&#128274; Device IDs</button>
       <div class="section-divider"></div>
       <label>&#9881; Settings</label>
       <div class="toggle-row">
@@ -1123,9 +1139,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <label>&#128218; Audit Log</label>
       <button id="clearAuditLogBtn" class="btn-clear" style="margin-bottom:4px">Clear Audit Log</button>
       <div class="audit-log-list" id="auditLogList"></div>
-      <div class="section-divider"></div>
-      <label>&#128279; Alt Accounts</label>
-      <div id="altAccountList" style="margin-top:6px"></div>
+
     </details>
   </div>
 </div>
@@ -1261,11 +1275,11 @@ function _doShowNotification(title,body,tag){
    ============================== */
 let currentRole=null,currentDisplayName=null;
 let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={};
-let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={};
+let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},bannedDevices={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
-let deviceFingerprints={};
+
 let profilePictures={};
-let pendingAppeals={},pendingRecos={};
+let pendingAppeals={},pendingRecos={},pendingAccountRequests={},deniedAccountRequests={};
 let rateLimitEnabled=false;
 let auditLog={};
 
@@ -1423,7 +1437,7 @@ document.getElementById('clearAuditLogBtn').addEventListener('click',function(){
 var _renderUserMgmtTimer=null;
 function queueRenderUserMgmt(){clearTimeout(_renderUserMgmtTimer);_renderUserMgmtTimer=setTimeout(renderUserMgmt,50)}
 db.ref('validPasswords').on('value',s=>{validPasswords=s.val()||{};queueRenderUserMgmt()});
-db.ref('deviceFingerprints').on('value',s=>{deviceFingerprints=s.val()||{};renderAltAccounts()});
+
 db.ref('roleDisplayNames').on('value',s=>{roleDisplayNames=s.val()||{};rebuildUserDropdown();queueRenderUserMgmt()});
 db.ref('adminUsers').on('value',s=>{
   var oldAdminUsers=adminUsers;
@@ -1448,14 +1462,17 @@ db.ref('adminUsers').on('value',s=>{
   });
 });
 db.ref('profilePictures').on('value',s=>{profilePictures=s.val()||{};renderOnlineUsers();updateTaskbarAvatar();updateLockAvatar();if(typeof window._settingsPfpRefresh==='function')window._settingsPfpRefresh();db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})})});
-db.ref('mutedRoles').on('value',s=>{mutedRoles=s.val()||{};renderMutedList();renderOnlineUsers()});
+db.ref('mutedRoles').on('value',s=>{mutedRoles=s.val()||{};renderMutedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt()});
 db.ref('onlineUsers').on('value',s=>{onlineUsers=s.val()||{};renderOnlineUsers();if(typeof _vcRenderUsers==='function'&&!_vcInCall&&!_gcInGroupCall)_vcRenderUsers();});
 db.ref('bannedRoles').on('value',s=>{
-  bannedRoles=s.val()||{};renderBannedList();renderOnlineUsers();
+  bannedRoles=s.val()||{};renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
     if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}showToast('You have been banned.');logout()}
   }
+  Object.keys(bannedRoles).forEach(function(role){
+    if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
+  });
 });
 var _lastMsgTimestamp=0,_chatInitialized=false;
 var _unreadChatCount=0;
@@ -1645,6 +1662,14 @@ db.ref('chatLocked').on('value',snap=>{
 });
 db.ref('deletedMessages').on('value',snap=>{deletedMessages=snap.val()||{}});
 db.ref('deniedAppeals').on('value',snap=>{deniedAppeals=snap.val()||{}});
+db.ref('bannedDevices').on('value',snap=>{bannedDevices=snap.val()||{}});
+var deviceFingerprints={};
+db.ref('deviceFingerprints').on('value',snap=>{deviceFingerprints=snap.val()||{}});
+var APPEAL_COOLDOWN_MS=86400000;
+function appealCooldownRemaining(role){
+  var d=deniedAppeals[role];if(!d||!d.timestamp)return 0;
+  var left=d.timestamp+APPEAL_COOLDOWN_MS-Date.now();return left>0?left:0;
+}
 var _prevAppealCount=0,_prevRecoCount=0,_modNotifInit=false;
 db.ref('appeals').on('value',snap=>{
   var prev=Object.keys(pendingAppeals).length;
@@ -1664,7 +1689,45 @@ db.ref('recommendations').on('value',snap=>{
     if(newest)showToast('New recommendation from '+(newest.name||newest.role));
   }
 });
+db.ref('pendingAccountRequests').on('value',snap=>{
+  var prev=Object.keys(pendingAccountRequests).length;
+  pendingAccountRequests=snap.val()||{};renderAccountReqs();updateNotifBadge();
+  var cur=Object.keys(pendingAccountRequests).length;
+  if(_modNotifInit&&cur>prev&&(currentRole==='Admin'||currentRole==='Owner')){
+    var newest=null;Object.keys(pendingAccountRequests).forEach(function(k){var a=pendingAccountRequests[k];if(!newest||a.timestamp>newest.timestamp)newest=a});
+    if(newest)showToast('New account request from '+(newest.name||'Unknown'));
+  }
+});
+db.ref('deniedAccountRequests').on('value',snap=>{deniedAccountRequests=snap.val()||{}});
 setTimeout(function(){_modNotifInit=true},3000);
+
+/* ==============================
+   ACCOUNT REQUESTS
+   ============================== */
+document.getElementById('lockRequestToggle').addEventListener('click',function(){
+  var fp=getDeviceFingerprint();
+  if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('This device is banned from creating accounts (due to previous banned accounts using this same device).');return}
+  document.getElementById('lockRequestArea').style.display='block';this.style.display='none';
+});
+document.getElementById('lockRequestClose').addEventListener('click',function(){
+  document.getElementById('lockRequestArea').style.display='none';document.getElementById('lockRequestToggle').style.display='block';
+});
+document.getElementById('lockRequestBtn').addEventListener('click',function(){
+  var fp=getDeviceFingerprint();
+  if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('Account requests from this device are restricted. Please ask the Owner to create an account for you.');return}
+  var name=document.getElementById('lockRequestName').value.trim();
+  var passcode=document.getElementById('lockRequestPasscode').value.trim();
+  if(!name||!passcode){showToast('Please fill in your name and a passcode.');return}
+  if(validPasswords[passcode]){showToast('That passcode is already in use. Choose a different one.');return}
+  var alreadyPending=false;
+  Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===passcode)alreadyPending=true});
+  if(alreadyPending){showToast('A request with that passcode is already pending.');return}
+  db.ref('pendingAccountRequests').push({name:name,passcode:passcode,timestamp:Date.now()}).then(function(){
+    document.getElementById('lockRequestSent').style.display='block';
+    document.getElementById('lockRequestName').value='';
+    document.getElementById('lockRequestPasscode').value='';
+  }).catch(console.error);
+});
 
 /* ==============================
    HELPERS
@@ -1675,7 +1738,16 @@ function linkify(str){var urlRe=/(https?:\/\/[^\s<]+)/g;return escHtml(str).repl
 function rebuildUserDropdown(){
   userSelect.innerHTML='<option value="">-- Select role --</option>';
   Object.keys(roleDisplayNames).forEach(role=>{
-    const opt=document.createElement('option');opt.value=role;opt.textContent=roleDisplayNames[role]||role;userSelect.appendChild(opt);
+    const opt=document.createElement('option');opt.value=role;
+    var label=roleDisplayNames[role]||role;
+    var tags=[];
+    if(isBanned(role))tags.push('Banned');
+    if(isMuted(role))tags.push('Muted');
+    if(tags.length)label+=' ('+tags.join(', ')+')';
+    opt.textContent=label;
+    if(isBanned(role))opt.style.color='#f44336';
+    else if(isMuted(role))opt.style.color='#ff9800';
+    userSelect.appendChild(opt);
   });
 }
 function getDurationMs(amount,unit){
@@ -1857,7 +1929,8 @@ function loginAsRole(role){
   presRef.set({name:currentDisplayName,timestamp:Date.now()});presRef.onDisconnect().remove();
   var deviceId=getDeviceFingerprint();
   localStorage.setItem('docosDeviceId',deviceId);localStorage.setItem('docosRole',role);
-  db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
+  if(!EXCLUDED_DEVICES[deviceId])db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
+
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
   if(chatLocked&&!isAdmin){document.querySelector('.input-row').classList.add('locked');messageInput.placeholder='Chat is locked...';}
   else{document.querySelector('.input-row').classList.remove('locked');messageInput.placeholder='Type a message...';messageInput.focus();}
@@ -1902,8 +1975,15 @@ function loginAsRole(role){
 function login(){
   const pass=passwordInput.value.trim();loginError.textContent='';
   const role=validPasswords[pass];
-  if(!role){loginError.textContent='Invalid password.';return}
+  if(!role){
+    var isPending=false;Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===pass)isPending=true});
+    if(isPending){loginError.textContent='Account not reviewed yet.';loginError.style.color='#ff9800';return}
+    var isDenied=false;Object.keys(deniedAccountRequests).forEach(function(k){if(deniedAccountRequests[k].passcode===pass)isDenied=true});
+    if(isDenied){loginError.textContent='Account creation denied.';loginError.style.color='#e53935';return}
+    loginError.textContent='Invalid password.';loginError.style.color='';return}
   if(isBanned(role)){
+    var fp=getDeviceFingerprint();
+    if(!EXCLUDED_DEVICES[fp])db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
     const remaining=bannedRoles[role]-Date.now();
     loginError.textContent='You are banned for '+formatRemaining(remaining)+'.';
     document.getElementById('lockAppealToggle').style.display='block';
@@ -1911,7 +1991,14 @@ function login(){
     document.getElementById('lockAppealArea').style.display='none';
     document.getElementById('lockAppealSent').style.display='none';
     document.getElementById('lockAppealText').value='';
-    document.getElementById('lockAppealDenied').style.display=deniedAppeals[role]?'block':'none';
+    var banCooldown=appealCooldownRemaining(role);
+    if(banCooldown>0){
+      document.getElementById('lockAppealDenied').style.display='block';
+      document.getElementById('lockAppealDenied').textContent='Your appeal was denied. 1 day cooldown before you can appeal again.';
+      document.getElementById('lockAppealToggle').style.display='none';
+    }else{
+      document.getElementById('lockAppealDenied').style.display='none';
+    }
     return;
   }
   loginAsRole(role);
@@ -2002,6 +2089,7 @@ function muteUser(){
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(role==='Admin'&&currentRole!=='Admin'){showToast('You cannot mute the Owner.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot mute another admin.');return}
+  if(isMuted(role)){showToast((roleDisplayNames[role]||role)+' is already muted.');return}
   const displayName=roleDisplayNames[role]||role;
   db.ref('mutedRoles').child(role).set(Date.now()+dur.ms).then(()=>{
     showToast('Muted '+displayName+' for '+dur.label+'.');
@@ -2010,15 +2098,35 @@ function muteUser(){
     durationInput.value='';
   }).catch(console.error);
 }
+var EXCLUDED_DEVICES={'3909E9BF':true};
+var MUSIC_API_BASE='https://user:2e90ba409b822e243ee8e52c2bbd0c70@84d64bc816ee-tunnel-oz5xl5di.devinapps.com';
+db.ref('bannedDevices/3909E9BF').remove();
+db.ref('deviceFingerprints').once('value',function(snap){
+  var all=snap.val();if(!all)return;
+  Object.keys(all).forEach(function(role){
+    if(all[role]&&all[role]['3909E9BF'])db.ref('deviceFingerprints/'+role+'/3909E9BF').remove();
+  });
+});
+function banAllLinkedDevices(role){
+  db.ref('deviceFingerprints/'+role).once('value',function(snap){
+    var fps=snap.val();if(!fps)return;
+    Object.keys(fps).forEach(function(fp){
+      if(EXCLUDED_DEVICES[fp])return;
+      db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
+    });
+  });
+}
 function banUser(){
   if(!isAnyAdmin())return;
   const role=userSelect.value,dur=getSelectedDuration();
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot ban another admin.');return}
+  if(isBanned(role)){showToast((roleDisplayNames[role]||role)+' is already banned.');return}
   if(role==='Admin'&&currentRole!=='Admin'){
     var punishedRole=currentRole,punishedName=currentDisplayName||currentRole;
     skipAutoKick=true;showDemotePopup();
     db.ref('bannedRoles').child(punishedRole).set(Date.now()+3600000);
+    banAllLinkedDevices(punishedRole);
     db.ref('adminUsers').child(punishedRole).remove();
     db.ref('chatMessages').push({text:punishedName+' tried to ban the Owner and was demoted to Member and banned for 1 hour.',senderRole:'System',senderName:'System',timestamp:Date.now()});
     logAudit('demote',punishedName+' demoted & banned for trying to ban Owner');
@@ -2026,6 +2134,7 @@ function banUser(){
   }
   const displayName2=roleDisplayNames[role]||role;
   db.ref('bannedRoles').child(role).set(Date.now()+dur.ms).then(()=>{
+    banAllLinkedDevices(role);
     showToast('Banned '+displayName2+' for '+dur.label+'.');
     db.ref('chatMessages').push({text:displayName2+' was banned for '+dur.label+'.',senderRole:'System',senderName:'System',timestamp:Date.now()});
     logAudit('ban','Banned '+displayName2+' for '+dur.label);
@@ -2072,24 +2181,17 @@ function renderBannedList(){
   });
   if(!mutedListDiv.hasChildNodes()&&!bannedListDiv.hasChildNodes())bannedListDiv.innerHTML='<span style="color:var(--text7);font-size:12px">None</span>';
 }
-function renderAltAccounts(){
-  var div=document.getElementById('altAccountList');if(!div)return;div.innerHTML='';
-  var fpToRoles={};
-  Object.keys(deviceFingerprints).forEach(role=>{var fps=deviceFingerprints[role];Object.keys(fps).forEach(fp=>{if(!fpToRoles[fp])fpToRoles[fp]=[];if(fpToRoles[fp].indexOf(role)===-1)fpToRoles[fp].push(role)})});
-  var groups=Object.keys(fpToRoles).filter(fp=>fpToRoles[fp].length>=2).map(fp=>({fp,roles:fpToRoles[fp]}));
-  if(!groups.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No alts detected</span>';return}
-  groups.forEach(g=>{
-    var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='flex-start';item.style.gap='3px';
-    var names=g.roles.map(r=>'<span style="color:#ff9800;font-weight:700">'+(roleDisplayNames[r]||r)+'</span>').join(' <span style="color:var(--text7)">&amp;</span> ');
-    item.innerHTML='<div style="font-size:12px">🔗 '+names+'</div><div style="font-size:10px;color:var(--text7)">Same device · ID: <span style="font-family:monospace;color:var(--text6)">'+g.fp+'</span></div>';
-    div.appendChild(item);
-  });
-}
 
 function triggerMuteFeedback(role){
   const remaining=mutedRoles[role]-Date.now();
   muteWarning.textContent='You are muted for '+formatRemaining(remaining)+'.';
-  document.getElementById('muteAppealRow').style.display='flex';
+  var cooldown=appealCooldownRemaining(role);
+  if(cooldown>0){
+    document.getElementById('muteAppealRow').style.display='none';
+    muteWarning.textContent+=' Your appeal was denied. 1 day cooldown before you can appeal again.';
+  }else{
+    document.getElementById('muteAppealRow').style.display='flex';
+  }
   messageInput.classList.add('shake');sendButton.classList.add('shake');
   setTimeout(()=>{messageInput.classList.remove('shake');sendButton.classList.remove('shake')},300);
 }
@@ -2396,7 +2498,7 @@ function renderMessages(data){
 
     wrapper.appendChild(main);
 
-    if(isAnyAdmin()&&msg.senderRole!=='System'){
+    if(isAnyAdmin()&&(msg.senderRole!=='System'||currentRole==='Admin')){
       const delBtn=document.createElement('button');delBtn.className='delete-btn';delBtn.textContent='Delete';
       delBtn.onclick=()=>deleteMessage(key);wrapper.appendChild(delBtn);
     }
@@ -2480,6 +2582,7 @@ document.getElementById('lockAppealToggle').addEventListener('click',function(){
 document.getElementById('lockAppealBtn').addEventListener('click',()=>{
   const area=document.getElementById('lockAppealArea'),role=area.dataset.role,text=document.getElementById('lockAppealText').value.trim();
   if(!text||!role){showToast('Please write your appeal.');return}
+  var cd=appealCooldownRemaining(role);if(cd>0){showToast('Your appeal was denied. 1 day cooldown before you can appeal again.');return}
   const displayName=roleDisplayNames[role]||role;
   db.ref('deniedAppeals').child(role).remove();
   db.ref('appeals').push({role,name:displayName,type:'ban',reason:text,timestamp:Date.now()}).then(()=>{
@@ -2487,6 +2590,7 @@ document.getElementById('lockAppealBtn').addEventListener('click',()=>{
   }).catch(console.error);
 });
 document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
+  var cd=appealCooldownRemaining(currentRole);if(cd>0){showToast('Your appeal was denied. 1 day cooldown before you can appeal again.');return}
   const text=document.getElementById('muteAppealInput').value.trim();if(!text||!currentRole){showToast('Please write your appeal.');return}
   db.ref('appeals').push({role:currentRole,name:currentDisplayName,type:'mute',reason:text,timestamp:Date.now()}).then(()=>{
     showToast('Appeal submitted!');document.getElementById('muteAppealRow').style.display='none';document.getElementById('muteAppealInput').value='';
@@ -2496,18 +2600,31 @@ document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
 function updateNotifBadge(){
   var appealCount=Object.keys(pendingAppeals).length;
   var recoCount=Object.keys(pendingRecos).length;
-  const count=appealCount+recoCount;
-  const badge=document.getElementById('notifBadge');
-  if(badge){if(count>0){badge.style.display='flex';badge.textContent=count}else{badge.style.display='none'}}
-  /* Update Mod Panel desktop icon badge */
-  var modBadge=document.getElementById('modIconBadge');
-  if(modBadge){
-    if(count>0){modBadge.style.display='inline-block';modBadge.textContent=count}
-    else{modBadge.style.display='none'}
-  }
+  var acctReqCount=Object.keys(pendingAccountRequests).length;
+  const count=appealCount+recoCount+acctReqCount;
+  var nba=document.getElementById('notifBadgeAcctReq');
+  if(nba){if(acctReqCount>0){nba.style.display='inline-block';nba.textContent=acctReqCount}else{nba.style.display='none'}}
+  var nbp=document.getElementById('notifBadgeAppeals');
+  if(nbp){if(appealCount>0){nbp.style.display='inline-block';nbp.textContent=appealCount}else{nbp.style.display='none'}}
+  var nbr=document.getElementById('notifBadgeRecos');
+  if(nbr){if(recoCount>0){nbr.style.display='inline-block';nbr.textContent=recoCount}else{nbr.style.display='none'}}
+  /* Update Mod Panel desktop icon badges (stacked) */
+  var mba=document.getElementById('modBadgeAcctReq');
+  if(mba){if(acctReqCount>0){mba.style.display='inline-block';mba.textContent=acctReqCount}else{mba.style.display='none'}}
+  var mbp=document.getElementById('modBadgeAppeals');
+  if(mbp){if(appealCount>0){mbp.style.display='inline-block';mbp.textContent=appealCount}else{mbp.style.display='none'}}
+  var mbr=document.getElementById('modBadgeRecos');
+  if(mbr){if(recoCount>0){mbr.style.display='inline-block';mbr.textContent=recoCount}else{mbr.style.display='none'}}
   /* Update Feedback section badges */
   var fb=document.getElementById('feedbackBadge');
   if(fb){if(count>0){fb.style.display='inline-block';fb.textContent=count}else{fb.style.display='none'}}
+  /* Individual feedback type badges */
+  var ab=document.getElementById('appealsBadge');
+  if(ab){if(appealCount>0){ab.style.display='inline-block';ab.textContent=appealCount}else{ab.style.display='none'}}
+  var rb=document.getElementById('recosBadge');
+  if(rb){if(recoCount>0){rb.style.display='inline-block';rb.textContent=recoCount}else{rb.style.display='none'}}
+  var arb=document.getElementById('acctReqBadge');
+  if(arb){if(acctReqCount>0){arb.style.display='inline-block';arb.textContent=acctReqCount}else{arb.style.display='none'}}
 
   /* Update taskbar item badge if Mod Panel window is open */
   var tbItems=document.querySelectorAll('.tb-item[data-app="mod"]');
@@ -2526,10 +2643,43 @@ function updateNotifBadge(){
     }
   });
 }
+function renderAccountReqs(){
+  var div=document.getElementById('acctReqList');if(!div)return;div.innerHTML='';
+  var keys=Object.keys(pendingAccountRequests);
+  if(!keys.length){div.innerHTML='<span style="color:#66bb6a;font-size:12px;opacity:.6">No pending requests</span>';return}
+  keys.forEach(function(key){
+    var req=pendingAccountRequests[key];
+    var item=document.createElement('div');item.className='appeal-item';
+    var meta=document.createElement('div');meta.className='appeal-meta';
+    meta.innerHTML='<strong>'+escHtml(req.name)+'</strong> \u2022 passcode: <span style="font-family:monospace;color:var(--text6)">'+escHtml(req.passcode)+'</span>';
+    var actions=document.createElement('div');actions.className='appeal-actions';
+    var approveBtn=document.createElement('button');approveBtn.style.background='#2e7d32';approveBtn.style.color='#fff';approveBtn.textContent='Approve';
+    approveBtn.onclick=function(){
+      var roleKey='Member_'+Date.now();
+      var updates={};
+      updates['/validPasswords/'+req.passcode]=roleKey;
+      updates['/roleDisplayNames/'+roleKey]=req.name;
+      db.ref().update(updates).then(function(){
+        db.ref('pendingAccountRequests').child(key).remove();
+        showToast('Approved account for '+req.name);
+        logAudit('account','Approved account request for '+req.name);
+      }).catch(console.error);
+    };
+    var denyBtn=document.createElement('button');denyBtn.className='deny-btn';denyBtn.textContent='Deny';
+    denyBtn.onclick=function(){
+      db.ref('pendingAccountRequests').child(key).remove();
+      db.ref('deniedAccountRequests').push({name:req.name,passcode:req.passcode,timestamp:Date.now()});
+      showToast('Denied account request for '+req.name);
+      logAudit('account','Denied account request for '+req.name);
+    };
+    actions.appendChild(approveBtn);actions.appendChild(denyBtn);
+    item.appendChild(meta);item.appendChild(actions);div.appendChild(item);
+  });
+}
 function renderAppeals(){
   const div=document.getElementById('appealsList');if(!div)return;div.innerHTML='';
   const keys=Object.keys(pendingAppeals);
-  if(!keys.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No pending appeals</span>';return}
+  if(!keys.length){div.innerHTML='<span style="color:#ff9800;font-size:12px;opacity:.6">No pending appeals</span>';return}
   keys.forEach(key=>{
     const a=pendingAppeals[key];
     const item=document.createElement('div');item.className='appeal-item';
@@ -2569,7 +2719,7 @@ document.getElementById('taskbarRecoBtn').addEventListener('click',openRecoModal
 function renderRecos(){
   var div=document.getElementById('recoList');if(!div)return;div.innerHTML='';
   var keys=Object.keys(pendingRecos);
-  if(!keys.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No recommendations</span>';return}
+  if(!keys.length){div.innerHTML='<span style="color:#42a5f5;font-size:12px;opacity:.6">No recommendations</span>';return}
   keys.forEach(key=>{
     var r=pendingRecos[key];var item=document.createElement('div');item.className='appeal-item';
     var meta=document.createElement('div');meta.className='appeal-meta';meta.innerHTML='<strong>'+(r.name||r.role)+'</strong> \u2022 Recommendation';
@@ -2614,6 +2764,67 @@ document.getElementById('chatCacheButton').addEventListener('click',function(){
   overlay.appendChild(modal);overlay.onclick=e=>{if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
 });
 
+document.getElementById('deviceIdsButton').addEventListener('click',function(){
+  var existing=document.querySelector('.deviceid-overlay');if(existing){existing.remove();return}
+  var overlay=document.createElement('div');overlay.className='deviceid-overlay';
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+  var modal=document.createElement('div');
+  modal.style.cssText='position:relative;background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:28px 28px 22px;width:500px;max-width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+  var closeBtn=document.createElement('button');
+  closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5,#888);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px';
+  closeBtn.textContent='\u00d7';closeBtn.onclick=function(){overlay.remove()};
+  var title=document.createElement('h3');title.style.cssText='margin:0 0 16px;font-size:16px;font-weight:700;color:var(--text,#eee)';title.textContent='Device IDs';
+  var listDiv=document.createElement('div');
+  var roles=Object.keys(roleDisplayNames);
+  if(!roles.length){listDiv.innerHTML='<span style="color:var(--text7);font-size:12px">No users</span>'}
+  else{
+    roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
+    roles.forEach(function(role){
+      var item=document.createElement('div');
+      item.style.cssText='padding:10px 12px;border-bottom:1px solid var(--border,#333)';
+      var displayName=roleDisplayNames[role]||role;
+      var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+      var header=document.createElement('div');
+      header.innerHTML='<b style="font-size:13px">'+escHtml(displayName)+'</b> <span style="color:var(--text6);font-size:11px">('+roleTag+')</span>';
+      item.appendChild(header);
+      var fps=deviceFingerprints[role];
+      if(fps&&Object.keys(fps).length){
+        Object.keys(fps).forEach(function(fp){
+          var row=document.createElement('div');
+          row.style.cssText='font-size:11px;color:var(--text7);margin-top:4px;display:flex;align-items:center;gap:6px';
+          var isBannedDevice=!!bannedDevices[fp];
+          var label=document.createElement('span');
+          label.style.cssText='font-family:monospace;color:var(--text6);background:var(--bg3,#2a2a3a);padding:2px 6px;border-radius:4px';
+          label.textContent=fp;
+          row.appendChild(label);
+          if(isBannedDevice){
+            var tag=document.createElement('span');
+            tag.style.cssText='color:#f44336;font-weight:700;font-size:10px';
+            tag.textContent='BANNED';
+            row.appendChild(tag);
+          }
+          var lastLogin=fps[fp]&&fps[fp].lastLogin?new Date(fps[fp].lastLogin).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+          if(lastLogin){
+            var time=document.createElement('span');
+            time.style.cssText='color:var(--text7);font-size:10px';
+            time.textContent=lastLogin;
+            row.appendChild(time);
+          }
+          item.appendChild(row);
+        });
+      }else{
+        var noDevices=document.createElement('div');
+        noDevices.style.cssText='font-size:11px;color:var(--text7);margin-top:4px;font-style:italic';
+        noDevices.textContent='No devices recorded';
+        item.appendChild(noDevices);
+      }
+      listDiv.appendChild(item);
+    });
+  }
+  modal.appendChild(closeBtn);modal.appendChild(title);modal.appendChild(listDiv);
+  overlay.appendChild(modal);overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
+});
+
 /* ==============================
    USER MANAGEMENT
    ============================== */
@@ -2621,13 +2832,30 @@ function renderUserMgmt(){
   var div=document.getElementById('userMgmtList');if(!div)return;div.innerHTML='';
   var roleToPass={};Object.keys(validPasswords).forEach(pass=>{roleToPass[validPasswords[pass]]=pass});
   var roles=Object.keys(roleDisplayNames);if(!roles.length){div.textContent='No users';return}
+  roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
   roles.forEach(role=>{
     var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='stretch';item.style.gap='4px';
     var topRow=document.createElement('div');topRow.style.display='flex';topRow.style.justifyContent='space-between';topRow.style.alignItems='center';
-    var info=document.createElement('span');info.style.fontSize='12px';
+    var info=document.createElement('span');info.style.cssText='font-size:12px;display:flex;align-items:center;flex-wrap:wrap;gap:4px';
     var displayName=roleDisplayNames[role]||role,passcode=roleToPass[role]||'?';
     var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
-    info.innerHTML='<b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span> <span style="color:var(--text7);font-size:10px">pass: '+escHtml(passcode)+'</span>';
+    var statusTags=[];
+    if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px">BANNED</span>');
+    if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
+    var statusHtml=statusTags.length?' '+statusTags.join(' '):'';
+    var maskedPass='\u2022\u2022\u2022\u2022\u2022\u2022';
+    info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span> <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
+    var eyeBtn=info.querySelector('.um-eye');
+    var passSpan=info.querySelector('.um-pass');
+    (function(eb,ps,pc){
+      var showing=false;
+      eb.addEventListener('click',function(e){
+        e.stopPropagation();
+        showing=!showing;
+        ps.textContent=showing?pc:'\u2022\u2022\u2022\u2022\u2022\u2022';
+        eb.style.opacity=showing?'.7':'.4';
+      });
+    })(eyeBtn,passSpan,passcode);
     topRow.appendChild(info);
     if(role!=='Admin'){
       var delBtn=document.createElement('button');delBtn.className='small-btn';delBtn.style.cssText='background:none;color:#e53935;border:1px solid rgba(229,57,53,.3);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;white-space:nowrap';delBtn.textContent='✕ Remove';delBtn.onmouseover=function(){this.style.background='#e53935';this.style.color='#fff';this.style.borderColor='#e53935'};delBtn.onmouseout=function(){this.style.background='none';this.style.color='#e53935';this.style.borderColor='rgba(229,57,53,.3)'};
@@ -2869,6 +3097,8 @@ var appDefs={
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Desktop</label>'+
         '<button id="settingsResetDesktop" style="'+btnStyle+'">Reset Icon Positions</button>'+
         '<div style="'+smallStyle+';margin-top:6px">Restore desktop icons to their default positions</div></div>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Password</label>'+
+        '<button id="settingsChangePassBtn" style="'+btnStyle+'">Change Password</button></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">About</label>'+
         '<div style="'+smallStyle+'">DocOS v1.2 &mdash; A desktop environment for your apps.<br>Drag icons to rearrange, right-click to rename.</div></div>';
 
@@ -3007,6 +3237,62 @@ var appDefs={
             resetIconPositions();
             if(currentRole)localStorage.removeItem('docosIconPositions_'+currentRole);
             showToast('Desktop icons reset to default positions.');
+          };
+        }
+
+        var cpBtn=d.querySelector('#settingsChangePassBtn');
+        if(cpBtn){
+          cpBtn.onclick=function(){
+            var existing=document.querySelector('.cp-overlay');if(existing)existing.remove();
+            var overlay=document.createElement('div');overlay.className='cp-overlay';
+            overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+            var modal=document.createElement('div');
+            modal.style.cssText='position:relative;background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:28px 28px 22px;width:340px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+            var closeBtn=document.createElement('button');
+            closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5,#888);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px';
+            closeBtn.textContent='\u00d7';closeBtn.onclick=function(){overlay.remove()};
+            var inpStyle='width:100%;padding:9px 10px;padding-right:36px;border-radius:8px;border:1px solid var(--border2,#444);background:var(--input-bg,#2a2a3a);color:var(--text,#eee);font-size:13px;outline:none;box-sizing:border-box;';
+            var wrapStyle='position:relative;margin-bottom:8px;';
+            var eyeSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+            var eyeBtnStyle='position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:.4;transition:opacity .15s;background:none;border:none;color:var(--text,#eee);padding:2px;';
+            modal.innerHTML='<h3 style="margin:0 0 16px;font-size:16px;font-weight:700;color:var(--text,#eee)">Change Password</h3>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpOldPass" placeholder="Current password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpOldPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpNewPass" placeholder="New password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpNewPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpConfirmPass" placeholder="Confirm new password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpConfirmPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<button id="cpSubmitBtn" style="width:100%;padding:10px;border:none;border-radius:8px;background:var(--accent,#00aaff);color:#fff;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px">Change Password</button>'+
+              '<div id="cpMsg" style="font-size:12px;margin-top:8px;min-height:16px;text-align:center"></div>';
+            modal.insertBefore(closeBtn,modal.firstChild);
+            overlay.appendChild(modal);
+            overlay.addEventListener('mousedown',function(e){if(e.target===overlay)overlay.remove()});
+            document.body.appendChild(overlay);
+            setTimeout(function(){
+              modal.querySelectorAll('.cp-eye').forEach(function(btn){
+                btn.addEventListener('click',function(){
+                  var inp=document.getElementById(this.dataset.for);
+                  if(inp.type==='password'){inp.type='text';this.style.opacity='.7'}
+                  else{inp.type='password';this.style.opacity='.4'}
+                });
+                btn.addEventListener('mouseover',function(){this.style.opacity='.7'});
+                btn.addEventListener('mouseout',function(){var inp=document.getElementById(this.dataset.for);this.style.opacity=inp.type==='text'?'.7':'.4'});
+              });
+              document.getElementById('cpSubmitBtn').onclick=function(){
+                var msg=document.getElementById('cpMsg');
+                var oldP=document.getElementById('cpOldPass').value.trim();
+                var newP=document.getElementById('cpNewPass').value.trim();
+                var confP=document.getElementById('cpConfirmPass').value.trim();
+                msg.style.color='#f44336';msg.textContent='';
+                if(!oldP||!newP||!confP){msg.textContent='Please fill in all fields.';return}
+                if(validPasswords[oldP]!==currentRole){msg.textContent='Current password is incorrect.';return}
+                if(newP!==confP){msg.textContent='New passwords do not match.';return}
+                if(newP===oldP){msg.textContent='New password must be different.';return}
+                if(validPasswords[newP]){msg.textContent='That password is already in use.';return}
+                var updates={};updates['/validPasswords/'+oldP]=null;updates['/validPasswords/'+newP]=currentRole;
+                db.ref().update(updates).then(function(){
+                  msg.style.color='#4caf50';msg.textContent='Password changed!';
+                  setTimeout(function(){overlay.remove()},1200);
+                }).catch(function(e){msg.textContent='Error: '+e.message});
+              };
+            },0);
           };
         }
       },0);
@@ -3545,6 +3831,153 @@ var appDefs={
         '<div style="font-size:11px;color:var(--text5);margin-bottom:14px">Drag apps here to remove from desktop. App Store apps can be permanently deleted; desktop apps can only be restored.</div>'+
         '<div id="trashItemsList"></div>';
       setTimeout(function(){renderTrashItems(d.querySelector('#trashItemsList'))},0);
+      return d;
+    }
+  },
+  music:{
+    title:'Music',
+    icon:'&#127925;',
+    iconBg:'linear-gradient(135deg,#e91e63,#9c27b0)',
+    width:900,height:620,
+    getContent:function(){
+      var d=document.createElement('div');
+      d.style.cssText='display:flex;height:100%;background:#0f0f1a;color:#fff;font-family:Nunito,system-ui,sans-serif;position:relative;overflow:hidden';
+      var musicState={queue:[],currentIndex:-1,liked:JSON.parse(localStorage.getItem('cleverMusicLiked')||'[]'),view:'home',audio:new Audio()};
+      function saveLiked(){localStorage.setItem('cleverMusicLiked',JSON.stringify(musicState.liked))}
+      var sidebar=document.createElement('div');
+      sidebar.style.cssText='width:200px;background:rgba(10,10,20,.85);border-right:1px solid rgba(255,255,255,.08);padding:20px;flex-shrink:0;display:flex;flex-direction:column;gap:4px';
+      sidebar.innerHTML='<h2 style="font-size:14px;font-weight:700;margin:0 0 20px;letter-spacing:1px;color:#fff">Music</h2>';
+      function makeNav(label,icon,viewName){
+        var btn=document.createElement('div');
+        btn.style.cssText='padding:10px 12px;border-radius:8px;cursor:pointer;color:#94a3b8;display:flex;align-items:center;gap:10px;font-size:13px;transition:all .2s';
+        btn.innerHTML=icon+' '+label;
+        btn.onclick=function(){showMusicView(viewName)};
+        btn._viewName=viewName;
+        sidebar.appendChild(btn);
+        return btn;
+      }
+      var navHome=makeNav('Home','<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>','home');
+      var navSearch=makeNav('Search','<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>','search');
+      var navLiked=makeNav('Liked Songs','<svg width="16" height="16" viewBox="0 0 24 24" fill="#ff4d94" stroke="#ff4d94" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>','liked');
+      d.appendChild(sidebar);
+      var main=document.createElement('div');
+      main.style.cssText='flex:1;display:flex;flex-direction:column;overflow:hidden';
+      var contentArea=document.createElement('div');
+      contentArea.style.cssText='flex:1;padding:30px;overflow-y:auto;background:linear-gradient(180deg,#0f0f1a,#0a0a14)';
+      main.appendChild(contentArea);
+      var playerBar=document.createElement('div');
+      playerBar.style.cssText='height:80px;background:rgba(27,27,46,.98);border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:250px 1fr 80px;align-items:center;padding:0 20px;flex-shrink:0;position:relative';
+      var scrubber=document.createElement('input');
+      scrubber.type='range';scrubber.value='0';scrubber.step='0.1';
+      scrubber.style.cssText='position:absolute;top:-2px;left:0;width:100%;height:4px;-webkit-appearance:none;appearance:none;background:#282843;outline:none;margin:0;cursor:pointer;z-index:1';
+      playerBar.appendChild(scrubber);
+      var pInfo=document.createElement('div');
+      pInfo.style.cssText='display:flex;align-items:center;gap:12px';
+      pInfo.innerHTML='<img id="mp-img" src="" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22><rect fill=%22%231b1b2e%22 width=%2250%22 height=%2250%22/><text x=%2225%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23555%22 font-size=%2220%22>♪</text></svg>\'" style="width:50px;height:50px;border-radius:6px;object-fit:cover;background:#1b1b2e;box-shadow:0 4px 12px rgba(0,0,0,.5)"><div><b id="mp-title" style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px">Select a track</b><small id="mp-artist" style="color:#94a3b8;font-size:11px"></small></div>';
+      playerBar.appendChild(pInfo);
+      var pControls=document.createElement('div');
+      pControls.style.cssText='display:flex;justify-content:center;align-items:center;gap:30px';
+      pControls.innerHTML='<svg id="mp-prev" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#94a3b8"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg><svg id="mp-play" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#fff"><polygon points="5,3 19,12 5,21"/></svg><svg id="mp-next" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#94a3b8"><path d="M16 6h2v12h-2zm-3.5 6L4 6v12z"/></svg>';
+      playerBar.appendChild(pControls);
+      var pRight=document.createElement('div');
+      pRight.style.cssText='display:flex;justify-content:flex-end;align-items:center;gap:8px';
+      pRight.innerHTML='<span id="mp-time" style="font-size:10px;color:#94a3b8"></span>';
+      playerBar.appendChild(pRight);
+      main.appendChild(playerBar);
+      d.appendChild(main);
+      var audio=musicState.audio;
+      function formatTime(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec}
+      function updateScrubber(){
+        if(!audio.paused&&audio.duration){
+          scrubber.value=(audio.currentTime/audio.duration)*100;
+          var timeEl=d.querySelector('#mp-time');if(timeEl)timeEl.textContent=formatTime(audio.currentTime)+' / '+formatTime(audio.duration);
+        }
+        requestAnimationFrame(updateScrubber);
+      }
+      requestAnimationFrame(updateScrubber);
+      scrubber.addEventListener('input',function(){if(audio.duration)audio.currentTime=(scrubber.value/100)*audio.duration});
+      audio.onplay=function(){var el=d.querySelector('#mp-play');if(el)el.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'};
+      audio.onpause=function(){var el=d.querySelector('#mp-play');if(el)el.innerHTML='<polygon points="5,3 19,12 5,21"/>'};
+      audio.onended=function(){playMusicTrack(musicState.currentIndex+1)};
+      d.querySelector('#mp-play').onclick=function(){if(audio.paused)audio.play();else audio.pause()};
+      d.querySelector('#mp-prev').onclick=function(){if(musicState.currentIndex>0)playMusicTrack(musicState.currentIndex-1);else{audio.currentTime=0;audio.play()}};
+      d.querySelector('#mp-next').onclick=function(){playMusicTrack(musicState.currentIndex+1)};
+      function playMusicTrack(idx){
+        if(idx<0||idx>=musicState.queue.length)return;
+        musicState.currentIndex=idx;
+        var t=musicState.queue[idx];
+        var img=d.querySelector('#mp-img');if(img)img.src=MUSIC_API_BASE+'/api/artwork/'+t.coverId;
+        var title=d.querySelector('#mp-title');if(title)title.textContent=t.title;
+        var artist=d.querySelector('#mp-artist');if(artist)artist.textContent=t.artistName;
+        audio.src=MUSIC_API_BASE+'/api/stream/'+t.id;
+        audio.play();
+      }
+      function isLiked(track){return musicState.liked.some(function(s){return s.id===track.id})}
+      function toggleLikeTrack(track){
+        var idx=musicState.liked.findIndex(function(s){return s.id===track.id});
+        if(idx>-1)musicState.liked.splice(idx,1);else musicState.liked.push(track);
+        saveLiked();
+      }
+      function renderTrackList(tracks,container){
+        container.innerHTML='';
+        if(!tracks||!tracks.length){container.innerHTML='<p style="opacity:.5;text-align:center;margin-top:40px">No tracks found.</p>';return}
+        tracks.forEach(function(t,idx){
+          var row=document.createElement('div');
+          row.style.cssText='display:flex;align-items:center;gap:16px;padding:10px 14px;border-radius:10px;transition:all .2s;border:1px solid transparent;cursor:pointer';
+          row.onmouseenter=function(){row.style.background='#1b1b2e';row.style.borderColor='rgba(255,255,255,.08)'};
+          row.onmouseleave=function(){row.style.background='none';row.style.borderColor='transparent'};
+          var liked=isLiked(t);
+          row.innerHTML='<img src="'+MUSIC_API_BASE+'/api/artwork/'+t.coverId+'" style="width:44px;height:44px;border-radius:6px;object-fit:cover;box-shadow:0 4px 10px rgba(0,0,0,.3)" onerror="this.style.background=\'#1b1b2e\'">'+
+            '<div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escHtml(t.title)+'</b><small style="color:#888;font-size:11px">'+escHtml(t.artistName)+'</small></div>'+
+            '<div style="display:flex;gap:16px;align-items:center">'+
+            '<svg class="mp-heart" width="16" height="16" viewBox="0 0 24 24" fill="'+(liked?'#ff4d94':'none')+'" stroke="'+(liked?'#ff4d94':'#94a3b8')+'" stroke-width="2" style="cursor:pointer"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'+
+            '<svg class="mp-playbtn" width="16" height="16" viewBox="0 0 24 24" fill="#94a3b8" stroke="none" style="cursor:pointer"><polygon points="5,3 19,12 5,21"/></svg>'+
+            '</div>';
+          row.querySelector('.mp-heart').onclick=function(e){e.stopPropagation();toggleLikeTrack(t);if(musicState.view==='liked')showMusicView('liked');else{var h=this;if(isLiked(t)){h.setAttribute('fill','#ff4d94');h.setAttribute('stroke','#ff4d94')}else{h.setAttribute('fill','none');h.setAttribute('stroke','#94a3b8')}}};
+          row.querySelector('.mp-playbtn').onclick=function(e){e.stopPropagation();musicState.queue=tracks.slice();playMusicTrack(idx)};
+          row.ondblclick=function(){musicState.queue=tracks.slice();playMusicTrack(idx)};
+          container.appendChild(row);
+        });
+      }
+      function showMusicView(v){
+        musicState.view=v;
+        contentArea.innerHTML='';
+        sidebar.querySelectorAll('div').forEach(function(el){if(el._viewName){el.style.background=el._viewName===v?'rgba(95,79,151,.25)':'none';el.style.color=el._viewName===v?'#fff':'#94a3b8'}});
+        if(v==='home'){
+          contentArea.innerHTML='<h1 style="font-size:28px;font-weight:800;margin:0 0 10px">Discover</h1><p style="opacity:.5;font-size:14px">Welcome back. Search for music to get started.</p>';
+        }else if(v==='search'){
+          var searchBox=document.createElement('div');
+          searchBox.style.cssText='display:flex;gap:10px;margin-bottom:24px';
+          var input=document.createElement('input');
+          input.type='text';input.placeholder='Search tracks...';
+          input.style.cssText='flex:1;background:rgba(40,40,67,.5);border:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 16px;border-radius:10px;outline:none;font-size:14px;font-family:inherit';
+          var searchBtn=document.createElement('button');
+          searchBtn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+          searchBtn.style.cssText='background:rgba(40,40,67,.5);border:none;padding:0 20px;border-radius:10px;cursor:pointer;color:#fff';
+          searchBox.appendChild(input);searchBox.appendChild(searchBtn);
+          contentArea.appendChild(searchBox);
+          var title=document.createElement('h1');title.textContent='Search Results';title.style.cssText='font-size:24px;font-weight:800;margin:0 0 16px';
+          contentArea.appendChild(title);
+          var results=document.createElement('div');
+          contentArea.appendChild(results);
+          function doSearch(){
+            var q=input.value.trim();if(!q)return;
+            results.innerHTML='<p style="opacity:.5;text-align:center;margin-top:30px">Searching...</p>';
+            fetch(MUSIC_API_BASE+'/api/search?q='+encodeURIComponent(q)).then(function(r){return r.json()}).then(function(tracks){
+              renderTrackList(tracks,results);
+            }).catch(function(){results.innerHTML='<p style="color:#e53935;text-align:center;margin-top:30px">Search failed. Check your connection.</p>'});
+          }
+          searchBtn.onclick=doSearch;
+          input.onkeypress=function(e){if(e.key==='Enter')doSearch()};
+          input.focus();
+        }else if(v==='liked'){
+          contentArea.innerHTML='<h1 style="font-size:24px;font-weight:800;margin:0 0 16px">Liked Songs</h1>';
+          var list=document.createElement('div');
+          contentArea.appendChild(list);
+          renderTrackList(musicState.liked,list);
+        }
+      }
+      showMusicView('home');
       return d;
     }
   }
