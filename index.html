@@ -26,7 +26,7 @@ body[data-theme="light"] *{scrollbar-color:rgba(0,0,0,.15) transparent}
 .lock-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3a 50%,#0d1b2a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999}
 .lock-screen.hidden{display:none}
 .lock-clock{font-size:64px;font-weight:200;color:#fff;letter-spacing:-2px;margin-bottom:4px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
-.lock-date{font-size:15px;color:rgba(255,255,255,.5);margin-bottom:40px;font-weight:400}
+.lock-date{font-size:15px;color:var(--text5,rgba(255,255,255,.5));margin-bottom:40px;font-weight:400}
 .lock-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,170,255,.3)}
 .lock-username{font-size:16px;color:#fff;font-weight:600;margin-bottom:16px;letter-spacing:.3px}
 .lock-form{display:flex;flex-direction:column;align-items:center;width:280px}
@@ -50,7 +50,7 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .lock-appeal-btn:hover{opacity:.85}
 .lock-appeal-sent{color:#4caf50;font-size:12px;text-align:center;margin-top:6px}
 .lock-appeal-denied{color:#ff5555;font-size:12px;text-align:center;margin-top:6px;font-weight:600}
-.lock-branding{position:absolute;bottom:24px;font-size:13px;color:rgba(255,255,255,.2);font-weight:600;letter-spacing:1px}
+.lock-branding{position:absolute;bottom:24px;font-size:13px;color:var(--text7,rgba(255,255,255,.2));font-weight:600;letter-spacing:1px}
 
 /* ===== DESKTOP OS ===== */
 .desktop{position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3a 40%,#0d1b2a 100%);overflow:hidden;display:flex;flex-direction:column}
@@ -64,7 +64,7 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .desktop-icon:active{background:rgba(255,255,255,.12)}
 .desktop-icon.dragging{opacity:.7;z-index:50;transition:none}
 .desktop-icon .icon-img{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
-.desktop-icon .icon-label{font-size:11px;color:#fff;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.8);max-width:76px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-word;line-height:1.3}
+.desktop-icon .icon-label{font-size:11px;color:var(--text,#fff);text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.8);max-width:76px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-word;line-height:1.3}
 .desktop-icon .icon-label[contenteditable="true"]{outline:1px solid var(--accent);background:rgba(0,0,0,.5);border-radius:3px;padding:1px 4px;white-space:normal;word-break:break-word}
 
 /* Taskbar */
@@ -73,23 +73,23 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .taskbar-start:hover{background:rgba(255,255,255,.08)}
 .taskbar-divider{width:1px;height:24px;background:rgba(255,255,255,.08);margin:0 4px}
 .taskbar-items{display:flex;gap:2px;flex:1;overflow-x:auto;justify-content:center}
-.taskbar-item{padding:0 12px;height:34px;border-radius:6px;border:none;background:rgba(255,255,255,.04);color:rgba(255,255,255,.6);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;max-width:160px;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px;position:relative}
-.taskbar-item:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+.taskbar-item{padding:0 12px;height:34px;border-radius:6px;border:none;background:rgba(255,255,255,.04);color:var(--text4,rgba(255,255,255,.6));font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;max-width:160px;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px;position:relative}
+.taskbar-item:hover{background:rgba(255,255,255,.1);color:var(--text2,rgba(255,255,255,.8))}
 .taskbar-item.active{background:rgba(255,255,255,.1);color:#fff}
 .taskbar-item.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:16px;height:3px;border-radius:2px;background:var(--accent)}
 .taskbar-item.minimized{opacity:.5}
 .taskbar-item.minimized.active::after{width:6px}
 .taskbar-item .tb-icon{font-size:16px;line-height:1}
-.taskbar-user{color:rgba(255,255,255,.5);font-size:11px;font-weight:600;padding:0 8px;white-space:nowrap;display:flex;align-items:center;gap:5px;border-right:1px solid rgba(255,255,255,.08);margin-right:2px}
+.taskbar-user{color:var(--text5,rgba(255,255,255,.5));font-size:11px;font-weight:600;padding:0 8px;white-space:nowrap;display:flex;align-items:center;gap:5px;border-right:1px solid rgba(255,255,255,.08);margin-right:2px}
 .taskbar-user-avatar{font-size:14px;line-height:1}
-.taskbar-user-name{color:rgba(255,255,255,.6)}
-.taskbar-clock{color:rgba(255,255,255,.5);font-size:11px;font-weight:500;padding:0 10px;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-end;line-height:1.3}
-.taskbar-clock-time{font-weight:600;color:rgba(255,255,255,.7)}
+.taskbar-user-name{color:var(--text4,rgba(255,255,255,.6))}
+.taskbar-clock{color:var(--text5,rgba(255,255,255,.5));font-size:11px;font-weight:500;padding:0 10px;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-end;line-height:1.3}
+.taskbar-clock-time{font-weight:600;color:var(--text3,rgba(255,255,255,.7))}
 .taskbar-clock-date{font-size:10px}
 .taskbar-reco{padding:0 12px;height:34px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
 .taskbar-reco:hover{opacity:.85;filter:brightness(1.1)}
 .tb-reco-icon{font-size:14px;line-height:1}
-.taskbar-logout{width:34px;height:34px;border-radius:8px;border:none;background:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.taskbar-logout{width:34px;height:34px;border-radius:8px;border:none;background:none;color:var(--text4,rgba(255,255,255,.6));font-size:16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
 .taskbar-logout:hover{background:rgba(255,60,60,.15);color:#f55}
 
 /* Windows */
@@ -177,6 +177,271 @@ body[data-theme="rose"]{
   --input-bg:#130810;--msg-hover:#2a1020;
   --red:#ff4466;--orange:#ff7744;--green:#66cc88;
 }
+body[data-theme="glass"]{
+  --bg:rgba(255,255,255,.05);--bg2:rgba(255,255,255,.06);--bg3:rgba(255,255,255,.08);--bg4:rgba(255,255,255,.1);--bg5:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.2);--border2:rgba(255,255,255,.25);
+  --text:rgba(255,255,255,.95);--text2:rgba(255,255,255,.9);--text3:rgba(255,255,255,.8);--text4:rgba(255,255,255,.65);--text5:rgba(255,255,255,.5);--text6:rgba(255,255,255,.35);--text7:rgba(255,255,255,.25);
+  --accent:#a5d8ff;--accent2:#74c0fc;
+  --admin-bg:rgba(165,216,255,.06);--admin-border:#a5d8ff;
+  --sys-border:rgba(255,255,255,.2);--sys-bg:rgba(255,255,255,.04);
+  --header-bg:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.06));
+  --input-bg:rgba(255,255,255,.06);--msg-hover:rgba(255,255,255,.08);
+  --red:#fca5a5;--orange:#fdba74;--green:#86efac;
+}
+/* Futuristic Glass theme — glassmorphism with iridescent pastel background */
+body[data-theme="glass"]{background:linear-gradient(160deg,#dbeafe 0%,#c7e2ff 15%,#b0d4f1 30%,#a5d8f8 45%,#bfe7fc 55%,#d0ecfa 70%,#c2dff5 85%,#d6eaf8 100%)!important;background-size:400% 400%!important;animation:glassGradientShift 25s ease infinite!important}
+@keyframes glassGradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+body[data-theme="glass"] .desktop{background:transparent!important}
+body[data-theme="glass"] .app{background:transparent!important}
+body[data-theme="glass"] .os-window{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(40px) saturate(1.8);-webkit-backdrop-filter:blur(40px) saturate(1.8);border:1px solid rgba(255,255,255,.3)!important;box-shadow:0 8px 32px rgba(31,38,135,.15),inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(255,255,255,.1)!important;border-radius:16px!important}
+body[data-theme="glass"] .os-window.focused{box-shadow:0 12px 48px rgba(31,38,135,.2),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(255,255,255,.15),0 0 40px rgba(165,216,255,.1)!important}
+body[data-theme="glass"] .win-titlebar{background:rgba(255,255,255,.08)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.15)!important}
+body[data-theme="glass"] .win-body{background:rgba(255,255,255,.03)!important}
+body[data-theme="glass"] .taskbar{background:rgba(255,255,255,.1)!important;backdrop-filter:blur(40px) saturate(1.8);-webkit-backdrop-filter:blur(40px) saturate(1.8);border-top:1px solid rgba(255,255,255,.25)!important;box-shadow:0 -4px 24px rgba(31,38,135,.1),inset 0 1px 0 rgba(255,255,255,.3)}
+body[data-theme="glass"] .taskbar-item{background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.15);border-radius:8px}
+body[data-theme="glass"] .taskbar-item:hover{background:rgba(255,255,255,.18)!important;border-color:rgba(255,255,255,.3)}
+body[data-theme="glass"] .taskbar-item.active{background:rgba(255,255,255,.2)!important;border-color:rgba(255,255,255,.35)}
+body[data-theme="glass"] .header{background:rgba(255,255,255,.08)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,.15)!important}
+body[data-theme="glass"] .online-bar{background:rgba(255,255,255,.06)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1)!important}
+body[data-theme="glass"] .messages{background:rgba(255,255,255,.02)!important}
+body[data-theme="glass"] .message{background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.15)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px!important}
+body[data-theme="glass"] .message:hover{background:rgba(255,255,255,.14)!important;border-color:rgba(255,255,255,.25)!important}
+body[data-theme="glass"] .message-admin{background:rgba(165,216,255,.1)!important;border-left:3px solid rgba(165,216,255,.6)!important}
+body[data-theme="glass"] .input-row{background:rgba(255,255,255,.06)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+body[data-theme="glass"] .chat-input{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.2)!important;border-radius:12px!important}
+body[data-theme="glass"] .chat-input:focus{border-color:rgba(255,255,255,.4)!important;box-shadow:0 0 16px rgba(165,216,255,.2)}
+body[data-theme="glass"] .desktop-icon:hover{background:rgba(255,255,255,.1)!important;border-radius:12px}
+body[data-theme="glass"] .desktop-icon .icon-img{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.25);box-shadow:0 4px 16px rgba(31,38,135,.1),inset 0 1px 0 rgba(255,255,255,.3);border-radius:14px!important}
+body[data-theme="glass"] .toast{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;box-shadow:0 4px 20px rgba(31,38,135,.12),inset 0 1px 0 rgba(255,255,255,.3)}
+body[data-theme="glass"] .chat-notif-popup{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;box-shadow:0 8px 32px rgba(31,38,135,.15),inset 0 1px 0 rgba(255,255,255,.3)}
+body[data-theme="glass"] .ctx-menu{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:12px!important}
+body[data-theme="glass"] .admin-panel{background:rgba(255,255,255,.08)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6)}
+body[data-theme="glass"] .msg-action-bar{background:rgba(255,255,255,.15)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.25)!important}
+body[data-theme="glass"] .lock-screen{background:linear-gradient(160deg,#dbeafe 0%,#c7e2ff 15%,#b0d4f1 30%,#a5d8f8 45%,#bfe7fc 55%,#d0ecfa 70%,#c2dff5 85%,#d6eaf8 100%)!important;background-size:400% 400%!important;animation:glassGradientShift 25s ease infinite!important}
+body[data-theme="glass"] .lock-form .lock-input{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.3)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+body[data-theme="glass"] .lock-submit{background:rgba(255,255,255,.2)!important;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+body[data-theme="glass"] .emoji-picker{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:12px!important}
+body[data-theme="glass"] .theme-modal{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:16px!important}
+body[data-theme="glass"] .nickname-modal{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:16px!important}
+body[data-theme="glass"] .vc-incoming-card{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:20px!important}
+body[data-theme="glass"] .scroll-bottom-btn{background:rgba(255,255,255,.15)!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.25)!important}
+body[data-theme="glass"] .reply-quote{background:rgba(255,255,255,.06)!important;border-left:3px solid rgba(165,216,255,.5)}
+body[data-theme="glass"] .reaction-chip{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.2)!important}
+body[data-theme="glass"] .reaction-chip.reacted{background:rgba(165,216,255,.15)!important;border-color:rgba(165,216,255,.4)!important}
+body[data-theme="glass"] .confirm-yes{background:rgba(252,165,165,.3)!important;border:1px solid rgba(252,165,165,.4);color:#fff}
+body[data-theme="glass"] .confirm-no{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.2)}
+body[data-theme="glass"] *::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border:2px solid transparent;background-clip:padding-box}
+body[data-theme="glass"] *::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.35);border:2px solid transparent;background-clip:padding-box}
+body[data-theme="glass"] *{scrollbar-color:rgba(255,255,255,.2) transparent}
+
+body[data-theme="neon-cyberpunk"]{
+  --bg:#070715;--bg2:rgba(8,8,18,.96);--bg3:rgba(12,12,32,.94);--bg4:rgba(18,10,45,.9);--bg5:rgba(22,10,55,.92);
+  --border:rgba(157,76,255,.28);--border2:rgba(56,0,150,.32);
+  --text:#f3f3ff;--text2:#d8d8ff;--text3:#c2c2ff;--text4:#aaaaff;--text5:#8f8fff;--text6:#7a7ad8;--text7:#6262aa;
+  --accent:#9d4cff;--accent2:#35d5ff;
+  --admin-bg:rgba(109,15,104,.22);--admin-border:#ff3bd3;
+  --sys-border:rgba(88,0,152,.45);--sys-bg:rgba(12,10,20,.9);
+  --header-bg:linear-gradient(135deg,rgba(12,10,30,.95),rgba(25,5,65,.95));
+  --input-bg:rgba(10,10,18,.94);--msg-hover:rgba(157,76,255,.12);
+  --red:#ff5b9e;--orange:#ff80d5;--green:#00ffd2;
+}
+body[data-theme="neon-cyberpunk"] .desktop{background:linear-gradient(135deg,rgba(8,8,18,.95),rgba(16,10,42,.97))!important}
+body[data-theme="neon-cyberpunk"] .taskbar{background:rgba(11,8,20,.88)!important;border-top:1px solid rgba(157,76,255,.25);box-shadow:0 0 18px rgba(56,0,150,.22);animation:cyberBar 12s linear infinite}
+body[data-theme="neon-cyberpunk"] .os-window{background:rgba(10,10,20,.88);border:1px solid rgba(157,76,255,.35);box-shadow:0 0 24px rgba(157,76,255,.18),0 10px 30px rgba(0,72,180,.16);animation:cyberEntry .28s ease-out both}
+body[data-theme="neon-cyberpunk"] .os-window.focused{box-shadow:0 0 30px rgba(157,76,255,.28),0 14px 40px rgba(0,72,180,.22);animation:cyberFocus 4s ease-in-out infinite}
+body[data-theme="neon-cyberpunk"] .win-titlebar{background:rgba(18,10,45,.92)!important;border-bottom:1px solid rgba(157,76,255,.35);}
+body[data-theme="neon-cyberpunk"] .win-btn:hover{background:rgba(157,76,255,.14)!important;color:#fff}
+body[data-theme="neon-cyberpunk"] .taskbar-item:hover{background:rgba(157,76,255,.12)!important;color:#fff}
+body[data-theme="neon-cyberpunk"] .taskbar-item.active::after{background:linear-gradient(90deg,#9d4cff,#35d5ff)!important;animation:cyberPulse 2s ease-in-out infinite}
+body[data-theme="neon-cyberpunk"] .theme-modal{background:rgba(8,8,20,.96)!important;border-color:rgba(157,76,255,.3)!important;animation:cyberGlow 6s ease-in-out infinite}
+body[data-theme="neon-cyberpunk"] .chat-notif-popup{border-color:rgba(157,76,255,.25);box-shadow:0 12px 34px rgba(157,76,255,.18);animation:cyberNotif 4s ease-in-out infinite}
+body[data-theme="neon-cyberpunk"] .desktop-icon:hover{background:rgba(157,76,255,.12)!important}
+body[data-theme="neon-cyberpunk"] .theme-card.active{box-shadow:0 0 18px rgba(157,76,255,.35)}
+body[data-theme="neon-cyberpunk"]::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px);background-size:100% 3px;mix-blend-mode:overlay;opacity:.35;z-index:2000}
+
+body[data-theme="retro-pixel"]{
+  --bg:#111;--bg2:#161616;--bg3:#1c1c1c;--bg4:#232323;--bg5:#1a1a1a;
+  --border:#7d6bff;--border2:#5b47ff;
+  --text:#f8f8f8;--text2:#e4e4e4;--text3:#ccc;--text4:#b2b2ff;--text5:#9999ff;--text6:#7777d1;--text7:#555585;
+  --accent:#d46cff;--accent2:#62b0ff;
+  --admin-bg:rgba(165,115,255,.16);--admin-border:#d46cff;
+  --sys-border:#695cff;--sys-bg:#141414;
+  --header-bg:linear-gradient(180deg,#111,#1a0033);
+  --input-bg:#161616;--msg-hover:rgba(212,108,255,.12);
+  --red:#ff5a7d;--orange:#ff9cff;--green:#6effa5;
+}
+body[data-theme="retro-pixel"] .desktop{background:linear-gradient(135deg,#0f0f0f,#19191f)!important}
+body[data-theme="retro-pixel"] .taskbar{background:#141414!important;border-top:2px solid #5b47ff;box-shadow:0 0 0 1px rgba(212,108,255,.15),0 0 18px rgba(0,0,0,.35)}
+body[data-theme="retro-pixel"] .os-window{background:#121212;border:2px solid #7d6bff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.04),0 0 0 4px rgba(157,76,255,.12);animation:pixelOpen .18s steps(2) both}
+body[data-theme="retro-pixel"] .os-window.focused{box-shadow:0 0 0 4px rgba(212,108,255,.22),0 0 18px rgba(0,0,0,.4)}
+body[data-theme="retro-pixel"] .win-titlebar{background:#181828!important;border-bottom:2px solid #5b47ff}
+body[data-theme="retro-pixel"] .win-btn:hover{background:#5b47ff!important;color:#fff}
+body[data-theme="retro-pixel"] .taskbar-item:hover{background:rgba(92,71,255,.14)!important;color:#fff}
+body[data-theme="retro-pixel"] .taskbar-item.active::after{background:#d46cff!important;animation:pixelPulse 1.2s steps(2) infinite alternate}
+body[data-theme="retro-pixel"] .theme-modal{background:#101010!important;border-color:#5b47ff!important}
+body[data-theme="retro-pixel"] .chat-notif-popup{border-color:#5b47ff;box-shadow:0 12px 28px rgba(92,71,255,.16)}
+body[data-theme="retro-pixel"] .desktop-icon:hover{background:rgba(92,71,255,.12)!important;animation:pixelHover .18s steps(2) both}
+body[data-theme="retro-pixel"] .theme-card.active{box-shadow:0 0 16px rgba(92,71,255,.3)}
+body[data-theme="retro-pixel"] .app,body[data-theme="retro-pixel"] .desktop,body[data-theme="retro-pixel"] .theme-modal{image-rendering:crisp-edges}
+
+body[data-theme="hacker-terminal"]{
+  --bg:#020300;--bg2:#030704;--bg3:#06110a;--bg4:#081609;--bg5:#07110a;
+  --border:#0b5f0b;--border2:#114b11;
+  --text:#9efc9e;--text2:#80e080;--text3:#6fc86f;--text4:#5cae5c;--text5:#4b984b;--text6:#3a7a3a;--text7:#2d622d;
+  --accent:#6cff6c;--accent2:#4dff8c;
+  --admin-bg:rgba(46,100,46,.18);--admin-border:#6cff6c;
+  --sys-border:#2b702b;--sys-bg:#041007;
+  --header-bg:linear-gradient(180deg,#020300,#051005);
+  --input-bg:#041008;--msg-hover:rgba(110,255,108,.1);
+  --red:#ff4c4c;--orange:#ff9f4c;--green:#4cff4c;
+}
+body[data-theme="hacker-terminal"] .desktop{background:linear-gradient(180deg,#020300,#041009)!important}
+body[data-theme="hacker-terminal"] .taskbar{background:#030704!important;border-top:1px solid #0b5f0b;box-shadow:0 0 18px rgba(0,255,0,.1);animation:terminalStatus 9s linear infinite}
+body[data-theme="hacker-terminal"] .os-window{background:rgba(0,5,0,.98);border:1px solid #0b5f0b;box-shadow:0 0 18px rgba(0,255,0,.12);animation:terminalBoot .3s ease-out both}
+body[data-theme="hacker-terminal"] .os-window.focused{box-shadow:0 0 28px rgba(0,255,0,.2),0 0 0 1px rgba(110,255,108,.18);animation:terminalPulse 5s ease-in-out infinite}
+body[data-theme="hacker-terminal"] .win-titlebar{background:#041108!important;border-bottom:1px solid #0b5f0b}
+body[data-theme="hacker-terminal"] .win-btn:hover{background:rgba(110,255,108,.12)!important;color:#0b5f0b}
+body[data-theme="hacker-terminal"] .taskbar-item:hover{background:rgba(110,255,108,.12)!important;color:#9efc9e}
+body[data-theme="hacker-terminal"] .taskbar-item.active::after{background:#6cff6c!important;animation:terminalBlink .8s step-start infinite}
+body[data-theme="hacker-terminal"] .theme-modal{background:#020300!important;border-color:#0b5f0b!important;animation:terminalFade .5s ease both}
+body[data-theme="hacker-terminal"] .chat-notif-popup{border-color:#0b5f0b;box-shadow:0 12px 28px rgba(0,255,0,.14)}
+body[data-theme="hacker-terminal"] .desktop-icon:hover{background:rgba(110,255,108,.1)!important}
+body[data-theme="hacker-terminal"] .theme-card.active{box-shadow:0 0 16px rgba(110,255,108,.24)}
+body[data-theme="hacker-terminal"]::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(0,255,0,.05) 1px,transparent 1px);background-size:100% 4px;opacity:.25;z-index:2000}
+
+body[data-theme="space-galaxy"]{
+  --bg:#070817;--bg2:#0d1025;--bg3:#121e3a;--bg4:#11162b;--bg5:#101426;
+  --border:#7452ff;--border2:#3f7dff;
+  --text:#eef3ff;--text2:#d8e4ff;--text3:#c3d1ff;--text4:#9cb4ff;--text5:#84a0ff;--text6:#6a85d1;--text7:#4f67a8;
+  --accent:#8b66ff;--accent2:#4ddcff;
+  --admin-bg:rgba(97,49,255,.16);--admin-border:#8b66ff;
+  --sys-border:#2c4fa5;--sys-bg:#09112a;
+  --header-bg:linear-gradient(135deg,#070817,#111c40);
+  --input-bg:rgba(14,18,34,.95);--msg-hover:rgba(139,102,255,.12);
+  --red:#ff6ec7;--orange:#ffab5f;--green:#5cf3ff;
+}
+body[data-theme="space-galaxy"] .desktop{background:radial-gradient(circle at top left,#4d66ff 0%,transparent 35%),linear-gradient(180deg,#070817,#09112a)!important}
+body[data-theme="space-galaxy"] .taskbar{background:rgba(8,10,24,.92)!important;border-top:1px solid rgba(77,220,255,.22);box-shadow:0 0 20px rgba(77,220,255,.1);animation:nebulaFlow 14s linear infinite}
+body[data-theme="space-galaxy"] .os-window{background:rgba(11,16,35,.95);border:1px solid rgba(77,220,255,.18);box-shadow:0 0 28px rgba(77,220,255,.12);animation:warpEntry .35s ease-out both}
+body[data-theme="space-galaxy"] .os-window.focused{box-shadow:0 0 34px rgba(77,220,255,.2),0 0 0 1px rgba(139,102,255,.16);animation:starPulse 5s ease-in-out infinite}
+body[data-theme="space-galaxy"] .win-titlebar{background:rgba(14,20,44,.96)!important;border-bottom:1px solid rgba(77,220,255,.18)}
+body[data-theme="space-galaxy"] .win-btn:hover{background:rgba(77,220,255,.14)!important;color:#fff}
+body[data-theme="space-galaxy"] .taskbar-item:hover{background:rgba(77,220,255,.12)!important;color:#fff}
+body[data-theme="space-galaxy"] .taskbar-item.active::after{background:linear-gradient(90deg,#8b66ff,#4ddcff)!important;animation:starTwinkle 2.5s ease-in-out infinite}
+body[data-theme="space-galaxy"] .theme-modal{background:rgba(9,12,28,.96)!important;border-color:rgba(77,220,255,.2)!important;animation:nebulaDrift 12s ease-in-out infinite}
+body[data-theme="space-galaxy"] .chat-notif-popup{border-color:rgba(77,220,255,.18);box-shadow:0 12px 34px rgba(77,220,255,.15)}
+body[data-theme="space-galaxy"] .desktop-icon:hover{background:rgba(77,220,255,.1)!important}
+body[data-theme="space-galaxy"] .theme-card.active{box-shadow:0 0 18px rgba(77,220,255,.28)}
+body[data-theme="space-galaxy"]::before{content:"";position:fixed;inset:0;pointer-events:none;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.04)" /></svg>') repeat;opacity:.3;z-index:2000}
+
+body[data-theme="bioluminescent-ocean"]{
+  --bg:#030916;--bg2:#041522;--bg3:#0a2438;--bg4:#0f2f46;--bg5:#0c2239;
+  --border:#1fb7a4;--border2:#33d5c4;
+  --text:#e8fbff;--text2:#c5f6ff;--text3:#a2ecff;--text4:#7ed8f5;--text5:#5bc2de;--text6:#3ca3b7;--text7:#2e7a8d;
+  --accent:#22ffdd;--accent2:#45d9ff;
+  --admin-bg:rgba(34,255,221,.14);--admin-border:#22ffdd;
+  --sys-border:#33b7a6;--sys-bg:#061526;
+  --header-bg:linear-gradient(180deg,#041523,#052735);
+  --input-bg:rgba(8,14,28,.92);--msg-hover:rgba(34,255,221,.1);
+  --red:#ff7ea4;--orange:#ffc26e;--green:#5effc4;
+}
+body[data-theme="bioluminescent-ocean"] .desktop{background:radial-gradient(circle at top right,rgba(34,255,221,.18),transparent 24%),linear-gradient(135deg,#03111f,#051d33)!important}
+body[data-theme="bioluminescent-ocean"] .taskbar{background:rgba(4,16,34,.9)!important;border-top:1px solid rgba(34,255,221,.18);box-shadow:0 0 18px rgba(34,255,221,.12);animation:oceanFlow 10s ease-in-out infinite}
+body[data-theme="bioluminescent-ocean"] .os-window{background:rgba(7,19,36,.95);border:1px solid rgba(34,255,221,.22);box-shadow:0 0 24px rgba(34,255,221,.12);animation:waveIn .4s ease-out both}
+body[data-theme="bioluminescent-ocean"] .os-window.focused{box-shadow:0 0 32px rgba(34,255,221,.2),0 0 0 1px rgba(69,217,255,.18);animation:bioGlow 4s ease-in-out infinite}
+body[data-theme="bioluminescent-ocean"] .win-titlebar{background:rgba(6,19,35,.96)!important;border-bottom:1px solid rgba(34,255,221,.18)}
+body[data-theme="bioluminescent-ocean"] .win-btn:hover{background:rgba(34,255,221,.14)!important;color:#fff}
+body[data-theme="bioluminescent-ocean"] .taskbar-item:hover{background:rgba(34,255,221,.12)!important;color:#fff}
+body[data-theme="bioluminescent-ocean"] .taskbar-item.active::after{background:linear-gradient(90deg,#22ffdd,#45d9ff)!important;animation:bioPulse 1.8s ease-in-out infinite alternate}
+body[data-theme="bioluminescent-ocean"] .theme-modal{background:rgba(4,16,34,.96)!important;border-color:rgba(34,255,221,.2)!important}
+body[data-theme="bioluminescent-ocean"] .chat-notif-popup{border-color:rgba(34,255,221,.2);box-shadow:0 12px 32px rgba(34,255,221,.14)}
+body[data-theme="bioluminescent-ocean"] .desktop-icon:hover{background:rgba(34,255,221,.12)!important}
+body[data-theme="bioluminescent-ocean"] .theme-card.active{box-shadow:0 0 18px rgba(34,255,221,.25)}
+body[data-theme="bioluminescent-ocean"]::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at center,rgba(34,255,221,.04),transparent 22%),linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px);background-size:100% 4px,100% 4px;opacity:.24;z-index:2000}
+
+body[data-theme="crystal-cavern"]{
+  --bg:#07121d;--bg2:#0d1a2c;--bg3:#14263f;--bg4:#10223b;--bg5:#111e36;
+  --border:#8f7dff;--border2:#5cbcff;
+  --text:#f5f8ff;--text2:#dee9ff;--text3:#c5d8ff;--text4:#a2bfff;--text5:#87a9ff;--text6:#6c87d3;--text7:#4f69a2;
+  --accent:#a18cff;--accent2:#66d2ff;
+  --admin-bg:rgba(161,140,255,.14);--admin-border:#a18cff;
+  --sys-border:#5877b8;--sys-bg:#0c1d2f;
+  --header-bg:linear-gradient(180deg,#091526,#121e3d);
+  --input-bg:rgba(14,21,38,.95);--msg-hover:rgba(161,140,255,.12);
+  --red:#ff7ceb;--orange:#ffc67c;--green:#7effd9;
+}
+body[data-theme="crystal-cavern"] .desktop{background:radial-gradient(circle at top right,rgba(161,140,255,.16),transparent 28%),linear-gradient(135deg,#07121d,#10223b)!important}
+body[data-theme="crystal-cavern"] .taskbar{background:rgba(9,17,34,.92)!important;border-top:1px solid rgba(161,140,255,.22);box-shadow:0 0 20px rgba(161,140,255,.1);animation:prismShift 11s ease-in-out infinite}
+body[data-theme="crystal-cavern"] .os-window{background:rgba(13,20,38,.96);border:1px solid rgba(161,140,255,.2);box-shadow:0 0 28px rgba(161,140,255,.12);animation:crystalReveal .4s ease-out both}
+body[data-theme="crystal-cavern"] .os-window.focused{box-shadow:0 0 34px rgba(161,140,255,.2),0 0 0 1px rgba(102,210,255,.18);animation:gemPulse 6s ease-in-out infinite}
+body[data-theme="crystal-cavern"] .win-titlebar{background:rgba(12,20,38,.98)!important;border-bottom:1px solid rgba(161,140,255,.2)}
+body[data-theme="crystal-cavern"] .win-btn:hover{background:rgba(161,140,255,.14)!important;color:#fff}
+body[data-theme="crystal-cavern"] .taskbar-item:hover{background:rgba(161,140,255,.12)!important;color:#fff}
+body[data-theme="crystal-cavern"] .taskbar-item.active::after{background:linear-gradient(90deg,#a18cff,#66d2ff)!important}
+body[data-theme="crystal-cavern"] .theme-modal{background:rgba(9,17,34,.96)!important;border-color:rgba(161,140,255,.2)!important;animation:lightRefract 8s ease-in-out infinite}
+body[data-theme="crystal-cavern"] .chat-notif-popup{border-color:rgba(161,140,255,.2);box-shadow:0 12px 32px rgba(161,140,255,.14)}
+body[data-theme="crystal-cavern"] .desktop-icon:hover{background:rgba(161,140,255,.12)!important}
+body[data-theme="crystal-cavern"] .theme-card.active{box-shadow:0 0 18px rgba(161,140,255,.25)}
+body[data-theme="crystal-cavern"]::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.04),transparent 30%),radial-gradient(circle at top left,rgba(255,255,255,.08),transparent 18%);opacity:.18;z-index:2000}
+
+body[data-theme="industrial-grunge"]{
+  --bg:#131314;--bg2:#18181b;--bg3:#1f1f21;--bg4:#212124;--bg5:#1b1b1d;
+  --border:#7a6b3d;--border2:#545038;
+  --text:#e8e8e2;--text2:#d2d2ca;--text3:#bfbfb9;--text4:#a7a596;--text5:#8d8c82;--text6:#737268;--text7:#5c5c55;
+  --accent:#d49f1e;--accent2:#ffb045;
+  --admin-bg:rgba(255,176,69,.16);--admin-border:#d49f1e;
+  --sys-border:#666053;--sys-bg:#161618;
+  --header-bg:linear-gradient(180deg,#121216,#1a1a1f);
+  --input-bg:#1c1c1f;--msg-hover:rgba(212,159,30,.12);
+  --red:#ff4c4c;--orange:#ff8c00;--green:#6cff6c;
+}
+body[data-theme="industrial-grunge"] .desktop{background:linear-gradient(135deg,#121214,#1a1a1e)!important}
+body[data-theme="industrial-grunge"] .taskbar{background:#161618!important;border-top:2px solid rgba(212,159,30,.28);box-shadow:0 0 16px rgba(212,159,30,.08);animation:hazardShift 9s linear infinite}
+body[data-theme="industrial-grunge"] .os-window{background:#19191c;border:2px solid rgba(212,159,30,.24);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05),0 0 20px rgba(212,159,30,.12);animation:metalSlide .32s ease-out both}
+body[data-theme="industrial-grunge"] .os-window.focused{box-shadow:0 0 24px rgba(212,159,30,.22),0 0 0 2px rgba(170,120,20,.18);animation:grungeSpark 1.2s ease-in-out infinite alternate}
+body[data-theme="industrial-grunge"] .win-titlebar{background:#1b1b1e!important;border-bottom:2px solid rgba(212,159,30,.3)}
+body[data-theme="industrial-grunge"] .win-btn:hover{background:rgba(212,159,30,.14)!important;color:#fff}
+body[data-theme="industrial-grunge"] .taskbar-item:hover{background:rgba(212,159,30,.12)!important;color:#fff}
+body[data-theme="industrial-grunge"] .taskbar-item.active::after{background:linear-gradient(90deg,#d49f1e,#ffb045)!important;animation:grungeSpark 1.2s ease-in-out infinite alternate}
+body[data-theme="industrial-grunge"] .theme-modal{background:#151517!important;border-color:rgba(212,159,30,.2)!important}
+body[data-theme="industrial-grunge"] .chat-notif-popup{border-color:rgba(212,159,30,.2);box-shadow:0 12px 28px rgba(212,159,30,.14)}
+body[data-theme="industrial-grunge"] .desktop-icon:hover{background:rgba(212,159,30,.12)!important}
+body[data-theme="industrial-grunge"] .theme-card.active{box-shadow:0 0 16px rgba(212,159,30,.25)}
+body[data-theme="industrial-grunge"]::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px);background-size:100% 4px;opacity:.16;z-index:2000}
+
+@keyframes cyberEntry{0%{transform:translateY(10px) scale(.98);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes cyberFocus{0%,100%{box-shadow:0 0 30px rgba(157,76,255,.28),0 14px 40px rgba(0,72,180,.22)}50%{box-shadow:0 0 34px rgba(157,76,255,.32),0 16px 46px rgba(0,72,180,.26)}}
+@keyframes cyberPulse{0%{transform:translateY(0)}50%{transform:translateY(-1px)}100%{transform:translateY(0)}}
+@keyframes cyberGlow{0%,100%{box-shadow:0 0 30px rgba(157,76,255,.25)}50%{box-shadow:0 0 40px rgba(53,213,255,.24)}}
+@keyframes cyberNotif{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(-2px);opacity:.95}}
+@keyframes cyberBar{0%,100%{background:rgba(11,8,20,.88)}50%{background:rgba(15,10,35,.9)}}
+@keyframes pixelOpen{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes pixelPulse{0%{transform:translateY(0)}100%{transform:translateY(-2px)}}
+@keyframes pixelHover{0%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+@keyframes terminalBoot{0%{transform:scale(.96);opacity:0}70%{transform:scale(1.02);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes terminalPulse{0%,100%{box-shadow:0 0 28px rgba(0,255,0,.2),0 0 0 1px rgba(110,255,108,.18)}50%{box-shadow:0 0 34px rgba(0,255,0,.26),0 0 0 1px rgba(110,255,108,.22)}}
+@keyframes terminalBlink{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes terminalFade{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes terminalStatus{0%,100%{border-color:#0b5f0b}50%{border-color:#4dff8c}}
+@keyframes warpEntry{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes starPulse{0%,100%{box-shadow:0 0 34px rgba(77,220,255,.2),0 0 0 1px rgba(139,102,255,.16)}50%{box-shadow:0 0 40px rgba(77,220,255,.28),0 0 0 1px rgba(139,102,255,.2)}}
+@keyframes starTwinkle{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes nebulaDrift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes nebulaFlow{0%{box-shadow:0 0 20px rgba(77,220,255,.1)}50%{box-shadow:0 0 24px rgba(77,220,255,.14)}100%{box-shadow:0 0 20px rgba(77,220,255,.1)}}
+@keyframes oceanFlow{0%{box-shadow:0 0 18px rgba(34,255,221,.12)}50%{box-shadow:0 0 22px rgba(34,255,221,.16)}100%{box-shadow:0 0 18px rgba(34,255,221,.12)}}
+@keyframes waveIn{0%{transform:translateY(12px) scale(.98);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes bioGlow{0%,100%{box-shadow:0 0 32px rgba(34,255,221,.2),0 0 0 1px rgba(69,217,255,.18)}50%{box-shadow:0 0 38px rgba(34,255,221,.26),0 0 0 1px rgba(69,217,255,.22)}}
+@keyframes bioPulse{0%{transform:translateY(0)}100%{transform:translateY(-2px)}}
+@keyframes prismShift{0%{box-shadow:0 0 20px rgba(161,140,255,.1)}50%{box-shadow:0 0 24px rgba(161,140,255,.14)}100%{box-shadow:0 0 20px rgba(161,140,255,.1)}}
+@keyframes crystalReveal{0%{transform:translateY(12px) scale(.98);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes gemPulse{0%,100%{box-shadow:0 0 34px rgba(161,140,255,.2),0 0 0 1px rgba(102,210,255,.18)}50%{box-shadow:0 0 42px rgba(161,140,255,.28),0 0 0 1px rgba(102,210,255,.22)}}
+@keyframes lightRefract{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes hazardShift{0%,100%{border-top-color:rgba(212,159,30,.28)}50%{border-top-color:rgba(255,176,69,.4)}}
+@keyframes metalSlide{0%{transform:translateX(-8px);opacity:0}100%{transform:translateX(0);opacity:1}}
+@keyframes grungeSpark{0%,100%{box-shadow:0 0 24px rgba(212,159,30,.22),0 0 0 2px rgba(170,120,20,.18)}50%{box-shadow:0 0 28px rgba(212,159,30,.28),0 0 0 2px rgba(170,120,20,.22)}}
+
+/* Glass particle canvas */
+#glassParticles{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;opacity:0;transition:opacity .5s}
 
 html,body{background:var(--bg);color:var(--text)}
 
@@ -342,7 +607,7 @@ html,body{background:var(--bg);color:var(--text)}
 .edit-cancel-btn{background:var(--border2);color:var(--text3)}
 
 /* Toast */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);color:var(--text);padding:10px 20px;border-radius:8px;font-size:13px;z-index:100;opacity:0;transition:all .3s ease;border:1px solid var(--border2);box-shadow:0 4px 16px rgba(0,0,0,.4);pointer-events:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);color:var(--text);padding:10px 20px;border-radius:8px;font-size:13px;z-index:99999;opacity:0;transition:all .3s ease;border:1px solid var(--border2);box-shadow:0 4px 16px rgba(0,0,0,.4);pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* Reply preview bar */
@@ -853,11 +1118,11 @@ summary{font-size:calc(13px * var(--fs-scale))}
 .vc-btn-video.active{background:#e04040}
 .vc-btn-hangup{background:#e04040;width:56px;height:56px;font-size:24px}
 .vc-btn-hangup:hover{background:#c62828}
-.vc-status{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,.7);font-size:15px;font-weight:600;text-align:center;z-index:3;pointer-events:none}
+.vc-status{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--text3,rgba(255,255,255,.7));font-size:15px;font-weight:600;text-align:center;z-index:3;pointer-events:none}
 .vc-remote-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:4;pointer-events:none;background:rgba(0,0,0,.75)}
 .vc-remote-overlay.visible{display:flex}
 .vc-remote-overlay-icon{font-size:48px;opacity:.7}
-.vc-remote-overlay-text{font-size:16px;font-weight:600;color:rgba(255,255,255,.8);text-align:center}
+.vc-remote-overlay-text{font-size:16px;font-weight:600;color:var(--text2,rgba(255,255,255,.8));text-align:center}
 .vc-remote-mute-badge{position:absolute;top:40px;right:12px;display:none;align-items:center;gap:5px;background:rgba(0,0,0,.7);border-radius:20px;padding:5px 12px;z-index:4;pointer-events:none}
 .vc-remote-mute-badge.visible{display:flex}
 .vc-remote-mute-badge svg{opacity:.8}
@@ -949,6 +1214,14 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <button class="lock-appeal-btn" id="lockAppealBtn">Submit Appeal</button>
       <div class="lock-appeal-sent" id="lockAppealSent" style="display:none">Appeal submitted!</div>
     </div>
+    <button class="lock-appeal-btn" id="lockRequestToggle" style="margin-top:12px;width:auto;padding:6px 20px;background:linear-gradient(135deg,#2e7d32,#1b5e20)">Request an Account</button>
+    <div class="lock-appeal-area" id="lockRequestArea" style="display:none">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;text-align:center;position:relative">Please use your real name. Your request will be reviewed by an admin.<button class="lock-appeal-close" id="lockRequestClose" style="top:50%;transform:translateY(-50%);right:-2px">&times;</button></div>
+      <input type="text" id="lockRequestName" class="lock-input" placeholder="Your real name" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <input type="text" id="lockRequestPasscode" class="lock-input" placeholder="Choose a passcode" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <button class="lock-appeal-btn" id="lockRequestBtn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Submit Request</button>
+      <div class="lock-appeal-sent" id="lockRequestSent" style="display:none">Account request submitted. Waiting for Admin review.</div>
+    </div>
   </div>
   <div class="lock-branding">DocOS</div>
 </div>
@@ -965,7 +1238,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
         <div class="icon-label" id="iconLabel-settings">Settings</div>
       </div>
       <div class="desktop-icon" data-app="mod" id="modDesktopIcon" ondblclick="openApp('mod')" onclick="if(window.innerWidth<=768)openApp('mod')" style="left:10px;top:310px;display:none">
-        <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128736;<span id="modIconBadge" style="display:none;position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:#f44336;color:#fff;font-size:10px;font-weight:700;text-align:center;line-height:18px;padding:0 4px;box-shadow:0 2px 6px rgba(0,0,0,.4)"></span></div>
+        <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128736;<div id="modIconBadgeStack" style="position:absolute;top:-4px;right:-6px;display:flex;flex-direction:column;gap:2px;align-items:flex-end"><span id="modBadgeAcctReq" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#66bb6a"></span><span id="modBadgeAppeals" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#ff9800"></span><span id="modBadgeRecos" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#42a5f5"></span></div></div>
         <div class="icon-label" id="iconLabel-mod">Mod Panel</div>
       </div>
       <div class="desktop-icon" data-app="videocall" ondblclick="openApp('videocall')" onclick="if(window.innerWidth<=768)openApp('videocall')" style="left:10px;top:210px">
@@ -976,6 +1249,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
         <div class="icon-img" style="background:linear-gradient(135deg,#7c4dff,#536dfe)">&#128295;</div>
         <div class="icon-label" id="iconLabel-appdesigner">App Manager</div>
       </div>
+
       <div class="desktop-icon" data-app="appstore" ondblclick="openApp('appstore')" onclick="if(window.innerWidth<=768)openApp('appstore')" style="left:10px;top:610px">
         <div class="icon-img" style="background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7)"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
         <div class="icon-label" id="iconLabel-appstore">App Store</div>
@@ -1008,7 +1282,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
   <div id="headerThemeSlot" style="margin-left:auto;display:none"></div>
   <div class="header-right" style="display:none">
     <button id="recoButton" style="display:none">&#128172; Recommend</button>
-    <div class="gear-wrapper" id="gearWrapper" style="display:none"><div class="gear-icon" id="gearIcon">&#9881;</div><div class="notif-badge" id="notifBadge">0</div></div>
+    <div class="gear-wrapper" id="gearWrapper" style="display:none"><div class="gear-icon" id="gearIcon">&#9881;</div><div style="display:flex;flex-direction:column;gap:1px;align-items:flex-end;position:absolute;top:-2px;right:-8px"><div class="notif-badge" id="notifBadgeAcctReq" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeAppeals" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeRecos" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div></div></div>
     <button id="logoutButton" style="display:none">Logout</button>
   </div>
 </div>
@@ -1087,10 +1361,13 @@ summary{font-size:calc(13px * var(--fs-scale))}
     </details>
     <details>
       <summary><span class="section-icon">&#128172;</span> Feedback <span id="feedbackBadge" style="display:none;min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:4px;vertical-align:middle"></span></summary>
-      <label style="color:var(--text5)">Appeals</label>
+      <label style="color:#66bb6a;font-weight:600">Account Requests <span id="acctReqBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
+      <div id="acctReqList"></div>
+      <div class="section-divider"></div>
+      <label style="color:#ff9800;font-weight:600">Appeals <span id="appealsBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
       <div id="appealsList"></div>
       <div class="section-divider"></div>
-      <label style="color:var(--accent)">Recommendations</label>
+      <label style="color:#42a5f5;font-weight:600">Recommendations <span id="recosBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
       <div id="recoList"></div>
     </details>
     <details id="userMgmtSection">
@@ -1109,6 +1386,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <button id="lockChatButton" style="background:linear-gradient(135deg,var(--orange),#bf360c)">Lock Chat</button>
       <button style="background:linear-gradient(135deg,#c62828,#b71c1c)" id="deleteAllChatButton">Delete All Chat</button>
       <button style="background:linear-gradient(135deg,#555,#444)" id="chatCacheButton">&#128451; Chat Cache</button>
+      <button style="background:linear-gradient(135deg,#37474f,#263238)" id="deviceIdsButton">&#128274; Device IDs</button>
       <div class="section-divider"></div>
       <label>&#9881; Settings</label>
       <div class="toggle-row">
@@ -1123,9 +1401,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <label>&#128218; Audit Log</label>
       <button id="clearAuditLogBtn" class="btn-clear" style="margin-bottom:4px">Clear Audit Log</button>
       <div class="audit-log-list" id="auditLogList"></div>
-      <div class="section-divider"></div>
-      <label>&#128279; Alt Accounts</label>
-      <div id="altAccountList" style="margin-top:6px"></div>
+
     </details>
   </div>
 </div>
@@ -1261,11 +1537,11 @@ function _doShowNotification(title,body,tag){
    ============================== */
 let currentRole=null,currentDisplayName=null;
 let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={};
-let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={};
+let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},bannedDevices={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
-let deviceFingerprints={};
+
 let profilePictures={};
-let pendingAppeals={},pendingRecos={};
+let pendingAppeals={},pendingRecos={},pendingAccountRequests={},deniedAccountRequests={};
 let rateLimitEnabled=false;
 let auditLog={};
 
@@ -1282,12 +1558,86 @@ let typingTimeout=null;
 /* ==============================
    THEME
    ============================== */
-const THEMES=['dark','light','amoled','solarized','rose'];
+const THEMES=['dark','light','amoled','solarized','rose','glass','neon-cyberpunk','retro-pixel','hacker-terminal','space-galaxy','bioluminescent-ocean','crystal-cavern','industrial-grunge'];
+
+/* Text color override — sets all text CSS vars at once */
+function _applyTextColor(hex){
+  var s=document.body.style;
+  s.setProperty('--text',hex);
+  s.setProperty('--text2',hex);
+  s.setProperty('--text3',hex);
+  s.setProperty('--text4',hex);
+  s.setProperty('--text5',hex);
+  s.setProperty('--text6',hex);
+  s.setProperty('--text7',hex);
+  s.setProperty('--chat-color',hex);
+  /* ensure icon emoji colors are not overridden */
+  document.querySelectorAll('.desktop-icon .icon-img').forEach(function(el){el.style.color=''});
+}
+function _removeTextColor(){
+  var s=document.body.style;
+  ['--text','--text2','--text3','--text4','--text5','--text6','--text7','--chat-color'].forEach(function(v){s.removeProperty(v)});
+}
+
 function applyTheme(t){
   document.body.setAttribute('data-theme',t);
   if(currentRole)localStorage.setItem('docosTheme_'+currentRole,t);
   else localStorage.setItem('docosTheme',t);
+  _glassParticles(t==='glass');
 }
+
+/* Glass theme: particle reflections */
+var _glassCanvas=null,_glassCtx=null,_glassRAF=null,_glassParticlesArr=[];
+function _glassParticles(on){
+  if(!on){
+    if(_glassRAF){cancelAnimationFrame(_glassRAF);_glassRAF=null}
+    var c=document.getElementById('glassParticles');if(c)c.style.opacity='0';
+    return;
+  }
+  if(!_glassCanvas){
+    _glassCanvas=document.createElement('canvas');_glassCanvas.id='glassParticles';
+    _glassCanvas.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;opacity:0;transition:opacity .5s';
+    document.body.insertBefore(_glassCanvas,document.body.firstChild);
+    _glassCtx=_glassCanvas.getContext('2d');
+  }
+  _glassCanvas.width=window.innerWidth;_glassCanvas.height=window.innerHeight;
+  _glassCanvas.style.opacity='1';
+  if(_glassParticlesArr.length===0){
+    for(var i=0;i<40;i++){
+      _glassParticlesArr.push({
+        x:Math.random()*_glassCanvas.width,y:Math.random()*_glassCanvas.height,
+        r:Math.random()*3+1,dx:(Math.random()-0.5)*0.25,dy:(Math.random()-0.5)*0.15,
+        a:Math.random()*0.25+0.08,
+        hue:190+Math.random()*40
+      });
+    }
+  }
+  function draw(){
+    _glassCtx.clearRect(0,0,_glassCanvas.width,_glassCanvas.height);
+    _glassParticlesArr.forEach(function(p){
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0)p.x=_glassCanvas.width;if(p.x>_glassCanvas.width)p.x=0;
+      if(p.y<0)p.y=_glassCanvas.height;if(p.y>_glassCanvas.height)p.y=0;
+      _glassCtx.beginPath();
+      _glassCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      _glassCtx.fillStyle='hsla('+p.hue+',80%,80%,'+p.a+')';
+      _glassCtx.fill();
+      _glassCtx.beginPath();
+      _glassCtx.arc(p.x,p.y,p.r*3,0,Math.PI*2);
+      var g=_glassCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+      g.addColorStop(0,'hsla('+p.hue+',80%,80%,'+p.a*0.3+')');g.addColorStop(1,'transparent');
+      _glassCtx.fillStyle=g;_glassCtx.fill();
+    });
+    _glassRAF=requestAnimationFrame(draw);
+  }
+  if(!_glassRAF)draw();
+}
+window.addEventListener('resize',function(){
+  if(_glassCanvas&&document.body.dataset.theme==='glass'){
+    _glassCanvas.width=window.innerWidth;_glassCanvas.height=window.innerHeight;
+  }
+});
+
 /* Default to dark on page load (lock screen); per-user theme is applied on login */
 
 /* ==============================
@@ -1423,18 +1773,20 @@ document.getElementById('clearAuditLogBtn').addEventListener('click',function(){
 var _renderUserMgmtTimer=null;
 function queueRenderUserMgmt(){clearTimeout(_renderUserMgmtTimer);_renderUserMgmtTimer=setTimeout(renderUserMgmt,50)}
 db.ref('validPasswords').on('value',s=>{validPasswords=s.val()||{};queueRenderUserMgmt()});
-db.ref('deviceFingerprints').on('value',s=>{deviceFingerprints=s.val()||{};renderAltAccounts()});
+
 db.ref('roleDisplayNames').on('value',s=>{roleDisplayNames=s.val()||{};rebuildUserDropdown();queueRenderUserMgmt()});
+var _adminUsersInitialized=false;
 db.ref('adminUsers').on('value',s=>{
   var oldAdminUsers=adminUsers;
   adminUsers=s.val()||{};
   queueRenderUserMgmt();
-  if(currentRole&&currentRole!=='Admin'){
+  if(_adminUsersInitialized&&currentRole&&currentRole!=='Admin'){
     var wasAdmin=oldAdminUsers[currentRole]===true;
     var isNowAdmin=adminUsers[currentRole]===true;
     if(wasAdmin&&!isNowAdmin)handleRoleChange('demoted');
     else if(!wasAdmin&&isNowAdmin)handleRoleChange('promoted');
   }
+  _adminUsersInitialized=true;
   var allRoles=Object.keys(roleDisplayNames);
   allRoles.forEach(function(r){
     if(r==='Admin')return;
@@ -1448,14 +1800,17 @@ db.ref('adminUsers').on('value',s=>{
   });
 });
 db.ref('profilePictures').on('value',s=>{profilePictures=s.val()||{};renderOnlineUsers();updateTaskbarAvatar();updateLockAvatar();if(typeof window._settingsPfpRefresh==='function')window._settingsPfpRefresh();db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})})});
-db.ref('mutedRoles').on('value',s=>{mutedRoles=s.val()||{};renderMutedList();renderOnlineUsers()});
+db.ref('mutedRoles').on('value',s=>{mutedRoles=s.val()||{};renderMutedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt()});
 db.ref('onlineUsers').on('value',s=>{onlineUsers=s.val()||{};renderOnlineUsers();if(typeof _vcRenderUsers==='function'&&!_vcInCall&&!_gcInGroupCall)_vcRenderUsers();});
 db.ref('bannedRoles').on('value',s=>{
-  bannedRoles=s.val()||{};renderBannedList();renderOnlineUsers();
+  bannedRoles=s.val()||{};renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
     if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}showToast('You have been banned.');logout()}
   }
+  Object.keys(bannedRoles).forEach(function(role){
+    if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
+  });
 });
 var _lastMsgTimestamp=0,_chatInitialized=false;
 var _unreadChatCount=0;
@@ -1645,6 +2000,14 @@ db.ref('chatLocked').on('value',snap=>{
 });
 db.ref('deletedMessages').on('value',snap=>{deletedMessages=snap.val()||{}});
 db.ref('deniedAppeals').on('value',snap=>{deniedAppeals=snap.val()||{}});
+db.ref('bannedDevices').on('value',snap=>{bannedDevices=snap.val()||{}});
+var deviceFingerprints={};
+db.ref('deviceFingerprints').on('value',snap=>{deviceFingerprints=snap.val()||{}});
+var APPEAL_COOLDOWN_MS=86400000;
+function appealCooldownRemaining(role){
+  var d=deniedAppeals[role];if(!d||!d.timestamp)return 0;
+  var left=d.timestamp+APPEAL_COOLDOWN_MS-Date.now();return left>0?left:0;
+}
 var _prevAppealCount=0,_prevRecoCount=0,_modNotifInit=false;
 db.ref('appeals').on('value',snap=>{
   var prev=Object.keys(pendingAppeals).length;
@@ -1664,7 +2027,45 @@ db.ref('recommendations').on('value',snap=>{
     if(newest)showToast('New recommendation from '+(newest.name||newest.role));
   }
 });
+db.ref('pendingAccountRequests').on('value',snap=>{
+  var prev=Object.keys(pendingAccountRequests).length;
+  pendingAccountRequests=snap.val()||{};renderAccountReqs();updateNotifBadge();
+  var cur=Object.keys(pendingAccountRequests).length;
+  if(_modNotifInit&&cur>prev&&(currentRole==='Admin'||currentRole==='Owner')){
+    var newest=null;Object.keys(pendingAccountRequests).forEach(function(k){var a=pendingAccountRequests[k];if(!newest||a.timestamp>newest.timestamp)newest=a});
+    if(newest)showToast('New account request from '+(newest.name||'Unknown'));
+  }
+});
+db.ref('deniedAccountRequests').on('value',snap=>{deniedAccountRequests=snap.val()||{}});
 setTimeout(function(){_modNotifInit=true},3000);
+
+/* ==============================
+   ACCOUNT REQUESTS
+   ============================== */
+document.getElementById('lockRequestToggle').addEventListener('click',function(){
+  var fp=getDeviceFingerprint();
+  if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('This device is banned from creating accounts (due to previous banned accounts using this same device).');return}
+  document.getElementById('lockRequestArea').style.display='block';this.style.display='none';
+});
+document.getElementById('lockRequestClose').addEventListener('click',function(){
+  document.getElementById('lockRequestArea').style.display='none';document.getElementById('lockRequestToggle').style.display='block';
+});
+document.getElementById('lockRequestBtn').addEventListener('click',function(){
+  var fp=getDeviceFingerprint();
+  if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('Account requests from this device are restricted. Please ask the Owner to create an account for you.');return}
+  var name=document.getElementById('lockRequestName').value.trim();
+  var passcode=document.getElementById('lockRequestPasscode').value.trim();
+  if(!name||!passcode){showToast('Please fill in your name and a passcode.');return}
+  if(validPasswords[passcode]){showToast('That passcode is already in use. Choose a different one.');return}
+  var alreadyPending=false;
+  Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===passcode)alreadyPending=true});
+  if(alreadyPending){showToast('A request with that passcode is already pending.');return}
+  db.ref('pendingAccountRequests').push({name:name,passcode:passcode,timestamp:Date.now()}).then(function(){
+    document.getElementById('lockRequestSent').style.display='block';
+    document.getElementById('lockRequestName').value='';
+    document.getElementById('lockRequestPasscode').value='';
+  }).catch(console.error);
+});
 
 /* ==============================
    HELPERS
@@ -1675,7 +2076,16 @@ function linkify(str){var urlRe=/(https?:\/\/[^\s<]+)/g;return escHtml(str).repl
 function rebuildUserDropdown(){
   userSelect.innerHTML='<option value="">-- Select role --</option>';
   Object.keys(roleDisplayNames).forEach(role=>{
-    const opt=document.createElement('option');opt.value=role;opt.textContent=roleDisplayNames[role]||role;userSelect.appendChild(opt);
+    const opt=document.createElement('option');opt.value=role;
+    var label=roleDisplayNames[role]||role;
+    var tags=[];
+    if(isBanned(role))tags.push('Banned');
+    if(isMuted(role))tags.push('Muted');
+    if(tags.length)label+=' ('+tags.join(', ')+')';
+    opt.textContent=label;
+    if(isBanned(role))opt.style.color='#f44336';
+    else if(isMuted(role))opt.style.color='#ff9800';
+    userSelect.appendChild(opt);
   });
 }
 function getDurationMs(amount,unit){
@@ -1698,7 +2108,9 @@ function isBanned(role){
 }
 function isAnyAdmin(){return currentRole==='Admin'||(currentRole&&adminUsers[currentRole]===true)}
 
+var _roleNotifDismissed={};
 function handleRoleChange(type){
+  if(_roleNotifDismissed[currentRole]===type)return;
   var isAdmin=currentRole==='Admin'||adminUsers[currentRole]===true;
   var roleTag=currentRole==='Admin'?'Owner':(isAdmin?'Admin':'Member');
   roleLabel.textContent=currentDisplayName+' ('+roleTag+')';
@@ -1725,6 +2137,7 @@ function handleRoleChange(type){
 }
 
 function showRoleNotification(type,message){
+  if(_roleNotifDismissed[currentRole])return;
   var existing=document.querySelector('.role-notify-overlay');if(existing)existing.remove();
   var overlay=document.createElement('div');overlay.className='role-notify-overlay';
   overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
@@ -1732,7 +2145,7 @@ function showRoleNotification(type,message){
   popup.style.cssText='position:relative;background:linear-gradient(135deg,var(--bg4),var(--bg5));border:1px solid '+(type==='promoted'?'var(--accent)':'#c62828')+';border-radius:14px;padding:28px 32px 24px;width:400px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8);text-align:center';
   var closeBtn=document.createElement('button');
   closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px;transition:all .2s';
-  closeBtn.innerHTML='&times;';closeBtn.onclick=function(){overlay.remove()};
+  closeBtn.innerHTML='&times;';closeBtn.onclick=function(){overlay.remove();_roleNotifDismissed[currentRole]=type;};
   var icon=document.createElement('div');icon.style.cssText='font-size:48px;margin-bottom:12px';
   icon.textContent=type==='promoted'?'\u2B06\uFE0F':'\u2B07\uFE0F';
   var h3=document.createElement('h3');
@@ -1741,7 +2154,7 @@ function showRoleNotification(type,message){
   var p=document.createElement('p');p.style.cssText='color:var(--text3);font-size:14px;line-height:1.5';p.textContent=message;
   var okBtn=document.createElement('button');
   okBtn.style.cssText='margin-top:16px;padding:8px 32px;border-radius:8px;border:none;background:linear-gradient(135deg,'+(type==='promoted'?'var(--accent),var(--accent2)':'#c62828,#b71c1c')+');color:#fff;font-weight:700;font-size:13px;cursor:pointer;transition:opacity .2s';
-  okBtn.textContent='OK';okBtn.onclick=function(){overlay.remove()};
+  okBtn.textContent='OK';okBtn.onclick=function(){overlay.remove();_roleNotifDismissed[currentRole]=type;};
   popup.appendChild(closeBtn);popup.appendChild(icon);popup.appendChild(h3);popup.appendChild(p);popup.appendChild(okBtn);
   overlay.appendChild(popup);document.body.appendChild(overlay);
 }
@@ -1847,7 +2260,11 @@ function loginAsRole(role){
   document.getElementById('taskbarRecoBtn').style.display='flex';
   document.getElementById('taskbarLogoutBtn').style.display='flex';
   document.getElementById('headerThemeSlot').style.display='block';
-  lockScreen.classList.add('hidden');desktop.classList.remove('hidden');
+  function _revealDesktop(){
+    _amApplyHiddenApps();
+    lockScreen.classList.add('hidden');desktop.classList.remove('hidden');
+  }
+  if(_amDataReady){_revealDesktop();}else{_amPendingLogin=_revealDesktop;setTimeout(function(){if(_amPendingLogin){_amPendingLogin();_amPendingLogin=null}},1500);}
   chatScreen.style.display='flex';
   document.getElementById('onlineBar').style.display='flex';
   document.getElementById('lockAppealToggle').style.display='none';
@@ -1857,7 +2274,8 @@ function loginAsRole(role){
   presRef.set({name:currentDisplayName,timestamp:Date.now()});presRef.onDisconnect().remove();
   var deviceId=getDeviceFingerprint();
   localStorage.setItem('docosDeviceId',deviceId);localStorage.setItem('docosRole',role);
-  db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
+  if(!EXCLUDED_DEVICES[deviceId])db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
+
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
   if(chatLocked&&!isAdmin){document.querySelector('.input-row').classList.add('locked');messageInput.placeholder='Chat is locked...';}
   else{document.querySelector('.input-row').classList.remove('locked');messageInput.placeholder='Type a message...';messageInput.focus();}
@@ -1880,6 +2298,7 @@ function loginAsRole(role){
   if(typeof setupUserAppsListener==='function')setupUserAppsListener();
   if(typeof _fsSetupListener==='function')_fsSetupListener();
   if(typeof restoreDesktopConfig==='function')restoreDesktopConfig();
+
   if(typeof _vcListenForIncomingCalls==='function')_vcListenForIncomingCalls();
   setTimeout(function(){if(typeof showPendingAnnouncements==='function')showPendingAnnouncements()},800);
   var tbUser=document.getElementById('taskbarUser');
@@ -1902,8 +2321,15 @@ function loginAsRole(role){
 function login(){
   const pass=passwordInput.value.trim();loginError.textContent='';
   const role=validPasswords[pass];
-  if(!role){loginError.textContent='Invalid password.';return}
+  if(!role){
+    var isPending=false;Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===pass)isPending=true});
+    if(isPending){loginError.textContent='Account not reviewed yet.';loginError.style.color='#ff9800';return}
+    var isDenied=false;Object.keys(deniedAccountRequests).forEach(function(k){if(deniedAccountRequests[k].passcode===pass)isDenied=true});
+    if(isDenied){loginError.textContent='Account creation denied.';loginError.style.color='#e53935';return}
+    loginError.textContent='Invalid password.';loginError.style.color='';return}
   if(isBanned(role)){
+    var fp=getDeviceFingerprint();
+    if(!EXCLUDED_DEVICES[fp])db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
     const remaining=bannedRoles[role]-Date.now();
     loginError.textContent='You are banned for '+formatRemaining(remaining)+'.';
     document.getElementById('lockAppealToggle').style.display='block';
@@ -1911,7 +2337,14 @@ function login(){
     document.getElementById('lockAppealArea').style.display='none';
     document.getElementById('lockAppealSent').style.display='none';
     document.getElementById('lockAppealText').value='';
-    document.getElementById('lockAppealDenied').style.display=deniedAppeals[role]?'block':'none';
+    var banCooldown=appealCooldownRemaining(role);
+    if(banCooldown>0){
+      document.getElementById('lockAppealDenied').style.display='block';
+      document.getElementById('lockAppealDenied').textContent='Your appeal was denied. 1 day cooldown before you can appeal again.';
+      document.getElementById('lockAppealToggle').style.display='none';
+    }else{
+      document.getElementById('lockAppealDenied').style.display='none';
+    }
     return;
   }
   loginAsRole(role);
@@ -1939,6 +2372,7 @@ document.getElementById('lockEyeToggle').addEventListener('click',function(){
 passwordInput.addEventListener('keydown',e=>{if(e.key==='Enter')login()});
 
 function logout(){
+  _roleNotifDismissed={};
   _forceSaveLastSeen();_chatIsOpen=false;
   _lastSeenTs=0;_lastSeenInserted=false;
   _notificationsEnabled=false;
@@ -2002,6 +2436,7 @@ function muteUser(){
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(role==='Admin'&&currentRole!=='Admin'){showToast('You cannot mute the Owner.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot mute another admin.');return}
+  if(isMuted(role)){showToast((roleDisplayNames[role]||role)+' is already muted.');return}
   const displayName=roleDisplayNames[role]||role;
   db.ref('mutedRoles').child(role).set(Date.now()+dur.ms).then(()=>{
     showToast('Muted '+displayName+' for '+dur.label+'.');
@@ -2010,15 +2445,35 @@ function muteUser(){
     durationInput.value='';
   }).catch(console.error);
 }
+var EXCLUDED_DEVICES={'3909E9BF':true};
+
+db.ref('bannedDevices/3909E9BF').remove();
+db.ref('deviceFingerprints').once('value',function(snap){
+  var all=snap.val();if(!all)return;
+  Object.keys(all).forEach(function(role){
+    if(all[role]&&all[role]['3909E9BF'])db.ref('deviceFingerprints/'+role+'/3909E9BF').remove();
+  });
+});
+function banAllLinkedDevices(role){
+  db.ref('deviceFingerprints/'+role).once('value',function(snap){
+    var fps=snap.val();if(!fps)return;
+    Object.keys(fps).forEach(function(fp){
+      if(EXCLUDED_DEVICES[fp])return;
+      db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
+    });
+  });
+}
 function banUser(){
   if(!isAnyAdmin())return;
   const role=userSelect.value,dur=getSelectedDuration();
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot ban another admin.');return}
+  if(isBanned(role)){showToast((roleDisplayNames[role]||role)+' is already banned.');return}
   if(role==='Admin'&&currentRole!=='Admin'){
     var punishedRole=currentRole,punishedName=currentDisplayName||currentRole;
     skipAutoKick=true;showDemotePopup();
     db.ref('bannedRoles').child(punishedRole).set(Date.now()+3600000);
+    banAllLinkedDevices(punishedRole);
     db.ref('adminUsers').child(punishedRole).remove();
     db.ref('chatMessages').push({text:punishedName+' tried to ban the Owner and was demoted to Member and banned for 1 hour.',senderRole:'System',senderName:'System',timestamp:Date.now()});
     logAudit('demote',punishedName+' demoted & banned for trying to ban Owner');
@@ -2026,6 +2481,7 @@ function banUser(){
   }
   const displayName2=roleDisplayNames[role]||role;
   db.ref('bannedRoles').child(role).set(Date.now()+dur.ms).then(()=>{
+    banAllLinkedDevices(role);
     showToast('Banned '+displayName2+' for '+dur.label+'.');
     db.ref('chatMessages').push({text:displayName2+' was banned for '+dur.label+'.',senderRole:'System',senderName:'System',timestamp:Date.now()});
     logAudit('ban','Banned '+displayName2+' for '+dur.label);
@@ -2072,24 +2528,17 @@ function renderBannedList(){
   });
   if(!mutedListDiv.hasChildNodes()&&!bannedListDiv.hasChildNodes())bannedListDiv.innerHTML='<span style="color:var(--text7);font-size:12px">None</span>';
 }
-function renderAltAccounts(){
-  var div=document.getElementById('altAccountList');if(!div)return;div.innerHTML='';
-  var fpToRoles={};
-  Object.keys(deviceFingerprints).forEach(role=>{var fps=deviceFingerprints[role];Object.keys(fps).forEach(fp=>{if(!fpToRoles[fp])fpToRoles[fp]=[];if(fpToRoles[fp].indexOf(role)===-1)fpToRoles[fp].push(role)})});
-  var groups=Object.keys(fpToRoles).filter(fp=>fpToRoles[fp].length>=2).map(fp=>({fp,roles:fpToRoles[fp]}));
-  if(!groups.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No alts detected</span>';return}
-  groups.forEach(g=>{
-    var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='flex-start';item.style.gap='3px';
-    var names=g.roles.map(r=>'<span style="color:#ff9800;font-weight:700">'+(roleDisplayNames[r]||r)+'</span>').join(' <span style="color:var(--text7)">&amp;</span> ');
-    item.innerHTML='<div style="font-size:12px">🔗 '+names+'</div><div style="font-size:10px;color:var(--text7)">Same device · ID: <span style="font-family:monospace;color:var(--text6)">'+g.fp+'</span></div>';
-    div.appendChild(item);
-  });
-}
 
 function triggerMuteFeedback(role){
   const remaining=mutedRoles[role]-Date.now();
   muteWarning.textContent='You are muted for '+formatRemaining(remaining)+'.';
-  document.getElementById('muteAppealRow').style.display='flex';
+  var cooldown=appealCooldownRemaining(role);
+  if(cooldown>0){
+    document.getElementById('muteAppealRow').style.display='none';
+    muteWarning.textContent+=' Your appeal was denied. 1 day cooldown before you can appeal again.';
+  }else{
+    document.getElementById('muteAppealRow').style.display='flex';
+  }
   messageInput.classList.add('shake');sendButton.classList.add('shake');
   setTimeout(()=>{messageInput.classList.remove('shake');sendButton.classList.remove('shake')},300);
 }
@@ -2396,7 +2845,7 @@ function renderMessages(data){
 
     wrapper.appendChild(main);
 
-    if(isAnyAdmin()&&msg.senderRole!=='System'){
+    if(isAnyAdmin()&&(msg.senderRole!=='System'||currentRole==='Admin')){
       const delBtn=document.createElement('button');delBtn.className='delete-btn';delBtn.textContent='Delete';
       delBtn.onclick=()=>deleteMessage(key);wrapper.appendChild(delBtn);
     }
@@ -2480,6 +2929,7 @@ document.getElementById('lockAppealToggle').addEventListener('click',function(){
 document.getElementById('lockAppealBtn').addEventListener('click',()=>{
   const area=document.getElementById('lockAppealArea'),role=area.dataset.role,text=document.getElementById('lockAppealText').value.trim();
   if(!text||!role){showToast('Please write your appeal.');return}
+  var cd=appealCooldownRemaining(role);if(cd>0){showToast('Your appeal was denied. 1 day cooldown before you can appeal again.');return}
   const displayName=roleDisplayNames[role]||role;
   db.ref('deniedAppeals').child(role).remove();
   db.ref('appeals').push({role,name:displayName,type:'ban',reason:text,timestamp:Date.now()}).then(()=>{
@@ -2487,6 +2937,7 @@ document.getElementById('lockAppealBtn').addEventListener('click',()=>{
   }).catch(console.error);
 });
 document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
+  var cd=appealCooldownRemaining(currentRole);if(cd>0){showToast('Your appeal was denied. 1 day cooldown before you can appeal again.');return}
   const text=document.getElementById('muteAppealInput').value.trim();if(!text||!currentRole){showToast('Please write your appeal.');return}
   db.ref('appeals').push({role:currentRole,name:currentDisplayName,type:'mute',reason:text,timestamp:Date.now()}).then(()=>{
     showToast('Appeal submitted!');document.getElementById('muteAppealRow').style.display='none';document.getElementById('muteAppealInput').value='';
@@ -2496,18 +2947,31 @@ document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
 function updateNotifBadge(){
   var appealCount=Object.keys(pendingAppeals).length;
   var recoCount=Object.keys(pendingRecos).length;
-  const count=appealCount+recoCount;
-  const badge=document.getElementById('notifBadge');
-  if(badge){if(count>0){badge.style.display='flex';badge.textContent=count}else{badge.style.display='none'}}
-  /* Update Mod Panel desktop icon badge */
-  var modBadge=document.getElementById('modIconBadge');
-  if(modBadge){
-    if(count>0){modBadge.style.display='inline-block';modBadge.textContent=count}
-    else{modBadge.style.display='none'}
-  }
+  var acctReqCount=Object.keys(pendingAccountRequests).length;
+  const count=appealCount+recoCount+acctReqCount;
+  var nba=document.getElementById('notifBadgeAcctReq');
+  if(nba){if(acctReqCount>0){nba.style.display='inline-block';nba.textContent=acctReqCount}else{nba.style.display='none'}}
+  var nbp=document.getElementById('notifBadgeAppeals');
+  if(nbp){if(appealCount>0){nbp.style.display='inline-block';nbp.textContent=appealCount}else{nbp.style.display='none'}}
+  var nbr=document.getElementById('notifBadgeRecos');
+  if(nbr){if(recoCount>0){nbr.style.display='inline-block';nbr.textContent=recoCount}else{nbr.style.display='none'}}
+  /* Update Mod Panel desktop icon badges (stacked) */
+  var mba=document.getElementById('modBadgeAcctReq');
+  if(mba){if(acctReqCount>0){mba.style.display='inline-block';mba.textContent=acctReqCount}else{mba.style.display='none'}}
+  var mbp=document.getElementById('modBadgeAppeals');
+  if(mbp){if(appealCount>0){mbp.style.display='inline-block';mbp.textContent=appealCount}else{mbp.style.display='none'}}
+  var mbr=document.getElementById('modBadgeRecos');
+  if(mbr){if(recoCount>0){mbr.style.display='inline-block';mbr.textContent=recoCount}else{mbr.style.display='none'}}
   /* Update Feedback section badges */
   var fb=document.getElementById('feedbackBadge');
   if(fb){if(count>0){fb.style.display='inline-block';fb.textContent=count}else{fb.style.display='none'}}
+  /* Individual feedback type badges */
+  var ab=document.getElementById('appealsBadge');
+  if(ab){if(appealCount>0){ab.style.display='inline-block';ab.textContent=appealCount}else{ab.style.display='none'}}
+  var rb=document.getElementById('recosBadge');
+  if(rb){if(recoCount>0){rb.style.display='inline-block';rb.textContent=recoCount}else{rb.style.display='none'}}
+  var arb=document.getElementById('acctReqBadge');
+  if(arb){if(acctReqCount>0){arb.style.display='inline-block';arb.textContent=acctReqCount}else{arb.style.display='none'}}
 
   /* Update taskbar item badge if Mod Panel window is open */
   var tbItems=document.querySelectorAll('.tb-item[data-app="mod"]');
@@ -2526,10 +2990,43 @@ function updateNotifBadge(){
     }
   });
 }
+function renderAccountReqs(){
+  var div=document.getElementById('acctReqList');if(!div)return;div.innerHTML='';
+  var keys=Object.keys(pendingAccountRequests);
+  if(!keys.length){div.innerHTML='<span style="color:#66bb6a;font-size:12px;opacity:.6">No pending requests</span>';return}
+  keys.forEach(function(key){
+    var req=pendingAccountRequests[key];
+    var item=document.createElement('div');item.className='appeal-item';
+    var meta=document.createElement('div');meta.className='appeal-meta';
+    meta.innerHTML='<strong>'+escHtml(req.name)+'</strong> \u2022 passcode: <span style="font-family:monospace;color:var(--text6)">'+escHtml(req.passcode)+'</span>';
+    var actions=document.createElement('div');actions.className='appeal-actions';
+    var approveBtn=document.createElement('button');approveBtn.style.background='#2e7d32';approveBtn.style.color='#fff';approveBtn.textContent='Approve';
+    approveBtn.onclick=function(){
+      var roleKey='Member_'+Date.now();
+      var updates={};
+      updates['/validPasswords/'+req.passcode]=roleKey;
+      updates['/roleDisplayNames/'+roleKey]=req.name;
+      db.ref().update(updates).then(function(){
+        db.ref('pendingAccountRequests').child(key).remove();
+        showToast('Approved account for '+req.name);
+        logAudit('account','Approved account request for '+req.name);
+      }).catch(console.error);
+    };
+    var denyBtn=document.createElement('button');denyBtn.className='deny-btn';denyBtn.textContent='Deny';
+    denyBtn.onclick=function(){
+      db.ref('pendingAccountRequests').child(key).remove();
+      db.ref('deniedAccountRequests').push({name:req.name,passcode:req.passcode,timestamp:Date.now()});
+      showToast('Denied account request for '+req.name);
+      logAudit('account','Denied account request for '+req.name);
+    };
+    actions.appendChild(approveBtn);actions.appendChild(denyBtn);
+    item.appendChild(meta);item.appendChild(actions);div.appendChild(item);
+  });
+}
 function renderAppeals(){
   const div=document.getElementById('appealsList');if(!div)return;div.innerHTML='';
   const keys=Object.keys(pendingAppeals);
-  if(!keys.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No pending appeals</span>';return}
+  if(!keys.length){div.innerHTML='<span style="color:#ff9800;font-size:12px;opacity:.6">No pending appeals</span>';return}
   keys.forEach(key=>{
     const a=pendingAppeals[key];
     const item=document.createElement('div');item.className='appeal-item';
@@ -2569,7 +3066,7 @@ document.getElementById('taskbarRecoBtn').addEventListener('click',openRecoModal
 function renderRecos(){
   var div=document.getElementById('recoList');if(!div)return;div.innerHTML='';
   var keys=Object.keys(pendingRecos);
-  if(!keys.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No recommendations</span>';return}
+  if(!keys.length){div.innerHTML='<span style="color:#42a5f5;font-size:12px;opacity:.6">No recommendations</span>';return}
   keys.forEach(key=>{
     var r=pendingRecos[key];var item=document.createElement('div');item.className='appeal-item';
     var meta=document.createElement('div');meta.className='appeal-meta';meta.innerHTML='<strong>'+(r.name||r.role)+'</strong> \u2022 Recommendation';
@@ -2614,6 +3111,67 @@ document.getElementById('chatCacheButton').addEventListener('click',function(){
   overlay.appendChild(modal);overlay.onclick=e=>{if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
 });
 
+document.getElementById('deviceIdsButton').addEventListener('click',function(){
+  var existing=document.querySelector('.deviceid-overlay');if(existing){existing.remove();return}
+  var overlay=document.createElement('div');overlay.className='deviceid-overlay';
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+  var modal=document.createElement('div');
+  modal.style.cssText='position:relative;background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:28px 28px 22px;width:500px;max-width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+  var closeBtn=document.createElement('button');
+  closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5,#888);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px';
+  closeBtn.textContent='\u00d7';closeBtn.onclick=function(){overlay.remove()};
+  var title=document.createElement('h3');title.style.cssText='margin:0 0 16px;font-size:16px;font-weight:700;color:var(--text,#eee)';title.textContent='Device IDs';
+  var listDiv=document.createElement('div');
+  var roles=Object.keys(roleDisplayNames);
+  if(!roles.length){listDiv.innerHTML='<span style="color:var(--text7);font-size:12px">No users</span>'}
+  else{
+    roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
+    roles.forEach(function(role){
+      var item=document.createElement('div');
+      item.style.cssText='padding:10px 12px;border-bottom:1px solid var(--border,#333)';
+      var displayName=roleDisplayNames[role]||role;
+      var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+      var header=document.createElement('div');
+      header.innerHTML='<b style="font-size:13px">'+escHtml(displayName)+'</b> <span style="color:var(--text6);font-size:11px">('+roleTag+')</span>';
+      item.appendChild(header);
+      var fps=deviceFingerprints[role];
+      if(fps&&Object.keys(fps).length){
+        Object.keys(fps).forEach(function(fp){
+          var row=document.createElement('div');
+          row.style.cssText='font-size:11px;color:var(--text7);margin-top:4px;display:flex;align-items:center;gap:6px';
+          var isBannedDevice=!!bannedDevices[fp];
+          var label=document.createElement('span');
+          label.style.cssText='font-family:monospace;color:var(--text6);background:var(--bg3,#2a2a3a);padding:2px 6px;border-radius:4px';
+          label.textContent=fp;
+          row.appendChild(label);
+          if(isBannedDevice){
+            var tag=document.createElement('span');
+            tag.style.cssText='color:#f44336;font-weight:700;font-size:10px';
+            tag.textContent='BANNED';
+            row.appendChild(tag);
+          }
+          var lastLogin=fps[fp]&&fps[fp].lastLogin?new Date(fps[fp].lastLogin).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+          if(lastLogin){
+            var time=document.createElement('span');
+            time.style.cssText='color:var(--text7);font-size:10px';
+            time.textContent=lastLogin;
+            row.appendChild(time);
+          }
+          item.appendChild(row);
+        });
+      }else{
+        var noDevices=document.createElement('div');
+        noDevices.style.cssText='font-size:11px;color:var(--text7);margin-top:4px;font-style:italic';
+        noDevices.textContent='No devices recorded';
+        item.appendChild(noDevices);
+      }
+      listDiv.appendChild(item);
+    });
+  }
+  modal.appendChild(closeBtn);modal.appendChild(title);modal.appendChild(listDiv);
+  overlay.appendChild(modal);overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
+});
+
 /* ==============================
    USER MANAGEMENT
    ============================== */
@@ -2621,13 +3179,30 @@ function renderUserMgmt(){
   var div=document.getElementById('userMgmtList');if(!div)return;div.innerHTML='';
   var roleToPass={};Object.keys(validPasswords).forEach(pass=>{roleToPass[validPasswords[pass]]=pass});
   var roles=Object.keys(roleDisplayNames);if(!roles.length){div.textContent='No users';return}
+  roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
   roles.forEach(role=>{
     var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='stretch';item.style.gap='4px';
     var topRow=document.createElement('div');topRow.style.display='flex';topRow.style.justifyContent='space-between';topRow.style.alignItems='center';
-    var info=document.createElement('span');info.style.fontSize='12px';
+    var info=document.createElement('span');info.style.cssText='font-size:12px;display:flex;align-items:center;flex-wrap:wrap;gap:4px';
     var displayName=roleDisplayNames[role]||role,passcode=roleToPass[role]||'?';
     var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
-    info.innerHTML='<b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span> <span style="color:var(--text7);font-size:10px">pass: '+escHtml(passcode)+'</span>';
+    var statusTags=[];
+    if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px">BANNED</span>');
+    if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
+    var statusHtml=statusTags.length?' '+statusTags.join(' '):'';
+    var maskedPass='\u2022\u2022\u2022\u2022\u2022\u2022';
+    info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span> <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
+    var eyeBtn=info.querySelector('.um-eye');
+    var passSpan=info.querySelector('.um-pass');
+    (function(eb,ps,pc){
+      var showing=false;
+      eb.addEventListener('click',function(e){
+        e.stopPropagation();
+        showing=!showing;
+        ps.textContent=showing?pc:'\u2022\u2022\u2022\u2022\u2022\u2022';
+        eb.style.opacity=showing?'.7':'.4';
+      });
+    })(eyeBtn,passSpan,passcode);
     topRow.appendChild(info);
     if(role!=='Admin'){
       var delBtn=document.createElement('button');delBtn.className='small-btn';delBtn.style.cssText='background:none;color:#e53935;border:1px solid rgba(229,57,53,.3);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;white-space:nowrap';delBtn.textContent='✕ Remove';delBtn.onmouseover=function(){this.style.background='#e53935';this.style.color='#fff';this.style.borderColor='#e53935'};delBtn.onmouseout=function(){this.style.background='none';this.style.color='#e53935';this.style.borderColor='rgba(229,57,53,.3)'};
@@ -2728,6 +3303,14 @@ function openThemeModal(){
     {id:'amoled',name:'AMOLED',desc:'True black + cyan',bg:'#000',msg:'#111',accent:'#00ffcc'},
     {id:'solarized',name:'Solarized',desc:'Easy on the eyes',bg:'#002b36',msg:'#07303c',accent:'#268bd2'},
     {id:'rose',name:'Rose',desc:'Warm dark pink',bg:'#1a0a0f',msg:'#25101a',accent:'#ff6090'},
+    {id:'neon-cyberpunk',name:'Neon Cyberpunk',desc:'Purple-blue holographic glow',bg:'linear-gradient(135deg,#15021b,#2f0060)',msg:'rgba(10,10,18,.92)',accent:'#9d4cff'},
+    {id:'retro-pixel',name:'Retro Pixel',desc:'8-bit chunky game HUD',bg:'#131313',msg:'#1f1f1f',accent:'#d46cff'},
+    {id:'hacker-terminal',name:'Hacker Terminal',desc:'Green-on-black console UI',bg:'#010400',msg:'#031008',accent:'#6cff6c'},
+    {id:'space-galaxy',name:'Space Galaxy',desc:'Starfield nebula interface',bg:'linear-gradient(135deg,#070817,#111c40)',msg:'#101a2e',accent:'#4ddcff'},
+    {id:'bioluminescent-ocean',name:'Bioluminescent Ocean',desc:'Glowing deep-sea UI',bg:'linear-gradient(135deg,#03111f,#051d33)',msg:'#081526',accent:'#22ffdd'},
+    {id:'crystal-cavern',name:'Crystal Cavern',desc:'Shimmering gem-like interface',bg:'linear-gradient(135deg,#091526,#121e3d)',msg:'#0d1d2f',accent:'#a18cff'},
+    {id:'industrial-grunge',name:'Industrial Grunge',desc:'Steel plates and hazard stripes',bg:'#121214',msg:'#19191c',accent:'#d49f1e'},
+    {id:'glass',name:'Glass',desc:'Frosted futuristic',bg:'linear-gradient(135deg,#c7e2ff,#a5d8f8)',msg:'rgba(255,255,255,.15)',accent:'#a5d8ff'},
   ];
 
   var grid=document.createElement('div');grid.className='theme-grid';
@@ -2859,16 +3442,18 @@ var appDefs={
         '<div style="'+smallStyle+'">Show time on each chat message</div></div>'+
         '<div style="'+secStyle+'"><div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Compact Mode</span>'+makeToggle('settingsCompact',cmChecked)+'</div>'+
         '<div style="'+smallStyle+'">Reduce spacing between messages</div></div>'+
-        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Chat Text Color</label>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Text Color</label>'+
         '<div style="display:flex;gap:10px;align-items:center">'+
-        '<input type="color" id="settingsChatColor" value="'+(localStorage.getItem('docosChatColor_'+role)||'#dddddd')+'" style="width:44px;height:36px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:var(--bg3)">'+
-        '<span id="settingsChatColorLabel" style="'+smallStyle+'">'+( localStorage.getItem('docosChatColor_'+role)||'Default')+'</span>'+
+        '<input type="color" id="settingsChatColor" value="'+(localStorage.getItem('docosTextColor_'+role)||localStorage.getItem('docosChatColor_'+role)||'#dddddd')+'" style="width:44px;height:36px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:var(--bg3)">'+
+        '<span id="settingsChatColorLabel" style="'+smallStyle+'">'+( localStorage.getItem('docosTextColor_'+role)||localStorage.getItem('docosChatColor_'+role)||'Default')+'</span>'+
         '<button id="settingsChatColorReset" style="'+btnStyle+';margin-left:auto">Reset</button>'+
         '</div>'+
-        '<div style="'+smallStyle+';margin-top:6px">Customize the color of chat message text</div></div>'+
+        '<div style="'+smallStyle+';margin-top:6px">Customize the color of all text (chat, headers, UI)</div></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Desktop</label>'+
         '<button id="settingsResetDesktop" style="'+btnStyle+'">Reset Icon Positions</button>'+
         '<div style="'+smallStyle+';margin-top:6px">Restore desktop icons to their default positions</div></div>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Password</label>'+
+        '<button id="settingsChangePassBtn" style="'+btnStyle+'">Change Password</button></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">About</label>'+
         '<div style="'+smallStyle+'">DocOS v1.2 &mdash; A desktop environment for your apps.<br>Drag icons to rearrange, right-click to rename.</div></div>';
 
@@ -2934,7 +3519,7 @@ var appDefs={
         /* Theme buttons */
         var tc=d.querySelector('#settingsThemes');
         if(tc){
-          var themes=[{id:'dark',label:'Dark',bg:'#1a1a2e',fg:'#fff'},{id:'light',label:'Light',bg:'#f0f0f5',fg:'#222'},{id:'amoled',label:'AMOLED',bg:'#000',fg:'#fff'},{id:'solarized',label:'Solarized',bg:'#002b36',fg:'#93a1a1'},{id:'rose',label:'Rose',bg:'#2a1520',fg:'#f5b7c5'}];
+          var themes=[{id:'dark',label:'Dark',bg:'#1a1a2e',fg:'#fff'},{id:'light',label:'Light',bg:'#f0f0f5',fg:'#222'},{id:'amoled',label:'AMOLED',bg:'#000',fg:'#fff'},{id:'solarized',label:'Solarized',bg:'#002b36',fg:'#93a1a1'},{id:'rose',label:'Rose',bg:'#2a1520',fg:'#f5b7c5'},{id:'neon-cyberpunk',label:'Neon Cyberpunk',bg:'linear-gradient(135deg,#15021b,#2f0060)',fg:'#fff'},{id:'retro-pixel',label:'Retro Pixel',bg:'#131313',fg:'#f8f8f8'},{id:'hacker-terminal',label:'Hacker Terminal',bg:'#010400',fg:'#9efc9e'},{id:'space-galaxy',label:'Space Galaxy',bg:'linear-gradient(135deg,#070817,#111c40)',fg:'#eef3ff'},{id:'bioluminescent-ocean',label:'Bioluminescent Ocean',bg:'linear-gradient(135deg,#03111f,#051d33)',fg:'#e8fbff'},{id:'crystal-cavern',label:'Crystal Cavern',bg:'linear-gradient(135deg,#091526,#121e3d)',fg:'#f5f8ff'},{id:'industrial-grunge',label:'Industrial Grunge',bg:'#121214',fg:'#e8e8e2'},{id:'glass',label:'Glass',bg:'linear-gradient(135deg,#c7e2ff,#a5d8f8)',fg:'#fff'}];
           themes.forEach(function(t){
             var btn=document.createElement('button');
             btn.textContent=t.label;
@@ -2983,21 +3568,21 @@ var appDefs={
         var cc=d.querySelector('#settingsChatColor');
         if(cc){
           cc.oninput=function(){
-            document.body.style.setProperty('--chat-color',cc.value);
+            _applyTextColor(cc.value);
             var lbl=d.querySelector('#settingsChatColorLabel');
             if(lbl)lbl.textContent=cc.value;
-            if(currentRole)localStorage.setItem('docosChatColor_'+currentRole,cc.value);
+            if(currentRole)localStorage.setItem('docosTextColor_'+currentRole,cc.value);
           };
         }
         var ccReset=d.querySelector('#settingsChatColorReset');
         if(ccReset){
           ccReset.onclick=function(){
-            document.body.style.removeProperty('--chat-color');
-            if(currentRole)localStorage.removeItem('docosChatColor_'+currentRole);
+            _removeTextColor();
+            if(currentRole){localStorage.removeItem('docosTextColor_'+currentRole);localStorage.removeItem('docosChatColor_'+currentRole);}
             if(cc)cc.value='#dddddd';
             var lbl=d.querySelector('#settingsChatColorLabel');
             if(lbl)lbl.textContent='Default';
-            showToast('Chat color reset to default.');
+            showToast('Text color reset to default.');
           };
         }
         /* Reset desktop */
@@ -3007,6 +3592,62 @@ var appDefs={
             resetIconPositions();
             if(currentRole)localStorage.removeItem('docosIconPositions_'+currentRole);
             showToast('Desktop icons reset to default positions.');
+          };
+        }
+
+        var cpBtn=d.querySelector('#settingsChangePassBtn');
+        if(cpBtn){
+          cpBtn.onclick=function(){
+            var existing=document.querySelector('.cp-overlay');if(existing)existing.remove();
+            var overlay=document.createElement('div');overlay.className='cp-overlay';
+            overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+            var modal=document.createElement('div');
+            modal.style.cssText='position:relative;background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:28px 28px 22px;width:340px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+            var closeBtn=document.createElement('button');
+            closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5,#888);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px';
+            closeBtn.textContent='\u00d7';closeBtn.onclick=function(){overlay.remove()};
+            var inpStyle='width:100%;padding:9px 10px;padding-right:36px;border-radius:8px;border:1px solid var(--border2,#444);background:var(--input-bg,#2a2a3a);color:var(--text,#eee);font-size:13px;outline:none;box-sizing:border-box;';
+            var wrapStyle='position:relative;margin-bottom:8px;';
+            var eyeSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+            var eyeBtnStyle='position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:.4;transition:opacity .15s;background:none;border:none;color:var(--text,#eee);padding:2px;';
+            modal.innerHTML='<h3 style="margin:0 0 16px;font-size:16px;font-weight:700;color:var(--text,#eee)">Change Password</h3>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpOldPass" placeholder="Current password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpOldPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpNewPass" placeholder="New password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpNewPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<div style="'+wrapStyle+'"><input type="password" id="cpConfirmPass" placeholder="Confirm new password" style="'+inpStyle+'"><button class="cp-eye" data-for="cpConfirmPass" style="'+eyeBtnStyle+'">'+eyeSvg+'</button></div>'+
+              '<button id="cpSubmitBtn" style="width:100%;padding:10px;border:none;border-radius:8px;background:var(--accent,#00aaff);color:#fff;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px">Change Password</button>'+
+              '<div id="cpMsg" style="font-size:12px;margin-top:8px;min-height:16px;text-align:center"></div>';
+            modal.insertBefore(closeBtn,modal.firstChild);
+            overlay.appendChild(modal);
+            overlay.addEventListener('mousedown',function(e){if(e.target===overlay)overlay.remove()});
+            document.body.appendChild(overlay);
+            setTimeout(function(){
+              modal.querySelectorAll('.cp-eye').forEach(function(btn){
+                btn.addEventListener('click',function(){
+                  var inp=document.getElementById(this.dataset.for);
+                  if(inp.type==='password'){inp.type='text';this.style.opacity='.7'}
+                  else{inp.type='password';this.style.opacity='.4'}
+                });
+                btn.addEventListener('mouseover',function(){this.style.opacity='.7'});
+                btn.addEventListener('mouseout',function(){var inp=document.getElementById(this.dataset.for);this.style.opacity=inp.type==='text'?'.7':'.4'});
+              });
+              document.getElementById('cpSubmitBtn').onclick=function(){
+                var msg=document.getElementById('cpMsg');
+                var oldP=document.getElementById('cpOldPass').value.trim();
+                var newP=document.getElementById('cpNewPass').value.trim();
+                var confP=document.getElementById('cpConfirmPass').value.trim();
+                msg.style.color='#f44336';msg.textContent='';
+                if(!oldP||!newP||!confP){msg.textContent='Please fill in all fields.';return}
+                if(validPasswords[oldP]!==currentRole){msg.textContent='Current password is incorrect.';return}
+                if(newP!==confP){msg.textContent='New passwords do not match.';return}
+                if(newP===oldP){msg.textContent='New password must be different.';return}
+                if(validPasswords[newP]){msg.textContent='That password is already in use.';return}
+                var updates={};updates['/validPasswords/'+oldP]=null;updates['/validPasswords/'+newP]=currentRole;
+                db.ref().update(updates).then(function(){
+                  msg.style.color='#4caf50';msg.textContent='Password changed!';
+                  setTimeout(function(){overlay.remove()},1200);
+                }).catch(function(e){msg.textContent='Error: '+e.message});
+              };
+            },0);
           };
         }
       },0);
@@ -3549,6 +4190,149 @@ var appDefs={
     }
   }
 };
+/* music app removed - start */
+/* {
+    title:'Music (Removed)',
+    icon:'&#127925;',
+    iconBg:'linear-gradient(135deg,#e91e63,#9c27b0)',
+    width:900,height:620,
+    getContent:function(){
+      var d=document.createElement('div');
+      d.style.cssText='display:flex;height:100%;background:#0f0f1a;color:#fff;font-family:Nunito,system-ui,sans-serif;position:relative;overflow:hidden';
+      var musicState={queue:[],currentIndex:-1,liked:JSON.parse(localStorage.getItem('cleverMusicLiked')||'[]'),view:'home',audio:new Audio(),ytIframe:null,ytPlaying:false};
+      function saveLiked(){localStorage.setItem('cleverMusicLiked',JSON.stringify(musicState.liked))}
+      var sidebar=document.createElement('div');
+      sidebar.style.cssText='width:200px;background:rgba(10,10,20,.85);border-right:1px solid rgba(255,255,255,.08);padding:20px;flex-shrink:0;display:flex;flex-direction:column;gap:4px';
+      sidebar.innerHTML='<h2 style="font-size:14px;font-weight:700;margin:0 0 20px;letter-spacing:1px;color:#fff">Music</h2>';
+      function makeNav(label,icon,viewName){
+        var btn=document.createElement('div');
+        btn.style.cssText='padding:10px 12px;border-radius:8px;cursor:pointer;color:#94a3b8;display:flex;align-items:center;gap:10px;font-size:13px;transition:all .2s';
+        btn.innerHTML=icon+' '+label;
+        btn.onclick=function(){showMusicView(viewName)};
+        btn._viewName=viewName;
+        sidebar.appendChild(btn);
+        return btn;
+      }
+      var navHome=makeNav('Home','<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>','home');
+      var navSearch=makeNav('Search','<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>','search');
+      var navLiked=makeNav('Liked Songs','<svg width="16" height="16" viewBox="0 0 24 24" fill="#ff4d94" stroke="#ff4d94" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>','liked');
+      d.appendChild(sidebar);
+      var main=document.createElement('div');
+      main.style.cssText='flex:1;display:flex;flex-direction:column;overflow:hidden';
+      var contentArea=document.createElement('div');
+      contentArea.style.cssText='flex:1;padding:30px;overflow-y:auto;background:linear-gradient(180deg,#0f0f1a,#0a0a14)';
+      main.appendChild(contentArea);
+      var playerBar=document.createElement('div');
+      playerBar.style.cssText='height:80px;background:rgba(27,27,46,.98);border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:250px 1fr 80px;align-items:center;padding:0 20px;flex-shrink:0;position:relative';
+      var scrubber=document.createElement('input');
+      scrubber.type='range';scrubber.value='0';scrubber.step='0.1';
+      scrubber.style.cssText='position:absolute;top:-2px;left:0;width:100%;height:4px;-webkit-appearance:none;appearance:none;background:#282843;outline:none;margin:0;cursor:pointer;z-index:1';
+      playerBar.appendChild(scrubber);
+      var pInfo=document.createElement('div');
+      pInfo.style.cssText='display:flex;align-items:center;gap:12px';
+      pInfo.innerHTML='<img id="mp-img" src="" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22><rect fill=%22%231b1b2e%22 width=%2250%22 height=%2250%22/><text x=%2225%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23555%22 font-size=%2220%22>♪</text></svg>\'" style="width:50px;height:50px;border-radius:6px;object-fit:cover;background:#1b1b2e;box-shadow:0 4px 12px rgba(0,0,0,.5)"><div><b id="mp-title" style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px">Select a track</b><small id="mp-artist" style="color:#94a3b8;font-size:11px"></small></div>';
+      playerBar.appendChild(pInfo);
+      var pControls=document.createElement('div');
+      pControls.style.cssText='display:flex;justify-content:center;align-items:center;gap:30px';
+      pControls.innerHTML='<svg id="mp-prev" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#94a3b8"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg><svg id="mp-play" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#fff"><polygon points="5,3 19,12 5,21"/></svg><svg id="mp-next" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#94a3b8"><path d="M16 6h2v12h-2zm-3.5 6L4 6v12z"/></svg>';
+      playerBar.appendChild(pControls);
+      var pRight=document.createElement('div');
+      pRight.style.cssText='display:flex;justify-content:flex-end;align-items:center;gap:8px';
+      pRight.innerHTML='<span id="mp-time" style="font-size:10px;color:#94a3b8"></span>';
+      playerBar.appendChild(pRight);
+      main.appendChild(playerBar);
+      d.appendChild(main);
+      var audio=musicState.audio;
+      var ytIframe=document.createElement('iframe');ytIframe.id='yt-music-iframe';ytIframe.allow='autoplay';ytIframe.tabIndex=-1;ytIframe.style.cssText='position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;border:none';document.body.appendChild(ytIframe);musicState.ytIframe=ytIframe;
+      function formatTime(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec}
+      function updateScrubber(){requestAnimationFrame(updateScrubber);}
+      requestAnimationFrame(updateScrubber);
+      d.querySelector('#mp-play').onclick=function(){var iframe=musicState.ytIframe;if(!iframe||!iframe.src||!iframe.src.includes('youtube.com'))return;if(musicState.ytPlaying){iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');musicState.ytPlaying=false;var el=d.querySelector('#mp-play');if(el)el.innerHTML='<polygon points="5,3 19,12 5,21"/>';}else{iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}','*');musicState.ytPlaying=true;var el=d.querySelector('#mp-play');if(el)el.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';}};
+      d.querySelector('#mp-prev').onclick=function(){if(musicState.currentIndex>0)playMusicTrack(musicState.currentIndex-1);};
+      d.querySelector('#mp-next').onclick=function(){playMusicTrack(musicState.currentIndex+1)};
+      function playMusicTrack(idx){
+        if(idx<0||idx>=musicState.queue.length)return;
+        musicState.currentIndex=idx;
+        var t=musicState.queue[idx];
+        var title=d.querySelector('#mp-title');if(title)title.textContent=t.title;
+        var artist=d.querySelector('#mp-artist');if(artist)artist.textContent=t.artistName;
+        var img=d.querySelector('#mp-img');
+        if(t.artworkUrl){img.src=t.artworkUrl;}
+        musicState.ytIframe.src='https://www.youtube.com/embed/'+t.id+'?autoplay=1&enablejsapi=1';musicState.ytPlaying=true;var el=d.querySelector('#mp-play');if(el)el.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+      }
+      function isLiked(track){return musicState.liked.some(function(s){return s.id===track.id})}
+      function toggleLikeTrack(track){
+        var idx=musicState.liked.findIndex(function(s){return s.id===track.id});
+        if(idx>-1)musicState.liked.splice(idx,1);else musicState.liked.push(track);
+        saveLiked();
+      }
+      function renderTrackList(tracks,container){
+        container.innerHTML='';
+        if(!tracks||!tracks.length){container.innerHTML='<p style="opacity:.5;text-align:center;margin-top:40px">No tracks found.</p>';return}
+        tracks.forEach(function(t,idx){
+          var row=document.createElement('div');
+          row.style.cssText='display:flex;align-items:center;gap:16px;padding:10px 14px;border-radius:10px;transition:all .2s;border:1px solid transparent;cursor:pointer';
+          row.onmouseenter=function(){row.style.background='#1b1b2e';row.style.borderColor='rgba(255,255,255,.08)'};
+          row.onmouseleave=function(){row.style.background='none';row.style.borderColor='transparent'};
+          var liked=isLiked(t);
+          var rowImg=document.createElement('img');rowImg.style.cssText='width:44px;height:44px;border-radius:6px;object-fit:cover;box-shadow:0 4px 10px rgba(0,0,0,.3);background:#1b1b2e';
+          if(t.artworkUrl){rowImg.src=t.artworkUrl;} else {musicBlobUrl(MUSIC_API_BASE+'/api/artwork/'+t.id).then(function(u){rowImg.src=u}).catch(function(){});}
+          row.innerHTML=''+
+            '<div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escHtml(t.title)+'</b><small style="color:#888;font-size:11px">'+escHtml(t.artistName)+'</small></div>'+
+            '<div style="display:flex;gap:16px;align-items:center">'+
+            '<svg class="mp-heart" width="16" height="16" viewBox="0 0 24 24" fill="'+(liked?'#ff4d94':'none')+'" stroke="'+(liked?'#ff4d94':'#94a3b8')+'" stroke-width="2" style="cursor:pointer"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'+
+            '<svg class="mp-playbtn" width="16" height="16" viewBox="0 0 24 24" fill="#94a3b8" stroke="none" style="cursor:pointer"><polygon points="5,3 19,12 5,21"/></svg>'+
+            '</div>';
+          row.prepend(rowImg);
+          row.querySelector('.mp-heart').onclick=function(e){e.stopPropagation();toggleLikeTrack(t);if(musicState.view==='liked')showMusicView('liked');else{var h=this;if(isLiked(t)){h.setAttribute('fill','#ff4d94');h.setAttribute('stroke','#ff4d94')}else{h.setAttribute('fill','none');h.setAttribute('stroke','#94a3b8')}}};
+          row.querySelector('.mp-playbtn').onclick=function(e){e.stopPropagation();musicState.queue=tracks.slice();playMusicTrack(idx)};
+          row.ondblclick=function(){musicState.queue=tracks.slice();playMusicTrack(idx)};
+          container.appendChild(row);
+        });
+      }
+      function showMusicView(v){
+        musicState.view=v;
+        contentArea.innerHTML='';
+        sidebar.querySelectorAll('div').forEach(function(el){if(el._viewName){el.style.background=el._viewName===v?'rgba(95,79,151,.25)':'none';el.style.color=el._viewName===v?'#fff':'#94a3b8'}});
+        if(v==='home'){
+          contentArea.innerHTML='<h1 style="font-size:28px;font-weight:800;margin:0 0 10px">Discover</h1><p style="opacity:.5;font-size:14px">Welcome back. Search for music to get started.</p>';
+        }else if(v==='search'){
+          var searchBox=document.createElement('div');
+          searchBox.style.cssText='display:flex;gap:10px;margin-bottom:24px';
+          var input=document.createElement('input');
+          input.type='text';input.placeholder='Search tracks...';
+          input.style.cssText='flex:1;background:rgba(40,40,67,.5);border:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 16px;border-radius:10px;outline:none;font-size:14px;font-family:inherit';
+          var searchBtn=document.createElement('button');
+          searchBtn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+          searchBtn.style.cssText='background:rgba(40,40,67,.5);border:none;padding:0 20px;border-radius:10px;cursor:pointer;color:#fff';
+          searchBox.appendChild(input);searchBox.appendChild(searchBtn);
+          contentArea.appendChild(searchBox);
+          var title=document.createElement('h1');title.textContent='Search Results';title.style.cssText='font-size:24px;font-weight:800;margin:0 0 16px';
+          contentArea.appendChild(title);
+          var results=document.createElement('div');
+          contentArea.appendChild(results);
+          function doSearch(){
+            var q=input.value.trim();if(!q)return;
+            results.innerHTML='<p style="opacity:.5;text-align:center;margin-top:30px">Searching...</p>';
+            musicFetch(MUSIC_API_BASE+'/api/search?q='+encodeURIComponent(q)).then(function(r){return r.json()}).then(function(tracks){
+              renderTrackList(tracks,results);
+            }).catch(function(){results.innerHTML='<p style="color:#e53935;text-align:center;margin-top:30px">Search failed. Check your connection.</p>'});
+          }
+          searchBtn.onclick=doSearch;
+          input.onkeypress=function(e){if(e.key==='Enter')doSearch()};
+          input.focus();
+        }else if(v==='liked'){
+          contentArea.innerHTML='<h1 style="font-size:24px;font-weight:800;margin:0 0 16px">Liked Songs</h1>';
+          var list=document.createElement('div');
+          contentArea.appendChild(list);
+          renderTrackList(musicState.liked,list);
+        }
+      }
+      showMusicView('home');
+      return d;
+    }
+  }
+music app removed - end */
 
 var userAppsState={};var _userAppsRef=null;
 
@@ -4263,7 +5047,7 @@ function saveIconPositions(){
   });
   localStorage.setItem('docosIconPositions_'+currentRole,JSON.stringify(positions));
 }
-var _iconResetVersion=2;
+var _iconResetVersion=3;
 function restoreIconPositions(){
   if(!currentRole)return;
   try{
@@ -4412,9 +5196,9 @@ function restoreDesktopConfig(){
   if(savedTS!==null)document.querySelectorAll('.msg-time').forEach(function(el){el.style.display=savedTS==='true'?'':'none'});
   var savedCM=localStorage.getItem('docosCompact_'+currentRole);
   if(msgs)msgs.classList.toggle('compact',savedCM==='true');
-  var savedCC=localStorage.getItem('docosChatColor_'+currentRole);
-  if(savedCC)document.body.style.setProperty('--chat-color',savedCC);
-  else document.body.style.removeProperty('--chat-color');
+  var savedTC=localStorage.getItem('docosTextColor_'+currentRole)||localStorage.getItem('docosChatColor_'+currentRole);
+  if(savedTC)_applyTextColor(savedTC);
+  else _removeTextColor();
 }
 /* Reset desktop to defaults (on logout) */
 function resetDesktopConfig(){
@@ -4425,7 +5209,7 @@ function resetDesktopConfig(){
   var msgs=document.getElementById('messages');
   if(msgs){msgs.classList.remove('compact')}
   document.querySelectorAll('.msg-time').forEach(function(el){el.style.display=''});
-  document.body.style.removeProperty('--chat-color');
+  _removeTextColor();
 }
 
 /* Snap position to grid, prevent overlap */
@@ -5438,6 +6222,11 @@ function findOpenIconPosition(){
 function addCustomDesktopIcon(appId,app){
   var icons=document.getElementById('desktopIcons');
   if(!icons)return;
+  /* Do not add icon if hidden for non-owner */
+  if(currentRole!=='Admin'){
+    var amSt=_amAppStates&&_amAppStates[appId];
+    if(amSt&&amSt.hidden)return;
+  }
   if(icons.querySelector('[data-app="'+appId+'"]'))return;
   var pos=null;
   try{
@@ -6084,6 +6873,9 @@ function _fsRenderDesktopItems(){
       /* Never restore mod/appdesigner for non-admins */
       if(aid==='mod'&&!isAnyAdmin())return;
       if(aid==='appdesigner'&&currentRole!=='Admin')return;
+      /* Never restore icons hidden by App Manager */
+      var amSt=_amAppStates[aid];
+      if(amSt&&amSt.hidden&&currentRole!=='Admin')return;
       ic.style.display='';
     }
   });
@@ -6254,6 +7046,8 @@ function syncDesktopWithUserState(){
     }
   });
   if(Object.keys(updates).length)db.ref().update(updates);
+  /* Re-apply hidden state after syncing desktop icons */
+  _amApplyHiddenApps();
 }
 
 /* One-time migration: move old trashedApps back to customApps with per-user trash state */
@@ -6320,6 +7114,8 @@ function updateAppDesignerVisibility(){
 /* ===== APP MANAGEMENT LOGIC ===== */
 var _amAppStates={};
 var _amStateRef=null;
+var _amDataReady=false;
+var _amPendingLogin=null;
 
 function _amInitListener(){
   if(_amStateRef)_amStateRef.off();
@@ -6348,6 +7144,10 @@ function _amInitListener(){
     _amApplyHiddenApps();
     var list=document.getElementById('amAppList');
     if(list)_amRenderApps(list);
+    if(!_amDataReady){
+      _amDataReady=true;
+      if(_amPendingLogin){var fn=_amPendingLogin;_amPendingLogin=null;fn();}
+    }
   });
 }
 _amInitListener();
@@ -6361,17 +7161,19 @@ function _amToast(msg){
 }
 
 function _amApplyHiddenApps(){
-  if(currentRole==='Admin')return;
   document.querySelectorAll('.desktop-icon').forEach(function(ic){
     var aid=ic.dataset.app;
     if(!aid||aid==='appdesigner')return;
     var st=_amAppStates[aid];
-    if(st&&st.hidden)ic.style.display='none';
-    else if(aid!=='mod'&&aid!=='appdesigner'){
-      if(aid.startsWith('custom_')){
-        if(userAppsState[aid]==='desktop')ic.style.display='';
-      }else{
-        ic.style.display='';
+    if(st&&st.hidden&&currentRole!=='Admin'){
+      ic.style.display='none';
+    }else{
+      if(aid!=='mod'&&aid!=='appdesigner'){
+        if(aid.startsWith('custom_')){
+          if(userAppsState[aid]==='desktop')ic.style.display='';
+        }else{
+          ic.style.display='';
+        }
       }
     }
   });
@@ -6379,15 +7181,21 @@ function _amApplyHiddenApps(){
 
 function _amGetAllApps(){
   var apps=[];
-  var sysOrder=['chat','settings','videocall','mod','appdesigner','appstore','trash'];
-  sysOrder.forEach(function(id){
-    if(appDefs[id]&&id!=='appdesigner'&&id!=='mod'&&id!=='appstore'){
+  var preferredOrder=['chat','settings','videocall','mod','appstore','trash'];
+  var seen={};
+  preferredOrder.forEach(function(id){
+    if(appDefs[id]&&id!=='appdesigner'&&!customAppsData[id]){
+      seen[id]=true;
       apps.push({id:id,name:appDefs[id].title,type:'System',iconBg:appDefs[id].iconBg||'linear-gradient(135deg,#667,#445)',icon:appDefs[id].icon||'&#9881;'});
     }
   });
+  Object.keys(appDefs).forEach(function(id){
+    if(id==='appdesigner'||seen[id]||customAppsData[id])return;
+    apps.push({id:id,name:appDefs[id].title,type:'System',iconBg:appDefs[id].iconBg||'linear-gradient(135deg,#667,#445)',icon:appDefs[id].icon||'&#9881;'});
+  });
   Object.keys(customAppsData).forEach(function(id){
     var ca=customAppsData[id];
-    apps.push({id:id,name:ca.name||ca.title||id,type:'Custom',iconBg:'linear-gradient(135deg,'+(ca.color1||'#667')+','+(ca.color2||'#445')+')',icon:ca.icon||'&#128196;'});
+    apps.push({id:id,name:ca.name||ca.title||id,type:'Custom',iconBg:'linear-gradient(135deg,'+(ca.color1||'#667')+','+(ca.color2||'#445')+')',icon:renderIconHtmlSmall(ca.icon,20)||'&#128196;'});
   });
   return apps;
 }
