@@ -984,6 +984,10 @@ summary{font-size:calc(13px * var(--fs-scale))}
         <div class="icon-img" style="background:linear-gradient(135deg,#7c4dff,#536dfe)">&#128295;</div>
         <div class="icon-label" id="iconLabel-appdesigner">App Manager</div>
       </div>
+      <div class="desktop-icon" data-app="music" ondblclick="openApp('music')" onclick="if(window.innerWidth<=768)openApp('music')" style="left:10px;top:710px">
+        <div class="icon-img" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">&#127925;</div>
+        <div class="icon-label" id="iconLabel-music">Music</div>
+      </div>
       <div class="desktop-icon" data-app="appstore" ondblclick="openApp('appstore')" onclick="if(window.innerWidth<=768)openApp('appstore')" style="left:10px;top:610px">
         <div class="icon-img" style="background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7)"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
         <div class="icon-label" id="iconLabel-appstore">App Store</div>
@@ -2095,6 +2099,7 @@ function muteUser(){
   }).catch(console.error);
 }
 var EXCLUDED_DEVICES={'3909E9BF':true};
+var MUSIC_API_BASE='https://user:2e90ba409b822e243ee8e52c2bbd0c70@84d64bc816ee-tunnel-oz5xl5di.devinapps.com';
 db.ref('bannedDevices/3909E9BF').remove();
 db.ref('deviceFingerprints').once('value',function(snap){
   var all=snap.val();if(!all)return;
@@ -3826,6 +3831,153 @@ var appDefs={
         '<div style="font-size:11px;color:var(--text5);margin-bottom:14px">Drag apps here to remove from desktop. App Store apps can be permanently deleted; desktop apps can only be restored.</div>'+
         '<div id="trashItemsList"></div>';
       setTimeout(function(){renderTrashItems(d.querySelector('#trashItemsList'))},0);
+      return d;
+    }
+  },
+  music:{
+    title:'Music',
+    icon:'&#127925;',
+    iconBg:'linear-gradient(135deg,#e91e63,#9c27b0)',
+    width:900,height:620,
+    getContent:function(){
+      var d=document.createElement('div');
+      d.style.cssText='display:flex;height:100%;background:#0f0f1a;color:#fff;font-family:Nunito,system-ui,sans-serif;position:relative;overflow:hidden';
+      var musicState={queue:[],currentIndex:-1,liked:JSON.parse(localStorage.getItem('cleverMusicLiked')||'[]'),view:'home',audio:new Audio()};
+      function saveLiked(){localStorage.setItem('cleverMusicLiked',JSON.stringify(musicState.liked))}
+      var sidebar=document.createElement('div');
+      sidebar.style.cssText='width:200px;background:rgba(10,10,20,.85);border-right:1px solid rgba(255,255,255,.08);padding:20px;flex-shrink:0;display:flex;flex-direction:column;gap:4px';
+      sidebar.innerHTML='<h2 style="font-size:14px;font-weight:700;margin:0 0 20px;letter-spacing:1px;color:#fff">Music</h2>';
+      function makeNav(label,icon,viewName){
+        var btn=document.createElement('div');
+        btn.style.cssText='padding:10px 12px;border-radius:8px;cursor:pointer;color:#94a3b8;display:flex;align-items:center;gap:10px;font-size:13px;transition:all .2s';
+        btn.innerHTML=icon+' '+label;
+        btn.onclick=function(){showMusicView(viewName)};
+        btn._viewName=viewName;
+        sidebar.appendChild(btn);
+        return btn;
+      }
+      var navHome=makeNav('Home','<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>','home');
+      var navSearch=makeNav('Search','<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>','search');
+      var navLiked=makeNav('Liked Songs','<svg width="16" height="16" viewBox="0 0 24 24" fill="#ff4d94" stroke="#ff4d94" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>','liked');
+      d.appendChild(sidebar);
+      var main=document.createElement('div');
+      main.style.cssText='flex:1;display:flex;flex-direction:column;overflow:hidden';
+      var contentArea=document.createElement('div');
+      contentArea.style.cssText='flex:1;padding:30px;overflow-y:auto;background:linear-gradient(180deg,#0f0f1a,#0a0a14)';
+      main.appendChild(contentArea);
+      var playerBar=document.createElement('div');
+      playerBar.style.cssText='height:80px;background:rgba(27,27,46,.98);border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:250px 1fr 80px;align-items:center;padding:0 20px;flex-shrink:0;position:relative';
+      var scrubber=document.createElement('input');
+      scrubber.type='range';scrubber.value='0';scrubber.step='0.1';
+      scrubber.style.cssText='position:absolute;top:-2px;left:0;width:100%;height:4px;-webkit-appearance:none;appearance:none;background:#282843;outline:none;margin:0;cursor:pointer;z-index:1';
+      playerBar.appendChild(scrubber);
+      var pInfo=document.createElement('div');
+      pInfo.style.cssText='display:flex;align-items:center;gap:12px';
+      pInfo.innerHTML='<img id="mp-img" src="" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22><rect fill=%22%231b1b2e%22 width=%2250%22 height=%2250%22/><text x=%2225%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23555%22 font-size=%2220%22>♪</text></svg>\'" style="width:50px;height:50px;border-radius:6px;object-fit:cover;background:#1b1b2e;box-shadow:0 4px 12px rgba(0,0,0,.5)"><div><b id="mp-title" style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px">Select a track</b><small id="mp-artist" style="color:#94a3b8;font-size:11px"></small></div>';
+      playerBar.appendChild(pInfo);
+      var pControls=document.createElement('div');
+      pControls.style.cssText='display:flex;justify-content:center;align-items:center;gap:30px';
+      pControls.innerHTML='<svg id="mp-prev" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#94a3b8"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg><svg id="mp-play" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#fff"><polygon points="5,3 19,12 5,21"/></svg><svg id="mp-next" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="cursor:pointer;color:#94a3b8"><path d="M16 6h2v12h-2zm-3.5 6L4 6v12z"/></svg>';
+      playerBar.appendChild(pControls);
+      var pRight=document.createElement('div');
+      pRight.style.cssText='display:flex;justify-content:flex-end;align-items:center;gap:8px';
+      pRight.innerHTML='<span id="mp-time" style="font-size:10px;color:#94a3b8"></span>';
+      playerBar.appendChild(pRight);
+      main.appendChild(playerBar);
+      d.appendChild(main);
+      var audio=musicState.audio;
+      function formatTime(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec}
+      function updateScrubber(){
+        if(!audio.paused&&audio.duration){
+          scrubber.value=(audio.currentTime/audio.duration)*100;
+          var timeEl=d.querySelector('#mp-time');if(timeEl)timeEl.textContent=formatTime(audio.currentTime)+' / '+formatTime(audio.duration);
+        }
+        requestAnimationFrame(updateScrubber);
+      }
+      requestAnimationFrame(updateScrubber);
+      scrubber.addEventListener('input',function(){if(audio.duration)audio.currentTime=(scrubber.value/100)*audio.duration});
+      audio.onplay=function(){var el=d.querySelector('#mp-play');if(el)el.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'};
+      audio.onpause=function(){var el=d.querySelector('#mp-play');if(el)el.innerHTML='<polygon points="5,3 19,12 5,21"/>'};
+      audio.onended=function(){playMusicTrack(musicState.currentIndex+1)};
+      d.querySelector('#mp-play').onclick=function(){if(audio.paused)audio.play();else audio.pause()};
+      d.querySelector('#mp-prev').onclick=function(){if(musicState.currentIndex>0)playMusicTrack(musicState.currentIndex-1);else{audio.currentTime=0;audio.play()}};
+      d.querySelector('#mp-next').onclick=function(){playMusicTrack(musicState.currentIndex+1)};
+      function playMusicTrack(idx){
+        if(idx<0||idx>=musicState.queue.length)return;
+        musicState.currentIndex=idx;
+        var t=musicState.queue[idx];
+        var img=d.querySelector('#mp-img');if(img)img.src=MUSIC_API_BASE+'/api/artwork/'+t.coverId;
+        var title=d.querySelector('#mp-title');if(title)title.textContent=t.title;
+        var artist=d.querySelector('#mp-artist');if(artist)artist.textContent=t.artistName;
+        audio.src=MUSIC_API_BASE+'/api/stream/'+t.id;
+        audio.play();
+      }
+      function isLiked(track){return musicState.liked.some(function(s){return s.id===track.id})}
+      function toggleLikeTrack(track){
+        var idx=musicState.liked.findIndex(function(s){return s.id===track.id});
+        if(idx>-1)musicState.liked.splice(idx,1);else musicState.liked.push(track);
+        saveLiked();
+      }
+      function renderTrackList(tracks,container){
+        container.innerHTML='';
+        if(!tracks||!tracks.length){container.innerHTML='<p style="opacity:.5;text-align:center;margin-top:40px">No tracks found.</p>';return}
+        tracks.forEach(function(t,idx){
+          var row=document.createElement('div');
+          row.style.cssText='display:flex;align-items:center;gap:16px;padding:10px 14px;border-radius:10px;transition:all .2s;border:1px solid transparent;cursor:pointer';
+          row.onmouseenter=function(){row.style.background='#1b1b2e';row.style.borderColor='rgba(255,255,255,.08)'};
+          row.onmouseleave=function(){row.style.background='none';row.style.borderColor='transparent'};
+          var liked=isLiked(t);
+          row.innerHTML='<img src="'+MUSIC_API_BASE+'/api/artwork/'+t.coverId+'" style="width:44px;height:44px;border-radius:6px;object-fit:cover;box-shadow:0 4px 10px rgba(0,0,0,.3)" onerror="this.style.background=\'#1b1b2e\'">'+
+            '<div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escHtml(t.title)+'</b><small style="color:#888;font-size:11px">'+escHtml(t.artistName)+'</small></div>'+
+            '<div style="display:flex;gap:16px;align-items:center">'+
+            '<svg class="mp-heart" width="16" height="16" viewBox="0 0 24 24" fill="'+(liked?'#ff4d94':'none')+'" stroke="'+(liked?'#ff4d94':'#94a3b8')+'" stroke-width="2" style="cursor:pointer"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'+
+            '<svg class="mp-playbtn" width="16" height="16" viewBox="0 0 24 24" fill="#94a3b8" stroke="none" style="cursor:pointer"><polygon points="5,3 19,12 5,21"/></svg>'+
+            '</div>';
+          row.querySelector('.mp-heart').onclick=function(e){e.stopPropagation();toggleLikeTrack(t);if(musicState.view==='liked')showMusicView('liked');else{var h=this;if(isLiked(t)){h.setAttribute('fill','#ff4d94');h.setAttribute('stroke','#ff4d94')}else{h.setAttribute('fill','none');h.setAttribute('stroke','#94a3b8')}}};
+          row.querySelector('.mp-playbtn').onclick=function(e){e.stopPropagation();musicState.queue=tracks.slice();playMusicTrack(idx)};
+          row.ondblclick=function(){musicState.queue=tracks.slice();playMusicTrack(idx)};
+          container.appendChild(row);
+        });
+      }
+      function showMusicView(v){
+        musicState.view=v;
+        contentArea.innerHTML='';
+        sidebar.querySelectorAll('div').forEach(function(el){if(el._viewName){el.style.background=el._viewName===v?'rgba(95,79,151,.25)':'none';el.style.color=el._viewName===v?'#fff':'#94a3b8'}});
+        if(v==='home'){
+          contentArea.innerHTML='<h1 style="font-size:28px;font-weight:800;margin:0 0 10px">Discover</h1><p style="opacity:.5;font-size:14px">Welcome back. Search for music to get started.</p>';
+        }else if(v==='search'){
+          var searchBox=document.createElement('div');
+          searchBox.style.cssText='display:flex;gap:10px;margin-bottom:24px';
+          var input=document.createElement('input');
+          input.type='text';input.placeholder='Search tracks...';
+          input.style.cssText='flex:1;background:rgba(40,40,67,.5);border:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 16px;border-radius:10px;outline:none;font-size:14px;font-family:inherit';
+          var searchBtn=document.createElement('button');
+          searchBtn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+          searchBtn.style.cssText='background:rgba(40,40,67,.5);border:none;padding:0 20px;border-radius:10px;cursor:pointer;color:#fff';
+          searchBox.appendChild(input);searchBox.appendChild(searchBtn);
+          contentArea.appendChild(searchBox);
+          var title=document.createElement('h1');title.textContent='Search Results';title.style.cssText='font-size:24px;font-weight:800;margin:0 0 16px';
+          contentArea.appendChild(title);
+          var results=document.createElement('div');
+          contentArea.appendChild(results);
+          function doSearch(){
+            var q=input.value.trim();if(!q)return;
+            results.innerHTML='<p style="opacity:.5;text-align:center;margin-top:30px">Searching...</p>';
+            fetch(MUSIC_API_BASE+'/api/search?q='+encodeURIComponent(q)).then(function(r){return r.json()}).then(function(tracks){
+              renderTrackList(tracks,results);
+            }).catch(function(){results.innerHTML='<p style="color:#e53935;text-align:center;margin-top:30px">Search failed. Check your connection.</p>'});
+          }
+          searchBtn.onclick=doSearch;
+          input.onkeypress=function(e){if(e.key==='Enter')doSearch()};
+          input.focus();
+        }else if(v==='liked'){
+          contentArea.innerHTML='<h1 style="font-size:24px;font-weight:800;margin:0 0 16px">Liked Songs</h1>';
+          var list=document.createElement('div');
+          contentArea.appendChild(list);
+          renderTrackList(musicState.liked,list);
+        }
+      }
+      showMusicView('home');
       return d;
     }
   }
