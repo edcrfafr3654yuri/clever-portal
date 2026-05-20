@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -222,7 +223,21 @@ body[data-theme="glass"] .lock-form .lock-input{background:rgba(255,255,255,.12)
 body[data-theme="glass"] .lock-submit{background:rgba(255,255,255,.2)!important;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 body[data-theme="glass"] .emoji-picker{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:12px!important}
 body[data-theme="glass"] .theme-modal{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:16px!important}
-body[data-theme="glass"] .nickname-modal{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:16px!important}
+body[data-theme="glass"] .nickname-modal,body[data-theme="glass"] .nick-popup{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:12px!important}
+.nick-popup{position:fixed;z-index:99999;width:260px;padding:0;border-radius:10px;background:var(--bg4);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.45);overflow:hidden;font-size:13px;animation:nickPopIn .15s ease}
+@keyframes nickPopIn{from{opacity:0;transform:scale(.95) translateY(-4px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.nick-popup-header{padding:12px 14px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.nick-popup-header .nick-popup-og{font-size:12px;font-weight:600;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nick-popup-body{padding:10px 14px 14px}
+.nick-popup-body input{width:100%;padding:7px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:13px;outline:none;transition:border-color .15s}
+.nick-popup-body input:focus{border-color:var(--accent)}
+.nick-popup-body input::placeholder{color:var(--text6)}
+.nick-popup-btns{display:flex;gap:6px;margin-top:10px}
+.nick-popup-btns button{flex:1;padding:6px 0;border-radius:6px;border:1px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;transition:all .12s}
+.nick-popup-save{background:var(--accent);color:#fff;border-color:var(--accent)!important}
+.nick-popup-save:hover{opacity:.85}
+.nick-popup-remove{background:transparent;color:var(--text5)}
+.nick-popup-remove:hover{background:var(--border);color:var(--text3)}
 body[data-theme="glass"] .vc-incoming-card{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important;border-radius:20px!important}
 body[data-theme="glass"] .scroll-bottom-btn{background:rgba(255,255,255,.15)!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.25)!important}
 body[data-theme="glass"] .reply-quote{background:rgba(255,255,255,.06)!important;border-left:3px solid rgba(165,216,255,.5)}
@@ -465,7 +480,7 @@ html,body{background:var(--bg);color:var(--text)}
 .reco-overlay,.cache-overlay,.theme-overlay{position:fixed;top:0;left:0;width:100vw;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9998}
 .reco-modal,.cache-modal,.theme-modal{background:linear-gradient(135deg,var(--bg4),var(--bg5));border:1px solid var(--border);border-radius:14px;padding:28px 32px 24px;width:420px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8);position:relative}
 .cache-modal{width:480px}
-.theme-modal{width:500px}
+.theme-modal{width:640px;max-width:96%}
 .reco-modal-close,.cache-modal-close,.theme-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px;transition:all .2s}
 .reco-modal-close:hover,.cache-modal-close:hover,.theme-modal-close:hover{color:var(--text);background:var(--border2)}
 .reco-modal h3,.cache-modal h3,.theme-modal h3{color:var(--accent);font-size:18px;font-weight:700;margin-bottom:12px;text-align:center}
@@ -541,7 +556,8 @@ html,body{background:var(--bg);color:var(--text)}
 .message:hover .msg-action-bar{opacity:1;pointer-events:all}
 .message-main{flex:1;min-width:0}
 .message-header{font-size:11px;color:var(--text6);margin-bottom:3px;font-weight:500}
-.message-header .sender-name{color:var(--text5);font-weight:600}
+.message-header .sender-name{color:var(--text5);font-weight:600;cursor:pointer;border-radius:3px;padding:0 2px;margin:-0 -2px;transition:background .15s}
+.message-header .sender-name:hover{background:var(--border);text-decoration:underline}
 .message-text{font-size:inherit;word-wrap:break-word;white-space:pre-wrap;line-height:1.45;color:var(--chat-color,var(--text2))}
 .message-admin{border-left:3px solid var(--admin-border);background:var(--admin-bg)}
 .message-admin:hover{background:var(--admin-bg);filter:brightness(1.1)}
@@ -571,8 +587,11 @@ html,body{background:var(--bg);color:var(--text)}
 
 /* Message actions bar */
 .msg-action-bar{position:absolute;top:-14px;right:8px;display:flex;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:2px 4px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
-.msg-action-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:3px 5px;border-radius:12px;transition:background .15s;line-height:1}
+.msg-action-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:3px 5px;border-radius:12px;transition:background .15s,color .15s;line-height:1}
 .msg-action-btn:hover{background:var(--border)}
+.msg-action-btn.msg-del-btn{color:var(--text5)}
+.msg-action-btn.msg-del-btn:hover{background:rgba(220,38,38,.15);color:#ef4444}
+.msg-action-btn.msg-del-btn svg{width:14px;height:14px;vertical-align:middle;fill:currentColor}
 
 /* Reactions */
 .reactions-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
@@ -652,7 +671,52 @@ html,body{background:var(--bg);color:var(--text)}
 .panel-body{padding:10px 12px 24px}
 
 /* Chat content wrapper */
-.chat-content{display:flex;flex-direction:column;flex:1;overflow:hidden;position:relative}
+.chat-content{display:flex;flex-direction:row;flex:1;overflow:hidden;position:relative}
+.chat-sidebar{width:220px;min-width:220px;background:var(--bg3);border-right:1px solid var(--border);display:none;flex-direction:column;overflow:hidden}
+.chat-sidebar.open{display:flex}
+.chat-sidebar-header{padding:10px 12px 8px;font-size:12px;font-weight:700;color:var(--text5);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.chat-sidebar-header button{background:none;border:none;color:var(--text5);font-size:16px;cursor:pointer;padding:2px 4px;border-radius:4px;transition:all .15s;line-height:1}
+.chat-sidebar-header button:hover{background:var(--border);color:var(--accent)}
+.chat-list{flex:1;overflow-y:auto;padding:4px}
+.chat-list-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .12s;font-size:13px;color:var(--text3);position:relative}
+.chat-list-item:hover{background:var(--border)}
+.chat-list-item.active{background:var(--accent);color:#fff}
+.chat-list-item.active .chat-list-sub{color:rgba(255,255,255,.7)}
+.chat-list-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.chat-list-info{flex:1;min-width:0}
+.chat-list-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-list-sub{font-size:11px;color:var(--text6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-list-badge{min-width:18px;height:18px;border-radius:9px;background:#f44336;color:#fff;font-size:10px;font-weight:700;text-align:center;line-height:18px;padding:0 4px;flex-shrink:0}
+.chat-list-section{padding:8px 10px 4px;font-size:10px;font-weight:700;color:var(--text6);text-transform:uppercase;letter-spacing:.5px}
+.chat-main-panel{display:flex;flex-direction:column;flex:1;overflow:hidden;min-width:0}
+.chat-top-bar{display:flex;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid var(--border);background:var(--bg3);min-height:36px}
+.chat-top-bar .ctb-toggle{background:none;border:none;color:var(--text5);font-size:18px;cursor:pointer;padding:2px 6px;border-radius:4px;transition:all .12s;line-height:1;flex-shrink:0}
+.chat-top-bar .ctb-toggle:hover{background:var(--border);color:var(--accent)}
+.chat-top-bar .ctb-name{font-size:14px;font-weight:700;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-top-bar .ctb-sub{font-size:11px;color:var(--text6);margin-left:4px}
+.ctb-gc-icon{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#9c27b0,#7b1fa2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;flex-shrink:0;overflow:hidden;transition:opacity .12s}
+.ctb-gc-icon:hover{opacity:.8}
+.ctb-gc-icon img{width:100%;height:100%;object-fit:cover}
+.ctb-action{background:none;border:1px solid var(--border);color:var(--text5);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;font-weight:600;transition:all .12s;white-space:nowrap}
+.ctb-action:hover{background:var(--border);color:var(--text2)}
+.ctb-action.leave{border-color:#f44336;color:#f44336}
+.ctb-action.leave:hover{background:#f44336;color:#fff}
+/* New chat modal */
+.friend-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99998}
+.friend-modal{background:var(--bg4);border:1px solid var(--border);border-radius:12px;padding:20px 24px;width:340px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.6)}
+.friend-modal h3{color:var(--accent);font-size:16px;font-weight:700;margin-bottom:12px;text-align:center}
+.friend-modal input{width:100%;padding:8px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:13px;outline:none;margin-bottom:8px}
+.friend-modal input:focus{border-color:var(--accent)}
+.friend-req-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.friend-req-item:last-child{border-bottom:none}
+.friend-req-name{flex:1;font-size:13px;font-weight:600;color:var(--text3)}
+.friend-req-accept{background:#4caf50;color:#fff;padding:4px 10px;border-radius:5px;border:none;font-size:11px;font-weight:600;cursor:pointer}
+.gc-member-list{max-height:200px;overflow-y:auto;margin:8px 0}
+.gc-member-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;color:var(--text3)}
+.gc-member-item input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;margin:0;flex-shrink:0;vertical-align:middle}
+body[data-theme="glass"] .chat-sidebar{background:rgba(255,255,255,.06)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+body[data-theme="glass"] .friend-modal{background:rgba(255,255,255,.12)!important;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.25)!important}
+body[data-theme="glass"] .chat-top-bar{background:rgba(255,255,255,.06)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 details{background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;padding:10px;transition:background .15s}
 details[open]{background:var(--bg4)}
 summary{cursor:pointer;font-size:13px;font-weight:700;padding:4px 2px;color:var(--accent);user-select:none;display:flex;align-items:center;gap:6px}
@@ -667,6 +731,7 @@ summary::marker{color:var(--border2)}
 .admin-panel button:active{transform:translateY(0)}
 .btn-mute{background:linear-gradient(135deg,var(--orange),#bf360c)!important}
 .btn-ban{background:linear-gradient(135deg,#c62828,#b71c1c)!important}
+.btn-limit{background:linear-gradient(135deg,#2196f3,#1565c0)!important}
 .btn-clear{background:var(--bg3)!important;color:var(--text5)!important}
 .btn-clear:hover{background:var(--border)!important;color:var(--text3)!important}
 
@@ -778,14 +843,30 @@ summary::marker{color:var(--border2)}
 .audit-entry .audit-text{color:var(--text4)}
 
 /* Theme grid */
-.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.theme-card{padding:12px;border-radius:8px;border:2px solid transparent;cursor:pointer;transition:all .2s;text-align:center}
-.theme-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.theme-card{padding:16px;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:all .18s ease;text-align:center}
+.theme-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.36)}
 .theme-card.active{border-color:var(--accent)}
-.theme-card-preview{width:100%;height:36px;border-radius:5px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:3px}
-.theme-card-preview .tc-dot{width:8px;height:8px;border-radius:50%}
-.theme-card-name{font-size:12px;font-weight:700}
-.theme-card-desc{font-size:10px;margin-top:2px;opacity:.7}
+.theme-card-preview{width:100%;height:48px;border-radius:6px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden}
+.theme-card-preview .tc-dot{width:10px;height:10px;border-radius:50%}
+.preview-anim{position:absolute;inset:4px;border-radius:4px;pointer-events:none;opacity:.95}
+.preview-anim.neon-cyberpunk{background:linear-gradient(90deg,rgba(157,76,255,.25),rgba(53,213,255,.12));filter:blur(6px);transform:scale(1.05);animation:shiftHue 6s linear infinite}
+.preview-anim.retro-pixel{background:repeating-linear-gradient(90deg,#111 0 6px,#222 6px 12px);image-rendering:pixelated;animation:pixelShift .6s steps(2) infinite}
+.preview-anim.hacker-terminal{background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,255,0,.06));box-shadow:inset 0 0 18px rgba(0,255,0,.06);animation:terminalScroll 3s linear infinite}
+.preview-anim.space-galaxy{background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.9) 1px,transparent 2px),radial-gradient(circle at 70% 60%,rgba(255,255,255,.7) 1px,transparent 3px);background-size:200% 200%;animation:starsMove 10s linear infinite}
+.preview-anim.bioluminescent-ocean{background:linear-gradient(90deg,rgba(34,255,221,.08),rgba(69,217,255,.06));box-shadow:inset 0 0 18px rgba(34,255,221,.06);animation:bioPulse 3.2s ease-in-out infinite}
+.preview-anim.crystal-cavern{background:linear-gradient(90deg,rgba(161,140,255,.06),rgba(102,210,255,.04));filter:contrast(1.1);animation:crystalShimmer 5s ease-in-out infinite}
+.preview-anim.industrial-grunge{background:linear-gradient(90deg,rgba(212,159,30,.06),rgba(255,176,69,.04));background-size:200% 100%;animation:grungeShift 4s ease-in-out infinite}
+
+@keyframes shiftHue{0%{transform:translateX(-6%) scale(1.04)}50%{transform:translateX(6%) scale(1.06)}100%{transform:translateX(-6%) scale(1.04)}}
+@keyframes pixelShift{0%{background-position:0 0}100%{background-position:6px 0}}
+@keyframes terminalScroll{0%{background-position:0 0}100%{background-position:0 100%}}
+@keyframes starsMove{0%{background-position:0% 0%}50%{background-position:50% 50%}100%{background-position:0% 100%}}
+@keyframes bioPulse{0%{transform:scale(1);opacity:.92}50%{transform:scale(1.03);opacity:1}100%{transform:scale(1);opacity:.92}}
+@keyframes crystalShimmer{0%{filter:brightness(1)}50%{filter:brightness(1.18) saturate(1.05)}100%{filter:brightness(1)}}
+@keyframes grungeShift{0%{background-position:0% 0%}50%{background-position:100% 0%}100%{background-position:0% 0%}}
+.theme-card-name{font-size:13px;font-weight:700}
+.theme-card-desc{font-size:11px;margin-top:4px;opacity:.85}
 
 /* Toggle switch */
 .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding:6px 0}
@@ -899,8 +980,8 @@ summary::marker{color:var(--border2)}
   .reco-modal textarea{font-size:16px;padding:12px}
   .reco-modal button.reco-submit{padding:14px;font-size:15px;min-height:48px}
   .reco-modal-close,.cache-modal-close,.theme-modal-close,.demote-popup-close{width:40px;height:40px;font-size:24px;display:flex;align-items:center;justify-content:center}
-  .theme-grid{grid-template-columns:1fr 1fr;gap:8px}
-  .theme-card{padding:14px}
+  .theme-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .theme-card{padding:16px}
 
   /* Reactions — larger tap targets */
   .reactions-row{gap:6px;margin-top:8px}
@@ -1291,26 +1372,40 @@ summary{font-size:calc(13px * var(--fs-scale))}
 
 <div class="chat-screen" id="chatScreen">
   <div class="chat-content" id="chatContent">
-    <div class="online-bar" id="onlineBar"><div class="online-left"><span id="onlineList"></span></div><div class="online-right"><span id="penaltyList"></span></div></div>
-    <div class="lock-banner" id="lockBanner"><span class="lock-icon">&#128274;</span> Chat is locked</div>
-    <div class="messages" id="messages"></div>
-    <button class="scroll-bottom-btn" id="scrollBottomBtn" title="Scroll to bottom">&#8595;</button>
-    <div class="typing-indicator" id="typingIndicator"></div>
-    <div class="reply-preview-bar" id="replyPreviewBar">
-      <div class="rp-text">Replying to <span class="rp-sender" id="replyPreviewSender"></span>: <span id="replyPreviewText"></span></div>
-      <button class="rp-cancel" id="replyPreviewCancel">&times;</button>
+    <div class="chat-sidebar" id="chatSidebar">
+      <div class="chat-sidebar-header"><span>Chats</span><button id="chatSidebarAddBtn" title="New chat / Add friend">+</button></div>
+      <div class="chat-list" id="chatList"></div>
     </div>
-    <div class="image-preview" id="imagePreview"><img id="imagePreviewImg"><button class="image-preview-close" id="imagePreviewClose">&times;</button></div>
-    <div class="input-row">
-      <input type="text" id="messageInput" placeholder="Type a message...">
-      <button id="sendButton">Send</button>
-    </div>
-    <div class="rate-limit-bar" id="rateLimitBar">&#9203; Slow down! Rate limit active.</div>
-    <div class="mute-warning" id="muteWarning"></div>
-    <div class="mute-appeal-row" id="muteAppealRow">
-      <input type="text" id="muteAppealInput" placeholder="Why should you be unmuted?">
-      <button class="appeal-send-btn" id="muteAppealSendBtn">Appeal</button>
-      <button class="mute-appeal-close" id="muteAppealClose">&times;</button>
+    <div class="chat-main-panel" id="chatMainPanel">
+      <div class="chat-top-bar" id="chatTopBar">
+        <button class="ctb-toggle" id="chatToggleSidebar" title="Toggle chats">&#9776;</button>
+        <div class="ctb-gc-icon" id="chatTopIcon" style="display:none" title="Change group image"></div>
+        <span class="ctb-name" id="chatTopName">Global Chat</span>
+        <span class="ctb-sub" id="chatTopSub"></span>
+        <div style="margin-left:auto;display:flex;gap:4px" id="chatTopActions"></div>
+      </div>
+      <div class="online-bar" id="onlineBar"><div class="online-left"><span id="onlineList"></span></div><div class="online-right"><span id="penaltyList"></span></div></div>
+      <div class="lock-banner" id="lockBanner"><span class="lock-icon">&#128274;</span> Chat is locked</div>
+      <div class="messages" id="messages"></div>
+      <button class="scroll-bottom-btn" id="scrollBottomBtn" title="Scroll to bottom">&#8595;</button>
+      <div class="typing-indicator" id="typingIndicator"></div>
+      <div class="reply-preview-bar" id="replyPreviewBar">
+        <div class="rp-text">Replying to <span class="rp-sender" id="replyPreviewSender"></span>: <span id="replyPreviewText"></span></div>
+        <button class="rp-cancel" id="replyPreviewCancel">&times;</button>
+      </div>
+      <div class="image-preview" id="imagePreview"><img id="imagePreviewImg"><button class="image-preview-close" id="imagePreviewClose">&times;</button></div>
+      <div class="input-row">
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <button id="sendButton">Send</button>
+      </div>
+      <div class="rate-limit-bar" id="rateLimitBar">&#9203; Slow down! Rate limit active.</div>
+      <div class="mute-warning" id="muteWarning"></div>
+      <div id="wordLimitInfo" style="display:none;padding:8px 16px;font-size:13px;color:var(--text5)"></div>
+      <div class="mute-appeal-row" id="muteAppealRow">
+        <input type="text" id="muteAppealInput" placeholder="Why should you be unmuted?">
+        <button class="appeal-send-btn" id="muteAppealSendBtn">Appeal</button>
+        <button class="mute-appeal-close" id="muteAppealClose">&times;</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1340,15 +1435,24 @@ summary{font-size:calc(13px * var(--fs-scale))}
         </select>
       </div>
       <input type="hidden" id="presetMs" value="">
+      
+      
       <div class="action-btn-row">
         <button class="btn-mute" id="muteButton">&#128263; Mute</button>
         <button class="btn-ban" id="banButton">&#128683; Ban</button>
       </div>
+      <div class="action-btn-row" style="margin-top:8px">
+        <button class="btn-limit" id="limitWordsBtn">&#128214; Limit Words</button>
+      </div>
     </details>
     <details>
-      <summary><span class="section-icon">&#128683;</span> Muted &amp; Banned</summary>
+      <summary><span class="section-icon">&#128683;</span> Muted / Banned / Word Limited</summary>
       <div id="mutedList"></div>
       <div id="bannedList"></div>
+      <div style="margin-top:8px">
+        <label style="font-size:12px;color:var(--text5);display:block;margin-bottom:6px">Word-limited Users</label>
+        <div id="wordLimitsList" style="max-height:160px;overflow:auto;border:1px solid var(--border);background:var(--bg2);padding:8px;border-radius:8px;font-size:13px;color:var(--text5)">None</div>
+      </div>
     </details>
     <details>
       <summary><span class="section-icon">&#128227;</span> Announcement</summary>
@@ -1799,11 +1903,26 @@ db.ref('adminUsers').on('value',s=>{
     }
   });
 });
-db.ref('profilePictures').on('value',s=>{profilePictures=s.val()||{};renderOnlineUsers();updateTaskbarAvatar();updateLockAvatar();if(typeof window._settingsPfpRefresh==='function')window._settingsPfpRefresh();db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})})});
-db.ref('mutedRoles').on('value',s=>{mutedRoles=s.val()||{};renderMutedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt()});
-db.ref('onlineUsers').on('value',s=>{onlineUsers=s.val()||{};renderOnlineUsers();if(typeof _vcRenderUsers==='function'&&!_vcInCall&&!_gcInGroupCall)_vcRenderUsers();});
+db.ref('profilePictures').on('value',s=>{profilePictures=s.val()||{};renderOnlineUsers();updateTaskbarAvatar();updateLockAvatar();if(typeof window._settingsPfpRefresh==='function')window._settingsPfpRefresh();if(_activeChat.type==='global'){db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})})}else{renderMessages(_allMsgData)}});
+var _prevMutedRoles={};
+db.ref('mutedRoles').on('value',s=>{
+  var next=s.val()||{};
+  if(currentRole==='Admin'){
+    Object.keys(next).forEach(function(r){ if(!_prevMutedRoles[r] && next[r]){ _amToast((roleDisplayNames[r]||r)+' was muted.'); } });
+    Object.keys(_prevMutedRoles).forEach(function(r){ if(!_prevMutedRoles[r])return; if(!next[r]){ _amToast((roleDisplayNames[r]||r)+' mute removed/expired.'); } });
+  }
+  _prevMutedRoles=mutedRoles; mutedRoles=next;
+  renderMutedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
+});
+db.ref('onlineUsers').on('value',s=>{onlineUsers=s.val()||{};renderOnlineUsers();if(typeof _vcRenderUsers==='function'&&!_vcInCall&&!_gcInGroupCall)_vcRenderUsers();if(typeof _renderChatList==='function')_renderChatList();});
+var _prevBannedRoles={};
 db.ref('bannedRoles').on('value',s=>{
-  bannedRoles=s.val()||{};renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
+  var next=s.val()||{};
+  if(currentRole==='Admin'){
+    Object.keys(next).forEach(function(r){ if(!_prevBannedRoles[r] && next[r]){ _amToast((roleDisplayNames[r]||r)+' was banned.'); } });
+    Object.keys(_prevBannedRoles).forEach(function(r){ if(!_prevBannedRoles[r])return; if(!next[r]){ _amToast((roleDisplayNames[r]||r)+' ban removed/expired.'); } });
+  }
+  _prevBannedRoles=bannedRoles; bannedRoles=next; renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
     if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}showToast('You have been banned.');logout()}
@@ -1815,7 +1934,7 @@ db.ref('bannedRoles').on('value',s=>{
 var _lastMsgTimestamp=0,_chatInitialized=false;
 var _unreadChatCount=0;
 function _isChatVisible(){if(typeof openWindows!=='object')return false;for(var w in openWindows){if(openWindows[w].appId==='chat'&&!openWindows[w].minimized)return true}return false}
-function updateChatBadge(){var b=document.getElementById('chatIconBadge');if(b){if(_unreadChatCount>0){b.style.display='';b.textContent=_unreadChatCount>99?'99+':_unreadChatCount}else{b.style.display='none';b.textContent=''}}if(typeof updateTaskbar==='function')updateTaskbar()}
+function updateChatBadge(){var total=_unreadChatCount;if(typeof _dmUnread==='object')Object.keys(_dmUnread).forEach(function(k){total+=(_dmUnread[k]||0)});if(typeof _gcUnread==='object')Object.keys(_gcUnread).forEach(function(k){total+=(_gcUnread[k]||0)});var b=document.getElementById('chatIconBadge');if(b){if(total>0){b.style.display='';b.textContent=total>99?'99+':total}else{b.style.display='none';b.textContent=''}}if(typeof updateTaskbar==='function')updateTaskbar()}
 function showChatNotifPopup(senderName,text,senderRole){
   var existing=document.querySelectorAll('.chat-notif-popup');
   existing.forEach(function(el,i){if(i<existing.length-2)el.remove()});
@@ -1841,7 +1960,7 @@ function showChatNotifPopup(senderName,text,senderRole){
 }
 db.ref('chatMessages').on('value',snap=>{
   var data=snap.val()||{};
-  renderMessages(data);
+  if(_activeChat.type==='global'){_allMsgData=data;renderMessages(data);}
   if(!_chatInitialized){_chatInitialized=true;var keys=Object.keys(data);if(keys.length){_lastMsgTimestamp=Math.max.apply(null,keys.map(function(k){return data[k].timestamp||0}))}return}
   var role=currentRole;
   var keys=Object.keys(data);
@@ -2202,6 +2321,48 @@ function buildAvatarEl(role,size){
   if(size){fb.style.width=size+'px';fb.style.height=size+'px';fb.style.fontSize=Math.round(size*0.45)+'px'}
   return fb;
 }
+/* ==============================
+   NICKNAMES (local per-client)
+   ============================== */
+var _localNicknames = JSON.parse(localStorage.getItem('nicknames')||'{}');
+function _saveLocalNicknames(){ localStorage.setItem('nicknames', JSON.stringify(_localNicknames)); }
+function getDisplayName(role, fallback){ return (_localNicknames && _localNicknames[role]) ? _localNicknames[role] : (fallback||role); }
+function openNicknamePopup(targetRole, anchorEl){
+  if(!targetRole) return;
+  var ex=document.querySelector('.nick-popup'); if(ex) ex.remove();
+  var ogName=(onlineUsers[targetRole]&&onlineUsers[targetRole].name)||roleDisplayNames[targetRole]||targetRole;
+  var box=document.createElement('div'); box.className='nick-popup';
+  var hdr=document.createElement('div'); hdr.className='nick-popup-header';
+  hdr.appendChild(buildAvatarEl(targetRole,24));
+  var ogSpan=document.createElement('span'); ogSpan.className='nick-popup-og'; ogSpan.textContent=ogName;
+  hdr.appendChild(ogSpan);
+  var body=document.createElement('div'); body.className='nick-popup-body';
+  var inp=document.createElement('input'); inp.type='text'; inp.placeholder='Set a nickname\u2026'; inp.value=_localNicknames[targetRole]||'';
+  var btns=document.createElement('div'); btns.className='nick-popup-btns';
+  var save=document.createElement('button'); save.textContent='Save'; save.className='nick-popup-save';
+  var removeBtn=document.createElement('button'); removeBtn.textContent='Remove'; removeBtn.className='nick-popup-remove';
+  function refresh(){ renderMessages(_allMsgData); renderOnlineUsers(); if(typeof _vcRenderUsers==='function')_vcRenderUsers(); }
+  save.onclick=function(e){ e.stopPropagation(); var v=inp.value.trim(); if(v){ _localNicknames[targetRole]=v; } else { delete _localNicknames[targetRole]; } _saveLocalNicknames(); box.remove(); refresh(); };
+  removeBtn.onclick=function(e){ e.stopPropagation(); delete _localNicknames[targetRole]; _saveLocalNicknames(); inp.value=''; box.remove(); refresh(); };
+  btns.appendChild(save); btns.appendChild(removeBtn);
+  body.appendChild(inp); body.appendChild(btns);
+  box.appendChild(hdr); box.appendChild(body);
+  document.body.appendChild(box);
+  if(anchorEl){
+    var r=anchorEl.getBoundingClientRect();
+    var bw=260,bh=box.offsetHeight;
+    var l=r.left,t=r.bottom+6;
+    if(l+bw>window.innerWidth) l=window.innerWidth-bw-8;
+    if(l<4) l=4;
+    if(t+bh>window.innerHeight) t=r.top-bh-6;
+    box.style.left=l+'px'; box.style.top=t+'px';
+  }
+  setTimeout(function(){ inp.focus(); },60);
+  setTimeout(function(){
+    function docClick(e){ if(!e.target.closest('.nick-popup')){ box.remove(); document.removeEventListener('click',docClick); } }
+    document.addEventListener('click', docClick);
+  },50);
+}
 function updateTaskbarAvatar(){
   var container=document.getElementById('taskbarUserAvatar');
   if(!container||!currentRole)return;
@@ -2236,6 +2397,486 @@ function removeProfilePicture(){
     showToast('Profile picture removed.');
   }).catch(function(e){showToast('Error: '+e.message)});
 }
+
+/* ==============================
+   CHAT CHANNELS SYSTEM
+   ============================== */
+var _activeChat={type:'global',id:'global'};
+var _groupChats={};
+var _chatListeners={};
+var _dmUnread={};
+var _gcUnread={};
+var _activeDms={};
+var _dmLastMsg={};
+var _gcLastMsg={};
+var _dmMsgListeners={};
+var _gcMsgListeners={};
+var _chatLastSeen={};
+
+function _dmChatId(roleA,roleB){var s=[roleA,roleB].sort();return s[0]+'__'+s[1]}
+
+function _saveChatLastSeen(chatId){
+  if(!currentRole)return;
+  _chatLastSeen[chatId]=Date.now();
+  db.ref('chatLastSeen/'+currentRole+'/'+chatId.replace(/[.#$\[\]]/g,'_')).set(Date.now());
+}
+
+function _listenChats(){
+  if(!currentRole)return;
+  db.ref('chatLastSeen/'+currentRole).once('value',function(snap){
+    _chatLastSeen=snap.val()||{};
+    db.ref('dmIndex/'+currentRole).on('value',function(snap2){
+      _activeDms=snap2.val()||{};
+      _setupDmMsgListeners();
+      _renderChatList();
+    });
+    db.ref('groupChats').on('value',function(snap2){
+      _groupChats=snap2.val()||{};
+      _setupGcMsgListeners();
+      _renderChatList();
+    });
+  });
+}
+
+function _setupDmMsgListeners(){
+  Object.keys(_activeDms).forEach(function(otherRole){
+    var cid=_dmChatId(currentRole,otherRole);
+    if(_dmMsgListeners[cid])return;
+    _dmMsgListeners[cid]=true;
+    var safeId=cid.replace(/[.#$\[\]]/g,'_');
+    var lastSeen=_chatLastSeen[safeId]||0;
+    /* Count all unread on load */
+    db.ref('dmMessages/'+cid).orderByChild('timestamp').startAt(lastSeen+1).once('value',function(snap){
+      var msgs=snap.val()||{};
+      var cnt=0;
+      Object.keys(msgs).forEach(function(k){if(msgs[k].senderRole!==currentRole)cnt++});
+      _dmUnread[cid]=cnt;
+      updateChatBadge();
+      _renderChatList();
+    });
+    /* Listen for latest message */
+    db.ref('dmMessages/'+cid).orderByChild('timestamp').limitToLast(1).on('value',function(snap){
+      var msgs=snap.val();
+      if(msgs){
+        var keys=Object.keys(msgs);
+        var last=msgs[keys[keys.length-1]];
+        var prevTs=_dmLastMsg[cid]?_dmLastMsg[cid].timestamp:0;
+        _dmLastMsg[cid]=last;
+        if(prevTs>0&&last.timestamp>prevTs&&last.senderRole!==currentRole&&!(_activeChat.type==='dm'&&_activeChat.id===cid)){
+          _dmUnread[cid]=(_dmUnread[cid]||0)+1;
+          updateChatBadge();
+        }
+      }
+      _renderChatList();
+    });
+  });
+}
+
+function _setupGcMsgListeners(){
+  Object.keys(_groupChats).filter(function(gid){var gc=_groupChats[gid];return gc&&gc.members&&gc.members[currentRole]}).forEach(function(gid){
+    if(_gcMsgListeners[gid])return;
+    _gcMsgListeners[gid]=true;
+    var safeId=gid.replace(/[.#$\[\]]/g,'_');
+    var lastSeen=_chatLastSeen[safeId]||0;
+    /* Count all unread on load */
+    db.ref('groupMessages/'+gid).orderByChild('timestamp').startAt(lastSeen+1).once('value',function(snap){
+      var msgs=snap.val()||{};
+      var cnt=0;
+      Object.keys(msgs).forEach(function(k){if(msgs[k].senderRole!==currentRole)cnt++});
+      _gcUnread[gid]=cnt;
+      updateChatBadge();
+      _renderChatList();
+    });
+    /* Listen for latest message */
+    db.ref('groupMessages/'+gid).orderByChild('timestamp').limitToLast(1).on('value',function(snap){
+      var msgs=snap.val();
+      if(msgs){
+        var keys=Object.keys(msgs);
+        var last=msgs[keys[keys.length-1]];
+        var prevTs=_gcLastMsg[gid]?_gcLastMsg[gid].timestamp:0;
+        _gcLastMsg[gid]=last;
+        if(prevTs>0&&last.timestamp>prevTs&&last.senderRole!==currentRole&&!(_activeChat.type==='group'&&_activeChat.id===gid)){
+          _gcUnread[gid]=(_gcUnread[gid]||0)+1;
+          updateChatBadge();
+        }
+      }
+      _renderChatList();
+    });
+  });
+}
+
+/* ---- Switch Chat ---- */
+function _switchChat(type,id){
+  _detachChatListener();
+  _activeChat={type:type,id:id};
+  messagesDiv.innerHTML='';
+  _allMsgData={};
+  var onlineBar=document.getElementById('onlineBar');
+  var lockBanner=document.getElementById('lockBanner');
+  var muteAppealRow=document.getElementById('muteAppealRow');
+  var wordLimitInfo=document.getElementById('wordLimitInfo');
+  var topName=document.getElementById('chatTopName');
+  var topSub=document.getElementById('chatTopSub');
+  var topIcon=document.getElementById('chatTopIcon');
+  var topActions=document.getElementById('chatTopActions');
+  if(topIcon)topIcon.style.display='none';
+  if(topActions)topActions.innerHTML='';
+  if(topName){topName.style.cursor='';topName.onclick=null}
+  if(type==='global'){
+    onlineBar.style.display='flex';
+    lockBanner.style.display=chatLocked?'flex':'none';
+    muteAppealRow.style.display='';
+    messageInput.placeholder='Type a message...';
+    if(topName)topName.textContent='Global Chat';
+    if(topSub)topSub.textContent='';
+    _chatListeners._ref=db.ref('chatMessages');
+    _chatListeners._ref.on('value',function(snap){
+      var data=snap.val()||{};
+      _allMsgData=data;
+      renderMessages(data);
+    });
+  }else if(type==='dm'){
+    onlineBar.style.display='none';
+    lockBanner.style.display='none';
+    muteAppealRow.style.display='none';
+    if(wordLimitInfo)wordLimitInfo.style.display='none';
+    var parts=id.split('__');
+    var other=parts[0]===currentRole?parts[1]:parts[0];
+    var otherName=getDisplayName(other,(onlineUsers[other]&&onlineUsers[other].name)||roleDisplayNames[other]||other);
+    messageInput.placeholder='Message '+otherName+'...';
+    if(topName)topName.textContent=otherName;
+    var isOnline=!!onlineUsers[other];
+    if(topSub)topSub.textContent=isOnline?'Online':'Offline';
+    _chatListeners._ref=db.ref('dmMessages/'+id);
+    _chatListeners._ref.on('value',function(snap){
+      var data=snap.val()||{};
+      _allMsgData=data;
+      renderMessages(data);
+    });
+    _dmUnread[id]=0;
+    _saveChatLastSeen(id);
+    updateChatBadge();
+  }else if(type==='group'){
+    onlineBar.style.display='none';
+    lockBanner.style.display='none';
+    muteAppealRow.style.display='none';
+    if(wordLimitInfo)wordLimitInfo.style.display='none';
+    var gc=_groupChats[id];
+    var gcName=gc&&gc.name||'Group';
+    messageInput.placeholder='Message '+gcName+'...';
+    if(topName){
+      topName.textContent=gcName;
+      topName.style.cursor='pointer';
+      topName.title='Rename group';
+      topName.onclick=function(){_renameGroupChat(id)};
+    }
+    var memberCount=gc&&gc.members?Object.keys(gc.members).length:0;
+    if(topSub)topSub.textContent=memberCount+' members';
+    /* Group icon */
+    if(topIcon){
+      topIcon.style.display='flex';
+      if(gc&&gc.image){topIcon.innerHTML='<img src="'+escHtml(gc.image)+'" alt="">';}
+      else{topIcon.textContent='G';}
+      topIcon.onclick=function(){_changeGroupImage(id)};
+    }
+    /* Action buttons */
+    if(topActions){
+      var leaveBtn=document.createElement('button');leaveBtn.className='ctb-action leave';leaveBtn.textContent='Leave';
+      leaveBtn.onclick=function(){_leaveGroupChat(id)};
+      topActions.appendChild(leaveBtn);
+    }
+    _chatListeners._ref=db.ref('groupMessages/'+id);
+    _chatListeners._ref.on('value',function(snap){
+      var data=snap.val()||{};
+      _allMsgData=data;
+      renderMessages(data);
+    });
+    _gcUnread[id]=0;
+    _saveChatLastSeen(id);
+    updateChatBadge();
+  }
+  _renderChatList();
+}
+function _detachChatListener(){
+  if(_chatListeners._ref){
+    _chatListeners._ref.off();
+    _chatListeners._ref=null;
+  }
+}
+
+/* ---- Send message (patched) ---- */
+function _getChatRef(){
+  if(_activeChat.type==='global')return db.ref('chatMessages');
+  if(_activeChat.type==='dm')return db.ref('dmMessages/'+_activeChat.id);
+  if(_activeChat.type==='group')return db.ref('groupMessages/'+_activeChat.id);
+  return db.ref('chatMessages');
+}
+
+/* ---- Group chat creation ---- */
+function _createGroupChat(name,members){
+  if(!currentRole)return;
+  if(!name)name='Group Chat';
+  var allMembers={};
+  allMembers[currentRole]=true;
+  members.forEach(function(m){allMembers[m]=true});
+  var gcRef=db.ref('groupChats').push();
+  gcRef.set({name:name,creator:currentRole,members:allMembers,created:Date.now()});
+  _switchChat('group',gcRef.key);
+}
+
+/* ---- Open DM ---- */
+function _openDm(targetRole){
+  if(!currentRole||targetRole===currentRole)return;
+  var cid=_dmChatId(currentRole,targetRole);
+  var tName=getDisplayName(targetRole,(onlineUsers[targetRole]&&onlineUsers[targetRole].name)||roleDisplayNames[targetRole]||targetRole);
+  db.ref('dmIndex/'+currentRole+'/'+targetRole).set({name:tName,since:Date.now()});
+  var myName=currentDisplayName||currentRole;
+  db.ref('dmIndex/'+targetRole+'/'+currentRole).set({name:myName,since:Date.now()});
+  _switchChat('dm',cid);
+}
+
+/* ---- Leave group chat ---- */
+function _leaveGroupChat(gid){
+  if(!currentRole||!gid)return;
+  var existing=document.querySelector('.friend-overlay');if(existing)existing.remove();
+  var overlay=document.createElement('div');overlay.className='friend-overlay';
+  var modal=document.createElement('div');modal.className='friend-modal';
+  modal.innerHTML='<h3>Leave Group</h3><div style="font-size:13px;color:var(--text3);text-align:center;margin-bottom:12px">Are you sure you want to leave this group chat?</div>';
+  var btns=document.createElement('div');btns.style.cssText='display:flex;gap:8px';
+  var leaveBtn=document.createElement('button');leaveBtn.textContent='Leave';leaveBtn.style.cssText='flex:1;padding:8px;border-radius:6px;border:none;font-size:12px;font-weight:600;cursor:pointer;background:#f44336;color:#fff';
+  var cancelBtn=document.createElement('button');cancelBtn.textContent='Cancel';cancelBtn.style.cssText='flex:1;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--border);color:var(--text3);font-size:12px;font-weight:600;cursor:pointer';
+  cancelBtn.onclick=function(){overlay.remove()};
+  leaveBtn.onclick=function(){
+    overlay.remove();
+    var myName=currentDisplayName||currentRole;
+    db.ref('groupMessages/'+gid).push({text:myName+' left the group.',senderRole:'System',senderName:'System',timestamp:Date.now()});
+    db.ref('groupChats/'+gid+'/members/'+currentRole).remove();
+    _switchChat('global','global');
+    showToast('You left the group.');
+  };
+  btns.appendChild(leaveBtn);btns.appendChild(cancelBtn);
+  modal.appendChild(btns);
+  overlay.appendChild(modal);
+  overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
+  document.body.appendChild(overlay);
+}
+
+/* ---- Rename group chat ---- */
+function _renameGroupChat(gid){
+  if(!currentRole||!gid)return;
+  var gc=_groupChats[gid];
+  var oldName=gc&&gc.name||'Group';
+  var existing=document.querySelector('.friend-overlay');if(existing)existing.remove();
+  var overlay=document.createElement('div');overlay.className='friend-overlay';
+  var modal=document.createElement('div');modal.className='friend-modal';
+  modal.innerHTML='<h3>Rename Group</h3>';
+  var inp=document.createElement('input');inp.value=oldName;inp.placeholder='New group name...';
+  modal.appendChild(inp);
+  var btns=document.createElement('div');btns.style.cssText='display:flex;gap:8px;margin-top:10px';
+  var saveBtn=document.createElement('button');saveBtn.textContent='Save';saveBtn.style.cssText='flex:1;padding:8px;border-radius:6px;border:none;font-size:12px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff';
+  var cancelBtn=document.createElement('button');cancelBtn.textContent='Cancel';cancelBtn.style.cssText='flex:1;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--border);color:var(--text3);font-size:12px;font-weight:600;cursor:pointer';
+  cancelBtn.onclick=function(){overlay.remove()};
+  saveBtn.onclick=function(){
+    var newName=inp.value.trim();
+    if(!newName){showToast('Enter a name');return}
+    if(newName===oldName){overlay.remove();return}
+    db.ref('groupChats/'+gid+'/name').set(newName);
+    var myName=currentDisplayName||currentRole;
+    db.ref('groupMessages/'+gid).push({text:myName+' renamed the group to "'+newName+'".',senderRole:'System',senderName:'System',timestamp:Date.now()});
+    var topName=document.getElementById('chatTopName');
+    if(topName)topName.textContent=newName;
+    overlay.remove();
+    showToast('Group renamed.');
+  };
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')saveBtn.click()});
+  btns.appendChild(saveBtn);btns.appendChild(cancelBtn);
+  modal.appendChild(btns);
+  overlay.appendChild(modal);
+  overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
+  document.body.appendChild(overlay);
+  setTimeout(function(){inp.focus();inp.select()},50);
+}
+
+/* ---- Change group chat image ---- */
+function _changeGroupImage(gid){
+  if(!currentRole||!gid)return;
+  var inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+  inp.onchange=function(){
+    var file=inp.files[0];if(!file)return;
+    if(file.size>200000){showToast('Image too large (max 200KB)');return}
+    var reader=new FileReader();
+    reader.onload=function(){
+      var dataUrl=reader.result;
+      db.ref('groupChats/'+gid+'/image').set(dataUrl);
+      var myName=currentDisplayName||currentRole;
+      db.ref('groupMessages/'+gid).push({text:myName+' changed the group image.',senderRole:'System',senderName:'System',timestamp:Date.now()});
+      var topIcon=document.getElementById('chatTopIcon');
+      if(topIcon)topIcon.innerHTML='<img src="'+escHtml(dataUrl)+'" alt="">';
+      showToast('Group image updated.');
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
+}
+
+/* ---- Render chat list ---- */
+function _renderChatList(){
+  var list=document.getElementById('chatList');
+  if(!list)return;
+  list.innerHTML='';
+
+  /* Global chat */
+  var globalItem=document.createElement('div');globalItem.className='chat-list-item'+((_activeChat.type==='global')?' active':'');
+  globalItem.innerHTML='<div class="chat-list-icon" style="background:linear-gradient(135deg,#0af,#08c);color:#fff">&#127760;</div><div class="chat-list-info"><div class="chat-list-name">Global Chat</div><div class="chat-list-sub">Everyone</div></div>';
+  globalItem.onclick=function(){_switchChat('global','global')};
+  list.appendChild(globalItem);
+
+  /* DMs section */
+  var dmKeys=Object.keys(_activeDms);
+  if(dmKeys.length>0){
+    var dmSec=document.createElement('div');dmSec.className='chat-list-section';dmSec.textContent='Direct Messages';
+    list.appendChild(dmSec);
+    dmKeys.forEach(function(otherRole){
+      var cid=_dmChatId(currentRole,otherRole);
+      var nm=getDisplayName(otherRole,(_activeDms[otherRole]&&_activeDms[otherRole].name)||roleDisplayNames[otherRole]||otherRole);
+      var item=document.createElement('div');item.className='chat-list-item'+((_activeChat.type==='dm'&&_activeChat.id===cid)?' active':'');
+      var iconEl=buildAvatarEl(otherRole,28);
+      var info=document.createElement('div');info.className='chat-list-info';
+      var lastMsg=_dmLastMsg[cid];
+      var subText=lastMsg?(lastMsg.text?(lastMsg.text.length>30?lastMsg.text.substring(0,30)+'...':lastMsg.text):'[image]'):'No messages yet';
+      info.innerHTML='<div class="chat-list-name">'+escHtml(nm)+'</div><div class="chat-list-sub">'+escHtml(subText)+'</div>';
+      item.appendChild(iconEl);item.appendChild(info);
+      if(_dmUnread[cid]>0){
+        var badge=document.createElement('span');badge.className='chat-list-badge';badge.textContent=_dmUnread[cid]>99?'99+':_dmUnread[cid];
+        item.appendChild(badge);
+      }
+      (function(c){item.onclick=function(){_switchChat('dm',c)}})(cid);
+      list.appendChild(item);
+    });
+  }
+
+  /* Group chats section */
+  var gcKeys=Object.keys(_groupChats).filter(function(gid){
+    var gc=_groupChats[gid];
+    return gc&&gc.members&&gc.members[currentRole];
+  });
+  if(gcKeys.length>0){
+    var gcSec=document.createElement('div');gcSec.className='chat-list-section';gcSec.textContent='Group Chats';
+    list.appendChild(gcSec);
+    gcKeys.forEach(function(gid){
+      var gc=_groupChats[gid];
+      var item=document.createElement('div');item.className='chat-list-item'+((_activeChat.type==='group'&&_activeChat.id===gid)?' active':'');
+      var icon=document.createElement('div');icon.className='chat-list-icon';icon.style.cssText='background:linear-gradient(135deg,#9c27b0,#7b1fa2);color:#fff;overflow:hidden';
+      if(gc.image){icon.innerHTML='<img src="'+escHtml(gc.image)+'" alt="" style="width:100%;height:100%;object-fit:cover">';}else{icon.textContent='G';}
+      var info=document.createElement('div');info.className='chat-list-info';
+      var gcLast=_gcLastMsg[gid];
+      var gcSubText=gcLast?(gcLast.text?(gcLast.text.length>30?gcLast.text.substring(0,30)+'...':gcLast.text):'[image]'):(gc.members?Object.keys(gc.members).length+' members':'');
+      info.innerHTML='<div class="chat-list-name">'+escHtml(gc.name||'Group')+'</div><div class="chat-list-sub">'+escHtml(gcSubText)+'</div>';
+      item.appendChild(icon);item.appendChild(info);
+      if(_gcUnread[gid]>0){
+        var badge=document.createElement('span');badge.className='chat-list-badge';badge.textContent=_gcUnread[gid]>99?'99+':_gcUnread[gid];
+        item.appendChild(badge);
+      }
+      (function(g){item.onclick=function(){_switchChat('group',g)}})(gid);
+      list.appendChild(item);
+    });
+  }
+}
+
+/* ---- New chat modal (DM or Group) ---- */
+function _showAddChatModal(){
+  var existing=document.querySelector('.friend-overlay');if(existing)existing.remove();
+  var overlay=document.createElement('div');overlay.className='friend-overlay';
+  var modal=document.createElement('div');modal.className='friend-modal';
+  modal.innerHTML='<h3>New Chat</h3>';
+
+  var tabs=document.createElement('div');tabs.style.cssText='display:flex;gap:4px;margin-bottom:12px';
+  var tabDm=document.createElement('button');tabDm.textContent='Direct Message';tabDm.style.cssText='flex:1;padding:6px;border-radius:6px;border:1px solid var(--border);background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer';
+  var tabGroup=document.createElement('button');tabGroup.textContent='New Group';tabGroup.style.cssText='flex:1;padding:6px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:12px;font-weight:600;cursor:pointer';
+  tabs.appendChild(tabDm);tabs.appendChild(tabGroup);
+  modal.appendChild(tabs);
+
+  var content=document.createElement('div');
+  modal.appendChild(content);
+
+  function setActiveTab(btn){[tabDm,tabGroup].forEach(function(b){b.style.background='transparent';b.style.color='var(--text3)'});btn.style.background='var(--accent)';btn.style.color='#fff'}
+
+  function showDmTab(){
+    setActiveTab(tabDm);
+    content.innerHTML='';
+    var lbl=document.createElement('div');lbl.style.cssText='font-size:12px;color:var(--text5);margin-bottom:6px';lbl.textContent='Select a user to message:';
+    content.appendChild(lbl);
+    var userList=document.createElement('div');userList.style.cssText='max-height:200px;overflow-y:auto';
+    var allRoles=Object.keys(onlineUsers).concat(Object.keys(roleDisplayNames)).filter(function(r,i,a){return a.indexOf(r)===i&&r!==currentRole&&r!=='System'});
+    allRoles.forEach(function(r){
+      var row=document.createElement('div');row.className='friend-req-item';
+      row.appendChild(buildAvatarEl(r,22));
+      var nm=document.createElement('span');nm.className='friend-req-name';nm.textContent=roleDisplayNames[r]||r;
+      var msgBtn=document.createElement('button');msgBtn.textContent='Message';msgBtn.className='friend-req-accept';
+      msgBtn.onclick=function(){_openDm(r);overlay.remove()};
+      row.appendChild(nm);row.appendChild(msgBtn);
+      userList.appendChild(row);
+    });
+    if(!userList.hasChildNodes()){userList.innerHTML='<div style="text-align:center;padding:16px;color:var(--text6);font-size:12px">No users available</div>'}
+    content.appendChild(userList);
+  }
+
+  function showGroupTab(){
+    setActiveTab(tabGroup);
+    content.innerHTML='';
+    var nameInp=document.createElement('input');nameInp.placeholder='Group name...';nameInp.style.marginBottom='8px';
+    content.appendChild(nameInp);
+    var lbl=document.createElement('div');lbl.style.cssText='font-size:12px;color:var(--text5);margin-bottom:6px';lbl.textContent='Select users to add:';
+    content.appendChild(lbl);
+    var memberDiv=document.createElement('div');memberDiv.className='gc-member-list';
+    var selected={};
+    var allRoles=Object.keys(onlineUsers).concat(Object.keys(roleDisplayNames)).filter(function(r,i,a){return a.indexOf(r)===i&&r!==currentRole&&r!=='System'});
+    allRoles.forEach(function(r){
+      var row=document.createElement('div');row.className='gc-member-item';row.style.cursor='pointer';
+      var cb=document.createElement('input');cb.type='checkbox';
+      cb.onchange=function(){if(cb.checked)selected[r]=true;else delete selected[r]};
+      var nm=document.createElement('span');nm.textContent=roleDisplayNames[r]||r;
+      row.appendChild(cb);row.appendChild(buildAvatarEl(r,20));row.appendChild(nm);
+      row.onclick=function(e){if(e.target===cb)return;cb.checked=!cb.checked;if(cb.checked)selected[r]=true;else delete selected[r]};
+      memberDiv.appendChild(row);
+    });
+    if(!allRoles.length){memberDiv.innerHTML='<div style="text-align:center;padding:16px;color:var(--text6);font-size:12px">No users available</div>'}
+    content.appendChild(memberDiv);
+    var createBtn=document.createElement('button');createBtn.textContent='Create Group';createBtn.style.cssText='width:100%;padding:8px;border-radius:6px;border:none;font-size:12px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;margin-top:8px';
+    createBtn.onclick=function(){
+      var members=Object.keys(selected);
+      if(members.length===0){showToast('Select at least one user');return}
+      _createGroupChat(nameInp.value.trim()||'Group Chat',members);
+      overlay.remove();
+    };
+    content.appendChild(createBtn);
+  }
+
+  tabDm.onclick=showDmTab;
+  tabGroup.onclick=showGroupTab;
+  showDmTab();
+
+  var closeArea=document.createElement('div');closeArea.style.cssText='text-align:center;margin-top:12px';
+  var closeBtn=document.createElement('button');closeBtn.textContent='Close';closeBtn.style.cssText='padding:6px 24px;border-radius:6px;border:1px solid var(--border);background:var(--border);color:var(--text3);font-size:12px;font-weight:600;cursor:pointer';
+  closeBtn.onclick=function(){overlay.remove()};
+  closeArea.appendChild(closeBtn);
+  modal.appendChild(closeArea);
+
+  overlay.appendChild(modal);
+  overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
+  document.body.appendChild(overlay);
+}
+
+/* Wire up sidebar toggle + new chat button */
+(function(){
+  var addBtn=document.getElementById('chatSidebarAddBtn');
+  if(addBtn)addBtn.onclick=function(){_showAddChatModal()};
+  var toggleBtn=document.getElementById('chatToggleSidebar');
+  if(toggleBtn)toggleBtn.onclick=function(){
+    var sb=document.getElementById('chatSidebar');
+    if(sb)sb.classList.toggle('open');
+  };
+})();
 
 /* ==============================
    AUTH
@@ -2276,7 +2917,10 @@ function loginAsRole(role){
   localStorage.setItem('docosDeviceId',deviceId);localStorage.setItem('docosRole',role);
   if(!EXCLUDED_DEVICES[deviceId])db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
 
-  db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
+  /* Initialize chat system */
+  _listenChats();
+  _switchChat('global','global');
+  _renderChatList();
   if(chatLocked&&!isAdmin){document.querySelector('.input-row').classList.add('locked');messageInput.placeholder='Chat is locked...';}
   else{document.querySelector('.input-row').classList.remove('locked');messageInput.placeholder='Type a message...';messageInput.focus();}
   db.ref('pendingRoleNotifications/'+role).once('value',function(snap){
@@ -2492,6 +3136,141 @@ muteButton.addEventListener('click',muteUser);
 banButton.addEventListener('click',banUser);
 
 /* ==============================
+   ADMIN: Word limiter
+   ============================== */
+var userWordLimits={};
+var _prevUserWordLimits={};
+function unitToMs(u){switch(u){case'seconds':return 1000;case'minutes':return 60000;case'hours':return 3600000;case'days':return 86400000;default:return 60000}}
+db.ref('userWordLimits').on('value',function(snap){
+  var next=snap.val()||{};
+  // notify admin of changes
+  if(currentRole==='Admin'){
+    Object.keys(next).forEach(function(r){
+      var n=next[r], p=_prevUserWordLimits[r];
+      if(!p && n){ _amToast((roleDisplayNames[r]||r)+' now has a word limit ('+(n.limit||n)+' '+(n.unit?('per '+n.unit):'per message')+').'); }
+      else if(p && !n){ _amToast((roleDisplayNames[r]||r)+' word limit removed.'); }
+      else if(p && n && (p.limit!==n.limit || p.unit!==n.unit)){ _amToast((roleDisplayNames[r]||r)+' word limit updated ('+(n.limit||n)+' '+(n.unit?('per '+n.unit):'per message')+').'); }
+    });
+    Object.keys(_prevUserWordLimits).forEach(function(r){ if(!next[r]){/* handled above on removal */} });
+  }
+  _prevUserWordLimits=userWordLimits; userWordLimits=next;
+  updateWordLimitUI(); renderWordLimits();
+});
+
+function computeWordsInWindow(role,windowMs){
+  if(!role||!windowMs||typeof _allMsgData!=='object')return 0;
+  var since=Date.now()-windowMs; var cnt=0;
+  Object.keys(_allMsgData).forEach(function(k){var m=_allMsgData[k]; if(!m) return; if(m.senderRole===role && (m.timestamp||0)>=since){ var w=(m.text||'').toString().trim().split(/\s+/).filter(Boolean).length; cnt+=w; }});
+  return cnt;
+}
+
+function updateUserWordLimitDisplay(){
+  var el=document.getElementById('wordLimitInfo'); if(!el) return;
+  if(!currentRole){ el.style.display='none'; return }
+  var obj = (userWordLimits && userWordLimits[currentRole]) ? userWordLimits[currentRole] : null;
+  if(!obj){ el.style.display='none'; return }
+  var limit = parseInt(obj.limit||obj,10)||0; var unit = obj.unit||'minutes'; var windowMs = obj.windowMs||unitToMs(unit);
+  var used = computeWordsInWindow(currentRole, windowMs);
+  var remaining = Math.max(0, limit - used);
+  el.style.display='block';
+  el.innerHTML = '<div style="font-size:12px;color:var(--text5)">You are limited to <strong style="color:var(--accent)">'+limit+'</strong> per '+unit+'</div><div style="font-size:13px;margin-top:6px">Words left: <strong style="color:var(--accent)">'+remaining+'</strong></div>';
+}
+
+// update live on input
+if(typeof messageInput!=='undefined'&&messageInput){ messageInput.addEventListener('input',function(){ updateUserWordLimitDisplay(); }); }
+
+function updateWordLimitUI(){
+  var cur=document.getElementById('currentWordLimit');if(!cur)return;
+  var role=userSelect.value; if(!role){cur.textContent='';return}
+  var v=userWordLimits[role];
+  if(!v){cur.textContent='No limit'; document.getElementById('wordLimitInput').value=''; document.getElementById('wordLimitUnit').value='minutes';}
+  else{
+    var limit=v.limit||v; var unit=v.unit||'minutes'; cur.textContent='Limit: '+limit+' per '+unit; document.getElementById('wordLimitInput').value=limit; document.getElementById('wordLimitUnit').value=unit;
+  }
+}
+
+function renderWordLimits(){
+  var container=document.getElementById('wordLimitsList'); if(!container) return;
+  var keys=Object.keys(userWordLimits||{});
+  if(!keys.length){container.textContent='None'; return}
+  container.innerHTML='';
+  keys.forEach(function(r){
+    var v=userWordLimits[r]; var limit=(v&&v.limit)||v||0; var unit=(v&&v.unit)?v.unit:'minutes';
+    var div=document.createElement('div'); div.className='list-item'; div.style.alignItems='center';
+    var span=document.createElement('span'); span.textContent=(roleDisplayNames[r]||r)+': '+limit+' per '+unit;
+    div.appendChild(span);
+    if(isAnyAdmin()){
+      var btn=document.createElement('button'); btn.className='small-btn'; btn.textContent='Unlimit'; btn.style.background='#2b2b2b'; btn.style.color='#fff';
+      btn.onclick=function(){ if(!confirm('Remove word limit for '+(roleDisplayNames[r]||r)+'?')) return; db.ref('userWordLimits').child(r).remove().then(function(){ showToast('Removed word limit for '+(roleDisplayNames[r]||r)); logAudit('wordlimit','Cleared word limit for '+r); }).catch(console.error); };
+      div.appendChild(btn);
+    }
+    container.appendChild(div);
+  });
+}
+
+if(typeof userSelect!=='undefined' && userSelect){ userSelect.addEventListener('change',function(){updateWordLimitUI()}); }
+
+document.addEventListener('click',function(e){
+  if(e.target && e.target.id==='applyWordLimitBtn'){
+    if(!isAnyAdmin())return; var role=userSelect.value; if(!role){showToast('Select a user first');return}
+    var v=parseInt(document.getElementById('wordLimitInput').value,10);
+    var unit=document.getElementById('wordLimitUnit').value||'minutes';
+    if(isNaN(v)||v<0){showToast('Enter a valid number (0 to disable)');return}
+    if(v>0){
+      var obj={limit:v,unit:unit,windowMs:unitToMs(unit)};
+      db.ref('userWordLimits').child(role).set(obj).then(()=>{showToast('Set word limit for '+(roleDisplayNames[role]||role));logAudit('wordlimit','Set word limit '+v+' per '+unit+' for '+role)}).catch(console.error);
+    }else{
+      db.ref('userWordLimits').child(role).remove().then(()=>{showToast('Removed word limit for '+(roleDisplayNames[role]||role));logAudit('wordlimit','Cleared word limit for '+role)}).catch(console.error);
+    }
+  }
+  if(e.target && e.target.id==='clearWordLimitBtn'){
+    if(!isAnyAdmin())return; var role=userSelect.value; if(!role){showToast('Select a user first');return}
+    db.ref('userWordLimits').child(role).remove().then(()=>{showToast('Cleared word limit for '+(roleDisplayNames[role]||role));updateWordLimitUI();logAudit('wordlimit','Cleared word limit for '+role)}).catch(console.error);
+  }
+});
+
+// Limit Words button popup (matches lock popup style)
+var _limitBox=null;
+document.getElementById('limitWordsBtn').addEventListener('click',function(e){
+  e.stopPropagation();
+  if(!isAnyAdmin())return;
+  var role=userSelect.value; if(!role){showToast('Select a user first');return}
+  // remove existing
+  if(_limitBox){_limitBox.remove();_limitBox=null;return}
+  var box=document.createElement('div'); box.className='am-limit-box';
+  box.style.cssText='position:absolute;top:100%;left:0;margin-top:8px;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:40;min-width:260px';
+  box.innerHTML='<div style="font-size:12px;font-weight:700;color:var(--text3);margin-bottom:8px">Configure Word Limit for '+(roleDisplayNames[role]||role)+'</div>';
+  var inp=document.createElement('input'); inp.type='number'; inp.min='0'; inp.placeholder='Words (0 = no limit)'; inp.style.cssText='width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);margin-bottom:8px';
+  var sel=document.createElement('select'); sel.style.cssText='width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);margin-bottom:8px';
+  ['seconds','minutes','hours','days'].forEach(function(u){var o=document.createElement('option');o.value=u;o.textContent='per '+u; if(u==='minutes')o.selected=true; sel.appendChild(o)});
+  // prefill
+  var existing = userWordLimits && userWordLimits[role]; if(existing){ inp.value = existing.limit || existing; sel.value = existing.unit || existing.unit || 'minutes'; }
+  var btnRow=document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;justify-content:flex-end';
+  var confirm=document.createElement('button'); confirm.className='am-btn'; confirm.style.cssText='background:var(--accent);color:#fff;border-color:var(--accent);flex:0;padding:8px 12px'; confirm.textContent='Apply';
+  var cancel=document.createElement('button'); cancel.className='am-btn'; cancel.textContent='Cancel'; cancel.style.cssText='flex:0;padding:8px 12px';
+  confirm.onclick=function(ev){ ev.stopPropagation(); var v=parseInt(inp.value,10); var unit=sel.value; if(isNaN(v)||v<0){ showToast('Enter a valid number (0 to disable)'); return } if(v>0){ var obj={limit:v,unit:unit,windowMs:unitToMs(unit)}; db.ref('userWordLimits').child(role).set(obj).then(function(){ showToast('Set word limit for '+(roleDisplayNames[role]||role)); logAudit('wordlimit','Set word limit '+v+' per '+unit+' for '+role); box.remove(); _limitBox=null; }).catch(console.error);} else { db.ref('userWordLimits').child(role).remove().then(function(){ showToast('Removed word limit for '+(roleDisplayNames[role]||role)); logAudit('wordlimit','Cleared word limit for '+role); box.remove(); _limitBox=null; }).catch(console.error); } };
+  cancel.onclick=function(ev){ ev.stopPropagation(); box.remove(); _limitBox=null };
+  btnRow.appendChild(cancel); btnRow.appendChild(confirm);
+  box.appendChild(inp); box.appendChild(sel); box.appendChild(btnRow);
+  // attach to body and position under the Limit Words button
+  document.body.appendChild(box);
+  var rectBtn = this.getBoundingClientRect();
+  var boxRect = box.getBoundingClientRect();
+  var left = rectBtn.left + window.scrollX;
+  var top = rectBtn.bottom + window.scrollY + 8;
+  if(left + boxRect.width > window.innerWidth - 8) left = Math.max(8, window.innerWidth - boxRect.width - 8);
+  box.style.left = left + 'px'; box.style.top = top + 'px';
+  _limitBox = box;
+  setTimeout(function(){ inp.focus(); },60);
+});
+// close limit box when clicking outside it
+document.addEventListener('click',function(e){
+  if(!_limitBox) return;
+  var clickedInside = e.target.closest && (e.target.closest('.am-limit-box') || e.target.closest('#limitWordsBtn'));
+  if(!clickedInside){ _limitBox.remove(); _limitBox=null; }
+});
+
+/* ==============================
    MUTED/BANNED LISTS
    ============================== */
 function renderMutedList(){
@@ -2626,21 +3405,50 @@ document.getElementById('imagePreviewClose').addEventListener('click',()=>{pendi
 
 function sendMessage(){
   if(!currentRole)return;
+  var isGlobal=_activeChat.type==='global';
   var isAdminSend=isAnyAdmin();
-  if(chatLocked&&!isAdminSend){muteWarning.textContent='Chat is locked. Only admins can send messages.';messageInput.classList.add('shake');sendButton.classList.add('shake');setTimeout(()=>{messageInput.classList.remove('shake');sendButton.classList.remove('shake')},300);return}
-  if(isMuted(currentRole)){triggerMuteFeedback(currentRole);return}
-  if(!checkRateLimit())return;
+  if(isGlobal&&chatLocked&&!isAdminSend){muteWarning.textContent='Chat is locked. Only admins can send messages.';messageInput.classList.add('shake');sendButton.classList.add('shake');setTimeout(()=>{messageInput.classList.remove('shake');sendButton.classList.remove('shake')},300);return}
+  if(isGlobal&&isMuted(currentRole)){triggerMuteFeedback(currentRole);return}
+  if(isGlobal&&!checkRateLimit())return;
   muteWarning.textContent='';
   const text=messageInput.value.trim(),img=pendingImage;
+  if(isGlobal){
+    // Enforce per-user word limit (if configured) over sliding window
+    var wordCount = text? text.split(/\s+/).filter(Boolean).length : 0;
+    var limitObj = (userWordLimits && currentRole) ? userWordLimits[currentRole] : null;
+    if(limitObj){
+      var limitNum = parseInt(limitObj.limit||limitObj,10)||0;
+      if(limitNum>0){
+        var windowMs = limitObj.windowMs || unitToMs(limitObj.unit||'minutes');
+        var since = Date.now() - windowMs;
+        var wordsInWindow = 0;
+        if(typeof _allMsgData==='object'){
+          Object.keys(_allMsgData).forEach(function(k){
+            var m=_allMsgData[k]; if(!m) return;
+            if(m.senderRole===currentRole && (m.timestamp||0) >= since){
+              var w = (m.text||'').toString().trim().split(/\s+/).filter(Boolean).length; wordsInWindow += w;
+            }
+          });
+        }
+        if(wordsInWindow + wordCount > limitNum){
+          muteWarning.textContent='Message blocked: word limit exceeded ('+limitNum+' per '+(limitObj.unit||'minute')+').';
+          messageInput.classList.add('shake'); sendButton.classList.add('shake');
+          setTimeout(()=>{messageInput.classList.remove('shake'); sendButton.classList.remove('shake')},300);
+          return;
+        }
+      }
+    }
+  }
   if(!text&&!img)return;
   var msgObj={senderRole:currentRole,senderName:currentDisplayName,timestamp:Date.now()};
   if(text)msgObj.text=text;if(img)msgObj.image=img;
   if(replyTo){msgObj.replyTo={key:replyTo.key,senderName:replyTo.senderName,text:replyTo.text||''}}
-  db.ref('chatMessages').push(msgObj).then(()=>{
+  _getChatRef().push(msgObj).then(()=>{
     messageInput.value='';pendingImage=null;
     document.getElementById('imagePreview').style.display='none';
     replyTo=null;document.getElementById('replyPreviewBar').style.display='none';
     setTyping(false);clearTimeout(typingTimeout);
+    if(isGlobal) updateUserWordLimitDisplay();
   }).catch(console.error);
 }
 
@@ -2662,7 +3470,7 @@ function startEdit(key,currentText){
   cancelBtn.onclick=()=>{row.remove();textDiv.innerHTML=oldHtml};
   saveBtn.onclick=()=>{
     var newText=inp.value.trim();if(!newText)return;
-    db.ref('chatMessages').child(key).update({text:newText,edited:true,editedAt:Date.now()}).then(()=>row.remove());
+    _getChatRef().child(key).update({text:newText,edited:true,editedAt:Date.now()}).then(()=>row.remove());
   };
   inp.addEventListener('keydown',e=>{if(e.key==='Enter')saveBtn.click();if(e.key==='Escape')cancelBtn.click()});
   row.appendChild(inp);row.appendChild(saveBtn);row.appendChild(cancelBtn);
@@ -2673,24 +3481,28 @@ function startEdit(key,currentText){
    DELETE
    ============================== */
 function deleteMessage(key){
-  if(!isAnyAdmin())return;
   const wrapper=document.querySelector('[data-key="'+key+'"]');if(!wrapper)return;
   const existing=wrapper.querySelector('.confirm-delete');if(existing){existing.remove();return}
-  const delBtn=wrapper.querySelector('.delete-btn');
-  const conf=document.createElement('div');conf.className='confirm-delete';conf.innerHTML='<span>Delete?</span>';
-  const yes=document.createElement('button');yes.className='confirm-yes';yes.textContent='Yes';
-  yes.onclick=e=>{
-    e.stopPropagation();
-    db.ref('chatMessages').child(key).once('value',snap=>{
-      var msg=snap.val();if(msg){msg.deletedAt=Date.now();db.ref('deletedMessages').push(msg)}
-      db.ref('chatMessages').child(key).remove().catch(console.error);
-      logAudit('delete','Deleted message from '+(msg&&msg.senderName||'?'));
-    });
-  };
-  const no=document.createElement('button');no.className='confirm-no';no.textContent='No';
-  no.onclick=e=>{e.stopPropagation();conf.remove();if(delBtn)delBtn.style.display=''};
-  conf.appendChild(yes);conf.appendChild(no);
-  if(delBtn){delBtn.style.display='none';delBtn.after(conf)}else{wrapper.appendChild(conf)}
+  // fetch message to check permissions
+  _getChatRef().child(key).once('value').then(snap=>{
+    var msg=snap.val(); if(!msg) return;
+    if(!(isAnyAdmin() || (currentRole && msg.senderRole===currentRole))){ showToast('Not allowed'); return; }
+    const delBtn=wrapper.querySelector('.delete-btn');
+    const conf=document.createElement('div');conf.className='confirm-delete';conf.innerHTML='<span>Delete?</span>';
+    const yes=document.createElement('button');yes.className='confirm-yes';yes.textContent='Yes';
+    yes.onclick=e=>{
+      e.stopPropagation();
+      _getChatRef().child(key).once('value',snap2=>{
+        var m=snap2.val(); if(m){ m.deletedAt=Date.now(); db.ref('deletedMessages').push(m); }
+        _getChatRef().child(key).remove().catch(console.error);
+        logAudit('delete','Deleted message '+key+' by '+(m&&m.senderName||'?')+' (actor:'+ (currentRole||'?') +')');
+      });
+    };
+    const no=document.createElement('button');no.className='confirm-no';no.textContent='No';
+    no.onclick=e=>{e.stopPropagation();conf.remove();if(delBtn)delBtn.style.display=''};
+    conf.appendChild(yes);conf.appendChild(no);
+    if(delBtn){delBtn.style.display='none';delBtn.after(conf)}else{wrapper.appendChild(conf)}
+  }).catch(console.error);
 }
 
 /* ==============================
@@ -2740,6 +3552,8 @@ function buildReactionsRow(msgKey,reactionsData){
 var _allMsgData={};
 function renderMessages(data){
   _allMsgData=data;
+  // update word-limit UI (for current user) when messages change
+  try{ updateUserWordLimitDisplay(); }catch(e){}
   const scrollPos=messagesDiv.scrollTop,scrollHeight=messagesDiv.scrollHeight,clientHeight=messagesDiv.clientHeight;
   const wasHidden=scrollHeight===0&&clientHeight===0;
   const wasAtBottom=wasHidden||scrollHeight-scrollPos-clientHeight<60;
@@ -2804,6 +3618,9 @@ function renderMessages(data){
       const editBtn=document.createElement('button');editBtn.className='msg-action-btn';editBtn.title='Edit';editBtn.textContent='✏️';
       editBtn.onclick=e=>{e.stopPropagation();startEdit(key,msg.text||'')};
       actionBar.appendChild(editBtn);
+      const delOwnBtn=document.createElement('button');delOwnBtn.className='msg-action-btn msg-del-btn';delOwnBtn.title='Delete';delOwnBtn.innerHTML='<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-7-3A1.5 1.5 0 0 1 5 1h6a1.5 1.5 0 0 1 1.5 1.5H14a.5.5 0 0 1 0 1h-.54l-.767 9.2A2 2 0 0 1 10.7 14.5H5.3a2 2 0 0 1-1.992-1.8L2.54 3.5H2a.5.5 0 0 1 0-1h1.5zM5 2a.5.5 0 0 0-.5.5h7A.5.5 0 0 0 11 2H5zM3.54 3.5l.76 9.12a1 1 0 0 0 1 .88h5.4a1 1 0 0 0 1-.88l.76-9.12H3.54zM8 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/></svg>';
+      delOwnBtn.onclick=e=>{e.stopPropagation();deleteMessage(key)};
+      actionBar.appendChild(delOwnBtn);
     }
 
     wrapper.appendChild(actionBar);
@@ -2817,7 +3634,11 @@ function renderMessages(data){
     const header=document.createElement('div');header.className='message-header';
     const time=new Date(msg.timestamp||0);
     const timeStr=time.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    header.innerHTML='<span class="sender-name">'+(msg.senderName||'Unknown')+'</span> <span class="msg-time">\u2022 '+timeStr+'</span>';
+    var senderSpan=document.createElement('span');senderSpan.className='sender-name';senderSpan.textContent=getDisplayName(msg.senderRole,msg.senderName||'Unknown');
+    if(msg.senderRole!=='System'){senderSpan.onclick=function(e){e.stopPropagation();openNicknamePopup(msg.senderRole,senderSpan)};}
+    header.appendChild(senderSpan);
+    var timeSpan=document.createElement('span');timeSpan.className='msg-time';timeSpan.textContent=' \u2022 '+timeStr;
+    header.appendChild(timeSpan);
 
     /* Reply quote */
     if(msg.replyTo){
@@ -2876,10 +3697,13 @@ function renderOnlineUsers(){
     var isBannedNow=bannedRoles[role]&&(bannedRoles[role]-Date.now())>0;
     var isMutedNow=mutedRoles[role]&&(mutedRoles[role]-Date.now())>0;
     if(!isBannedNow&&!isMutedNow){
-      var span=document.createElement('span');span.className='online-user';
-      span.appendChild(buildAvatarEl(role,18));
-      var dot=document.createElement('span');dot.className='dot';
-      span.appendChild(dot);span.appendChild(document.createTextNode(u.name||role));list.appendChild(span);
+        var span=document.createElement('span');span.className='online-user';
+        span.appendChild(buildAvatarEl(role,18));
+        var dot=document.createElement('span');dot.className='dot';span.appendChild(dot);
+        var nameSpan=document.createElement('span'); nameSpan.style.cssText='margin-left:6px;cursor:pointer;border-radius:3px;padding:0 2px'; nameSpan.textContent=getDisplayName(role,(u&&u.name)||roleDisplayNames[role]||role);
+        (function(r,ns){ ns.onclick=function(e){ e.stopPropagation(); openNicknamePopup(r,ns); }; })(role,nameSpan);
+        span.appendChild(nameSpan);
+        list.appendChild(span);
     }
   });
   if(!list.hasChildNodes())list.innerHTML='<span style="color:var(--text7)">No one</span>';
@@ -2887,15 +3711,18 @@ function renderOnlineUsers(){
   Object.keys(bannedRoles).forEach(role=>{
     var remaining=bannedRoles[role]-Date.now();if(remaining<=0)return;penaltyShown[role]=true;
     var span=document.createElement('span');span.className='online-user';
-    var dot=document.createElement('span');dot.className='dot';dot.style.background='#c62828';
-    span.appendChild(dot);span.appendChild(document.createTextNode((onlineUsers[role]&&onlineUsers[role].name)||roleDisplayNames[role]||role));
+    var dot=document.createElement('span');dot.className='dot';dot.style.background='#c62828';span.appendChild(dot);
+    var nameSpan=document.createElement('span'); nameSpan.style.marginLeft='6px'; nameSpan.textContent=getDisplayName(role,(onlineUsers[role]&&onlineUsers[role].name)||roleDisplayNames[role]||role);
+    span.appendChild(nameSpan);
+    var tag=document.createElement('span');tag.className='online-tag tag-banned';tag.textContent='BANNED';span.appendChild(tag);penaltyList.appendChild(span);
     var tag=document.createElement('span');tag.className='online-tag tag-banned';tag.textContent='BANNED';span.appendChild(tag);penaltyList.appendChild(span);
   });
   Object.keys(mutedRoles).forEach(role=>{
     if(penaltyShown[role])return;var remaining=mutedRoles[role]-Date.now();if(remaining<=0)return;
     var span=document.createElement('span');span.className='online-user';
-    var dot=document.createElement('span');dot.className='dot';dot.style.background='var(--orange)';
-    span.appendChild(dot);span.appendChild(document.createTextNode((onlineUsers[role]&&onlineUsers[role].name)||roleDisplayNames[role]||role));
+    var dot=document.createElement('span');dot.className='dot';dot.style.background='var(--orange)';span.appendChild(dot);
+    var nameSpan=document.createElement('span'); nameSpan.style.marginLeft='6px'; nameSpan.textContent=getDisplayName(role,(onlineUsers[role]&&onlineUsers[role].name)||roleDisplayNames[role]||role);
+    span.appendChild(nameSpan);
     var tag=document.createElement('span');tag.className='online-tag tag-muted';tag.textContent='MUTED';span.appendChild(tag);penaltyList.appendChild(span);
   });
   var rightSection=document.querySelector('.online-right');
@@ -3317,7 +4144,8 @@ function openThemeModal(){
   themeData.forEach(t=>{
     var card=document.createElement('div');card.className='theme-card'+(document.body.getAttribute('data-theme')===t.id?' active':'');
     card.style.background=t.msg;card.style.borderColor=document.body.getAttribute('data-theme')===t.id?t.accent:'transparent';
-    var preview=document.createElement('div');preview.className='theme-card-preview';preview.style.background=t.bg;
+    var preview=document.createElement('div');preview.className='theme-card-preview';preview.style.background=t.bg;preview.classList.add('preview-'+t.id);
+    var anim=document.createElement('div');anim.className='preview-anim '+t.id.replace(/\s+/g,'-');preview.appendChild(anim);
     [t.accent,'#888','#ccc'].forEach(c=>{var d=document.createElement('div');d.className='tc-dot';d.style.background=c;preview.appendChild(d)});
     var name=document.createElement('div');name.className='theme-card-name';name.style.color=t.accent;name.textContent=t.name;
     var desc=document.createElement('div');desc.className='theme-card-desc';desc.style.color='#888';desc.textContent=t.desc;
@@ -3516,21 +4344,15 @@ var appDefs={
           btnGroup.appendChild(uploadBtn);btnGroup.appendChild(pasteBtn);btnGroup.appendChild(removeBtn);
           pfpArea.appendChild(btnGroup);
         }
-        /* Theme buttons */
+        /* Theme buttons - simplified: single Change Theme button */
         var tc=d.querySelector('#settingsThemes');
         if(tc){
-          var themes=[{id:'dark',label:'Dark',bg:'#1a1a2e',fg:'#fff'},{id:'light',label:'Light',bg:'#f0f0f5',fg:'#222'},{id:'amoled',label:'AMOLED',bg:'#000',fg:'#fff'},{id:'solarized',label:'Solarized',bg:'#002b36',fg:'#93a1a1'},{id:'rose',label:'Rose',bg:'#2a1520',fg:'#f5b7c5'},{id:'neon-cyberpunk',label:'Neon Cyberpunk',bg:'linear-gradient(135deg,#15021b,#2f0060)',fg:'#fff'},{id:'retro-pixel',label:'Retro Pixel',bg:'#131313',fg:'#f8f8f8'},{id:'hacker-terminal',label:'Hacker Terminal',bg:'#010400',fg:'#9efc9e'},{id:'space-galaxy',label:'Space Galaxy',bg:'linear-gradient(135deg,#070817,#111c40)',fg:'#eef3ff'},{id:'bioluminescent-ocean',label:'Bioluminescent Ocean',bg:'linear-gradient(135deg,#03111f,#051d33)',fg:'#e8fbff'},{id:'crystal-cavern',label:'Crystal Cavern',bg:'linear-gradient(135deg,#091526,#121e3d)',fg:'#f5f8ff'},{id:'industrial-grunge',label:'Industrial Grunge',bg:'#121214',fg:'#e8e8e2'},{id:'glass',label:'Glass',bg:'linear-gradient(135deg,#c7e2ff,#a5d8f8)',fg:'#fff'}];
-          themes.forEach(function(t){
-            var btn=document.createElement('button');
-            btn.textContent=t.label;
-            btn.style.cssText='padding:8px 16px;border-radius:8px;border:2px solid '+(document.body.dataset.theme===t.id?'var(--accent)':'transparent')+';background:'+t.bg+';color:'+t.fg+';font-size:12px;font-weight:600;cursor:pointer;transition:all .15s';
-            btn.onclick=function(){
-              applyTheme(t.id);
-              tc.querySelectorAll('button').forEach(function(b){b.style.borderColor='transparent'});
-              btn.style.borderColor='var(--accent)';
-            };
-            tc.appendChild(btn);
-          });
+          var changeBtn=document.createElement('button');
+          changeBtn.id='settingsChangeThemeBtn';
+          changeBtn.textContent='🎨 Change theme';
+          changeBtn.style.cssText=btnStyle+';display:inline-flex;align-items:center;gap:8px';
+          changeBtn.onclick=function(){ openThemeModal(); };
+          tc.appendChild(changeBtn);
         }
         /* Font size — real-time */
         var fs=d.querySelector('#settingsFontSize');
@@ -7286,7 +8108,19 @@ function _amBuildCard(app){
 
   var hideBtn=document.createElement('button');hideBtn.className='am-btn'+(st.hidden?' am-btn-active':'');
   hideBtn.innerHTML=(st.hidden?'&#128065; Show':'&#128683; Hide');
-  hideBtn.onclick=function(){db.ref('appManagement/'+app.id+'/hidden').set(!st.hidden)};
+  hideBtn.onclick=function(e){
+    e.stopPropagation();
+    var newHidden = !st.hidden;
+    // optimistic UI update
+    try{ db.ref('appManagement/'+app.id+'/hidden').set(newHidden); }catch(err){}
+    st.hidden = newHidden;
+    hideBtn.className='am-btn'+(st.hidden?' am-btn-active':'');
+    hideBtn.innerHTML=(st.hidden?'&#128065; Show':'&#128683; Hide');
+    // update badge display
+    var existingBadge = badges.querySelector('.am-badge-hidden');
+    if(st.hidden){ if(!existingBadge) badges.innerHTML+='<span class="am-badge am-badge-hidden">Hidden</span>'; }
+    else { if(existingBadge) existingBadge.remove(); }
+  };
   actions.appendChild(hideBtn);
 
   if(app.type==='Custom'){
@@ -8083,7 +8917,10 @@ function _vcRenderUsers(){
       itm.onclick=toggleCheck;
     })(role,item,cb);
     var nameDiv=document.createElement('div');nameDiv.className='vc-user-name';
-    nameDiv.innerHTML='<span class="vc-user-dot"></span>'+(onlineUsers[role].name||role);
+    var vcDot=document.createElement('span');vcDot.className='vc-user-dot';nameDiv.appendChild(vcDot);
+    var vcNameSpan=document.createElement('span');vcNameSpan.textContent=getDisplayName(role,(onlineUsers[role]&&onlineUsers[role].name)||role);vcNameSpan.style.cursor='pointer';
+    (function(r,ns){vcNameSpan.onclick=function(e){e.stopPropagation();openNicknamePopup(r,ns)};})(role,vcNameSpan);
+    nameDiv.appendChild(vcNameSpan);
     var btn=document.createElement('button');btn.className='vc-call-btn';
     btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="none" style="flex-shrink:0"><rect x="2" y="5" width="13" height="14" rx="3"></rect><path d="M17 9.5l4.2-2.8a.5.5 0 0 1 .8.4v9.8a.5.5 0 0 1-.8.4L17 14.5V9.5z"></path></svg> Call';
     (function(r){
