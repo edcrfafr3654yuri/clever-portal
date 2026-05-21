@@ -2411,51 +2411,17 @@ function updateLockAvatar(){
     container.className='lock-avatar';
   }
 }
-function createImageDataUrl(file, maxSize, maxDimension){
-  return new Promise(function(resolve,reject){
-    if(!file||!file.type||file.type.indexOf('image/')!==0){reject(new Error('Unsupported image type'));return}
-    function readBlob(blob){
-      var reader=new FileReader();
-      reader.onload=function(ev){resolve(ev.target.result)};
-      reader.onerror=function(){reject(new Error('Unable to read image'))};
-      reader.readAsDataURL(blob);
-    }
-    if(file.size<=maxSize){readBlob(file);return}
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      var img=new Image();
-      img.onload=function(){
-        var width=img.width, height=img.height;
-        var scale=1;
-        if(maxDimension && Math.max(width,height)>maxDimension){scale=maxDimension/Math.max(width,height)}
-        var canvas=document.createElement('canvas');
-        canvas.width=Math.max(1,Math.round(width*scale));
-        canvas.height=Math.max(1,Math.round(height*scale));
-        var ctx=canvas.getContext('2d');
-        ctx.drawImage(img,0,0,canvas.width,canvas.height);
-        function attempt(quality){
-          canvas.toBlob(function(blob){
-            if(!blob){reject(new Error('Image compression failed'));return}
-            if(blob.size<=maxSize || quality<=0.35){readBlob(blob)}
-            else{attempt(Math.max(0.35,quality-0.10))}
-          }, 'image/jpeg', quality);
-        }
-        attempt(0.92);
-      };
-      img.onerror=function(){reject(new Error('Invalid image file'))};
-      img.src=ev.target.result;
-    };
-    reader.onerror=function(){reject(new Error('Unable to process image'))};
-    reader.readAsDataURL(file);
-  });
-}
 function uploadProfilePicture(file){
   if(!currentRole)return;
-  createImageDataUrl(file,200000,800).then(function(dataUrl){
+  if(file.size>200000){showToast('Image too large (max 200KB)');return}
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var dataUrl=ev.target.result;
     db.ref('profilePictures/'+currentRole).set(dataUrl).then(function(){
       showToast('Profile picture updated!');
     }).catch(function(e){showToast('Error: '+e.message)});
-  }).catch(function(e){showToast(e.message||'Image processing failed')});
+  };
+  reader.readAsDataURL(file);
 }
 function removeProfilePicture(){
   if(!currentRole)return;
@@ -2769,14 +2735,18 @@ function _changeGroupImage(gid){
   var inp=document.createElement('input');inp.type='file';inp.accept='image/*';
   inp.onchange=function(){
     var file=inp.files[0];if(!file)return;
-    createImageDataUrl(file,200000,800).then(function(dataUrl){
+    if(file.size>200000){showToast('Image too large (max 200KB)');return}
+    var reader=new FileReader();
+    reader.onload=function(){
+      var dataUrl=reader.result;
       db.ref('groupChats/'+gid+'/image').set(dataUrl);
       var myName=currentDisplayName||currentRole;
       db.ref('groupMessages/'+gid).push({text:myName+' changed the group image.',senderRole:'System',senderName:'System',timestamp:Date.now()});
       var topIcon=document.getElementById('chatTopIcon');
       if(topIcon)topIcon.innerHTML='<img src="'+escHtml(dataUrl)+'" alt="">';
       showToast('Group image updated.');
-    }).catch(function(e){showToast(e.message||'Image processing failed')});
+    };
+    reader.readAsDataURL(file);
   };
   inp.click();
 }
@@ -3456,12 +3426,10 @@ messageInput.addEventListener('paste',e=>{
   for(var i=0;i<items.length;i++){
     if(items[i].type.indexOf('image')!==-1){
       e.preventDefault();var file=items[i].getAsFile();
-      createImageDataUrl(file,500000,1200).then(function(dataUrl){
-        pendingImage=dataUrl;
-        document.getElementById('imagePreviewImg').src=pendingImage;
-        document.getElementById('imagePreview').style.display='flex';
-      }).catch(function(e){showToast(e.message||'Image too large (max 500KB)')});
-      break;
+      if(file.size>500000){showToast('Image too large (max 500KB)');return}
+      var reader=new FileReader();
+      reader.onload=ev=>{pendingImage=ev.target.result;document.getElementById('imagePreviewImg').src=pendingImage;document.getElementById('imagePreview').style.display='flex'};
+      reader.readAsDataURL(file);break;
     }
   }
 });
