@@ -1522,6 +1522,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
 const firebaseConfig={apiKey:"AIzaSyDDXdE1TSzc70MZLL5XxuXoqlgixno1H6E",authDomain:"chat-5e002.firebaseapp.com",databaseURL:"https://chat-5e002-default-rtdb.firebaseio.com",projectId:"chat-5e002",storageBucket:"chat-5e002.firebasestorage.app",messagingSenderId:"223458314389",appId:"1:223458314389:web:59e9524e34e73482ad339c",measurementId:"G-5XN710ZJSD"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
+console.log('MAIN_SCRIPT_LOADED');
 
 /* ==============================
    SERVICE WORKER & PUSH NOTIFICATIONS
@@ -3027,6 +3028,7 @@ function login(){
 }
 
 document.getElementById('lockLoginBtn').addEventListener('click',login);
+console.log('ATTACHED_LOGIN_LISTENER');
 
 /* Auto-login */
 (function(){
