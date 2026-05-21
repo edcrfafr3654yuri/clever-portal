@@ -480,13 +480,13 @@ html,body{background:var(--bg);color:var(--text)}
 .reco-overlay,.cache-overlay,.theme-overlay{position:fixed;top:0;left:0;width:100vw;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9998}
 .reco-modal,.cache-modal,.theme-modal{background:linear-gradient(135deg,var(--bg4),var(--bg5));border:1px solid var(--border);border-radius:14px;padding:28px 32px 24px;width:420px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8);position:relative}
 .cache-modal{width:480px}
-.theme-modal{width:640px;max-width:96%}
+.theme-modal{width:880px;max-width:96%}
 .reco-modal-close,.cache-modal-close,.theme-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px;transition:all .2s}
 .reco-modal-close:hover,.cache-modal-close:hover,.theme-modal-close:hover{color:var(--text);background:var(--border2)}
 .reco-modal h3,.cache-modal h3,.theme-modal h3{color:var(--accent);font-size:18px;font-weight:700;margin-bottom:12px;text-align:center}
 .reco-modal textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border2);background:var(--input-bg);color:var(--text);font-size:13px;resize:vertical;outline:none;margin-bottom:10px}
 .reco-modal textarea:focus{border-color:var(--accent)}
-.reco-modal button.reco-submit{width:100%;padding:10px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer;font-size:14px;transition:opacity .2s}
+.reco-modal bautton.reco-submit{width:100%;padding:10px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer;font-size:14px;transition:opacity .2s}
 .reco-modal button.reco-submit:hover{opacity:.9}
 .cache-modal-list{max-height:400px;overflow-y:auto;margin-bottom:10px}
 .cache-msg{padding:8px 10px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;font-size:12px}
@@ -843,11 +843,11 @@ summary::marker{color:var(--border2)}
 .audit-entry .audit-text{color:var(--text4)}
 
 /* Theme grid */
-.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
-.theme-card{padding:16px;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:all .18s ease;text-align:center}
-.theme-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.36)}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
+.theme-card{padding:12px;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:all .14s ease;text-align:center}
+.theme-card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.28)}
 .theme-card.active{border-color:var(--accent)}
-.theme-card-preview{width:100%;height:48px;border-radius:6px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden}
+.theme-card-preview{width:100%;height:40px;border-radius:6px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden}
 .theme-card-preview .tc-dot{width:10px;height:10px;border-radius:50%}
 .preview-anim{position:absolute;inset:4px;border-radius:4px;pointer-events:none;opacity:.95}
 .preview-anim.neon-cyberpunk{background:linear-gradient(90deg,rgba(157,76,255,.25),rgba(53,213,255,.12));filter:blur(6px);transform:scale(1.05);animation:shiftHue 6s linear infinite}
@@ -980,8 +980,8 @@ summary::marker{color:var(--border2)}
   .reco-modal textarea{font-size:16px;padding:12px}
   .reco-modal button.reco-submit{padding:14px;font-size:15px;min-height:48px}
   .reco-modal-close,.cache-modal-close,.theme-modal-close,.demote-popup-close{width:40px;height:40px;font-size:24px;display:flex;align-items:center;justify-content:center}
-  .theme-grid{grid-template-columns:1fr 1fr;gap:12px}
-  .theme-card{padding:16px}
+  .theme-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  .theme-card{padding:12px}
 
   /* Reactions — larger tap targets */
   .reactions-row{gap:6px;margin-top:8px}
@@ -1482,7 +1482,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <input type="text" id="newUserName" placeholder="Display name">
       <input type="text" id="newUserPasscode" placeholder="Passcode">
       <label>Role</label>
-      <select id="newUserRole"><option value="Member">Member</option><option value="Admin">Admin</option></select>
+      <select id="newUserRole"><option value="Member">Member</option><option value="Developer">Developer</option><option value="Admin">Admin</option></select>
       <button id="addUserButton" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Add User</button>
     </details>
     <details id="adminToolsSection">
@@ -1641,7 +1641,7 @@ function _doShowNotification(title,body,tag){
    ============================== */
 let currentRole=null,currentDisplayName=null;
 let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={};
-let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},bannedDevices={};
+let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},developerUsers={},bannedDevices={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
 
 let profilePictures={};
@@ -1900,6 +1900,31 @@ db.ref('adminUsers').on('value',s=>{
       if(r!==currentRole)db.ref('pendingRoleNotifications/'+r).set({type:'demoted',message:'Your admin privileges have been removed. You are now a Member.',timestamp:Date.now()});
     }else if(!wasA&&isA){
       if(r!==currentRole)db.ref('pendingRoleNotifications/'+r).set({type:'promoted',message:'You have been promoted to Admin! You now have access to the Mod Panel.',timestamp:Date.now()});
+    }
+  });
+});
+var _devUsersInitialized=false;
+db.ref('developerUsers').on('value',function(s){
+  var oldDevUsers=developerUsers;
+  developerUsers=s.val()||{};
+  queueRenderUserMgmt();
+  if(typeof updateAppDesignerVisibility==='function')updateAppDesignerVisibility();
+  if(_devUsersInitialized&&currentRole&&currentRole!=='Admin'){
+    var wasDev=oldDevUsers[currentRole]===true;
+    var isDev=developerUsers[currentRole]===true;
+    if(wasDev&&!isDev)handleRoleChange('demoted');
+    else if(!wasDev&&isDev)handleRoleChange('promoted');
+  }
+  _devUsersInitialized=true;
+  var allRoles=Object.keys(roleDisplayNames);
+  allRoles.forEach(function(r){
+    if(r==='Admin')return;
+    var wasD=oldDevUsers[r]===true;
+    var isD=developerUsers[r]===true;
+    if(wasD&&!isD){
+      if(r!==currentRole)db.ref('pendingRoleNotifications/'+r).set({type:'demoted',message:'Your Developer privileges have been removed. You are now a Member.',timestamp:Date.now()});
+    }else if(!wasD&&isD){
+      if(r!==currentRole)db.ref('pendingRoleNotifications/'+r).set({type:'promoted',message:'You have been promoted to Developer! You now have access to the App Manager.',timestamp:Date.now()});
     }
   });
 });
@@ -2225,13 +2250,15 @@ function isBanned(role){
   if(!bannedRoles[role])return false;
   const r=bannedRoles[role]-Date.now();if(r<=0){db.ref('bannedRoles').child(role).remove();return false}return true;
 }
+function getRoleTag(role){role=role||currentRole;return role==='Admin'?'Owner':(adminUsers[role]===true?'Admin':(developerUsers[role]===true?'Developer':'Member'))}
+function isAppManager(role){role=role||currentRole;return role==='Admin'||(role&&adminUsers[role]===true)||(role&&developerUsers[role]===true)}
 function isAnyAdmin(){return currentRole==='Admin'||(currentRole&&adminUsers[currentRole]===true)}
 
 var _roleNotifDismissed={};
 function handleRoleChange(type){
   if(_roleNotifDismissed[currentRole]===type)return;
   var isAdmin=currentRole==='Admin'||adminUsers[currentRole]===true;
-  var roleTag=currentRole==='Admin'?'Owner':(isAdmin?'Admin':'Member');
+  var roleTag=getRoleTag(currentRole);
   roleLabel.textContent=currentDisplayName+' ('+roleTag+')';
   document.getElementById('gearWrapper').style.display=isAdmin?'flex':'none';
   document.getElementById('modDesktopIcon').style.display=isAdmin?'':'none';
@@ -2242,21 +2269,26 @@ function handleRoleChange(type){
     for(var id in openWindows){if(openWindows[id].appId==='mod')closeWindow(id)}
     adminPanel.style.display='none';
     if(chatLocked){document.querySelector('.input-row').classList.add('locked');messageInput.placeholder='Chat is locked...'}
-    showRoleNotification('demoted','Your admin privileges have been removed. You are now a Member.');
+    var demoteMessage=(currentRole==='Admin'||adminUsers[currentRole]===true)?'Your admin privileges have been removed. You are now a Member.':'Your elevated privileges have been removed. You are now a Member.';
+    showRoleNotification('demoted',demoteMessage);
   }else if(type==='promoted'){
-    var modTitle='Admin Panel';
-    appDefs.mod.title=modTitle;
-    var modLabel=document.getElementById('iconLabel-mod');
-    if(modLabel)modLabel.textContent=modTitle;
-    if(chatLocked){document.querySelector('.input-row').classList.remove('locked');messageInput.placeholder='Type a message...'}
-    showRoleNotification('promoted','You have been promoted to Admin! You now have access to the Mod Panel.');
+    if(currentRole==='Admin'||adminUsers[currentRole]===true){
+      var modTitle='Admin Panel';
+      appDefs.mod.title=modTitle;
+      var modLabel=document.getElementById('iconLabel-mod');
+      if(modLabel)modLabel.textContent=modTitle;
+      if(chatLocked){document.querySelector('.input-row').classList.remove('locked');messageInput.placeholder='Type a message...'}
+      showRoleNotification('promoted','You have been promoted to Admin! You now have access to the Mod Panel.');
+    }else if(developerUsers[currentRole]===true){
+      showRoleNotification('promoted','You have been promoted to Developer! You now have access to the App Manager.');
+    }
   }
   if(currentRole)db.ref('pendingRoleNotifications/'+currentRole).remove();
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
 }
 
 function showRoleNotification(type,message){
-  if(_roleNotifDismissed[currentRole])return;
+  if(_roleNotifDismissed[currentRole]===type)return;
   var existing=document.querySelector('.role-notify-overlay');if(existing)existing.remove();
   var overlay=document.createElement('div');overlay.className='role-notify-overlay';
   overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
@@ -2379,17 +2411,51 @@ function updateLockAvatar(){
     container.className='lock-avatar';
   }
 }
+function createImageDataUrl(file, maxSize, maxDimension){
+  return new Promise(function(resolve,reject){
+    if(!file||!file.type||file.type.indexOf('image/')!==0){reject(new Error('Unsupported image type'));return}
+    function readBlob(blob){
+      var reader=new FileReader();
+      reader.onload=function(ev){resolve(ev.target.result)};
+      reader.onerror=function(){reject(new Error('Unable to read image'))};
+      reader.readAsDataURL(blob);
+    }
+    if(file.size<=maxSize){readBlob(file);return}
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var img=new Image();
+      img.onload=function(){
+        var width=img.width, height=img.height;
+        var scale=1;
+        if(maxDimension && Math.max(width,height)>maxDimension){scale=maxDimension/Math.max(width,height)}
+        var canvas=document.createElement('canvas');
+        canvas.width=Math.max(1,Math.round(width*scale));
+        canvas.height=Math.max(1,Math.round(height*scale));
+        var ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        function attempt(quality){
+          canvas.toBlob(function(blob){
+            if(!blob){reject(new Error('Image compression failed'));return}
+            if(blob.size<=maxSize || quality<=0.35){readBlob(blob)}
+            else{attempt(Math.max(0.35,quality-0.10))}
+          }, 'image/jpeg', quality);
+        }
+        attempt(0.92);
+      };
+      img.onerror=function(){reject(new Error('Invalid image file'))};
+      img.src=ev.target.result;
+    };
+    reader.onerror=function(){reject(new Error('Unable to process image'))};
+    reader.readAsDataURL(file);
+  });
+}
 function uploadProfilePicture(file){
   if(!currentRole)return;
-  if(file.size>200000){showToast('Image too large (max 200KB)');return}
-  var reader=new FileReader();
-  reader.onload=function(ev){
-    var dataUrl=ev.target.result;
+  createImageDataUrl(file,200000,800).then(function(dataUrl){
     db.ref('profilePictures/'+currentRole).set(dataUrl).then(function(){
       showToast('Profile picture updated!');
     }).catch(function(e){showToast('Error: '+e.message)});
-  };
-  reader.readAsDataURL(file);
+  }).catch(function(e){showToast(e.message||'Image processing failed')});
 }
 function removeProfilePicture(){
   if(!currentRole)return;
@@ -2703,18 +2769,14 @@ function _changeGroupImage(gid){
   var inp=document.createElement('input');inp.type='file';inp.accept='image/*';
   inp.onchange=function(){
     var file=inp.files[0];if(!file)return;
-    if(file.size>200000){showToast('Image too large (max 200KB)');return}
-    var reader=new FileReader();
-    reader.onload=function(){
-      var dataUrl=reader.result;
+    createImageDataUrl(file,200000,800).then(function(dataUrl){
       db.ref('groupChats/'+gid+'/image').set(dataUrl);
       var myName=currentDisplayName||currentRole;
       db.ref('groupMessages/'+gid).push({text:myName+' changed the group image.',senderRole:'System',senderName:'System',timestamp:Date.now()});
       var topIcon=document.getElementById('chatTopIcon');
       if(topIcon)topIcon.innerHTML='<img src="'+escHtml(dataUrl)+'" alt="">';
       showToast('Group image updated.');
-    };
-    reader.readAsDataURL(file);
+    }).catch(function(e){showToast(e.message||'Image processing failed')});
   };
   inp.click();
 }
@@ -2884,7 +2946,7 @@ function _showAddChatModal(){
 function loginAsRole(role){
   if(isBanned(role))return false;
   currentRole=role;currentDisplayName=roleDisplayNames[role]||role;
-  var roleTag=currentRole==='Admin'?'Owner':(adminUsers[currentRole]===true?'Admin':'Member');
+  var roleTag=getRoleTag(currentRole);
   roleLabel.textContent=currentDisplayName+' ('+roleTag+')';
   var isAdmin=currentRole==='Admin'||adminUsers[currentRole]===true;
   document.getElementById('gearWrapper').style.display=isAdmin?'flex':'none';
@@ -3279,7 +3341,7 @@ function renderMutedList(){
     const remaining=mutedRoles[role]-Date.now();if(remaining<=0)return;
     const div=document.createElement('div');div.className='list-item';
     const span=document.createElement('span');
-    var muteTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+    var muteTag=getRoleTag(role);
     span.textContent=(roleDisplayNames[role]||role)+' ('+muteTag+') \u2022 '+formatRemaining(remaining);
     const btn=document.createElement('button');btn.className='small-btn unmute';btn.textContent='Unmute';
     btn.onclick=()=>{
@@ -3296,7 +3358,7 @@ function renderBannedList(){
     const remaining=bannedRoles[role]-Date.now();if(remaining<=0)return;
     const div=document.createElement('div');div.className='list-item';
     const span=document.createElement('span');
-    var banTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+    var banTag=getRoleTag(role);
     span.textContent=(roleDisplayNames[role]||role)+' ('+banTag+') \u2022 '+formatRemaining(remaining);
     const btn=document.createElement('button');btn.className='small-btn unban';btn.textContent='Unban';
     btn.onclick=()=>{
@@ -3394,10 +3456,12 @@ messageInput.addEventListener('paste',e=>{
   for(var i=0;i<items.length;i++){
     if(items[i].type.indexOf('image')!==-1){
       e.preventDefault();var file=items[i].getAsFile();
-      if(file.size>500000){showToast('Image too large (max 500KB)');return}
-      var reader=new FileReader();
-      reader.onload=ev=>{pendingImage=ev.target.result;document.getElementById('imagePreviewImg').src=pendingImage;document.getElementById('imagePreview').style.display='flex'};
-      reader.readAsDataURL(file);break;
+      createImageDataUrl(file,500000,1200).then(function(dataUrl){
+        pendingImage=dataUrl;
+        document.getElementById('imagePreviewImg').src=pendingImage;
+        document.getElementById('imagePreview').style.display='flex';
+      }).catch(function(e){showToast(e.message||'Image too large (max 500KB)')});
+      break;
     }
   }
 });
@@ -3952,12 +4016,12 @@ document.getElementById('deviceIdsButton').addEventListener('click',function(){
   var roles=Object.keys(roleDisplayNames);
   if(!roles.length){listDiv.innerHTML='<span style="color:var(--text7);font-size:12px">No users</span>'}
   else{
-    roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
+    roles.sort(function(a,b){var rank=function(r){return r==='Admin'?0:(adminUsers[r]===true?1:(developerUsers[r]===true?2:3))};var oa=rank(a),ob=rank(b);return oa-ob});
     roles.forEach(function(role){
       var item=document.createElement('div');
       item.style.cssText='padding:10px 12px;border-bottom:1px solid var(--border,#333)';
       var displayName=roleDisplayNames[role]||role;
-      var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+      var roleTag=getRoleTag(role);
       var header=document.createElement('div');
       header.innerHTML='<b style="font-size:13px">'+escHtml(displayName)+'</b> <span style="color:var(--text6);font-size:11px">('+roleTag+')</span>';
       item.appendChild(header);
@@ -4006,13 +4070,13 @@ function renderUserMgmt(){
   var div=document.getElementById('userMgmtList');if(!div)return;div.innerHTML='';
   var roleToPass={};Object.keys(validPasswords).forEach(pass=>{roleToPass[validPasswords[pass]]=pass});
   var roles=Object.keys(roleDisplayNames);if(!roles.length){div.textContent='No users';return}
-  roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
+  roles.sort(function(a,b){var rank=function(r){return r==='Admin'?0:(adminUsers[r]===true?1:(developerUsers[r]===true?2:3))};var oa=rank(a),ob=rank(b);return oa-ob});
   roles.forEach(role=>{
     var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='stretch';item.style.gap='4px';
     var topRow=document.createElement('div');topRow.style.display='flex';topRow.style.justifyContent='space-between';topRow.style.alignItems='center';
     var info=document.createElement('span');info.style.cssText='font-size:12px;display:flex;align-items:center;flex-wrap:wrap;gap:4px';
     var displayName=roleDisplayNames[role]||role,passcode=roleToPass[role]||'?';
-    var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+    var roleTag=getRoleTag(role);
     var statusTags=[];
     if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px">BANNED</span>');
     if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
@@ -4044,16 +4108,30 @@ function renderUserMgmt(){
     var passInp=document.createElement('input');passInp.placeholder='New passcode';passInp.setAttribute('style',inpStyle);
     var roleSelect=document.createElement('select');roleSelect.setAttribute('style',inpStyle+'cursor:pointer;');
     var optM=document.createElement('option');optM.value='Member';optM.textContent='Member';
+    var optD=document.createElement('option');optD.value='Developer';optD.textContent='Developer';
     var optA=document.createElement('option');optA.value='Admin';optA.textContent='Admin';
-    roleSelect.appendChild(optM);roleSelect.appendChild(optA);
-    var curPerm=(role==='Admin'||adminUsers[role]===true)?'Admin':'Member';roleSelect.value=curPerm;
+    roleSelect.appendChild(optM);roleSelect.appendChild(optD);roleSelect.appendChild(optA);
+    var curPerm=(role==='Admin'||adminUsers[role]===true)?'Admin':(developerUsers[role]===true?'Developer':'Member');roleSelect.value=curPerm;
     if(role==='Admin'){roleSelect.disabled=true;roleSelect.style.opacity='0.5'}
     var saveBtn=document.createElement('button');saveBtn.className='small-btn';saveBtn.style.background='var(--accent)';saveBtn.style.color='#000';saveBtn.style.fontSize='10px';saveBtn.textContent='Save';
     saveBtn.onclick=(function(r,oldPass,nInp,pInp,rSel,origPerm){return function(){
       var newName=nInp.value.trim(),newPass=pInp.value.trim(),newPerm=rSel.value,changed=false,updates={};
       if(newName&&newName!==(roleDisplayNames[r]||r)){updates['/roleDisplayNames/'+r]=newName;changed=true}
       if(newPass&&newPass!==oldPass){if(oldPass&&oldPass!=='?')updates['/validPasswords/'+oldPass]=null;updates['/validPasswords/'+newPass]=r;changed=true}
-      if(newPerm!==origPerm){if(newPerm==='Admin'&&r!=='Admin')updates['/adminUsers/'+r]=true;else if(newPerm==='Member')updates['/adminUsers/'+r]=null;changed=true;logAudit(newPerm==='Admin'?'promote':'demote',(newPerm==='Admin'?'Promoted ':'Demoted ')+(newName||roleDisplayNames[r]||r))}
+      if(newPerm!==origPerm){
+        if(newPerm==='Admin'&&r!=='Admin'){
+          updates['/adminUsers/'+r]=true;
+          updates['/developerUsers/'+r]=null;
+        }else if(newPerm==='Developer'){
+          updates['/adminUsers/'+r]=null;
+          updates['/developerUsers/'+r]=true;
+        }else if(newPerm==='Member'){
+          updates['/adminUsers/'+r]=null;
+          updates['/developerUsers/'+r]=null;
+        }
+        changed=true;
+        logAudit(newPerm==='Admin'?'promote':'demote',(newPerm==='Admin'?'Promoted ':'Demoted ')+(newName||roleDisplayNames[r]||r));
+      }
       if(!changed){showToast('Nothing to change');return}
       db.ref().update(updates).then(()=>showToast('Updated '+(newName||roleDisplayNames[r]||r))).catch(console.error);
     }})(role,passcode,nameInp,passInp,roleSelect,curPerm);
@@ -4068,10 +4146,8 @@ document.getElementById('addUserButton').addEventListener('click',function(){
   var roleKey=name;if(roleDisplayNames[roleKey]){showToast('User "'+roleKey+'" already exists');return}
   var updates={};updates['/validPasswords/'+pass]=roleKey;updates['/roleDisplayNames/'+roleKey]=name;
   if(role==='Admin')updates['/adminUsers/'+roleKey]=true;
-  db.ref().update(updates).then(()=>{document.getElementById('newUserName').value='';document.getElementById('newUserPasscode').value='';showToast('Added user '+name);logAudit('promote','Added user '+name+(role==='Admin'?' (Admin)':''))}).catch(console.error);
-});
-
-/* ==============================
+  else if(role==='Developer')updates['/developerUsers/'+roleKey]=true;
+  db.ref().update(updates).then(()=>{document.getElementById('newUserName').value='';document.getElementById('newUserPasscode').value='';showToast('Added user '+name);logAudit('promote','Added user '+name+(role==='Admin'?' (Admin)':(role==='Developer'?' (Developer)':'')))}).catch(console.error);
    ADMIN TOOLS
    ============================== */
 document.getElementById('togglePenalty').addEventListener('change',function(){db.ref('showPenaltyInOnline').set(this.checked)});
@@ -4412,7 +4488,10 @@ var appDefs={
         if(rb){
           rb.onclick=function(){
             resetIconPositions();
-            if(currentRole)localStorage.removeItem('docosIconPositions_'+currentRole);
+            if(currentRole){
+              localStorage.removeItem('docosIconPositions_'+currentRole);
+              saveIconPositions();
+            }
             showToast('Desktop icons reset to default positions.');
           };
         }
@@ -4489,7 +4568,8 @@ var appDefs={
       var tabBar=document.createElement('div');tabBar.style.cssText='display:flex;border-bottom:2px solid var(--border);flex-shrink:0;background:var(--bg3)';
       var tabCreate=document.createElement('button');tabCreate.innerHTML='&#128295; Create';tabCreate.style.cssText=_tabBase+_tabAct;
       var tabManage=document.createElement('button');tabManage.innerHTML='&#9881; Manage';tabManage.style.cssText=_tabBase;
-      tabBar.appendChild(tabCreate);tabBar.appendChild(tabManage);
+      var tabTrash=document.createElement('button');tabTrash.innerHTML='&#128465; Trash';tabTrash.style.cssText=_tabBase;
+      tabBar.appendChild(tabCreate);tabBar.appendChild(tabManage);tabBar.appendChild(tabTrash);
       wrapper.appendChild(tabBar);
       var d=document.createElement('div');
       d.style.cssText='padding:24px;overflow-y:auto;flex:1;';
@@ -4927,9 +5007,15 @@ var appDefs={
       managePanel.innerHTML='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#7c4dff,#536dfe);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;color:#fff">&#9881;</div><span style="font-size:16px;font-weight:700;color:var(--text)">Manage Apps</span></div>'+
         '<div style="font-size:12px;color:var(--text5);margin-bottom:14px">Lock, hide, and delete apps for all users</div>'+
         '<div id="amAppList"></div>';
-      wrapper.appendChild(d);wrapper.appendChild(managePanel);
-      tabCreate.onclick=function(){d.style.display='';d.style.flex='1';managePanel.style.display='none';tabCreate.style.cssText=_tabBase+_tabAct;tabManage.style.cssText=_tabBase};
-      tabManage.onclick=function(){d.style.display='none';managePanel.style.display='';managePanel.style.flex='1';tabManage.style.cssText=_tabBase+_tabAct;tabCreate.style.cssText=_tabBase;_amRenderApps(managePanel.querySelector('#amAppList'))};
+      var trashPanel=document.createElement('div');
+      trashPanel.style.cssText='padding:16px;overflow-y:auto;flex:1;display:none';
+      trashPanel.innerHTML='<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#546e7a,#37474f);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;color:#fff">&#128465;</div><span style="font-size:16px;font-weight:700;color:var(--text)">Trash</span></div>'+ 
+        '<div style="font-size:12px;color:var(--text5);margin-bottom:14px">Restore apps you have deleted from your desktop.</div>'+ 
+        '<div id="adTrashList"></div>';
+      wrapper.appendChild(d);wrapper.appendChild(managePanel);wrapper.appendChild(trashPanel);
+      tabCreate.onclick=function(){d.style.display='';d.style.flex='1';managePanel.style.display='none';trashPanel.style.display='none';tabCreate.style.cssText=_tabBase+_tabAct;tabManage.style.cssText=_tabBase;tabTrash.style.cssText=_tabBase};
+      tabManage.onclick=function(){d.style.display='none';managePanel.style.display='';managePanel.style.flex='1';trashPanel.style.display='none';tabManage.style.cssText=_tabBase+_tabAct;tabCreate.style.cssText=_tabBase;tabTrash.style.cssText=_tabBase;_amRenderApps(managePanel.querySelector('#amAppList'))};
+      tabTrash.onclick=function(){d.style.display='none';managePanel.style.display='none';trashPanel.style.display='';trashPanel.style.flex='1';tabTrash.style.cssText=_tabBase+_tabAct;tabCreate.style.cssText=_tabBase;tabManage.style.cssText=_tabBase;renderTrashItems(trashPanel.querySelector('#adTrashList'))};
       return wrapper;
     }
   },
@@ -5443,7 +5529,7 @@ function openApp(appId){
       }
     }
   /* Block non-owners from App Manager */
-  if(appId==='appdesigner'&&currentRole!=='Admin'){return;}
+  if(appId==='appdesigner'&&!isAppManager()){return;}
   /* If already open, focus it */
   for(var id in openWindows){
     if(openWindows[id].appId===appId){
@@ -5943,13 +6029,33 @@ function resetIconPositions(){
   var maxRows=Math.max(1,Math.floor((desktopH-padY)/rowH));
   var icons=Array.prototype.slice.call(document.querySelectorAll('.desktop-icon'));
   var visible=icons.filter(function(ic){return ic.style.display!=='none'});
+  var usedCells={};
+
+  visible.forEach(function(icon){
+    var appId=icon.dataset.app;
+    if(appId&&_defaultIconPositions[appId]){
+      icon.style.left=_defaultIconPositions[appId].left;
+      icon.style.top=_defaultIconPositions[appId].top;
+      var col=Math.round((parseInt(_defaultIconPositions[appId].left,10)-padX)/colW);
+      var row=Math.round((parseInt(_defaultIconPositions[appId].top,10)-padY)/rowH);
+      if(col>=0&&row>=0)usedCells[col+','+row]=true;
+    }
+  });
+
   var col=0,row=0;
-  for(var i=0;i<visible.length;i++){
-    visible[i].style.left=(padX+col*colW)+'px';
-    visible[i].style.top=(padY+row*rowH)+'px';
+  visible.forEach(function(icon){
+    var appId=icon.dataset.app;
+    if(appId&&_defaultIconPositions[appId])return;
+    while(usedCells[col+','+row]){
+      row++;
+      if(row>=maxRows){row=0;col++;}
+    }
+    icon.style.left=(padX+col*colW)+'px';
+    icon.style.top=(padY+row*rowH)+'px';
+    usedCells[col+','+row]=true;
     row++;
     if(row>=maxRows){row=0;col++;}
-  }
+  });
 }
 
 /* Save/restore icon labels (renames) */
@@ -7927,10 +8033,10 @@ db.ref('customApps').on('value',function(snap){
   if(asList)renderAppStore(asList);
 });
 
-/* Show App Designer & App Management icons for owner */
+/* Show App Designer & App Management icons for owner and developers */
 function updateAppDesignerVisibility(){
   var el=document.getElementById('appDesignerIcon');
-  if(el)el.style.display=(currentRole==='Admin')?'':'none';
+  if(el)el.style.display=isAppManager()?'' : 'none';
 }
 
 /* ===== APP MANAGEMENT LOGIC ===== */
@@ -8065,10 +8171,13 @@ function _amBuildCard(app){
   card.appendChild(top);
 
   var actions=document.createElement('div');actions.className='am-actions';
+  var isAdmin=currentRole==='Admin'||adminUsers[currentRole]===true;
+  var appData=customAppsData[app.id]||{};
 
-  var lockWrap=document.createElement('div');lockWrap.style.cssText='position:relative;display:inline-flex';
-  var lockBtn=document.createElement('button');lockBtn.className='am-btn'+(st.locked?' am-btn-active':'');
-  lockBtn.innerHTML=(st.locked?'&#128275; Unlock':'&#128274; Lock');
+  if(isAdmin){
+    var lockWrap=document.createElement('div');lockWrap.style.cssText='position:relative;display:inline-flex';
+    var lockBtn=document.createElement('button');lockBtn.className='am-btn'+(st.locked?' am-btn-active':'');
+    lockBtn.innerHTML=(st.locked?'&#128275; Unlock':'&#128274; Lock');
   lockBtn.onclick=function(){
     if(st.locked){
       db.ref('appManagement/'+app.id+'/locked').set(false);
@@ -8122,32 +8231,36 @@ function _amBuildCard(app){
     else { if(existingBadge) existingBadge.remove(); }
   };
   actions.appendChild(hideBtn);
+  }
 
   if(app.type==='Custom'){
-    var delBtn=document.createElement('button');delBtn.className='am-btn';
-    delBtn.style.cssText='border-color:var(--red);color:var(--red)';
-    delBtn.innerHTML='&#128465; Delete';
-    delBtn.onclick=function(){
-      if(delBtn.dataset.confirm){
-        db.ref('customApps/'+app.id).remove().then(function(){
-          showToast('"'+app.name+'" deleted from all users.');
-          logAudit('app','Deleted custom app: '+app.name);
-        });
-        db.ref('appManagement/'+app.id).remove();
-        db.ref('userApps').once('value',function(snap){
-          var allUsers=snap.val()||{};
-          var updates={};
-          Object.keys(allUsers).forEach(function(userId){
-            if(allUsers[userId]&&allUsers[userId][app.id])updates['userApps/'+userId+'/'+app.id]=null;
+    var canDelete = isAdmin || appData.createdBy===currentDisplayName || appData.createdBy===currentRole;
+    if(canDelete){
+      var delBtn=document.createElement('button');delBtn.className='am-btn';
+      delBtn.style.cssText='border-color:var(--red);color:var(--red)';
+      delBtn.innerHTML='&#128465; Delete';
+      delBtn.onclick=function(){
+        if(delBtn.dataset.confirm){
+          db.ref('customApps/'+app.id).remove().then(function(){
+            showToast('"'+app.name+'" deleted from all users.');
+            logAudit('app','Deleted custom app: '+app.name);
           });
-          if(Object.keys(updates).length)db.ref().update(updates);
-        });
-      }else{
-        delBtn.dataset.confirm='1';delBtn.innerHTML='&#128465; Confirm?';delBtn.style.background='var(--red)';delBtn.style.color='#fff';
-        setTimeout(function(){delete delBtn.dataset.confirm;delBtn.innerHTML='&#128465; Delete';delBtn.style.background='';delBtn.style.color='var(--red)'},3000);
-      }
-    };
-    actions.appendChild(delBtn);
+          db.ref('appManagement/'+app.id).remove();
+          db.ref('userApps').once('value',function(snap){
+            var allUsers=snap.val()||{};
+            var updates={};
+            Object.keys(allUsers).forEach(function(userId){
+              if(allUsers[userId]&&allUsers[userId][app.id])updates['userApps/'+userId+'/'+app.id]=null;
+            });
+            if(Object.keys(updates).length)db.ref().update(updates);
+          });
+        }else{
+          delBtn.dataset.confirm='1';delBtn.innerHTML='&#128465; Confirm?';delBtn.style.background='var(--red)';delBtn.style.color='#fff';
+          setTimeout(function(){delete delBtn.dataset.confirm;delBtn.innerHTML='&#128465; Delete';delBtn.style.background='';delBtn.style.color='var(--red)'},3000);
+        }
+      };
+      actions.appendChild(delBtn);
+    }
   }
 
   card.appendChild(actions);
