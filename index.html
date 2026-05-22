@@ -9383,4 +9383,596 @@ function _vcRenderUsers(){
         itm.classList.toggle('selected',checkbox.checked);
         _vcUpdateGroupBtn();
         var sa=document.getElementById('vcSelectAll');
-        if(sa){var all=document.querySelectorAll('.vc-user-check');var checked=document.querySelectorAll('.vc-user-check:checked');sa.checked=all.length>0&&checked.length===all.length
+        if(sa){var all=document.querySelectorAll('.vc-user-check');var checked=document.querySelectorAll('.vc-user-check:checked');sa.checked=all.length>0&&checked.length===all.length;}
+      };
+      cb.onchange=toggleCheck;
+      itm.onclick=toggleCheck;
+    })(role,item,cb);
+    var nameDiv=document.createElement('div');nameDiv.className='vc-user-name';
+    var vcDot=document.createElement('span');vcDot.className='vc-user-dot';nameDiv.appendChild(vcDot);
+    var vcNameSpan=document.createElement('span');vcNameSpan.textContent=getDisplayName(role,(onlineUsers[role]&&onlineUsers[role].name)||role);vcNameSpan.style.cursor='pointer';
+    (function(r,ns){vcNameSpan.onclick=function(e){e.stopPropagation();openNicknamePopup(r,ns)};})(role,vcNameSpan);
+    nameDiv.appendChild(vcNameSpan);
+    var btn=document.createElement('button');btn.className='vc-call-btn';
+    btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="none" style="flex-shrink:0"><rect x="2" y="5" width="13" height="14" rx="3"></rect><path d="M17 9.5l4.2-2.8a.5.5 0 0 1 .8.4v9.8a.5.5 0 0 1-.8.4L17 14.5V9.5z"></path></svg> Call';
+    (function(r){
+      btn.onclick=function(e){e.stopPropagation();_vcStartCall(r)};
+    })(role);
+    item.appendChild(cb);item.appendChild(nameDiv);item.appendChild(btn);
+    list.appendChild(item);
+  });
+  if(!found){
+    list.innerHTML='<div style="text-align:center;padding:20px;color:var(--text6);font-size:13px">No other users online</div>';
+  }
+  _gcRenderRejoinBanner(list);
+  var sa=document.getElementById('vcSelectAll');
+  if(sa){
+    sa.checked=false;
+    sa.onchange=function(){
+      var cbs=document.querySelectorAll('.vc-user-check');
+      var checked=sa.checked;
+      cbs.forEach(function(c){c.checked=checked;_vcSelectedUsers[c.dataset.role]=checked});
+      _vcUpdateGroupBtn();
+    };
+  }
+  var gsBtn=document.getElementById('vcGroupStartBtn');
+  if(gsBtn){gsBtn.onclick=function(){
+    var targets=Object.keys(_vcSelectedUsers).filter(function(k){return _vcSelectedUsers[k]});
+    if(targets.length<2)return;
+    _gcStartGroupCall(targets);
+  };}
+  _vcUpdateGroupBtn();
+  _vcBindButtons();
+}
+
+/* Re-render user list when online users change */
+var _origRenderOnline=renderOnlineUsers;
+renderOnlineUsers=function(){
+  _origRenderOnline();
+  _vcRenderUsers();
+};
+
+/* Start listening for incoming calls whenever user logs in */
+var _origShowChat=null;
+(function(){
+  var chatScreen=document.querySelector('.chat-screen');
+  if(chatScreen){
+    var observer=new MutationObserver(function(){
+      if(chatScreen.style.display!=='none'&&currentRole){
+        _vcListenForIncomingCalls();
+      }
+    });
+    observer.observe(chatScreen,{attributes:true,attributeFilter:['style']});
+  }
+})();
+
+/* Clean up calls on page unload */
+window.addEventListener('beforeunload',function(){
+  if(_vcInCall){
+    var callId=_vcTargetRole?_vcGetCallId(currentRole,_vcTargetRole):null;
+    if(callId)db.ref('videoCalls/'+callId+'/status').set('ended');
+  }
+  if(_gcInGroupCall&&_gcRoomId){
+    db.ref('groupCalls/'+_gcRoomId+'/participants/'+currentRole+'/status').set('left');
+  }
+});
+
+/* ==============================
+   GROUP VIDEO CALL
+   ============================== */
+var _gcInGroupCall=false;
+var _gcRoomId=null;
+var _gcLastRoomId=null;
+var _gcActiveCallsRef=null;
+var _gcLeftUsers={};
+var _gcLocalStream=null;
+var _gcPeers={};
+var _gcRemoteStreams={};
+var _gcMuted=false;
+var _gcCamOff=false;
+var _gcTimerInterval=null;
+var _gcTimerSeconds=0;
+var _gcParticipantRef=null;
+var _gcRoomRef=null;
+
+function _gcGenRoomId(){return 'gc_'+Date.now()+'_'+Math.random().toString(36).substr(2,6)}
+
+function _gcStartTimer(){
+  _gcTimerSeconds=0;
+  if(_gcTimerInterval)clearInterval(_gcTimerInterval);
+  _gcTimerInterval=setInterval(function(){
+    _gcTimerSeconds++;
+    var m=Math.floor(_gcTimerSeconds/60);var s=_gcTimerSeconds%60;
+    var el=document.getElementById('vcTimer');
+    if(el)el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  },1000);
+}
+function _gcStopTimer(){if(_gcTimerInterval){clearInterval(_gcTimerInterval);_gcTimerInterval=null;}_gcTimerSeconds=0;var el=document.getElementById('vcTimer');if(el)el.textContent='';}
+
+function _gcShowGroupUI(participantNames){
+  var userList=document.getElementById('vcUserList');
+  var videoArea=document.getElementById('vcVideoArea');
+  var groupArea=document.getElementById('vcGroupVideoArea');
+  var controls=document.getElementById('vcControls');
+  if(userList)userList.style.display='none';
+  if(videoArea)videoArea.style.display='none';
+  if(groupArea){groupArea.style.display='flex';groupArea.style.flex='1';groupArea.className='vc-grid';}
+  if(controls)controls.style.display='flex';
+}
+
+function _gcShowUserList(){
+  var userList=document.getElementById('vcUserList');
+  var videoArea=document.getElementById('vcVideoArea');
+  var groupArea=document.getElementById('vcGroupVideoArea');
+  var controls=document.getElementById('vcControls');
+  if(userList)userList.style.display='';
+  if(videoArea)videoArea.style.display='none';
+  if(groupArea){groupArea.style.display='none';groupArea.innerHTML='';}
+  if(controls)controls.style.display='none';
+}
+
+function _gcUpdateGrid(){
+  var area=document.getElementById('vcGroupVideoArea');
+  if(!area)return;
+  var roles=Object.keys(_gcRemoteStreams);
+  var total=roles.length+1;
+  area.className='vc-grid g'+Math.min(total,6);
+  area.innerHTML='';
+
+  var localCell=document.createElement('div');
+  localCell.className='vc-grid-cell vc-local-cell';
+  var lv=document.createElement('video');lv.autoplay=true;lv.playsInline=true;lv.muted=true;
+  if(_gcLocalStream)lv.srcObject=_gcLocalStream;
+  lv.play().catch(function(){});
+  var ll=document.createElement('div');ll.className='vc-grid-label';ll.textContent=(currentDisplayName||currentRole)+' (You)';
+  localCell.appendChild(lv);localCell.appendChild(ll);
+  area.appendChild(localCell);
+
+  roles.forEach(function(role){
+    var cell=document.createElement('div');cell.className='vc-grid-cell';cell.id='gcCell_'+role;
+    var rv=document.createElement('video');rv.autoplay=true;rv.playsInline=true;rv.muted=false;
+    if(_gcRemoteStreams[role])rv.srcObject=_gcRemoteStreams[role];
+    rv.play().catch(function(){});
+    var rl=document.createElement('div');rl.className='vc-grid-label';
+    rl.textContent=(onlineUsers[role]&&onlineUsers[role].name)||role;
+    var muteBadge=document.createElement('div');muteBadge.className='vc-grid-muted';muteBadge.id='gcMute_'+role;
+    muteBadge.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ff5555" stroke-width="2.5"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path></svg><span style="font-size:10px;color:#ff5555">Muted</span>';
+    var camOff=document.createElement('div');camOff.className='vc-grid-cam-off';camOff.id='gcCamOff_'+role;
+    camOff.innerHTML='<span>&#127909;</span>';
+    cell.appendChild(rv);cell.appendChild(rl);cell.appendChild(muteBadge);cell.appendChild(camOff);
+    area.appendChild(cell);
+  });
+
+  var leftRoles=Object.keys(_gcLeftUsers);
+  if(leftRoles.length>0){
+    var leftBar=document.createElement('div');leftBar.className='vc-left-users';
+    leftRoles.forEach(function(role){
+      var chip=document.createElement('div');chip.className='vc-left-chip';
+      chip.id='gcLeftChip_'+role;
+      var nameSpan=document.createElement('span');nameSpan.textContent=_gcLeftUsers[role]+' left';
+      var ringBtn=document.createElement('button');ringBtn.className='vc-ring-btn';ringBtn.textContent='Ring Again';
+      (function(r,btn){
+        btn.onclick=function(){_gcRingAgain(r,btn)};
+      })(role,ringBtn);
+      chip.appendChild(nameSpan);chip.appendChild(ringBtn);
+      leftBar.appendChild(chip);
+    });
+    area.appendChild(leftBar);
+  }
+}
+
+function _gcCreatePeer(remoteRole,isCaller){
+  var pc=new RTCPeerConnection(_vcIceServers);
+  _gcPeers[remoteRole]=pc;
+  _gcRemoteStreams[remoteRole]=new MediaStream();
+
+  if(_gcLocalStream){
+    _gcLocalStream.getTracks().forEach(function(track){pc.addTrack(track,_gcLocalStream)});
+  }
+
+  pc.ontrack=function(event){
+    var track=event.track;
+    _gcRemoteStreams[remoteRole].addTrack(track);
+    _gcUpdateGrid();
+  };
+
+  var pairId=[currentRole,remoteRole].sort().join('__');
+  var pairRef=db.ref('groupCalls/'+_gcRoomId+'/pairs/'+pairId);
+  var myRole=isCaller?'caller':'callee';
+  var theirRole=isCaller?'callee':'caller';
+
+  pc.onicecandidate=function(event){
+    if(event.candidate){
+      pairRef.child(myRole+'Candidates').push(event.candidate.toJSON());
+    }
+  };
+
+  pc.onconnectionstatechange=function(){
+    if(pc.connectionState==='disconnected'||pc.connectionState==='failed'||pc.connectionState==='closed'){
+      _gcRemovePeer(remoteRole);
+    }
+  };
+
+  pairRef.child(theirRole+'Candidates').on('child_added',function(snap){
+    if(!_gcPeers[remoteRole])return;
+    var c=snap.val();
+    if(pc.currentRemoteDescription){
+      pc.addIceCandidate(new RTCIceCandidate(c)).catch(function(){});
+    }
+  });
+
+  return pc;
+}
+
+function _gcRemovePeer(role){
+  if(_gcPeers[role]){
+    _gcPeers[role].ontrack=null;
+    _gcPeers[role].onicecandidate=null;
+    _gcPeers[role].onconnectionstatechange=null;
+    _gcPeers[role].close();
+    delete _gcPeers[role];
+  }
+  delete _gcRemoteStreams[role];
+  var userName=(onlineUsers[role]&&onlineUsers[role].name)||role;
+  _gcLeftUsers[role]=userName;
+  _gcUpdateGrid();
+  _gcShowToast(userName+' disconnected');
+  if(Object.keys(_gcPeers).length===0&&_gcInGroupCall){
+    setTimeout(function(){_gcHangUp()},2000);
+  }
+}
+
+function _gcRingAgain(role,btn){
+  if(!_gcRoomId||!_gcInGroupCall)return;
+  if(btn){btn.textContent='Ringing...';btn.classList.add('ringing');btn.disabled=true;}
+  db.ref('groupCalls/'+_gcRoomId+'/participants/'+role).update({status:'invited',timestamp:Date.now()});
+  setTimeout(function(){if(btn&&btn.parentNode){btn.textContent='Ring Again';btn.classList.remove('ringing');btn.disabled=false;}},5000);
+}
+
+function _gcShowToast(msg){
+  var area=document.getElementById('vcGroupVideoArea');
+  if(!area)return;
+  var existing=area.querySelector('.vc-gc-toast');
+  if(existing)existing.remove();
+  var toast=document.createElement('div');
+  toast.className='vc-gc-toast';
+  toast.textContent=msg;
+  area.appendChild(toast);
+  setTimeout(function(){if(toast.parentNode)toast.remove()},3500);
+}
+
+async function _gcStartGroupCall(targets){
+  if(_gcInGroupCall||_vcInCall||!currentRole)return;
+  _gcInGroupCall=true;
+  _gcRoomId=_gcGenRoomId();
+
+  _gcLocalStream=await _vcGetMedia();
+  if(!_gcLocalStream){
+    _gcInGroupCall=false;_gcRoomId=null;
+    return;
+  }
+
+  openApp('videocall');
+  setTimeout(function(){
+    _gcShowGroupUI();
+    _gcUpdateGrid();
+    _gcStartTimer();
+  },50);
+
+  var participantData={};
+  participantData[currentRole]={name:currentDisplayName||currentRole,status:'joined',timestamp:Date.now()};
+  targets.forEach(function(t){
+    participantData[t]={name:(onlineUsers[t]&&onlineUsers[t].name)||t,status:'invited',timestamp:Date.now()};
+  });
+
+  await db.ref('groupCalls/'+_gcRoomId).set({
+    host:currentRole,
+    hostName:currentDisplayName||currentRole,
+    participants:participantData,
+    status:'active',
+    timestamp:Date.now()
+  });
+
+  db.ref('groupCalls/'+_gcRoomId+'/participants/'+currentRole+'/status').set('joined');
+  db.ref('groupCalls/'+_gcRoomId+'/participants/'+currentRole).onDisconnect().update({status:'left'});
+
+  _gcListenForParticipants();
+
+  _vcBindButtons();
+}
+
+function _gcListenForParticipants(){
+  if(_gcParticipantRef)_gcParticipantRef.off();
+  _gcParticipantRef=db.ref('groupCalls/'+_gcRoomId+'/participants');
+
+  _gcParticipantRef.on('child_changed',function(snap){
+    var role=snap.key;
+    var data=snap.val();
+    if(role===currentRole)return;
+    if(data.status==='joined'){
+      delete _gcLeftUsers[role];
+      if(!_gcPeers[role])_gcConnectToPeer(role,true);
+      _gcUpdateGrid();
+    }
+    if(data.status==='left'||data.status==='declined'){
+      _gcLeftUsers[role]=(data.name||((onlineUsers[role]&&onlineUsers[role].name)||role));
+      if(_gcPeers[role])_gcRemovePeer(role);
+      else _gcUpdateGrid();
+    }
+    if(data.status==='invited'){
+      _gcUpdateGrid();
+    }
+    var muteEl=document.getElementById('gcMute_'+role);
+    if(muteEl){if(data.muted)muteEl.classList.add('visible');else muteEl.classList.remove('visible');}
+    var camEl=document.getElementById('gcCamOff_'+role);
+    if(camEl){if(data.camOff)camEl.classList.add('visible');else camEl.classList.remove('visible');}
+  });
+
+  _gcParticipantRef.on('child_added',function(snap){
+    var role=snap.key;
+    var data=snap.val();
+    if(role===currentRole)return;
+    if(data.status==='joined'&&!_gcPeers[role]){
+      if(currentRole<role){
+        _gcConnectToPeer(role,true);
+      }
+    }
+  });
+}
+
+async function _gcConnectToPeer(remoteRole,isCaller){
+  var pc=_gcCreatePeer(remoteRole,isCaller);
+  var pairId=[currentRole,remoteRole].sort().join('__');
+  var pairRef=db.ref('groupCalls/'+_gcRoomId+'/pairs/'+pairId);
+
+  if(isCaller){
+    var offer=await pc.createOffer({offerToReceiveAudio:true,offerToReceiveVideo:true});
+    await pc.setLocalDescription(offer);
+    await pairRef.child('offer').set({type:offer.type,sdp:offer.sdp,from:currentRole});
+
+    pairRef.child('answer').on('value',async function(snap){
+      var ans=snap.val();
+      if(ans&&pc&&!pc.currentRemoteDescription){
+        await pc.setRemoteDescription(new RTCSessionDescription(ans));
+      }
+    });
+  } else {
+    pairRef.child('offer').on('value',async function(snap){
+      var offerData=snap.val();
+      if(!offerData||!offerData.sdp||!pc)return;
+      if(pc.currentRemoteDescription)return;
+      await pc.setRemoteDescription(new RTCSessionDescription(offerData));
+      var answer=await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+      await pairRef.child('answer').set({type:answer.type,sdp:answer.sdp,from:currentRole});
+    });
+  }
+}
+
+async function _gcJoinGroupCall(roomId){
+  if(_gcInGroupCall||_vcInCall||!currentRole)return;
+  _gcInGroupCall=true;
+  _gcRoomId=roomId;
+  _vcRemoveIncomingOverlay();
+
+  _gcLocalStream=await _vcGetMedia();
+  if(!_gcLocalStream){_gcInGroupCall=false;_gcRoomId=null;return;}
+
+  openApp('videocall');
+  setTimeout(function(){
+    _gcShowGroupUI();
+    _gcUpdateGrid();
+    _gcStartTimer();
+  },50);
+
+  await db.ref('groupCalls/'+roomId+'/participants/'+currentRole).update({status:'joined',timestamp:Date.now()});
+  db.ref('groupCalls/'+roomId+'/participants/'+currentRole).onDisconnect().update({status:'left'});
+
+  var snap=await db.ref('groupCalls/'+roomId+'/participants').once('value');
+  var parts=snap.val()||{};
+  Object.keys(parts).forEach(function(role){
+    if(role===currentRole)return;
+    if(parts[role].status==='joined'&&!_gcPeers[role]){
+      var isCaller=currentRole<role;
+      _gcConnectToPeer(role,isCaller);
+    }
+  });
+
+  _gcListenForParticipants();
+
+  _vcBindButtons();
+}
+
+function _gcToggleMute(){
+  if(!_gcLocalStream)return;
+  _gcMuted=!_gcMuted;
+  _gcLocalStream.getAudioTracks().forEach(function(t){t.enabled=!_gcMuted});
+  var btn=document.getElementById('vcMuteBtn');
+  if(btn){btn.innerHTML=_gcMuted?_vcIconMicOff:_vcIconMicOn;if(_gcMuted)btn.classList.add('active');else btn.classList.remove('active');}
+  if(_gcRoomId)db.ref('groupCalls/'+_gcRoomId+'/participants/'+currentRole+'/muted').set(_gcMuted);
+}
+
+function _gcToggleCamera(){
+  if(!_gcLocalStream)return;
+  _gcCamOff=!_gcCamOff;
+  _gcLocalStream.getVideoTracks().forEach(function(t){t.enabled=!_gcCamOff});
+  var btn=document.getElementById('vcVideoToggle');
+  if(btn){btn.innerHTML=_gcCamOff?_vcIconCamOff:_vcIconCamOn;if(_gcCamOff)btn.classList.add('active');else btn.classList.remove('active');}
+  if(_gcRoomId)db.ref('groupCalls/'+_gcRoomId+'/participants/'+currentRole+'/camOff').set(_gcCamOff);
+}
+
+var _gcRejoinableRooms={};
+
+function _gcCheckActiveGroupCalls(){
+  if(_gcActiveCallsRef){_gcActiveCallsRef.off();_gcActiveCallsRef=null;}
+  _gcRejoinableRooms={};
+  if(!currentRole)return;
+  _gcActiveCallsRef=db.ref('groupCalls');
+  _gcActiveCallsRef.on('value',function(snap){
+    var calls=snap.val()||{};
+    _gcRejoinableRooms={};
+    Object.keys(calls).forEach(function(roomId){
+      var call=calls[roomId];
+      if(!call||call.status!=='active'||!call.participants)return;
+      var myPart=call.participants[currentRole];
+      if(!myPart)return;
+      if(myPart.status!=='left'&&myPart.status!=='declined')return;
+      var activeUsers=Object.keys(call.participants).filter(function(r){
+        return r!==currentRole&&call.participants[r].status==='joined';
+      });
+      if(activeUsers.length>0){
+        _gcRejoinableRooms[roomId]={
+          hostName:call.hostName||call.host,
+          activeUsers:activeUsers.map(function(r){return (call.participants[r]&&call.participants[r].name)||r}),
+          activeCount:activeUsers.length
+        };
+      }
+    });
+    if(!_gcInGroupCall&&!_vcInCall)_vcRenderUsers();
+  });
+}
+
+function _gcRenderRejoinBanner(container){
+  var existing=container.querySelectorAll('.vc-rejoin-banner');
+  existing.forEach(function(el){el.remove()});
+  var roomIds=Object.keys(_gcRejoinableRooms);
+  if(roomIds.length===0)return;
+  roomIds.forEach(function(roomId){
+    var info=_gcRejoinableRooms[roomId];
+    var banner=document.createElement('div');
+    banner.className='vc-rejoin-banner';
+    var infoDiv=document.createElement('div');infoDiv.className='vc-rejoin-info';
+    infoDiv.innerHTML='<div class="vc-rejoin-title">&#128252; Active Group Call</div><div class="vc-rejoin-sub">'+info.activeUsers.join(', ')+' ('+info.activeCount+' in call)</div>';
+    var btn=document.createElement('button');btn.className='vc-rejoin-btn';btn.textContent='Rejoin';
+    (function(rid){
+      btn.onclick=function(e){
+        e.stopPropagation();
+        if(_gcActiveCallsRef){_gcActiveCallsRef.off();_gcActiveCallsRef=null;}
+        _gcRejoinableRooms={};
+        _gcJoinGroupCall(rid);
+      };
+    })(roomId);
+    banner.appendChild(infoDiv);banner.appendChild(btn);
+    container.insertBefore(banner,container.firstChild);
+  });
+}
+
+function _gcHangUp(){
+  if(!_gcInGroupCall)return;
+  _gcLastRoomId=_gcRoomId;
+  if(_gcRoomId){
+    db.ref('groupCalls/'+_gcRoomId+'/participants/'+currentRole+'/status').set('left');
+  }
+  _gcCleanup();
+  _gcCheckActiveGroupCalls();
+}
+
+function _gcCleanup(){
+  _gcInGroupCall=false;
+  _gcStopTimer();
+  Object.keys(_gcPeers).forEach(function(role){
+    if(_gcPeers[role]){
+      _gcPeers[role].ontrack=null;
+      _gcPeers[role].onicecandidate=null;
+      _gcPeers[role].onconnectionstatechange=null;
+      _gcPeers[role].close();
+    }
+  });
+  _gcPeers={};
+  _gcRemoteStreams={};
+  if(_gcLocalStream){_gcLocalStream.getTracks().forEach(function(t){t.stop()});_gcLocalStream=null;}
+  if(_gcParticipantRef){_gcParticipantRef.off();_gcParticipantRef=null;}
+  _gcLeftUsers={};
+  _gcMuted=false;_gcCamOff=false;
+  var muteBtn=document.getElementById('vcMuteBtn');
+  var vidBtn=document.getElementById('vcVideoToggle');
+  if(muteBtn){muteBtn.innerHTML=_vcIconMicOn;muteBtn.classList.remove('active');}
+  if(vidBtn){vidBtn.innerHTML=_vcIconCamOn;vidBtn.classList.remove('active');}
+  if(_gcRoomId){
+    var pairsRef=db.ref('groupCalls/'+_gcRoomId+'/pairs');
+    pairsRef.off();
+  }
+  _gcRoomId=null;
+  _gcShowUserList();
+}
+
+function _gcDeclineGroupCall(roomId){
+  _vcRemoveIncomingOverlay();
+  db.ref('groupCalls/'+roomId+'/participants/'+currentRole+'/status').set('declined');
+}
+
+function _gcShowIncomingGroupCall(roomId,hostName,participantNames){
+  if(_gcInGroupCall||_vcInCall)return;
+  _vcRemoveIncomingOverlay();
+  var overlay=document.createElement('div');
+  overlay.className='vc-incoming';
+  overlay.innerHTML=
+    '<div class="vc-incoming-card">'+
+      '<div class="vc-incoming-avatar" style="background:linear-gradient(135deg,#7c4dff,#536dfe)">'+
+        '<svg width="36" height="36" viewBox="0 0 24 24" fill="white" stroke="none"><rect x="2" y="5" width="13" height="14" rx="3"></rect><path d="M17 9.5l4.2-2.8a.5.5 0 0 1 .8.4v9.8a.5.5 0 0 1-.8.4L17 14.5V9.5z"></path></svg>'+
+      '</div>'+
+      '<div class="vc-incoming-name">'+escHtml(hostName)+'</div>'+
+      '<div class="vc-incoming-label">Group Video Call<br><span style="font-size:12px;opacity:.7">'+escHtml(participantNames)+'</span></div>'+
+      '<div class="vc-incoming-btns">'+
+        '<button class="vc-accept-btn" id="vcAcceptBtn">'+_vcIconPhoneOn+'</button>'+
+        '<button class="vc-decline-btn" id="vcDeclineBtn">'+_vcIconHangup+'</button>'+
+      '</div>'+
+    '</div>';
+  document.body.appendChild(overlay);
+  _vcIncomingOverlay=overlay;
+
+  document.getElementById('vcAcceptBtn').onclick=function(){_gcJoinGroupCall(roomId)};
+  document.getElementById('vcDeclineBtn').onclick=function(){_gcDeclineGroupCall(roomId)};
+}
+
+/* Listen for incoming group calls */
+var _gcIncomingListener=null;
+function _gcListenForIncomingGroupCalls(){
+  if(_gcIncomingListener){db.ref('groupCalls').off('child_added',_gcIncomingListener);_gcIncomingListener=null;}
+  if(!currentRole)return;
+  _gcIncomingListener=db.ref('groupCalls').on('child_added',function(snap){
+    var data=snap.val();
+    if(!data||!data.participants||data.status!=='active')return;
+    var myPart=data.participants[currentRole];
+    if(!myPart||myPart.status!=='invited')return;
+    if(_gcInGroupCall||_vcInCall)return;
+    var names=Object.keys(data.participants).filter(function(r){return r!==currentRole}).map(function(r){return (data.participants[r]&&data.participants[r].name)||r}).join(', ');
+    _gcShowIncomingGroupCall(snap.key,data.hostName||data.host,names);
+    _showCallNotification('Incoming Group Call',(data.hostName||data.host)+' invited you to a group call','gc-'+snap.key);
+    _flashTabTitle('Group Call from '+(data.hostName||data.host));
+
+    db.ref('groupCalls/'+snap.key+'/participants/'+currentRole+'/status').on('value',function(sSn){
+      var st=sSn.val();
+      if(st&&st!=='invited'){
+        if(st!=='joined')_vcRemoveIncomingOverlay();
+        db.ref('groupCalls/'+snap.key+'/participants/'+currentRole+'/status').off();
+      }
+    });
+  });
+}
+
+/* Hook into the existing login flow to start listening for group calls */
+var _origVcListenForIncoming=_vcListenForIncomingCalls;
+_vcListenForIncomingCalls=function(){
+  _origVcListenForIncoming();
+  _gcListenForIncomingGroupCalls();
+};
+
+/* Also clean up group calls on logout */
+var _origVcCleanupOnLogout=null;
+(function(){
+  var logoutBtn=document.getElementById('taskbarLogoutBtn');
+  if(logoutBtn){
+    var origClick=logoutBtn.onclick;
+    logoutBtn.onclick=function(){
+      if(_gcInGroupCall)_gcHangUp();
+      if(_gcActiveCallsRef){_gcActiveCallsRef.off();_gcActiveCallsRef=null;}
+      _gcRejoinableRooms={};_gcLastRoomId=null;
+      if(_gcIncomingListener){db.ref('groupCalls').off('child_added',_gcIncomingListener);_gcIncomingListener=null;}
+      if(origClick)origClick.call(this);
+    };
+  }
+})();
+</script>
+</body>
+</html>
