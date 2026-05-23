@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1296,8 +1297,11 @@ summary{font-size:calc(13px * var(--fs-scale))}
   <div class="lock-avatar" id="lockAvatarContainer">&#128100;</div>
   <div class="lock-username">DocOS</div>
   <div class="lock-form">
+    <div style="position:relative;width:100%;margin-bottom:8px">
+      <input type="text" id="lockUsernameInput" class="lock-input" placeholder="Enter username" autocomplete="username">
+    </div>
     <div style="position:relative;width:100%">
-      <input type="password" id="lockPasswordInput" class="lock-input" placeholder="Enter password">
+      <input type="password" id="lockPasswordInput" class="lock-input" placeholder="Enter password" autocomplete="current-password">
       <button class="lock-eye" id="lockEyeToggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
     </div>
     <div class="lock-error" id="lockError"></div>
@@ -1312,9 +1316,10 @@ summary{font-size:calc(13px * var(--fs-scale))}
     </div>
     <button class="lock-appeal-btn" id="lockRequestToggle" style="margin-top:12px;width:auto;padding:6px 20px;background:linear-gradient(135deg,#2e7d32,#1b5e20)">Request an Account</button>
     <div class="lock-appeal-area" id="lockRequestArea" style="display:none">
-      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;text-align:center;position:relative">Please use your real name. Your request will be reviewed by an admin.<button class="lock-appeal-close" id="lockRequestClose" style="top:50%;transform:translateY(-50%);right:-2px">&times;</button></div>
-      <input type="text" id="lockRequestName" class="lock-input" placeholder="Your real name" style="margin-bottom:6px;text-align:left;padding-right:14px">
-      <input type="text" id="lockRequestPasscode" class="lock-input" placeholder="Choose a passcode" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;text-align:center;position:relative">Display name must be your real name. Username is for login.<button class="lock-appeal-close" id="lockRequestClose" style="top:50%;transform:translateY(-50%);right:-2px">&times;</button></div>
+      <input type="text" id="lockRequestUsername" class="lock-input" placeholder="Choose a username" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <input type="text" id="lockRequestName" class="lock-input" placeholder="Display name (real name)" style="margin-bottom:6px;text-align:left;padding-right:14px">
+      <input type="text" id="lockRequestPasscode" class="lock-input" placeholder="Choose a password" style="margin-bottom:6px;text-align:left;padding-right:14px">
       <button class="lock-appeal-btn" id="lockRequestBtn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Submit Request</button>
       <div class="lock-appeal-sent" id="lockRequestSent" style="display:none">Account request submitted. Waiting for Admin review.</div>
     </div>
@@ -1412,7 +1417,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <div class="input-row">
         <div class="attach-btn" id="attachBtn" title="Attach media"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
           <div class="attach-menu" id="attachMenu">
-            <div class="attach-menu-item" id="attachFromComputer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> From Computer</div>
+            <div class="attach-menu-item" id="attachFromComputer" style="display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> From Computer<span id="videoInfoBtn" style="position:relative;margin-left:auto;cursor:pointer;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--text5);flex-shrink:0" title="Video upload limits">?<span class="video-info-tooltip" style="display:none;position:absolute;bottom:calc(100% + 6px);right:0;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--text);white-space:nowrap;z-index:99999;box-shadow:0 4px 12px rgba(0,0,0,.3);pointer-events:none;line-height:1.5">~2-3 min at low quality (480p)<br>~30-60 sec at medium (720p)<br>~10-20 sec at high (1080p)</span></span></div>
             <div class="attach-menu-item" id="attachFromFiles"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> From In-App Files</div>
           </div>
         </div>
@@ -1500,8 +1505,9 @@ summary{font-size:calc(13px * var(--fs-scale))}
       <div id="userMgmtList"></div>
       <div class="section-divider"></div>
       <label>Add New User</label>
-      <input type="text" id="newUserName" placeholder="Display name">
-      <input type="text" id="newUserPasscode" placeholder="Passcode">
+      <input type="text" id="newUserUsername" placeholder="Username (for login)">
+      <input type="text" id="newUserName" placeholder="Display name (real name)">
+      <input type="text" id="newUserPasscode" placeholder="Password">
       <label>Role</label>
       <select id="newUserRole"><option value="Member">Member</option><option value="Admin">Admin</option></select>
       <button id="addUserButton" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Add User</button>
@@ -1544,7 +1550,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
 const firebaseConfig={apiKey:"AIzaSyDDXdE1TSzc70MZLL5XxuXoqlgixno1H6E",authDomain:"chat-5e002.firebaseapp.com",databaseURL:"https://chat-5e002-default-rtdb.firebaseio.com",projectId:"chat-5e002",storageBucket:"chat-5e002.firebasestorage.app",messagingSenderId:"223458314389",appId:"1:223458314389:web:59e9524e34e73482ad339c",measurementId:"G-5XN710ZJSD"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
-var RTDB_VIDEO_MAX=7*1024*1024;
+var RTDB_VIDEO_MAX=20*1024*1024;
 
 /* ==============================
    SERVICE WORKER & PUSH NOTIFICATIONS
@@ -1681,7 +1687,7 @@ function _doShowNotification(title,body,tag){
    STATE
    ============================== */
 let currentRole=null,currentDisplayName=null;
-let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={};
+let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={},usernames={},usedUsernames={};
 let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},bannedDevices={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
 
@@ -1790,7 +1796,7 @@ window.addEventListener('resize',function(){
    ============================== */
 const lockScreen=document.getElementById('lockScreen'),desktop=document.getElementById('desktop');
 const chatScreen=document.getElementById('chatScreen');
-const loginError=document.getElementById('lockError'),passwordInput=document.getElementById('lockPasswordInput');
+const loginError=document.getElementById('lockError'),passwordInput=document.getElementById('lockPasswordInput'),usernameInput=document.getElementById('lockUsernameInput');
 const roleLabel=document.getElementById('roleLabel');
 const gearIcon=document.getElementById('gearIcon'),logoutButton=document.getElementById('logoutButton');
 const adminPanel=document.getElementById('adminPanel'),userSelect=document.getElementById('userSelect');
@@ -1918,6 +1924,8 @@ document.getElementById('clearAuditLogBtn').addEventListener('click',function(){
 var _renderUserMgmtTimer=null;
 function queueRenderUserMgmt(){clearTimeout(_renderUserMgmtTimer);_renderUserMgmtTimer=setTimeout(renderUserMgmt,50)}
 db.ref('validPasswords').on('value',s=>{validPasswords=s.val()||{};queueRenderUserMgmt()});
+db.ref('usernames').on('value',s=>{usernames=s.val()||{};queueRenderUserMgmt()});
+db.ref('usedUsernames').on('value',s=>{usedUsernames=s.val()||{}});
 
 db.ref('roleDisplayNames').on('value',s=>{roleDisplayNames=s.val()||{};rebuildUserDropdown();queueRenderUserMgmt()});
 var _adminUsersInitialized=false;
@@ -2218,15 +2226,18 @@ document.getElementById('lockRequestClose').addEventListener('click',function(){
 document.getElementById('lockRequestBtn').addEventListener('click',function(){
   var fp=getDeviceFingerprint();
   if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('Account requests from this device are restricted. Please ask the Owner to create an account for you.');return}
+  var reqUsername=document.getElementById('lockRequestUsername').value.trim();
   var name=document.getElementById('lockRequestName').value.trim();
   var passcode=document.getElementById('lockRequestPasscode').value.trim();
-  if(!name||!passcode){showToast('Please fill in your name and a passcode.');return}
-  if(validPasswords[passcode]){showToast('That passcode is already in use. Choose a different one.');return}
+  if(!reqUsername||!name||!passcode){showToast('Please fill in all fields.');return}
+  if(validPasswords[passcode]){showToast('That password is already in use. Choose a different one.');return}
+  if(_isUsernameTaken(reqUsername)){showToast('That username is unavailable.');return}
   var alreadyPending=false;
-  Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===passcode)alreadyPending=true});
-  if(alreadyPending){showToast('A request with that passcode is already pending.');return}
-  db.ref('pendingAccountRequests').push({name:name,passcode:passcode,timestamp:Date.now()}).then(function(){
+  Object.keys(pendingAccountRequests).forEach(function(k){var r=pendingAccountRequests[k];if(r.passcode===passcode)alreadyPending=true;if(r.username&&r.username.toLowerCase()===reqUsername.toLowerCase())alreadyPending=true});
+  if(alreadyPending){showToast('A request with that password or username is already pending.');return}
+  db.ref('pendingAccountRequests').push({username:reqUsername,name:name,passcode:passcode,timestamp:Date.now()}).then(function(){
     document.getElementById('lockRequestSent').style.display='block';
+    document.getElementById('lockRequestUsername').value='';
     document.getElementById('lockRequestName').value='';
     document.getElementById('lockRequestPasscode').value='';
   }).catch(console.error);
@@ -2236,6 +2247,8 @@ document.getElementById('lockRequestBtn').addEventListener('click',function(){
    HELPERS
    ============================== */
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function _isUsernameTaken(uname){var low=uname.toLowerCase();if(usedUsernames[low])return true;var taken=false;Object.keys(usernames).forEach(function(k){if(usernames[k].toLowerCase()===low)taken=true});return taken}
+function _reserveUsername(uname){db.ref('usedUsernames/'+uname.toLowerCase()).set(true)}
 function linkify(str){var urlRe=/(https?:\/\/[^\s<]+)/g;return escHtml(str).replace(urlRe,url=>'<a href="'+url+'" target="_blank" rel="noopener">'+url+'</a>')}
 
 function rebuildUserDropdown(){
@@ -2269,7 +2282,19 @@ function isMuted(role){
 }
 function isBanned(role){
   if(!bannedRoles[role])return false;
-  const r=bannedRoles[role]-Date.now();if(r<=0){db.ref('bannedRoles').child(role).remove();return false}return true;
+  const r=bannedRoles[role]-Date.now();if(r<=0){db.ref('bannedRoles').child(role).remove();_unbanDevicesForRole(role);return false}return true;
+}
+function _unbanDevicesForRole(role){
+  var fps=deviceFingerprints[role];if(!fps)return;
+  Object.keys(fps).forEach(function(fp){
+    if(!bannedDevices[fp])return;
+    var sharedWithBanned=false;
+    Object.keys(deviceFingerprints).forEach(function(otherRole){
+      if(otherRole===role)return;
+      if(deviceFingerprints[otherRole]&&deviceFingerprints[otherRole][fp]&&bannedRoles[otherRole]&&bannedRoles[otherRole]>Date.now())sharedWithBanned=true;
+    });
+    if(!sharedWithBanned)db.ref('bannedDevices/'+fp).remove();
+  });
 }
 function isAnyAdmin(){return currentRole==='Admin'||(currentRole&&adminUsers[currentRole]===true)}
 
@@ -3019,18 +3044,131 @@ function loginAsRole(role){
       _vcUpdateNotifBtn();
     });
   }
+  /* Prompt for username creation if not set */
+  setTimeout(function(){
+    if(!usernames[currentRole]){_showCreateUsernamePrompt()}
+    else{
+      db.ref('usernames/'+currentRole).once('value',function(snap){
+        if(!snap.val())_showCreateUsernamePrompt();
+      });
+    }
+  },1200);
   return true;
 }
 
+function _showCreateUsernamePrompt(){
+  var existing=document.querySelector('.cu-setup-overlay');if(existing)return;
+  var overlay=document.createElement('div');overlay.className='cu-setup-overlay';
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99999';
+  var modal=document.createElement('div');
+  modal.style.cssText='background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:32px 28px 24px;width:360px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+  var inpStyle='width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border2,#444);background:var(--input-bg,#2a2a3a);color:var(--text,#eee);font-size:14px;outline:none;box-sizing:border-box;margin-bottom:12px;';
+  modal.innerHTML='<h3 style="margin:0 0 8px;font-size:18px;font-weight:700;color:var(--text,#eee);text-align:center">Create a Username</h3>'+
+    '<p style="font-size:13px;color:var(--text5,#888);text-align:center;margin-bottom:18px;line-height:1.5">Choose a username for your account. This will be used to log in from now on.</p>'+
+    '<input type="text" id="cuSetupInput" placeholder="Choose a username" style="'+inpStyle+'" autofocus>'+
+    '<button id="cuSetupBtn" style="width:100%;padding:11px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent,#00aaff),var(--accent2,#0066cc));color:#fff;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s">Set Username</button>'+
+    '<div id="cuSetupMsg" style="font-size:12px;margin-top:10px;min-height:16px;text-align:center"></div>'+
+    '<div style="text-align:center;margin-top:12px"><a id="cuSetupLogout" href="#" style="font-size:12px;color:var(--text5,#888);cursor:pointer;text-decoration:underline">Log out</a></div>';
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  setTimeout(function(){
+    var inp=document.getElementById('cuSetupInput');
+    if(inp)inp.focus();
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();document.getElementById('cuSetupBtn').click()}});
+    document.getElementById('cuSetupBtn').onclick=function(){
+      var msg=document.getElementById('cuSetupMsg');
+      var newU=document.getElementById('cuSetupInput').value.trim();
+      msg.style.color='#f44336';msg.textContent='';
+      if(!newU){msg.textContent='Please enter a username.';return}
+      if(newU.length<2){msg.textContent='Username must be at least 2 characters.';return}
+      if(_isUsernameTaken(newU)){msg.textContent='That username is unavailable. Try another.';return}
+      var btn=document.getElementById('cuSetupBtn');btn.textContent='Saving...';btn.disabled=true;
+      var updates={};updates['/usernames/'+currentRole]=newU;updates['/usedUsernames/'+newU.toLowerCase()]=true;
+      db.ref().update(updates).then(function(){
+        msg.style.color='#4caf50';msg.textContent='Username set to @'+newU+'!';
+        setTimeout(function(){overlay.remove()},1000);
+      }).catch(function(e){msg.textContent='Error: '+e.message;btn.textContent='Set Username';btn.disabled=false});
+    };
+    document.getElementById('cuSetupLogout').onclick=function(e){e.preventDefault();overlay.remove();logout()};
+  },100);
+}
+
+/* Login attempt tracking */
+var _loginLockoutMs=5*60*1000;
+var _loginMaxAttempts=3;
+var _lockoutTimer=null;
+
+function _getDeviceLockoutRef(){return db.ref('loginAttempts/'+getDeviceFingerprint())}
+
+function _showLockoutCountdown(lockedUntil){
+  if(_lockoutTimer)clearInterval(_lockoutTimer);
+  function update(){
+    var rem=lockedUntil-Date.now();
+    if(rem<=0){
+      clearInterval(_lockoutTimer);_lockoutTimer=null;
+      loginError.textContent='';loginError.style.color='';
+      document.getElementById('lockLoginBtn').disabled=false;
+      document.getElementById('lockLoginBtn').style.opacity='1';
+      return;
+    }
+    var min=Math.floor(rem/60000);var sec=Math.ceil((rem%60000)/1000);
+    loginError.textContent='Too many failed attempts. Try again in '+min+':'+String(sec).padStart(2,'0');
+    loginError.style.color='#f44336';
+    document.getElementById('lockLoginBtn').disabled=true;
+    document.getElementById('lockLoginBtn').style.opacity='0.4';
+  }
+  update();
+  _lockoutTimer=setInterval(update,1000);
+}
+
+function _recordFailedLogin(){
+  var ref=_getDeviceLockoutRef();
+  ref.once('value',function(snap){
+    var data=snap.val()||{count:0,lockedUntil:0};
+    if(data.lockedUntil&&data.lockedUntil>Date.now())return;
+    var newCount=(data.count||0)+1;
+    if(newCount>=_loginMaxAttempts){
+      var lockUntil=Date.now()+_loginLockoutMs;
+      ref.set({count:newCount,lockedUntil:lockUntil});
+      _showLockoutCountdown(lockUntil);
+    }else{
+      ref.set({count:newCount,lockedUntil:0});
+      var left=_loginMaxAttempts-newCount;
+      loginError.textContent='Invalid username or password. '+left+' attempt'+(left===1?'':'s')+' remaining.';
+      loginError.style.color='#ff9800';
+    }
+  });
+}
+
+function _clearLoginAttempts(){_getDeviceLockoutRef().remove()}
+
 function login(){
-  const pass=passwordInput.value.trim();loginError.textContent='';
+  const uname=usernameInput.value.trim();const pass=passwordInput.value.trim();loginError.textContent='';
+  if(!uname||!pass){loginError.textContent='Enter both username and password.';loginError.style.color='';return}
+  /* Check device lockout */
+  var fp=getDeviceFingerprint();
+  var lockRef=db.ref('loginAttempts/'+fp);
+  lockRef.once('value',function(snap){
+    var lockData=snap.val();
+    if(lockData&&lockData.lockedUntil&&lockData.lockedUntil>Date.now()){
+      _showLockoutCountdown(lockData.lockedUntil);
+      return;
+    }
+    _doLogin(uname,pass);
+  });
+}
+
+function _doLogin(uname,pass){
+  loginError.textContent='';
   const role=validPasswords[pass];
   if(!role){
     var isPending=false;Object.keys(pendingAccountRequests).forEach(function(k){if(pendingAccountRequests[k].passcode===pass)isPending=true});
     if(isPending){loginError.textContent='Account not reviewed yet.';loginError.style.color='#ff9800';return}
     var isDenied=false;var deniedReason='';Object.keys(deniedAccountRequests).forEach(function(k){if(deniedAccountRequests[k].passcode===pass){isDenied=true;if(deniedAccountRequests[k].reason)deniedReason=deniedAccountRequests[k].reason}});
     if(isDenied){loginError.textContent=deniedReason?'Account creation denied: '+deniedReason:'Account creation denied.';loginError.style.color='#e53935';return}
-    loginError.textContent='Invalid password.';loginError.style.color='';return}
+    _recordFailedLogin();return}
+  var expectedUsername=usernames[role]||(roleDisplayNames[role]||role);
+  if(uname.toLowerCase()!==expectedUsername.toLowerCase()){_recordFailedLogin();return}
   if(isBanned(role)){
     var fp=getDeviceFingerprint();
     if(!EXCLUDED_DEVICES[fp])db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
@@ -3051,6 +3189,7 @@ function login(){
     }
     return;
   }
+  _clearLoginAttempts();
   loginAsRole(role);
 }
 
@@ -3069,11 +3208,15 @@ document.getElementById('lockLoginBtn').addEventListener('click',login);
   });
 })();
 
+/* Check lockout on page load */
+(function(){var fp=getDeviceFingerprint();db.ref('loginAttempts/'+fp).once('value',function(snap){var d=snap.val();if(d&&d.lockedUntil&&d.lockedUntil>Date.now())_showLockoutCountdown(d.lockedUntil)})})();
+
 document.getElementById('lockEyeToggle').addEventListener('click',function(){
   if(passwordInput.type==='password'){passwordInput.type='text';this.style.opacity='.7'}
   else{passwordInput.type='password';this.style.opacity='.4'}
 });
 passwordInput.addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+usernameInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();passwordInput.focus()}});
 
 function logout(){
   _roleNotifDismissed={};
@@ -3101,7 +3244,7 @@ function logout(){
   if(_fsRef){_fsRef.off();_fsRef=null}_fsItems={};
   if(typeof resetDesktopConfig==='function')resetDesktopConfig();
   desktop.classList.add('hidden');lockScreen.classList.remove('hidden');
-  passwordInput.value='';
+  usernameInput.value='';passwordInput.value='';
   roleLabel.textContent='Not logged in';muteWarning.textContent='';
   document.getElementById('replyPreviewBar').style.display='none';
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
@@ -3362,6 +3505,7 @@ function renderBannedList(){
     btn.onclick=()=>{
       logAudit('unban','Unbanned '+(roleDisplayNames[role]||role));
       db.ref('bannedRoles').child(role).remove();
+      _unbanDevicesForRole(role);
     };
     div.appendChild(span);div.appendChild(btn);bannedListDiv.appendChild(div);
   });
@@ -3495,18 +3639,56 @@ document.getElementById('imagePreviewClose').addEventListener('click',()=>{clear
   document.addEventListener('click',function(e){
     if(!e.target.closest('#attachBtn'))attachMenu.classList.remove('show');
   });
+  /* Video info ? button */
+  (function(){
+    var infoBtn=document.getElementById('videoInfoBtn');
+    var tooltip=infoBtn.querySelector('.video-info-tooltip');
+    infoBtn.addEventListener('mouseenter',function(){tooltip.style.display='block'});
+    infoBtn.addEventListener('mouseleave',function(){tooltip.style.display='none'});
+    infoBtn.addEventListener('click',function(e){
+      e.stopPropagation();e.preventDefault();
+      var existing=document.querySelector('.video-info-popup-overlay');if(existing){existing.remove();return}
+      var ov=document.createElement('div');ov.className='video-info-popup-overlay';
+      ov.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:99999';
+      ov.addEventListener('mousedown',function(ev){if(ev.target===ov)ov.remove()});
+      var box=document.createElement('div');
+      box.style.cssText='background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px 24px;max-width:320px;color:var(--text);font-size:13px;line-height:1.7;box-shadow:0 8px 32px rgba(0,0,0,.4)';
+      box.innerHTML='<div style="font-weight:600;font-size:14px;margin-bottom:10px">Video Upload Limits</div>'
+        +'<div style="margin-bottom:6px">📹 <b>~2-3 min</b> at low quality (480p)</div>'
+        +'<div style="margin-bottom:6px">📹 <b>~30-60 sec</b> at medium quality (720p)</div>'
+        +'<div style="margin-bottom:6px">📹 <b>~10-20 sec</b> at high quality (1080p)</div>'
+        +'<div style="margin-top:12px;color:var(--text5);font-size:11px">Max file size: 20MB</div>';
+      var closeBtn=document.createElement('button');
+      closeBtn.textContent='Got it';
+      closeBtn.style.cssText='margin-top:14px;width:100%;padding:8px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;cursor:pointer;font-weight:500';
+      closeBtn.onclick=function(){ov.remove()};
+      box.appendChild(closeBtn);ov.appendChild(box);document.body.appendChild(ov);
+    });
+  })();
   /* From Computer */
   document.getElementById('attachFromComputer').addEventListener('click',function(e){
+    if(e.target.closest('#videoInfoBtn'))return;
     e.stopPropagation();attachMenu.classList.remove('show');
     var input=document.createElement('input');input.type='file';input.accept='image/*,video/*';
     input.onchange=function(){
       if(!input.files||!input.files[0])return;
       var file=input.files[0];
       var isVideo=file.type.startsWith('video/');
-      /* size restrictions removed */
-      var reader=new FileReader();
-      reader.onload=function(ev){showMediaPreview(ev.target.result,isVideo?'video':'image')};
-      reader.readAsDataURL(file);
+      if(isVideo&&file.size>RTDB_VIDEO_MAX){showToast('Video too large (max ~20MB). Try a shorter clip.');return}
+      if(isVideo){
+        showToast('Loading video...');
+        var blobUrl=URL.createObjectURL(file);
+        showMediaPreview(blobUrl,'video');
+        var reader=new FileReader();
+        reader.onerror=function(){showToast('Failed to read video file.');clearMediaPreview()};
+        reader.onload=function(ev){pendingVideo=ev.target.result;URL.revokeObjectURL(blobUrl)};
+        reader.readAsDataURL(file);
+      }else{
+        var reader=new FileReader();
+        reader.onerror=function(){showToast('Failed to read image file.')};
+        reader.onload=function(ev){showMediaPreview(ev.target.result,'image')};
+        reader.readAsDataURL(file);
+      }
     };
     input.click();
   });
@@ -3613,8 +3795,9 @@ function sendMessage(){
     }).catch(function(err){console.error('[Send]',err);showToast('Failed to send: '+err.message)});
   }
   if(vid){
+    if(vid.startsWith('blob:')){showToast('Video still loading, please wait...');return}
     var vidSize=vid.length*3/4;
-    if(vidSize>RTDB_VIDEO_MAX){showToast('Video too large (max ~7MB). Try a shorter clip.');return}
+    if(vidSize>RTDB_VIDEO_MAX){showToast('Video too large (max ~20MB). Try a shorter clip.');return}
     showToast('Sending video...');
     msgObj.video=vid;
     _pushMsg(msgObj);
@@ -3829,7 +4012,7 @@ function renderMessages(data){
       if(msg.edited){const ed=document.createElement('span');ed.className='message-edited';ed.textContent='(edited)';text.appendChild(ed)}
     }
     if(msg.image){var img=document.createElement('img');img.src=msg.image;text.appendChild(img)}
-    if(msg.video){var vid=document.createElement('video');vid.src=msg.video;vid.controls=true;vid.preload='metadata';vid.style.cssText='max-width:100%;max-height:300px;border-radius:6px;margin-top:4px;display:block';text.appendChild(vid)}
+    if(msg.video){var vid=document.createElement('video');vid.src=msg.video;vid.controls=true;vid.playsInline=true;vid.preload='metadata';vid.style.cssText='max-width:100%;max-height:300px;border-radius:6px;margin-top:4px;display:block';text.appendChild(vid)}
     main.appendChild(text);
 
     /* Reactions */
@@ -3997,7 +4180,7 @@ function renderAccountReqs(){
     var req=pendingAccountRequests[key];
     var item=document.createElement('div');item.className='appeal-item';
     var meta=document.createElement('div');meta.className='appeal-meta';
-    meta.innerHTML='<strong>'+escHtml(req.name)+'</strong> \u2022 passcode: <span style="font-family:monospace;color:var(--text6)">'+escHtml(req.passcode)+'</span>';
+    meta.innerHTML='<strong>'+escHtml(req.name)+'</strong>'+(req.username?' \u2022 username: <span style="font-family:monospace;color:var(--accent)">'+escHtml(req.username)+'</span>':'')+' \u2022 password: <span style="font-family:monospace;color:var(--text6)">'+escHtml(req.passcode)+'</span>';
     var actions=document.createElement('div');actions.className='appeal-actions';
     var approveBtn=document.createElement('button');approveBtn.style.background='#2e7d32';approveBtn.style.color='#fff';approveBtn.textContent='Approve';
     approveBtn.onclick=function(){
@@ -4005,10 +4188,11 @@ function renderAccountReqs(){
       var updates={};
       updates['/validPasswords/'+req.passcode]=roleKey;
       updates['/roleDisplayNames/'+roleKey]=req.name;
+      if(req.username){updates['/usernames/'+roleKey]=req.username;updates['/usedUsernames/'+req.username.toLowerCase()]=true}
       db.ref().update(updates).then(function(){
         db.ref('pendingAccountRequests').child(key).remove();
         showToast('Approved account for '+req.name);
-        logAudit('account','Approved account request for '+req.name);
+        logAudit('account','Approved account request for '+req.name+(req.username?' (username: '+req.username+')':''));
       }).catch(console.error);
     };
     var denyBtn=document.createElement('button');denyBtn.className='deny-btn';denyBtn.textContent='Deny';
@@ -4056,7 +4240,7 @@ function renderAppeals(){
     const actions=document.createElement('div');actions.className='appeal-actions';
     const approveBtn=document.createElement('button');approveBtn.className='approve-btn';approveBtn.textContent='Approve';
     approveBtn.onclick=()=>{
-      if(a.type==='ban')db.ref('bannedRoles').child(a.role).remove();else db.ref('mutedRoles').child(a.role).remove();
+      if(a.type==='ban'){db.ref('bannedRoles').child(a.role).remove();_unbanDevicesForRole(a.role)}else db.ref('mutedRoles').child(a.role).remove();
       db.ref('appeals').child(key).remove();
       db.ref('chatMessages').push({text:(a.name||a.role)+'\'s '+a.type+' appeal was approved.',senderRole:'System',senderName:'System',timestamp:Date.now()});
       logAudit(a.type==='ban'?'unban':'unmute','Approved appeal for '+(a.name||a.role));
@@ -4204,14 +4388,14 @@ function renderUserMgmt(){
     var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='stretch';item.style.gap='4px';
     var topRow=document.createElement('div');topRow.style.display='flex';topRow.style.justifyContent='space-between';topRow.style.alignItems='center';
     var info=document.createElement('span');info.style.cssText='font-size:12px;display:flex;align-items:center;flex-wrap:wrap;gap:4px';
-    var displayName=roleDisplayNames[role]||role,passcode=roleToPass[role]||'?';
+    var displayName=roleDisplayNames[role]||role,passcode=roleToPass[role]||'?',uname=usernames[role]||'';
     var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
     var statusTags=[];
     if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px">BANNED</span>');
     if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
     var statusHtml=statusTags.length?' '+statusTags.join(' '):'';
     var maskedPass='\u2022\u2022\u2022\u2022\u2022\u2022';
-    info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span> <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
+    info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span>'+(uname?' <span style="color:var(--accent);font-size:10px;white-space:nowrap">@'+escHtml(uname)+'</span>':'')+' <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
     var eyeBtn=info.querySelector('.um-eye');
     var passSpan=info.querySelector('.um-pass');
     (function(eb,ps,pc){
@@ -4227,14 +4411,15 @@ function renderUserMgmt(){
     if(role!=='Admin'){
       var delBtn=document.createElement('button');delBtn.className='small-btn';delBtn.style.cssText='background:none;color:#e53935;border:1px solid rgba(229,57,53,.3);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;white-space:nowrap';delBtn.textContent='✕ Remove';delBtn.onmouseover=function(){this.style.background='#e53935';this.style.color='#fff';this.style.borderColor='#e53935'};delBtn.onmouseout=function(){this.style.background='none';this.style.color='#e53935';this.style.borderColor='rgba(229,57,53,.3)'};
       delBtn.onclick=(function(r,p){return function(){
-        db.ref('roleDisplayNames').child(r).remove();if(p&&p!=='?')db.ref('validPasswords').child(p).remove();showToast('Removed '+r);logAudit('demote','Removed user '+(roleDisplayNames[r]||r));
+        db.ref('roleDisplayNames').child(r).remove();if(p&&p!=='?')db.ref('validPasswords').child(p).remove();db.ref('usernames').child(r).remove();showToast('Removed '+r);logAudit('demote','Removed user '+(roleDisplayNames[r]||r));
       }})(role,passcode);topRow.appendChild(delBtn);
     }
     item.appendChild(topRow);
     var editRow=document.createElement('div');editRow.style.display='flex';editRow.style.gap='4px';editRow.style.marginTop='4px';editRow.style.flexWrap='wrap';
     var inpStyle='flex:1;min-width:0;padding:4px 6px;font-size:11px;border:1px solid var(--border2);border-radius:4px;background:var(--input-bg);color:var(--text);';
-    var nameInp=document.createElement('input');nameInp.placeholder='New name';nameInp.setAttribute('style',inpStyle);
-    var passInp=document.createElement('input');passInp.placeholder='New passcode';passInp.setAttribute('style',inpStyle);
+    var unameInp=document.createElement('input');unameInp.placeholder='New username';unameInp.setAttribute('style',inpStyle);
+    var nameInp=document.createElement('input');nameInp.placeholder='New display name';nameInp.setAttribute('style',inpStyle);
+    var passInp=document.createElement('input');passInp.placeholder='New password';passInp.setAttribute('style',inpStyle);
     var roleSelect=document.createElement('select');roleSelect.setAttribute('style',inpStyle+'cursor:pointer;');
     var optM=document.createElement('option');optM.value='Member';optM.textContent='Member';
     var optA=document.createElement('option');optA.value='Admin';optA.textContent='Admin';
@@ -4242,26 +4427,31 @@ function renderUserMgmt(){
     var curPerm=(role==='Admin'||adminUsers[role]===true)?'Admin':'Member';roleSelect.value=curPerm;
     if(role==='Admin'){roleSelect.disabled=true;roleSelect.style.opacity='0.5'}
     var saveBtn=document.createElement('button');saveBtn.className='small-btn';saveBtn.style.background='var(--accent)';saveBtn.style.color='#000';saveBtn.style.fontSize='10px';saveBtn.textContent='Save';
-    saveBtn.onclick=(function(r,oldPass,nInp,pInp,rSel,origPerm){return function(){
-      var newName=nInp.value.trim(),newPass=pInp.value.trim(),newPerm=rSel.value,changed=false,updates={};
+    saveBtn.onclick=(function(r,oldPass,uInp,nInp,pInp,rSel,origPerm){return function(){
+      var newUname=uInp.value.trim(),newName=nInp.value.trim(),newPass=pInp.value.trim(),newPerm=rSel.value,changed=false,updates={};
+      if(newUname&&newUname!==(usernames[r]||'')){
+        if(_isUsernameTaken(newUname)&&!(usernames[r]&&usernames[r].toLowerCase()===newUname.toLowerCase())){showToast('Username "'+newUname+'" is unavailable.');return}
+        updates['/usernames/'+r]=newUname;updates['/usedUsernames/'+newUname.toLowerCase()]=true;changed=true;
+      }
       if(newName&&newName!==(roleDisplayNames[r]||r)){updates['/roleDisplayNames/'+r]=newName;changed=true}
       if(newPass&&newPass!==oldPass){if(oldPass&&oldPass!=='?')updates['/validPasswords/'+oldPass]=null;updates['/validPasswords/'+newPass]=r;changed=true}
       if(newPerm!==origPerm){if(newPerm==='Admin'&&r!=='Admin')updates['/adminUsers/'+r]=true;else if(newPerm==='Member')updates['/adminUsers/'+r]=null;changed=true;logAudit(newPerm==='Admin'?'promote':'demote',(newPerm==='Admin'?'Promoted ':'Demoted ')+(newName||roleDisplayNames[r]||r))}
       if(!changed){showToast('Nothing to change');return}
       db.ref().update(updates).then(()=>showToast('Updated '+(newName||roleDisplayNames[r]||r))).catch(console.error);
-    }})(role,passcode,nameInp,passInp,roleSelect,curPerm);
-    editRow.appendChild(nameInp);editRow.appendChild(passInp);editRow.appendChild(roleSelect);editRow.appendChild(saveBtn);item.appendChild(editRow);div.appendChild(item);
+    }})(role,passcode,unameInp,nameInp,passInp,roleSelect,curPerm);
+    editRow.appendChild(unameInp);editRow.appendChild(nameInp);editRow.appendChild(passInp);editRow.appendChild(roleSelect);editRow.appendChild(saveBtn);item.appendChild(editRow);div.appendChild(item);
   });
 }
 document.getElementById('addUserButton').addEventListener('click',function(){
   if(currentRole!=='Admin')return;
-  var name=document.getElementById('newUserName').value.trim(),pass=document.getElementById('newUserPasscode').value.trim(),role=document.getElementById('newUserRole').value;
-  if(!name||!pass){showToast('Fill in name and passcode');return}
-  if(validPasswords[pass]){showToast('Passcode already in use');return}
-  var roleKey=name;if(roleDisplayNames[roleKey]){showToast('User "'+roleKey+'" already exists');return}
-  var updates={};updates['/validPasswords/'+pass]=roleKey;updates['/roleDisplayNames/'+roleKey]=name;
+  var newUsername=document.getElementById('newUserUsername').value.trim(),name=document.getElementById('newUserName').value.trim(),pass=document.getElementById('newUserPasscode').value.trim(),role=document.getElementById('newUserRole').value;
+  if(!newUsername||!name||!pass){showToast('Fill in username, display name, and password');return}
+  if(validPasswords[pass]){showToast('Password already in use');return}
+  if(_isUsernameTaken(newUsername)){showToast('Username "'+newUsername+'" is unavailable');return}
+  var roleKey=name;if(roleDisplayNames[roleKey]){roleKey=name+'_'+Date.now()}
+  var updates={};updates['/validPasswords/'+pass]=roleKey;updates['/roleDisplayNames/'+roleKey]=name;updates['/usernames/'+roleKey]=newUsername;updates['/usedUsernames/'+newUsername.toLowerCase()]=true;
   if(role==='Admin')updates['/adminUsers/'+roleKey]=true;
-  db.ref().update(updates).then(()=>{document.getElementById('newUserName').value='';document.getElementById('newUserPasscode').value='';showToast('Added user '+name);logAudit('promote','Added user '+name+(role==='Admin'?' (Admin)':''))}).catch(console.error);
+  db.ref().update(updates).then(()=>{document.getElementById('newUserUsername').value='';document.getElementById('newUserName').value='';document.getElementById('newUserPasscode').value='';showToast('Added user '+name+' (@'+newUsername+')');logAudit('promote','Added user '+name+' (@'+newUsername+')'+(role==='Admin'?' (Admin)':''))}).catch(console.error);
 });
 
 /* ==============================
@@ -4490,6 +4680,11 @@ var appDefs={
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Desktop</label>'+
         '<button id="settingsResetDesktop" style="'+btnStyle+'">Reset Icon Positions</button>'+
         '<div style="'+smallStyle+';margin-top:6px">Restore desktop icons to their default positions</div></div>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Username</label>'+
+        '<div style="display:flex;gap:8px;align-items:center">'+
+        '<span id="settingsCurUsername" style="'+smallStyle+';font-family:monospace">@'+(usernames[role]||(roleDisplayNames[role]||role))+'</span>'+
+        '<button id="settingsChangeUnameBtn" style="'+btnStyle+'">Change Username</button>'+
+        '</div></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Password</label>'+
         '<button id="settingsChangePassBtn" style="'+btnStyle+'">Change Password</button></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">About</label>'+
@@ -4691,6 +4886,47 @@ var appDefs={
             resetIconPositions();
             if(currentRole)localStorage.removeItem('docosIconPositions_'+currentRole);
             showToast('Desktop icons reset to default positions.');
+          };
+        }
+
+        var cuBtn=d.querySelector('#settingsChangeUnameBtn');
+        if(cuBtn){
+          cuBtn.onclick=function(){
+            var existing=document.querySelector('.cu-overlay');if(existing)existing.remove();
+            var overlay=document.createElement('div');overlay.className='cu-overlay';
+            overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+            var modal=document.createElement('div');
+            modal.style.cssText='position:relative;background:var(--bg2,#1e1e2e);border:1px solid var(--border,#333);border-radius:14px;padding:28px 28px 22px;width:340px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8)';
+            var closeBtn=document.createElement('button');
+            closeBtn.style.cssText='position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5,#888);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px';
+            closeBtn.textContent='\u00d7';closeBtn.onclick=function(){overlay.remove()};
+            var inpStyle='width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--border2,#444);background:var(--input-bg,#2a2a3a);color:var(--text,#eee);font-size:13px;outline:none;box-sizing:border-box;margin-bottom:8px;';
+            modal.innerHTML='<h3 style="margin:0 0 16px;font-size:16px;font-weight:700;color:var(--text,#eee)">Change Username</h3>'+
+              '<div style="font-size:12px;color:var(--text5);margin-bottom:12px">Current: <span style="font-family:monospace;color:var(--accent)">@'+(usernames[currentRole]||(roleDisplayNames[currentRole]||currentRole))+'</span></div>'+
+              '<input type="text" id="cuNewUsername" placeholder="New username" style="'+inpStyle+'">'+
+              '<button id="cuSubmitBtn" style="width:100%;padding:10px;border:none;border-radius:8px;background:var(--accent,#00aaff);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Change Username</button>'+
+              '<div id="cuMsg" style="font-size:12px;margin-top:8px;min-height:16px;text-align:center"></div>';
+            modal.insertBefore(closeBtn,modal.firstChild);
+            overlay.appendChild(modal);
+            overlay.addEventListener('mousedown',function(e){if(e.target===overlay)overlay.remove()});
+            document.body.appendChild(overlay);
+            setTimeout(function(){
+              document.getElementById('cuSubmitBtn').onclick=function(){
+                var msg=document.getElementById('cuMsg');
+                var newU=document.getElementById('cuNewUsername').value.trim();
+                msg.style.color='#f44336';msg.textContent='';
+                if(!newU){msg.textContent='Please enter a username.';return}
+                var curU=usernames[currentRole]||(roleDisplayNames[currentRole]||currentRole);
+                if(newU.toLowerCase()===curU.toLowerCase()){msg.textContent='That is already your username.';return}
+                if(_isUsernameTaken(newU)){msg.textContent='That username is unavailable.';return}
+                var updates={};updates['/usernames/'+currentRole]=newU;updates['/usedUsernames/'+newU.toLowerCase()]=true;
+                db.ref().update(updates).then(function(){
+                  msg.style.color='#4caf50';msg.textContent='Username changed to @'+newU+'!';
+                  var lbl=document.getElementById('settingsCurUsername');if(lbl)lbl.textContent='@'+newU;
+                  setTimeout(function(){overlay.remove()},1200);
+                }).catch(function(e){msg.textContent='Error: '+e.message});
+              };
+            },0);
           };
         }
 
@@ -5987,8 +6223,9 @@ document.addEventListener('contextmenu',function(e){
     var imgItem=document.createElement('div');imgItem.className='ctx-menu-item';imgItem.innerHTML='&#128247; Upload Image';
     imgItem.onclick=function(){closeContextMenu();_fsUploadImage('desktop',clickX,clickY)};
     addSub.appendChild(imgItem);
-    var vidItem=document.createElement('div');vidItem.className='ctx-menu-item';vidItem.innerHTML='&#127910; Upload Video';
-    vidItem.onclick=function(){closeContextMenu();_fsUploadVideo('desktop',clickX,clickY)};
+    var vidItem=document.createElement('div');vidItem.className='ctx-menu-item';vidItem.innerHTML='&#127910; Upload Video';vidItem.style.cssText='display:flex;align-items:center;gap:6px';
+    vidItem.onclick=function(e){if(e.target.closest('[title="Video upload limits"]'))return;closeContextMenu();_fsUploadVideo('desktop',clickX,clickY)};
+    vidItem.appendChild(_createVideoInfoBtn());
     addSub.appendChild(vidItem);
     addItem.appendChild(addSub);
     addItem.onmouseenter=function(){addSub.style.display='block';var r=addSub.getBoundingClientRect();if(r.right>window.innerWidth){addSub.style.left='auto';addSub.style.right='100%'}if(r.bottom>window.innerHeight){addSub.style.top='auto';addSub.style.bottom='0'}};
@@ -7114,6 +7351,13 @@ function _extractAppName(html){
    ============================== */
 function _optimizeHtmlForLoading(html){
   if(!html||!html.trim())return html;
+  /* 0. Strip nonce attributes — they break blob URL loading */
+  html=html.replace(/\s+nonce\s*=\s*["'][^"']*["']/gi,'');
+  /* 0b. Shim ytgame SDK for YouTube Playables games loaded in blob iframes */
+  if(/ytgame\.js/i.test(html)){
+    var ytShim='<script>window.ytgame={game:{firstFrameReady:function(){},gameReady:function(){},loadData:function(k,c){if(c)c(null)},saveData:function(){}},system:{isAudioEnabled:function(){return true},onAudioEnabledChange:function(){}},engagement:{sendScore:function(){},setCompletionPercentage:function(){}},health:{logError:function(){}},ads:{requestAd:function(c){if(c&&c.onAdBreakComplete)c.onAdBreakComplete()}}};<\/script>';
+    html=html.replace(/<script[^>]*ytgame\.js[^>]*><\/script>/gi,ytShim);
+  }
   /* 1. Extract all external URLs from src="...", href="...", and inline JS string URLs */
   var allUrls=[];
   var srcMatches=html.match(/(?:src|href)\s*=\s*["'](https?:\/\/[^"']+)["']/gi);
@@ -7127,6 +7371,8 @@ function _optimizeHtmlForLoading(html){
   });
   /* Deduplicate */
   var seen={};allUrls=allUrls.filter(function(u){if(seen[u])return false;seen[u]=true;return true});
+  /* Check if HTML already has a <base> tag */
+  var hasBase=/<base\s[^>]*href\s*=/i.test(html);
   if(allUrls.length===0)return html;
 
   /* 2. Extract unique origins for preconnect + find base URL for blob iframe support */
@@ -7142,7 +7388,7 @@ function _optimizeHtmlForLoading(html){
 
   /* 3. Build optimization tags */
   var tags='';
-  if(bestBase)tags+='<base href="'+bestBase+'">';
+  if(bestBase&&!hasBase)tags+='<base href="'+bestBase+'">';
   Object.keys(origins).forEach(function(o){
     tags+='<link rel="preconnect" href="'+o+'" crossorigin>';
     tags+='<link rel="dns-prefetch" href="'+o+'">';
@@ -7684,9 +7930,10 @@ function _fsOpenFolder(folderId,folder){
         var item=document.createElement('div');
         item.innerHTML=opt.icon+' '+opt.label;
         item.style.cssText='padding:8px 12px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--text);transition:background .12s;white-space:nowrap';
+        if(opt.label==='Upload Video'){item.style.cssText+='display:flex;align-items:center;gap:6px';item.appendChild(_createVideoInfoBtn())}
         item.onmouseenter=function(){item.style.background='var(--bg4,rgba(255,255,255,.08))'};
         item.onmouseleave=function(){item.style.background='transparent'};
-        item.onclick=function(){addDropdown.style.display='none';opt.fn()};
+        item.onclick=function(e){if(e.target.closest('[title="Video upload limits"]'))return;addDropdown.style.display='none';opt.fn()};
         addDropdown.appendChild(item);
       });
       addBtn.onclick=function(e){e.stopPropagation();addDropdown.style.display=addDropdown.style.display==='none'?'block':'none'};
@@ -7730,8 +7977,9 @@ function _fsOpenFolder(folderId,folder){
         var imgI=document.createElement('div');imgI.className='ctx-menu-item';imgI.innerHTML='&#128247; Upload Image';
         imgI.onclick=function(){closeContextMenu();_fsUploadImage(folderId)};
         addS.appendChild(imgI);
-        var vidI=document.createElement('div');vidI.className='ctx-menu-item';vidI.innerHTML='&#127910; Upload Video';
-        vidI.onclick=function(){closeContextMenu();_fsUploadVideo(folderId)};
+        var vidI=document.createElement('div');vidI.className='ctx-menu-item';vidI.innerHTML='&#127910; Upload Video';vidI.style.cssText='display:flex;align-items:center;gap:6px';
+        vidI.onclick=function(e){if(e.target.closest('[title="Video upload limits"]'))return;closeContextMenu();_fsUploadVideo(folderId)};
+        vidI.appendChild(_createVideoInfoBtn());
         addS.appendChild(vidI);
         addI.appendChild(addS);
         addI.onmouseenter=function(){addS.style.display='block';var r=addS.getBoundingClientRect();if(r.right>window.innerWidth){addS.style.left='auto';addS.style.right='100%'}if(r.bottom>window.innerHeight){addS.style.top='auto';addS.style.bottom='0'}};
@@ -8103,7 +8351,7 @@ function _fsHandleDroppedFiles(files,parentId){
     var isImage=file.type&&file.type.startsWith('image/');
     var isVideo=file.type&&file.type.startsWith('video/');
     if(isVideo){
-      if(file.size>RTDB_VIDEO_MAX){showToast('Video "'+file.name+'" too large (max ~7MB).');return}
+      if(file.size>RTDB_VIDEO_MAX){showToast('Video "'+file.name+'" too large (max ~20MB).');return}
       showToast('Uploading video "'+file.name+'"...');
       var vReader=new FileReader();
       vReader.onload=function(ev){
@@ -8172,6 +8420,38 @@ function _fsUploadImage(parentId,clickX,clickY){
   input.click();
 }
 
+function _createVideoInfoBtn(){
+  var wrap=document.createElement('span');
+  wrap.style.cssText='position:relative;margin-left:auto;cursor:pointer;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--text5);flex-shrink:0';
+  wrap.title='Video upload limits';wrap.textContent='?';
+  var tip=document.createElement('span');
+  tip.style.cssText='display:none;position:absolute;bottom:calc(100% + 6px);right:0;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--text);white-space:nowrap;z-index:99999;box-shadow:0 4px 12px rgba(0,0,0,.3);pointer-events:none;line-height:1.5';
+  tip.innerHTML='~2-3 min at low quality (480p)<br>~30-60 sec at medium (720p)<br>~10-20 sec at high (1080p)';
+  wrap.appendChild(tip);
+  wrap.addEventListener('mouseenter',function(){tip.style.display='block'});
+  wrap.addEventListener('mouseleave',function(){tip.style.display='none'});
+  wrap.addEventListener('click',function(e){
+    e.stopPropagation();e.preventDefault();
+    var existing=document.querySelector('.video-info-popup-overlay');if(existing){existing.remove();return}
+    var ov=document.createElement('div');ov.className='video-info-popup-overlay';
+    ov.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:99999';
+    ov.addEventListener('mousedown',function(ev){if(ev.target===ov)ov.remove()});
+    var box=document.createElement('div');
+    box.style.cssText='background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px 24px;max-width:320px;color:var(--text);font-size:13px;line-height:1.7;box-shadow:0 8px 32px rgba(0,0,0,.4)';
+    box.innerHTML='<div style="font-weight:600;font-size:14px;margin-bottom:10px">Video Upload Limits</div>'
+      +'<div style="margin-bottom:6px">\uD83D\uDCF9 <b>~2-3 min</b> at low quality (480p)</div>'
+      +'<div style="margin-bottom:6px">\uD83D\uDCF9 <b>~30-60 sec</b> at medium quality (720p)</div>'
+      +'<div style="margin-bottom:6px">\uD83D\uDCF9 <b>~10-20 sec</b> at high quality (1080p)</div>'
+      +'<div style="margin-top:12px;color:var(--text5);font-size:11px">Max file size: 20MB</div>';
+    var closeBtn=document.createElement('button');
+    closeBtn.textContent='Got it';
+    closeBtn.style.cssText='margin-top:14px;width:100%;padding:8px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;cursor:pointer;font-weight:500';
+    closeBtn.onclick=function(){ov.remove()};
+    box.appendChild(closeBtn);ov.appendChild(box);document.body.appendChild(ov);
+  });
+  return wrap;
+}
+
 function _fsUploadVideo(parentId,clickX,clickY){
   if(!currentRole)return;
   var input=document.createElement('input');
@@ -8181,7 +8461,7 @@ function _fsUploadVideo(parentId,clickX,clickY){
   input.onchange=function(){
     if(!input.files||!input.files.length)return;
     Array.prototype.forEach.call(input.files,function(file){
-      if(file.size>RTDB_VIDEO_MAX){showToast('Video "'+file.name+'" too large (max ~7MB).');return}
+      if(file.size>RTDB_VIDEO_MAX){showToast('Video "'+file.name+'" too large (max ~20MB).');return}
       showToast('Uploading video "'+file.name+'"...');
       var reader=new FileReader();
       reader.onload=function(e){
