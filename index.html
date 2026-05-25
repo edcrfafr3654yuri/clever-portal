@@ -1,5 +1,7 @@
 
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1286,6 +1288,74 @@ summary{font-size:calc(13px * var(--fs-scale))}
 .vc-accept-btn:hover{background:linear-gradient(135deg,#4cc84c,#2db749);transform:scale(1.1)}
 .vc-decline-btn{width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,#f44336,#d32f2f);color:#fff;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(244,67,54,.4)}
 .vc-decline-btn:hover{background:linear-gradient(135deg,#e53935,#c62828);transform:scale(1.1)}
+
+/* ===== APP STORE REDESIGN ===== */
+.as-wrap{height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--text);overflow:hidden}
+.as-hero{padding:28px 28px 20px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12),rgba(168,85,247,.08));border-bottom:1px solid var(--border);flex-shrink:0;position:relative;overflow:hidden}
+.as-hero::before{content:'';position:absolute;top:-40%;right:-10%;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);pointer-events:none}
+.as-hero-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;position:relative;z-index:1}
+.as-hero-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(99,102,241,.35);flex-shrink:0}
+.as-hero-text h2{font-size:22px;font-weight:800;letter-spacing:-.3px;margin:0}
+.as-hero-text p{font-size:12px;color:var(--text5);margin:2px 0 0;font-weight:500}
+.as-search{position:relative;z-index:1}
+.as-search input{width:100%;padding:10px 14px 10px 38px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s}
+.as-search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.as-search input::placeholder{color:var(--text6)}
+.as-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text5);pointer-events:none}
+.as-cats{display:flex;gap:6px;padding:12px 28px 0;flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.as-cats::-webkit-scrollbar{height:0}
+.as-cat{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text4);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.as-cat:hover{background:var(--bg4);color:var(--text2);border-color:var(--border2)}
+.as-cat.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(99,102,241,.3)}
+.as-body{flex:1;overflow-y:auto;padding:20px 28px 28px}
+.as-section-title{font-size:14px;font-weight:700;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.as-section-title .as-st-icon{font-size:16px}
+.as-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:28px}
+.as-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:default;transition:all .25s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.as-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.as-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.as-card-icon{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .2s}
+.as-card:hover .as-card-icon{transform:scale(1.05)}
+.as-card-icon img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.as-card-meta{flex:1;min-width:0}
+.as-card-name{font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.as-card-author{font-size:11px;color:var(--text5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.as-card-rating{display:flex;align-items:center;gap:4px;margin-top:4px}
+.as-card-stars{color:#fbbf24;font-size:11px;letter-spacing:1px}
+.as-card-rating-num{font-size:10px;color:var(--text6);font-weight:600}
+.as-card-desc{font-size:12px;color:var(--text4);line-height:1.5;margin-bottom:14px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.as-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.as-card-tags{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.as-card-tag{font-size:9px;padding:2px 7px;border-radius:6px;background:var(--bg4);color:var(--text5);font-weight:600;border:1px solid var(--border);white-space:nowrap}
+.as-install-btn{padding:7px 16px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;flex-shrink:0;display:flex;align-items:center;gap:5px}
+.as-install-btn.install{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;box-shadow:0 2px 8px rgba(99,102,241,.3)}
+.as-install-btn.install:hover{opacity:.88;transform:scale(1.02)}
+.as-install-btn.installed{background:none;border:1px solid var(--text6);color:var(--text5)}
+.as-install-btn.installed:hover{border-color:var(--red,#f55);color:var(--red,#f55);background:rgba(255,60,60,.06)}
+.as-empty{text-align:center;padding:60px 20px;color:var(--text5)}
+.as-empty-icon{margin-bottom:14px;opacity:.3}
+.as-empty h3{font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text4)}
+.as-empty p{font-size:12px;color:var(--text6)}
+.as-featured{margin-bottom:24px}
+.as-feat-card{background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(168,85,247,.08));border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:22px 24px;display:flex;align-items:center;gap:18px;cursor:default;transition:all .25s;position:relative;overflow:hidden}
+.as-feat-card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-1px);box-shadow:0 8px 32px rgba(99,102,241,.15)}
+.as-feat-card::after{content:'';position:absolute;top:-50%;right:-20%;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.1),transparent 70%);pointer-events:none}
+.as-feat-icon{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);position:relative;z-index:1}
+.as-feat-icon img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.as-feat-info{flex:1;min-width:0;position:relative;z-index:1}
+.as-feat-name{font-size:18px;font-weight:800;margin-bottom:3px}
+.as-feat-author{font-size:12px;color:var(--text5);margin-bottom:6px}
+.as-feat-desc{font-size:12px;color:var(--text4);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.as-feat-badge{position:absolute;top:14px;right:16px;font-size:9px;font-weight:700;padding:3px 10px;border-radius:6px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;letter-spacing:.5px;text-transform:uppercase;z-index:1}
+.as-feat-actions{margin-top:10px;display:flex;gap:8px;align-items:center}
+.as-stats{display:flex;gap:12px;margin-top:6px}
+.as-stat{font-size:10px;color:var(--text5);display:flex;align-items:center;gap:3px}
+.as-stat svg{opacity:.6}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes asCardIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+.as-card,.as-feat-card{animation:asCardIn .3s ease both}
+.as-card:nth-child(2){animation-delay:.04s}.as-card:nth-child(3){animation-delay:.08s}.as-card:nth-child(4){animation-delay:.12s}.as-card:nth-child(5){animation-delay:.16s}.as-card:nth-child(6){animation-delay:.2s}
+@media(max-width:768px){.as-hero{padding:18px 16px 14px}.as-body{padding:14px 16px 20px}.as-cats{padding:10px 16px 0}.as-grid{grid-template-columns:1fr;gap:10px}.as-feat-card{padding:16px}.as-feat-icon{width:52px;height:52px;font-size:26px;border-radius:13px}.as-feat-name{font-size:15px}}
 </style>
 </head>
 <body data-theme="dark">
@@ -1939,7 +2009,9 @@ db.ref('adminUsers').on('value',s=>{
     if(wasAdmin&&!isNowAdmin)handleRoleChange('demoted');
     else if(!wasAdmin&&isNowAdmin)handleRoleChange('promoted');
   }
+  var wasFirstLoad=!_adminUsersInitialized;
   _adminUsersInitialized=true;
+  if(wasFirstLoad)return;
   var allRoles=Object.keys(roleDisplayNames);
   allRoles.forEach(function(r){
     if(r==='Admin')return;
@@ -1964,13 +2036,14 @@ db.ref('mutedRoles').on('value',s=>{
   renderMutedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
 });
 db.ref('onlineUsers').on('value',s=>{onlineUsers=s.val()||{};renderOnlineUsers();if(typeof _vcRenderUsers==='function'&&!_vcInCall&&!_gcInGroupCall)_vcRenderUsers();if(typeof _renderChatList==='function')_renderChatList();});
-var _prevBannedRoles={};
+var _prevBannedRoles={};var _bannedFirstLoad=true;
 db.ref('bannedRoles').on('value',s=>{
   var next=s.val()||{};
-  if(currentRole==='Admin'){
+  if(currentRole==='Admin'&&!_bannedFirstLoad){
     Object.keys(next).forEach(function(r){ if(!_prevBannedRoles[r] && next[r]){ _amToast((roleDisplayNames[r]||r)+' was banned.'); } });
     Object.keys(_prevBannedRoles).forEach(function(r){ if(!_prevBannedRoles[r])return; if(!next[r]){ _amToast((roleDisplayNames[r]||r)+' ban removed/expired.'); } });
   }
+  _bannedFirstLoad=false;
   _prevBannedRoles=bannedRoles; bannedRoles=next; renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
@@ -5084,6 +5157,14 @@ var appDefs={
           '</select>'+
           '<div style="'+smallStyle+'">Choose how users get this app</div>'+
         '</div>'+
+        '<div id="adCategorySection" style="'+secStyle+'">'+
+          '<label style="'+lblStyle+'">Store Category</label>'+
+          '<select id="adStoreCategory" style="'+inputStyle+';width:auto;min-width:200px;cursor:pointer">'+
+            '<option value="game" selected>Games</option>'+
+            '<option value="apps">Apps</option>'+
+          '</select>'+
+          '<div style="'+smallStyle+'">Choose which section this app appears in</div>'+
+        '</div>'+
         '<button id="adPublishBtn" style="'+btnStyle+'">&#128640; Publish App</button>'+
         '<div style="height:1px;background:var(--border);margin:24px 0"></div>'+
         '<h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Published Apps</h3>'+
@@ -5283,6 +5364,15 @@ var appDefs={
             }
           }
         };
+        /* Distribution toggle — show/hide category picker */
+        var distSelect=d.querySelector('#adDistribution');
+        var catSection=d.querySelector('#adCategorySection');
+        function _updateCatVisibility(){
+          if(catSection)catSection.style.display=distSelect.value==='appstore'?'':'none';
+        }
+        if(distSelect)distSelect.onchange=_updateCatVisibility;
+        _updateCatVisibility();
+
         /* Image URL input */
         iconUrlInput.addEventListener('input',function(){
           var url=iconUrlInput.value.trim();
@@ -5411,8 +5501,10 @@ var appDefs={
           if(!name){showToast('Please enter an app name.');return}
           var distSelect=d.querySelector('#adDistribution');
           var distribution=distSelect?distSelect.value:'desktop';
+          var catSelect=d.querySelector('#adStoreCategory');
+          var storeCategory=(distribution==='appstore'&&catSelect)?catSelect.value:'game';
           var appId='custom_'+Date.now();
-          db.ref('customApps/'+appId).set({
+          var appData={
             name:name,
             icon:iconVal,
             color1:color1,
@@ -5422,7 +5514,9 @@ var appDefs={
             distribution:distribution,
             createdBy:currentDisplayName||currentRole,
             createdAt:Date.now()
-          }).then(function(){
+          };
+          if(distribution==='appstore')appData.storeCategory=storeCategory;
+          db.ref('customApps/'+appId).set(appData).then(function(){
             if(distribution==='appstore'){
               showToast('App "'+name+'" published to App Store!');
             }else{
@@ -5464,25 +5558,37 @@ var appDefs={
     title:'App Store',
     icon:'<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>',
     iconBg:'linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7)',
-    width:640,height:560,
+    width:720,height:600,
     getContent:function(){
       var w=document.createElement('div');
-      w.style.cssText='height:100%;display:flex;flex-direction:column;background:var(--bg2);color:var(--text)';
-      var header=document.createElement('div');
-      header.style.cssText='padding:20px 24px 16px;border-bottom:1px solid var(--border);flex-shrink:0';
-      header.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7);display:flex;align-items:center;justify-content:center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div><span style="font-size:18px;font-weight:700">App Store</span></div>'+
-        '<input id="appStoreSearch" type="text" placeholder="Search apps..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;outline:none;box-sizing:border-box">';
-      w.appendChild(header);
-      var list=document.createElement('div');
-      list.id='appStoreList';
-      list.style.cssText='flex:1;overflow-y:auto;padding:16px 24px';
-      w.appendChild(list);
+      w.className='as-wrap';
+      /* Hero header */
+      var hero=document.createElement('div');
+      hero.className='as-hero';
+      hero.innerHTML='<div class="as-hero-top">'+
+        '<div class="as-hero-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>'+
+        '<div class="as-hero-text"><h2>App Store</h2><p>Discover and install apps built by the community</p></div></div>'+
+        '<div class="as-search"><span class="as-search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>'+
+        '<input id="appStoreSearch" type="text" placeholder="Search apps, creators..."></div>';
+      w.appendChild(hero);
+      /* Category tabs */
+      var cats=document.createElement('div');
+      cats.className='as-cats';
+      cats.id='appStoreCats';
+      w.appendChild(cats);
+      /* Scrollable body */
+      var body=document.createElement('div');
+      body.className='as-body';
+      body.id='appStoreBody';
+      w.appendChild(body);
       setTimeout(function(){
-        renderAppStore(list);
+        _asActiveCategory='all';
+        renderAppStore(body);
         var searchInput=w.querySelector('#appStoreSearch');
         if(searchInput){
-          searchInput.addEventListener('input',function(){renderAppStore(list,searchInput.value.trim().toLowerCase())});
+          searchInput.addEventListener('input',function(){renderAppStore(body,searchInput.value.trim().toLowerCase())});
         }
+        _renderAppStoreCats(cats,body);
       },0);
       return w;
     }
@@ -5520,6 +5626,260 @@ var appDefs={
         var nb=document.getElementById('vcNotifBtn');
         if(nb)nb.onclick=function(){_vcToggleNotifications()}
       },0);
+      return d;
+    }
+  },
+  calculator:{
+    title:'Calculator',
+    icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="14.01"/><line x1="8" y1="18" x2="8" y2="18.01"/><line x1="12" y1="18" x2="16" y2="18"/></svg>',
+    iconBg:'linear-gradient(135deg,#ff6b35,#f7931e)',
+    width:340,height:520,
+    getContent:function(){
+      var d=document.createElement('div');
+      d.style.cssText='height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--text);user-select:none';
+      var _calcMode='standard';
+      var _calcExpr='';
+      var _calcDisplay='0';
+      var _calcHistory='';
+      var _calcNewNum=true;
+      var _calcMemory=0;
+
+      function calcRender(){
+        var display=d.querySelector('#calcDisplay');
+        var hist=d.querySelector('#calcHistory');
+        if(display)display.textContent=_calcDisplay;
+        if(hist)hist.textContent=_calcHistory;
+      }
+      function calcInput(val){
+        if(_calcNewNum){_calcDisplay=val==='.'?'0.':val;_calcNewNum=false;}
+        else{if(val==='.'&&_calcDisplay.indexOf('.')!==-1)return;_calcDisplay+=val;}
+        calcRender();
+      }
+      function calcOp(op){
+        _calcExpr+=_calcDisplay+' '+op+' ';
+        _calcHistory=_calcExpr;
+        _calcNewNum=true;
+        calcRender();
+      }
+      function calcEquals(){
+        if(!_calcExpr)return;
+        var expr=_calcExpr+_calcDisplay;
+        _calcHistory=expr+' =';
+        try{var r=Function('"use strict";return ('+expr.replace(/[^0-9+\-*/().% ]/g,'')+');')();_calcDisplay=String(parseFloat(r.toFixed(10)));}catch(e){_calcDisplay='Error';}
+        _calcExpr='';_calcNewNum=true;
+        calcRender();
+      }
+      function calcClear(){_calcDisplay='0';_calcExpr='';_calcHistory='';_calcNewNum=true;calcRender();}
+      function calcCE(){_calcDisplay='0';_calcNewNum=true;calcRender();}
+      function calcBackspace(){if(_calcDisplay.length>1)_calcDisplay=_calcDisplay.slice(0,-1);else{_calcDisplay='0';_calcNewNum=true;}calcRender();}
+      function calcNegate(){if(_calcDisplay!=='0'){_calcDisplay=_calcDisplay.charAt(0)==='-'?_calcDisplay.slice(1):'-'+_calcDisplay;}calcRender();}
+      function calcPercent(){_calcDisplay=String(parseFloat(_calcDisplay)/100);_calcNewNum=true;calcRender();}
+      function calcSci(fn){
+        var v=parseFloat(_calcDisplay);var r;
+        switch(fn){
+          case'sin':r=Math.sin(v*Math.PI/180);break;case'cos':r=Math.cos(v*Math.PI/180);break;case'tan':r=Math.tan(v*Math.PI/180);break;
+          case'sqrt':r=Math.sqrt(v);break;case'log':r=Math.log10(v);break;case'ln':r=Math.log(v);break;
+          case'x2':r=v*v;break;case'x3':r=v*v*v;break;case'1/x':r=1/v;break;
+          case'pi':r=Math.PI;break;case'e':r=Math.E;break;case'abs':r=Math.abs(v);break;
+          case'fact':r=1;for(var i=2;i<=Math.min(v,170);i++)r*=i;break;
+          case'pow':_calcExpr+=_calcDisplay+' ** ';_calcHistory=_calcExpr;_calcNewNum=true;calcRender();return;
+          default:r=v;
+        }
+        _calcHistory=fn+'('+_calcDisplay+')';
+        _calcDisplay=String(parseFloat(r.toFixed(10)));_calcNewNum=true;calcRender();
+      }
+      function calcMem(action){
+        var v=parseFloat(_calcDisplay);
+        if(action==='MC')_calcMemory=0;
+        else if(action==='MR'){_calcDisplay=String(_calcMemory);_calcNewNum=true;calcRender();}
+        else if(action==='M+'){_calcMemory+=v;}
+        else if(action==='M-'){_calcMemory-=v;}
+      }
+
+      var modeTabStyle='flex:1;padding:6px 0;border:none;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;border-radius:6px;';
+      d.innerHTML='<div style="display:flex;gap:4px;padding:8px 12px 4px;flex-shrink:0;background:var(--bg2)">'+
+        '<button id="calcTabStd" style="'+modeTabStyle+'background:var(--accent);color:#fff">Standard</button>'+
+        '<button id="calcTabSci" style="'+modeTabStyle+'background:var(--bg3);color:var(--text4)">Scientific</button></div>'+
+        '<div style="padding:12px 16px 4px;flex-shrink:0;background:var(--bg2)">'+
+        '<div id="calcHistory" style="font-size:12px;color:var(--text5);min-height:18px;text-align:right;overflow:hidden;white-space:nowrap;text-overflow:ellipsis"></div>'+
+        '<div id="calcDisplay" style="font-size:36px;font-weight:300;text-align:right;padding:4px 0 8px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;letter-spacing:-1px">0</div></div>'+
+        '<div id="calcSciRow" style="display:none;padding:0 12px 4px;flex-shrink:0;background:var(--bg2)"></div>'+
+        '<div id="calcMemRow" style="display:none;padding:0 12px 4px;flex-shrink:0;background:var(--bg2)"></div>'+
+        '<div id="calcGrid" style="flex:1;display:grid;padding:8px 12px 12px;gap:6px;background:var(--bg2)"></div>';
+
+      var btnBase='border:none;border-radius:8px;font-size:16px;font-weight:500;cursor:pointer;transition:all .12s;display:flex;align-items:center;justify-content:center;';
+      var numStyle=btnBase+'background:var(--bg4);color:var(--text);';
+      var opStyle=btnBase+'background:var(--bg3);color:var(--accent);font-weight:600;';
+      var funcStyle=btnBase+'background:var(--bg3);color:var(--text3);font-size:13px;';
+      var eqStyle=btnBase+'background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;';
+
+      function renderStdGrid(){
+        var grid=d.querySelector('#calcGrid');
+        grid.style.gridTemplateColumns='repeat(4,1fr)';
+        grid.style.gridTemplateRows='repeat(5,1fr)';
+        grid.innerHTML='';
+        var btns=[
+          ['%',funcStyle,function(){calcPercent()}],['CE',funcStyle,function(){calcCE()}],['C',funcStyle,function(){calcClear()}],['\u232b',funcStyle,function(){calcBackspace()}],
+          ['7',numStyle,function(){calcInput('7')}],['8',numStyle,function(){calcInput('8')}],['9',numStyle,function(){calcInput('9')}],['\u00f7',opStyle,function(){calcOp('/')}],
+          ['4',numStyle,function(){calcInput('4')}],['5',numStyle,function(){calcInput('5')}],['6',numStyle,function(){calcInput('6')}],['\u00d7',opStyle,function(){calcOp('*')}],
+          ['1',numStyle,function(){calcInput('1')}],['2',numStyle,function(){calcInput('2')}],['3',numStyle,function(){calcInput('3')}],['\u2212',opStyle,function(){calcOp('-')}],
+          ['\u00b1',funcStyle,function(){calcNegate()}],['0',numStyle,function(){calcInput('0')}],['.',numStyle,function(){calcInput('.')}],['=',eqStyle,function(){calcEquals()}]
+        ];
+        btns.forEach(function(b){var btn=document.createElement('button');btn.textContent=b[0];btn.style.cssText=b[1]+'min-height:48px;';btn.onclick=b[2];
+          btn.onmouseover=function(){btn.style.filter='brightness(1.15)'};btn.onmouseout=function(){btn.style.filter='none'};
+          grid.appendChild(btn);});
+      }
+      function renderSciGrid(){
+        var grid=d.querySelector('#calcGrid');
+        grid.style.gridTemplateColumns='repeat(5,1fr)';
+        grid.style.gridTemplateRows='repeat(6,1fr)';
+        grid.innerHTML='';
+        var sciBtns=[
+          ['x\u00b2',funcStyle,function(){calcSci('x2')}],['x\u00b3',funcStyle,function(){calcSci('x3')}],['x\u02b8',funcStyle,function(){calcSci('pow')}],['1/x',funcStyle,function(){calcSci('1/x')}],['\u221a',funcStyle,function(){calcSci('sqrt')}],
+          ['sin',funcStyle,function(){calcSci('sin')}],['cos',funcStyle,function(){calcSci('cos')}],['tan',funcStyle,function(){calcSci('tan')}],['log',funcStyle,function(){calcSci('log')}],['ln',funcStyle,function(){calcSci('ln')}],
+          ['\u03c0',funcStyle,function(){calcSci('pi')}],['e',funcStyle,function(){calcSci('e')}],['n!',funcStyle,function(){calcSci('fact')}],['|x|',funcStyle,function(){calcSci('abs')}],['C',funcStyle,function(){calcClear()}],
+          ['7',numStyle,function(){calcInput('7')}],['8',numStyle,function(){calcInput('8')}],['9',numStyle,function(){calcInput('9')}],['\u00f7',opStyle,function(){calcOp('/')}],['\u232b',funcStyle,function(){calcBackspace()}],
+          ['4',numStyle,function(){calcInput('4')}],['5',numStyle,function(){calcInput('5')}],['6',numStyle,function(){calcInput('6')}],['\u00d7',opStyle,function(){calcOp('*')}],['%',funcStyle,function(){calcPercent()}],
+          ['1',numStyle,function(){calcInput('1')}],['2',numStyle,function(){calcInput('2')}],['3',numStyle,function(){calcInput('3')}],['\u2212',opStyle,function(){calcOp('-')}],['+',opStyle,function(){calcOp('+')}],
+          ['\u00b1',funcStyle,function(){calcNegate()}],['0',numStyle,function(){calcInput('0')}],['.',numStyle,function(){calcInput('.')}],['=',eqStyle,function(){calcEquals()}],['',numStyle,null]
+        ];
+        sciBtns.forEach(function(b){var btn=document.createElement('button');btn.textContent=b[0];btn.style.cssText=b[1]+'min-height:40px;font-size:14px;';if(b[2])btn.onclick=b[2];else btn.style.visibility='hidden';
+          btn.onmouseover=function(){btn.style.filter='brightness(1.15)'};btn.onmouseout=function(){btn.style.filter='none'};
+          grid.appendChild(btn);});
+      }
+      setTimeout(function(){
+        renderStdGrid();
+        var memRow=d.querySelector('#calcMemRow');
+        memRow.style.cssText='display:flex;gap:4px;padding:0 12px 4px;flex-shrink:0;background:var(--bg2)';
+        ['MC','MR','M+','M-'].forEach(function(m){
+          var mb=document.createElement('button');mb.textContent=m;
+          mb.style.cssText='flex:1;padding:4px;border:none;border-radius:4px;background:var(--bg3);color:var(--text5);font-size:10px;font-weight:600;cursor:pointer;transition:all .12s';
+          mb.onclick=function(){calcMem(m)};mb.onmouseover=function(){mb.style.color='var(--text2)'};mb.onmouseout=function(){mb.style.color='var(--text5)'};
+          memRow.appendChild(mb);
+        });
+        d.querySelector('#calcTabStd').onclick=function(){
+          _calcMode='standard';
+          d.querySelector('#calcTabStd').style.cssText=modeTabStyle+'background:var(--accent);color:#fff';
+          d.querySelector('#calcTabSci').style.cssText=modeTabStyle+'background:var(--bg3);color:var(--text4)';
+          renderStdGrid();
+        };
+        d.querySelector('#calcTabSci').onclick=function(){
+          _calcMode='scientific';
+          d.querySelector('#calcTabSci').style.cssText=modeTabStyle+'background:var(--accent);color:#fff';
+          d.querySelector('#calcTabStd').style.cssText=modeTabStyle+'background:var(--bg3);color:var(--text4)';
+          renderSciGrid();
+        };
+      },0);
+      return d;
+    }
+  },
+  notepad:{
+    title:'Notepad',
+    icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>',
+    iconBg:'linear-gradient(135deg,#ffd54f,#ffb300)',
+    width:560,height:480,
+    getContent:function(){
+      var d=document.createElement('div');
+      d.style.cssText='height:100%;display:flex;flex-direction:column;background:var(--bg2);color:var(--text)';
+      var _npFiles={};
+      var _npCurrent='Untitled';
+      var _npUnsaved=false;
+
+      try{var saved=JSON.parse(localStorage.getItem('docosNotepadFiles_'+(currentRole||'guest')));if(saved)_npFiles=saved;}catch(e){}
+      if(!_npFiles[_npCurrent])_npFiles[_npCurrent]='';
+
+      function npSaveAll(){localStorage.setItem('docosNotepadFiles_'+(currentRole||'guest'),JSON.stringify(_npFiles));}
+
+      /* Toolbar */
+      var toolbar=document.createElement('div');
+      toolbar.style.cssText='display:flex;align-items:center;gap:2px;padding:6px 10px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg3);flex-wrap:wrap';
+      var tbBtnStyle='padding:5px 10px;border:none;border-radius:5px;background:none;color:var(--text4);font-size:11px;font-weight:600;cursor:pointer;transition:all .12s;display:flex;align-items:center;gap:4px;white-space:nowrap';
+
+      function makeTbBtn(label,icon,fn){
+        var b=document.createElement('button');b.style.cssText=tbBtnStyle;b.innerHTML=icon+' '+label;
+        b.onmouseover=function(){b.style.background='var(--bg4)';b.style.color='var(--text)'};
+        b.onmouseout=function(){b.style.background='none';b.style.color='var(--text4)'};
+        b.onclick=fn;return b;
+      }
+
+      toolbar.appendChild(makeTbBtn('New','<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',function(){
+        var name=prompt('New file name:','Untitled '+(Object.keys(_npFiles).length+1));
+        if(!name||!name.trim())return;name=name.trim();
+        _npFiles[name]='';_npCurrent=name;_npUnsaved=false;npSaveAll();npRender();
+      }));
+      toolbar.appendChild(makeTbBtn('Save','<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>',function(){
+        var ta=d.querySelector('#npTextArea');
+        if(ta){_npFiles[_npCurrent]=ta.value;_npUnsaved=false;npSaveAll();npUpdateTitle();showToast('Saved "'+_npCurrent+'"');}
+      }));
+      toolbar.appendChild(makeTbBtn('Save to Files','<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>',function(){
+        var ta=d.querySelector('#npTextArea');if(!ta)return;
+        _npFiles[_npCurrent]=ta.value;npSaveAll();
+        if(typeof _fsCreateFileFromNotepad==='function'){_fsCreateFileFromNotepad(_npCurrent,ta.value);}
+        else{showToast('Saved locally: "'+_npCurrent+'"');}
+      }));
+      toolbar.appendChild(makeTbBtn('Delete','<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>',function(){
+        if(Object.keys(_npFiles).length<=1){showToast('Cannot delete last file');return;}
+        if(!confirm('Delete "'+_npCurrent+'"?'))return;
+        delete _npFiles[_npCurrent];_npCurrent=Object.keys(_npFiles)[0];_npUnsaved=false;npSaveAll();npRender();
+      }));
+
+      /* File selector */
+      var sep=document.createElement('div');sep.style.cssText='width:1px;height:20px;background:var(--border);margin:0 4px';
+      toolbar.appendChild(sep);
+      var fileSelect=document.createElement('select');
+      fileSelect.id='npFileSelect';
+      fileSelect.style.cssText='padding:4px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg4);color:var(--text);font-size:11px;cursor:pointer;max-width:140px';
+      fileSelect.onchange=function(){
+        _npCurrent=fileSelect.value;_npUnsaved=false;npRender();
+      };
+      toolbar.appendChild(fileSelect);
+
+      d.appendChild(toolbar);
+
+      /* Status bar */
+      var statusBar=document.createElement('div');
+      statusBar.id='npStatus';
+      statusBar.style.cssText='padding:4px 12px;border-top:1px solid var(--border);font-size:10px;color:var(--text5);display:flex;justify-content:space-between;flex-shrink:0;background:var(--bg3)';
+      statusBar.innerHTML='<span id="npStatusLeft"></span><span id="npStatusRight"></span>';
+
+      /* Text area */
+      var textWrap=document.createElement('div');
+      textWrap.style.cssText='flex:1;overflow:hidden;position:relative';
+      var textarea=document.createElement('textarea');
+      textarea.id='npTextArea';
+      textarea.style.cssText='width:100%;height:100%;padding:16px 18px;border:none;background:var(--bg2);color:var(--text);font-family:"Consolas","Monaco","Courier New",monospace;font-size:14px;line-height:1.6;resize:none;outline:none;box-sizing:border-box;tab-size:4';
+      textarea.spellcheck=false;
+      textarea.placeholder='Start typing...';
+      textarea.addEventListener('input',function(){
+        _npFiles[_npCurrent]=textarea.value;_npUnsaved=true;npUpdateStatus();npUpdateTitle();
+      });
+      textarea.addEventListener('keydown',function(e){
+        if(e.key==='Tab'){e.preventDefault();var s=textarea.selectionStart;var end=textarea.selectionEnd;textarea.value=textarea.value.substring(0,s)+'\t'+textarea.value.substring(end);textarea.selectionStart=textarea.selectionEnd=s+1;_npFiles[_npCurrent]=textarea.value;}
+        if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();_npFiles[_npCurrent]=textarea.value;_npUnsaved=false;npSaveAll();npUpdateTitle();showToast('Saved "'+_npCurrent+'"');}
+      });
+      textWrap.appendChild(textarea);
+      d.appendChild(textWrap);
+      d.appendChild(statusBar);
+
+      function npUpdateTitle(){
+        var titleEl=d.closest('.os-window');
+        if(titleEl){var t=titleEl.querySelector('.win-title');if(t)t.textContent=(_npUnsaved?'\u25cf ':'')+_npCurrent+' - Notepad';}
+      }
+      function npUpdateStatus(){
+        var ta=d.querySelector('#npTextArea');if(!ta)return;
+        var text=ta.value;var lines=text.split('\n').length;var chars=text.length;var words=text.trim()?text.trim().split(/\s+/).length:0;
+        var sl=d.querySelector('#npStatusLeft');var sr=d.querySelector('#npStatusRight');
+        if(sl)sl.textContent=(_npUnsaved?'Modified':'Saved')+' \u2022 '+_npCurrent;
+        if(sr)sr.textContent='Ln '+lines+' \u2022 '+chars+' chars \u2022 '+words+' words';
+      }
+      function npRender(){
+        var ta=d.querySelector('#npTextArea');
+        if(ta)ta.value=_npFiles[_npCurrent]||'';
+        var sel=d.querySelector('#npFileSelect');
+        if(sel){sel.innerHTML='';Object.keys(_npFiles).forEach(function(fn){var o=document.createElement('option');o.value=fn;o.textContent=fn;if(fn===_npCurrent)o.selected=true;sel.appendChild(o);});}
+        npUpdateStatus();npUpdateTitle();
+      }
+      setTimeout(function(){npRender()},0);
       return d;
     }
   },
@@ -6391,7 +6751,7 @@ document.addEventListener('click',closeContextMenu);
 
 /* Default icon labels & positions for reset on logout */
 var _defaultIconLabels={chat:'Chat',settings:'Settings',mod:'Mod Panel',videocall:'Video Call',appdesigner:'App Manager',appstore:'App Store',trash:'Trash'};
-var _defaultIconPositions={chat:{left:'10px',top:'10px'},settings:{left:'10px',top:'110px'},videocall:{left:'10px',top:'210px'},mod:{left:'10px',top:'310px'},appdesigner:{left:'10px',top:'410px'},appstore:{left:'10px',top:'610px'},trash:{left:'10px',top:'510px'}};
+var _defaultIconPositions={chat:{left:'10px',top:'10px'},settings:{left:'10px',top:'110px'},videocall:{left:'10px',top:'210px'},mod:{left:'10px',top:'310px'},appdesigner:{left:'10px',top:'410px'},appstore:{left:'10px',top:'510px'},trash:{left:'10px',top:'610px'}};
 
 /* Save/restore desktop icon positions */
 function saveIconPositions(){
@@ -7163,78 +7523,299 @@ function renderIconHtmlSmall(icon,size){
 }
 
 /* ===== APP STORE ===== */
+var _asActiveCategory='all';
+var _asCategoryMap={
+  'all':{label:'All',icon:'\u2728'},
+  'apps':{label:'Apps',icon:'\ud83d\udce6'},
+  'game':{label:'Games',icon:'\ud83c\udfae'}
+};
+
+/* Built-in app store metadata */
+var _asBuiltinApps={
+  chat:{category:'apps',rating:4.8,downloads:2400,author:'System'},
+  settings:{category:'apps',rating:4.5,downloads:1800,author:'System'},
+  videocall:{category:'apps',rating:4.6,downloads:1500,author:'System'},
+  mod:{category:'apps',rating:4.3,downloads:800,author:'System',adminOnly:true},
+  appdesigner:{category:'apps',rating:4.7,downloads:1200,author:'System',adminOnly:true},
+  appstore:{category:'apps',rating:4.9,downloads:3000,author:'System'},
+  calculator:{category:'apps',rating:4.7,downloads:1900,author:'System',storeOnly:true},
+  notepad:{category:'apps',rating:4.6,downloads:1600,author:'System',storeOnly:true},
+  trash:{category:'apps',rating:4.0,downloads:900,author:'System'}
+};
+
+/* AI-style smart categorizer — uses weighted keyword scoring */
+var _aiCatRules=[
+  {cat:'game',weight:3,words:['game','play','score','level','lives','enemy','player','win','lose','highscore','leaderboard','boss','spawn','health','attack','defend','shoot','jump','run','race','puzzle','maze','snake','tetris','pong','chess','checkers','tic-tac','minesweeper','solitaire','card game','dice','roll','round','match','arena','battle','quest','rpg','adventure','platformer','arcade','retro','pixel','sprite','canvas game','gameover','start game','new game','difficulty','easy','medium','hard','bonus','power-up','combo','streak','points','bitlife','life simulation','simulator','idle','clicker','tycoon','survival']},
+  {cat:'apps',weight:3,words:['chat','message','friend','social','dm','direct message','conversation','inbox','send','reply','mention','emoji','reaction','group chat','online','offline','status','profile','follow','like','comment','share','post','feed','notification','invite','block','mute','report','username','avatar','bio','video','music','audio','stream','player','media','photo','image','gallery','camera','record','podcast','playlist','album','song','artist','track','volume','visualizer','filter','edit photo','slideshow','gif','animation','movie','clip','mp3','mp4','youtube','spotify','soundcloud','radio','broadcast','microphone','learn','education','study','class','school','math','science','quiz','test','exam','flashcard','vocabulary','language','calculator','tool','convert','converter','timer','stopwatch','clock','alarm','weather','forecast','calendar','date','unit','measure','note','notepad','editor','write','document','list','todo','task','planner','schedule','reminder','organizer','journal']},
+  {cat:'game',weight:1,words:['fun','challenge','compete','timer','speed','fast','quick','random','click','tap','drag','drop','flip','spin','bounce','catch','avoid','collect','move','swap','slide','rotate','break','destroy','build','create','craft','place','remove','reset','restart','next level','game over']}
+];
+function _asGuessCategory(app){
+  /* If it has explicit metadata, use it */
+  if(app._asCategory)return app._asCategory;
+  var text=((app.name||'')+' '+(app.contentHtml||'')+' '+(app.description||'')).toLowerCase();
+  var scores={};
+  _aiCatRules.forEach(function(rule){
+    if(!scores[rule.cat])scores[rule.cat]=0;
+    rule.words.forEach(function(word){
+      /* Count occurrences with word boundary awareness */
+      var idx=0;var count=0;
+      while((idx=text.indexOf(word,idx))!==-1){count++;idx+=word.length;}
+      if(count>0)scores[rule.cat]+=rule.weight*Math.min(count,5);
+    });
+  });
+  /* Find highest score */
+  var best='apps';var bestScore=0;
+  Object.keys(scores).forEach(function(cat){
+    if(scores[cat]>bestScore){bestScore=scores[cat];best=cat;}
+  });
+  /* Cache result */
+  app._asCategory=best;
+  return best;
+}
+function _asGetStars(appId){
+  if(_asBuiltinApps[appId])return _asBuiltinApps[appId].rating;
+  var seed=0;for(var i=0;i<appId.length;i++)seed+=appId.charCodeAt(i);
+  var base=3.5+(seed%15)/10;
+  return Math.min(5,Math.round(base*10)/10);
+}
+function _asGetDownloads(app,appId){
+  if(appId&&_asBuiltinApps[appId])return _asBuiltinApps[appId].downloads;
+  var age=Math.max(1,Date.now()-(app.createdAt||Date.now()));
+  var days=age/86400000;
+  var seed=0;var n=app.name||'';for(var i=0;i<n.length;i++)seed+=n.charCodeAt(i);
+  return Math.max(1,Math.floor(days*0.8+(seed%50)));
+}
+function _asStarHtml(rating){
+  var full=Math.floor(rating);var half=rating-full>=0.5?1:0;var empty=5-full-half;
+  var s='';
+  for(var i=0;i<full;i++)s+='\u2605';
+  if(half)s+='\u2606';
+  for(var i=0;i<empty;i++)s+='<span style="opacity:.25">\u2605</span>';
+  return s;
+}
+/* Build unified app list for the store */
+function _asGetAllApps(){
+  var all=[];
+  /* Add store-only built-in apps (calculator, notepad) */
+  var storeBuiltins=['calculator','notepad'];
+  storeBuiltins.forEach(function(id){
+    if(!appDefs[id])return;
+    var meta=_asBuiltinApps[id]||{};
+    all.push({
+      id:id,
+      name:appDefs[id].title,
+      icon:appDefs[id].icon,
+      iconBg:appDefs[id].iconBg||'linear-gradient(135deg,#667,#445)',
+      color1:null,color2:null,
+      author:meta.author||'System',
+      desc:'',
+      category:meta.category||'apps',
+      rating:meta.rating||4.5,
+      downloads:meta.downloads||1000,
+      createdAt:null,
+      isBuiltin:false,
+      isInstalled:userAppsState[id]==='desktop'
+    });
+  });
+  /* Add custom appstore apps */
+  Object.keys(customAppsData).forEach(function(id){
+    var app=customAppsData[id];
+    if(app.distribution!=='appstore')return;
+    all.push({
+      id:id,
+      name:app.name||id,
+      icon:app.icon,
+      iconBg:'linear-gradient(135deg,'+(app.color1||'#666')+','+(app.color2||'#444')+')',
+      color1:app.color1,color2:app.color2,
+      author:app.createdBy||'Unknown',
+      desc:'',
+      category:app.storeCategory||_asGuessCategory(app),
+      rating:_asGetStars(id),
+      downloads:_asGetDownloads(app,id),
+      createdAt:app.createdAt||0,
+      isBuiltin:false,
+      isInstalled:userAppsState[id]==='desktop'
+    });
+  });
+  return all;
+}
+function _renderAppStoreCats(catContainer,bodyContainer){
+  if(!catContainer)return;
+  catContainer.innerHTML='';
+  var order=['all','apps','game'];
+  order.forEach(function(key){
+    var c=_asCategoryMap[key];
+    var btn=document.createElement('button');
+    btn.className='as-cat'+(_asActiveCategory===key?' active':'');
+    btn.textContent=c.icon+' '+c.label;
+    btn.onclick=function(){
+      _asActiveCategory=key;
+      catContainer.querySelectorAll('.as-cat').forEach(function(b){b.classList.remove('active')});
+      btn.classList.add('active');
+      var searchVal='';
+      var si=catContainer.parentNode.querySelector('#appStoreSearch');
+      if(si)searchVal=si.value.trim().toLowerCase();
+      renderAppStore(bodyContainer,searchVal);
+    };
+    catContainer.appendChild(btn);
+  });
+}
+function _asCreateBtn(entry,container,filter){
+  var btn=document.createElement('button');
+  if(entry.isBuiltin){
+    btn.className='as-install-btn install';
+    btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg> Open';
+    btn.onclick=function(e){e.stopPropagation();openApp(entry.id)};
+  }else if(entry.isInstalled){
+    btn.className='as-install-btn installed';
+    btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Installed';
+    (function(id){
+      btn.onclick=function(e){
+        e.stopPropagation();
+        db.ref('userApps/'+currentRole+'/'+id).remove().then(function(){
+          delete userAppsState[id];
+          removeCustomDesktopIcon(id);
+          showToast('App uninstalled.');
+          renderAppStore(container,filter);
+        });
+      };
+    })(entry.id);
+  }else{
+    btn.className='as-install-btn install';
+    btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Install';
+    (function(id,entryName){
+      var appData=customAppsData[id];
+      var isBuiltinStore=!appData&&appDefs[id]&&_asBuiltinApps[id]&&_asBuiltinApps[id].storeOnly;
+      btn.onclick=function(e){
+        e.stopPropagation();
+        btn.innerHTML='<span style="display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite"></span> Installing...';
+        btn.style.pointerEvents='none';
+        db.ref('userApps/'+currentRole+'/'+id).set('desktop').then(function(){
+          userAppsState[id]='desktop';
+          if(isBuiltinStore){
+            _addBuiltinStoreIcon(id);
+          }else{
+            registerCustomApp(id,appData);
+            addCustomDesktopIcon(id,appData);
+          }
+          showToast('\u2705 '+escHtml(entryName)+' installed!');
+          renderAppStore(container,filter);
+        });
+      };
+    })(entry.id,entry.name);
+  }
+  return btn;
+}
+function _asRenderCard(entry,container,filter){
+  var catInfo=_asCategoryMap[entry.category]||_asCategoryMap['apps'];
+  var card=document.createElement('div');
+  card.className='as-card';
+  var topDiv=document.createElement('div');
+  topDiv.className='as-card-top';
+  topDiv.innerHTML='<div class="as-card-icon" style="background:'+(entry.iconBg||'linear-gradient(135deg,#666,#444)')+'">'+renderIconHtml(entry.icon)+'</div>'+
+    '<div class="as-card-meta"><div class="as-card-name">'+escHtml(entry.name)+'</div>'+
+    '<div class="as-card-author">by '+escHtml(entry.author)+(entry.isBuiltin?' <span style="display:inline-block;padding:1px 5px;border-radius:3px;background:var(--accent);color:#fff;font-size:8px;font-weight:700;vertical-align:1px;letter-spacing:.3px">SYSTEM</span>':'')+'</div>'+
+    '<div class="as-card-rating"><span class="as-card-stars">'+_asStarHtml(entry.rating)+'</span><span class="as-card-rating-num">'+entry.rating.toFixed(1)+'</span></div></div>';
+  card.appendChild(topDiv);
+  var footer=document.createElement('div');
+  footer.className='as-card-footer';
+  var tags=document.createElement('div');
+  tags.className='as-card-tags';
+  tags.innerHTML='<span class="as-card-tag">'+catInfo.icon+' '+catInfo.label+'</span>'+
+    '<span class="as-card-tag"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> '+entry.downloads+'</span>';
+  footer.appendChild(tags);
+  footer.appendChild(_asCreateBtn(entry,container,filter));
+  card.appendChild(footer);
+  return card;
+}
 function renderAppStore(container,filter){
   if(!container)return;
   container.innerHTML='';
-  var keys=Object.keys(customAppsData);
-  var storeApps=keys.filter(function(id){
-    var app=customAppsData[id];
-    return app.distribution==='appstore';
-  });
+  var allApps=_asGetAllApps();
+  /* Filter by search */
   if(filter){
-    storeApps=storeApps.filter(function(id){
-      var app=customAppsData[id];
-      return (app.name||'').toLowerCase().indexOf(filter)!==-1||(app.createdBy||'').toLowerCase().indexOf(filter)!==-1;
+    allApps=allApps.filter(function(e){
+      return (e.name||'').toLowerCase().indexOf(filter)!==-1||
+        (e.author||'').toLowerCase().indexOf(filter)!==-1||
+        (e.desc||'').toLowerCase().indexOf(filter)!==-1||
+        (e.category||'').toLowerCase().indexOf(filter)!==-1;
     });
   }
-  storeApps.sort(function(a,b){return (customAppsData[b].createdAt||0)-(customAppsData[a].createdAt||0)});
-  if(!storeApps.length){
-    container.innerHTML='<div style="text-align:center;padding:40px 0;color:var(--text5)"><div style="margin-bottom:12px"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div><div style="font-size:14px;font-weight:600">No apps available</div><div style="font-size:12px;margin-top:4px">Apps published to the App Store will appear here</div></div>';
+  /* Filter by category */
+  if(_asActiveCategory&&_asActiveCategory!=='all'){
+    allApps=allApps.filter(function(e){return e.category===_asActiveCategory});
+  }
+  /* Sort: newest first for custom, then by rating */
+  allApps.sort(function(a,b){
+    if(!a.isBuiltin&&!b.isBuiltin)return (b.createdAt||0)-(a.createdAt||0);
+    if(!a.isBuiltin)return -1;
+    if(!b.isBuiltin)return 1;
+    return b.rating-a.rating;
+  });
+  if(!allApps.length){
+    container.innerHTML='<div class="as-empty">'+
+      '<div class="as-empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>'+
+      '<h3>'+(filter?'No results for "'+escHtml(filter)+'"':'No apps yet')+'</h3>'+
+      '<p>'+(filter?'Try a different search term':'No apps match this filter')+'</p></div>';
     return;
   }
-  storeApps.forEach(function(appId){
-    var app=customAppsData[appId];
-    var isInstalled=userAppsState[appId]==='desktop';
-    var row=document.createElement('div');
-    row.style.cssText='display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg3);border-radius:12px;border:1px solid var(--border);margin-bottom:10px;transition:border-color .15s';
-    row.onmouseover=function(){row.style.borderColor='var(--accent)'};
-    row.onmouseout=function(){row.style.borderColor='var(--border)'};
-    var iconDiv=document.createElement('div');
-    iconDiv.style.cssText='width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;color:#fff;background:linear-gradient(135deg,'+(app.color1||'#666')+','+(app.color2||'#444')+')';
-    iconDiv.innerHTML=renderIconHtml(app.icon);
-    row.appendChild(iconDiv);
-    var info=document.createElement('div');
-    info.style.cssText='flex:1;min-width:0';
-    info.innerHTML='<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px">'+escHtml(app.name)+'</div>'+
-      '<div style="font-size:11px;color:var(--text5)">by '+escHtml(app.createdBy||'Unknown')+'</div>'+
-      '<div style="font-size:11px;color:var(--text6);margin-top:2px">'+new Date(app.createdAt||0).toLocaleDateString()+'</div>';
-    row.appendChild(info);
-    var btn=document.createElement('button');
-    if(isInstalled){
-      btn.textContent='Uninstall';
-      btn.style.cssText='padding:8px 18px;border-radius:8px;border:1px solid var(--red,#f55);background:none;color:var(--red,#f55);font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .15s';
-      btn.onmouseover=function(){btn.style.background='var(--red,#f55)';btn.style.color='#fff'};
-      btn.onmouseout=function(){btn.style.background='none';btn.style.color='var(--red,#f55)'};
-      (function(id){
-        btn.onclick=function(){
-          db.ref('userApps/'+currentRole+'/'+id).remove().then(function(){
-            delete userAppsState[id];
-            removeCustomDesktopIcon(id);
-            showToast('App uninstalled.');
-            renderAppStore(container,filter);
-          });
-        };
-      })(appId);
-    }else{
-      btn.textContent='Install';
-      btn.style.cssText='padding:8px 18px;border-radius:8px;border:none;background:linear-gradient(135deg,#00b4d8,#0077b6);color:#fff;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:opacity .15s';
-      btn.onmouseover=function(){btn.style.opacity='0.85'};
-      btn.onmouseout=function(){btn.style.opacity='1'};
-      (function(id,appData){
-        btn.onclick=function(){
-          db.ref('userApps/'+currentRole+'/'+id).set('desktop').then(function(){
-            userAppsState[id]='desktop';
-            registerCustomApp(id,appData);
-            addCustomDesktopIcon(id,appData);
-            showToast('App installed!');
-            renderAppStore(container,filter);
-          });
-        };
-      })(appId,app);
-    }
-    row.appendChild(btn);
-    container.appendChild(row);
-  });
+  /* Featured app — pick highest rated non-system app, or first app */
+  var featEntry=null;
+  if(!filter&&(_asActiveCategory==='all'||!_asActiveCategory)){
+    for(var fi=0;fi<allApps.length;fi++){if(!allApps[fi].isBuiltin){featEntry=allApps[fi];break;}}
+    if(!featEntry&&allApps.length>0)featEntry=allApps[0];
+  }
+  if(featEntry){
+    var catInfo=_asCategoryMap[featEntry.category]||_asCategoryMap['apps'];
+    var featDiv=document.createElement('div');
+    featDiv.className='as-featured';
+    var featCard=document.createElement('div');
+    featCard.className='as-feat-card';
+    featCard.innerHTML='<div class="as-feat-badge">\u2b50 Featured</div>'+
+      '<div class="as-feat-icon" style="background:'+(featEntry.iconBg||'linear-gradient(135deg,#666,#444)')+'">'+renderIconHtml(featEntry.icon)+'</div>'+
+      '<div class="as-feat-info"><div class="as-feat-name">'+escHtml(featEntry.name)+'</div>'+
+      '<div class="as-feat-author">by '+escHtml(featEntry.author)+(featEntry.isBuiltin?' <span style="display:inline-block;padding:1px 5px;border-radius:3px;background:var(--accent);color:#fff;font-size:8px;font-weight:700;vertical-align:1px;letter-spacing:.3px">SYSTEM</span>':'')+'</div>'+
+      '</div>'+
+      '<div class="as-stats">'+
+        '<div class="as-stat"><span style="color:#fbbf24">'+_asStarHtml(featEntry.rating)+'</span> '+featEntry.rating.toFixed(1)+'</div>'+
+        '<div class="as-stat"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> '+featEntry.downloads+'</div>'+
+        '<div class="as-stat">'+catInfo.icon+' '+catInfo.label+'</div>'+
+      '</div>'+
+      '<div class="as-feat-actions"></div>';
+    featCard.querySelector('.as-feat-actions').appendChild(_asCreateBtn(featEntry,container,filter));
+    featDiv.appendChild(featCard);
+    var secTitle=document.createElement('div');
+    secTitle.className='as-section-title';
+    secTitle.innerHTML='<span class="as-st-icon">\u2b50</span> Featured';
+    container.appendChild(secTitle);
+    container.appendChild(featDiv);
+  }
+  /* Separate into Apps and Games */
+  var remaining=allApps.filter(function(e){return e!==featEntry});
+  var appsSection=remaining.filter(function(e){return e.category!=='game'});
+  var gamesSection=remaining.filter(function(e){return e.category==='game'});
+  /* Apps section */
+  if(appsSection.length>0){
+    var appsTitle=document.createElement('div');
+    appsTitle.className='as-section-title';
+    appsTitle.innerHTML='<span class="as-st-icon">\ud83d\udce6</span> Apps';
+    container.appendChild(appsTitle);
+    var appsGrid=document.createElement('div');
+    appsGrid.className='as-grid';
+    appsSection.forEach(function(entry){appsGrid.appendChild(_asRenderCard(entry,container,filter))});
+    container.appendChild(appsGrid);
+  }
+  /* Games section */
+  if(gamesSection.length>0){
+    var gamesTitle=document.createElement('div');
+    gamesTitle.className='as-section-title';
+    gamesTitle.innerHTML='<span class="as-st-icon">\ud83c\udfae</span> Games';
+    container.appendChild(gamesTitle);
+    var gamesGrid=document.createElement('div');
+    gamesGrid.className='as-grid';
+    gamesSection.forEach(function(entry){gamesGrid.appendChild(_asRenderCard(entry,container,filter))});
+    container.appendChild(gamesGrid);
+  }
 }
 
 function renderPublishedAppsList(container){
@@ -7699,6 +8280,28 @@ function removeCustomDesktopIcon(appId){
   for(var id in openWindows){
     if(openWindows[id].appId===appId){closeWindow(id);break}
   }
+}
+function _addBuiltinStoreIcon(appId){
+  var def=appDefs[appId];if(!def)return;
+  var existing=document.querySelector('.desktop-icon[data-app="'+appId+'"]');
+  if(existing)return;
+  var desktop=document.getElementById('desktop');if(!desktop)return;
+  var icon=document.createElement('div');
+  icon.className='desktop-icon';
+  icon.dataset.app=appId;
+  icon.setAttribute('ondblclick',"openApp('"+appId+"')");
+  icon.setAttribute('onclick',"if(window.innerWidth<=768)openApp('"+appId+"')");
+  var iconImg=document.createElement('div');
+  iconImg.className='icon-img';
+  iconImg.style.background=def.iconBg||'linear-gradient(135deg,#667,#445)';
+  iconImg.innerHTML=def.icon||'&#9881;';
+  var label=document.createElement('div');
+  label.className='icon-label';
+  label.id='iconLabel-'+appId;
+  label.textContent=def.title;
+  icon.appendChild(iconImg);icon.appendChild(label);
+  desktop.appendChild(icon);
+  initCustomIconDrag(icon);
 }
 function removeCustomAppFully(appId){
   removeCustomDesktopIcon(appId);
@@ -8610,9 +9213,19 @@ function syncDesktopWithUserState(){
       removeCustomDesktopIcon(appId);
     }
   });
+  /* Sync builtin store-only apps (calculator, notepad, etc.) */
+  Object.keys(_asBuiltinApps).forEach(function(appId){
+    if(!_asBuiltinApps[appId].storeOnly)return;
+    if(userAppsState[appId]==='desktop'){
+      _addBuiltinStoreIcon(appId);
+    }else{
+      var existing=document.querySelector('.desktop-icon[data-app="'+appId+'"]');
+      if(existing)existing.remove();
+    }
+  });
   /* Clean up userApps entries for apps deleted by admin */
   Object.keys(userAppsState).forEach(function(appId){
-    if(!customAppsData[appId]){
+    if(!customAppsData[appId]&&!appDefs[appId]){
       updates['userApps/'+currentRole+'/'+appId]=null;
       delete userAppsState[appId];
     }
