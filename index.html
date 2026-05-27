@@ -56,6 +56,16 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .lock-appeal-denied{color:#ff5555;font-size:12px;text-align:center;margin-top:6px;font-weight:600}
 .lock-branding{position:absolute;bottom:24px;font-size:13px;color:var(--text7,rgba(255,255,255,.2));font-weight:600;letter-spacing:1px}
 
+/* ===== LOCKDOWN POPUP ===== */
+.lockdown-popup-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:10000;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.lockdown-popup{background:linear-gradient(135deg,#1a1a3a,#0d1b2a);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px 40px;text-align:center;max-width:340px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative;animation:lockdownPopupIn .3s ease}
+@keyframes lockdownPopupIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.lockdown-popup-close{position:absolute;top:10px;right:14px;background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:color .15s}
+.lockdown-popup-close:hover{color:#fff}
+.lockdown-popup-icon{font-size:48px;margin-bottom:12px;display:block}
+.lockdown-popup-title{color:#fff;font-size:18px;font-weight:700;margin-bottom:8px}
+.lockdown-popup-msg{color:rgba(255,255,255,.55);font-size:13px;line-height:1.5}
+
 /* ===== DESKTOP OS ===== */
 .desktop{position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3a 40%,#0d1b2a 100%);overflow:hidden;display:flex;flex-direction:column}
 .desktop.hidden{display:none}
@@ -484,6 +494,17 @@ html,body{background:var(--bg);color:var(--text)}
 .reco-overlay,.cache-overlay,.theme-overlay{position:fixed;top:0;left:0;width:100vw;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9998}
 .reco-modal,.cache-modal,.theme-modal{background:linear-gradient(135deg,var(--bg4),var(--bg5));border:1px solid var(--border);border-radius:14px;padding:28px 32px 24px;width:420px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8);position:relative}
 .cache-modal{width:480px}
+.recover-overlay{position:fixed;top:0;left:0;width:100vw;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9998}
+.recover-modal{background:linear-gradient(135deg,var(--bg4),var(--bg5));border:1px solid var(--border);border-radius:14px;padding:28px 32px 24px;width:560px;max-width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,.8);position:relative}
+.recover-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px;transition:all .2s}
+.recover-modal-close:hover{color:var(--text);background:var(--border2)}
+.recover-modal h3{color:var(--accent);font-size:18px;font-weight:700;margin-bottom:12px;text-align:center}
+.recover-user-card{padding:10px 12px;margin-bottom:6px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s}
+.recover-user-card:hover{border-color:var(--accent);background:var(--bg2)}
+.recover-file-item{padding:6px 8px;margin:3px 0;background:var(--bg3);border:1px solid var(--border);border-radius:6px;font-size:12px;display:flex;align-items:center;gap:8px}
+.recover-tree{max-height:350px;overflow-y:auto;margin-bottom:12px;padding:4px}
+.recover-tree-indent{margin-left:16px}
+.recover-actions{display:flex;gap:8px;margin-top:10px}
 .theme-modal{width:640px;max-width:96%;max-height:90vh;overflow-y:auto}
 .reco-modal-close,.cache-modal-close,.theme-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px;transition:all .2s}
 .theme-modal-close{position:sticky;float:right;top:0;right:0;z-index:1}
@@ -684,8 +705,19 @@ html,body{background:var(--bg);color:var(--text)}
 .tab-bar .tab:hover{color:var(--text3)}
 .tab-bar .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 
-/* Admin Panel (tabbed view) */
-.admin-panel{display:none;flex:1;overflow-y:auto;background:var(--bg2);padding:0;min-height:0}
+/* Admin Panel (sidebar view) */
+.admin-panel{display:none;flex:1;overflow:hidden;background:var(--bg2);padding:0;min-height:0}
+.admin-sidebar-layout{display:flex;height:100%;overflow:hidden}
+.admin-sidebar{width:180px;min-width:180px;background:rgba(255,255,255,.03);border-right:1px solid var(--border);padding:12px 0;overflow-y:auto;flex-shrink:0}
+.admin-sidebar-title{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--text7);padding:6px 16px 12px;font-weight:700}
+.admin-nav-item{padding:10px 16px;font-size:13px;color:var(--text5);cursor:pointer;display:flex;align-items:center;gap:9px;transition:all .15s;border-left:3px solid transparent;white-space:nowrap}
+.admin-nav-item:hover{color:var(--text2);background:rgba(255,255,255,.04)}
+.admin-nav-item.active{color:var(--accent);background:rgba(0,170,255,.08);border-left-color:var(--accent)}
+.admin-nav-badge{min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:auto}
+.admin-content{flex:1;overflow-y:auto;padding:18px 20px 24px;min-width:0}
+.admin-section{display:none}
+.admin-section.active{display:block}
+.admin-section-title{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .panel-body{padding:10px 12px 24px}
 
 /* Chat content wrapper */
@@ -969,6 +1001,14 @@ summary::marker{color:var(--border2)}
   .online-tag{font-size:10px;padding:2px 6px}
 
   /* Admin panel */
+  .admin-sidebar{width:52px;min-width:52px;padding:8px 0}
+  .admin-sidebar-title{display:none}
+  .admin-nav-item{padding:10px 0;justify-content:center;font-size:16px;border-left:none;border-bottom:2px solid transparent;gap:0;overflow:hidden;text-indent:-9999px}
+  .admin-nav-item span:first-child{text-indent:0;display:inline}
+  .admin-nav-item.active{border-left:none;border-bottom-color:var(--accent)}
+  .admin-nav-badge{position:absolute;top:2px;right:2px;min-width:14px;height:14px;font-size:8px;line-height:14px}
+  .admin-nav-item{position:relative}
+  .admin-content{padding:12px 14px 24px}
   .panel-body{padding:10px 12px 24px}
   .admin-panel input,.admin-panel select,.admin-panel textarea{font-size:16px;padding:12px;border-radius:8px}
   .admin-panel button{padding:12px;font-size:14px;border-radius:8px;min-height:44px}
@@ -993,7 +1033,7 @@ summary::marker{color:var(--border2)}
   .toggle-row label{font-size:13px}
 
   /* Modals */
-  .reco-modal,.cache-modal,.theme-modal,.demote-popup{width:96%;max-width:96%;padding:20px 16px;border-radius:16px}
+  .reco-modal,.cache-modal,.theme-modal,.demote-popup,.recover-modal{width:96%;max-width:96%;padding:20px 16px;border-radius:16px}
   .reco-modal h3,.cache-modal h3,.theme-modal h3,.demote-popup h3{font-size:18px}
   .reco-modal textarea{font-size:16px;padding:12px}
   .reco-modal button.reco-submit{padding:14px;font-size:15px;min-height:48px}
@@ -1508,102 +1548,111 @@ summary{font-size:calc(13px * var(--fs-scale))}
 
 <!-- Admin Panel (standalone app) -->
 <div class="admin-panel" id="adminPanel" style="display:none">
-  <div class="panel-body">
-    <details>
-      <summary><span class="section-icon">&#128101;</span> User Actions</summary>
-      <label>&#128100; Target User</label>
-      <div class="user-select-wrapper"><select id="userSelect"></select></div>
-      <label>&#9203; Duration</label>
-      <div class="preset-row">
-        <span class="preset-chip" data-ms="300000">5 min</span>
-        <span class="preset-chip" data-ms="900000">15 min</span>
-        <span class="preset-chip" data-ms="3600000">1 hour</span>
-        <span class="preset-chip" data-ms="86400000">1 day</span>
-        <span class="preset-chip" data-ms="custom">Custom</span>
+  <div class="admin-sidebar-layout">
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-title">Panel</div>
+      <div class="admin-nav-item active" data-section="sec-useractions"><span>&#128101;</span> Actions</div>
+      <div class="admin-nav-item" data-section="sec-penalties"><span>&#128683;</span> Penalties</div>
+      <div class="admin-nav-item" data-section="sec-announcements"><span>&#128227;</span> Announce</div>
+      <div class="admin-nav-item" data-section="sec-feedback"><span>&#128172;</span> Feedback <span id="feedbackNavBadge" class="admin-nav-badge" style="display:none"></span></div>
+      <div class="admin-nav-item" data-section="sec-usermgmt" id="userMgmtNavItem"><span>&#128100;</span> Users</div>
+      <div class="admin-nav-item" data-section="sec-tools" id="adminToolsNavItem"><span>&#128465;</span> Tools</div>
+    </div>
+    <div class="admin-content">
+      <div class="admin-section active" id="sec-useractions">
+        <div class="admin-section-title"><span>&#128101;</span> User Actions</div>
+        <label>&#128100; Target User</label>
+        <div class="user-select-wrapper"><select id="userSelect"></select></div>
+        <label>&#9203; Duration</label>
+        <div class="preset-row">
+          <span class="preset-chip" data-ms="300000">5 min</span>
+          <span class="preset-chip" data-ms="900000">15 min</span>
+          <span class="preset-chip" data-ms="3600000">1 hour</span>
+          <span class="preset-chip" data-ms="86400000">1 day</span>
+          <span class="preset-chip" data-ms="custom">Custom</span>
+        </div>
+        <div class="custom-duration" id="customDuration">
+          <input type="number" id="durationInput" placeholder="Amount" min="1">
+          <select id="unitSelect">
+            <option value="seconds">Sec</option>
+            <option value="minutes" selected>Min</option>
+            <option value="hours">Hr</option>
+            <option value="days">Day</option>
+          </select>
+        </div>
+        <input type="hidden" id="presetMs" value="">
+        <div class="action-btn-row">
+          <button class="btn-mute" id="muteButton">&#128263; Mute</button>
+          <button class="btn-ban" id="banButton">&#128683; Ban</button>
+        </div>
+        <div class="action-btn-row" style="margin-top:8px">
+          <button class="btn-limit" id="limitWordsBtn">&#128214; Limit Words</button>
+        </div>
       </div>
-      <div class="custom-duration" id="customDuration">
-        <input type="number" id="durationInput" placeholder="Amount" min="1">
-        <select id="unitSelect">
-          <option value="seconds">Sec</option>
-          <option value="minutes" selected>Min</option>
-          <option value="hours">Hr</option>
-          <option value="days">Day</option>
-        </select>
+      <div class="admin-section" id="sec-penalties">
+        <div class="admin-section-title"><span>&#128683;</span> Muted / Banned / Word Limited</div>
+        <div id="mutedList"></div>
+        <div id="bannedList"></div>
+        <div style="margin-top:8px">
+          <label style="font-size:12px;color:var(--text5);display:block;margin-bottom:6px">Word-limited Users</label>
+          <div id="wordLimitsList" style="max-height:160px;overflow:auto;border:1px solid var(--border);background:var(--bg2);padding:8px;border-radius:8px;font-size:13px;color:var(--text5)">None</div>
+        </div>
       </div>
-      <input type="hidden" id="presetMs" value="">
-      
-      
-      <div class="action-btn-row">
-        <button class="btn-mute" id="muteButton">&#128263; Mute</button>
-        <button class="btn-ban" id="banButton">&#128683; Ban</button>
+      <div class="admin-section" id="sec-announcements">
+        <div class="admin-section-title"><span>&#128227;</span> Announcement</div>
+        <label style="color:var(--accent);font-size:12px;margin-bottom:4px;display:block">Current Announcements</label>
+        <div id="activeAnnouncementsList"><span style="color:var(--text7);font-size:12px">No active announcements</span></div>
+        <div class="section-divider"></div>
+        <label style="font-size:12px;margin-bottom:4px;display:block">New Announcement</label>
+        <textarea id="announcementInput" rows="3" placeholder="Type announcement..."></textarea>
+        <button id="announcementButton">Send announcement</button>
       </div>
-      <div class="action-btn-row" style="margin-top:8px">
-        <button class="btn-limit" id="limitWordsBtn">&#128214; Limit Words</button>
+      <div class="admin-section" id="sec-feedback">
+        <div class="admin-section-title"><span>&#128172;</span> Feedback <span id="feedbackBadge" style="display:none;min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:4px;vertical-align:middle"></span></div>
+        <label style="color:#66bb6a;font-weight:600">Account Requests <span id="acctReqBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
+        <div id="acctReqList"></div>
+        <div class="section-divider"></div>
+        <label style="color:#ff9800;font-weight:600">Appeals <span id="appealsBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
+        <div id="appealsList"></div>
+        <div class="section-divider"></div>
+        <label style="color:#42a5f5;font-weight:600">Recommendations <span id="recosBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
+        <div id="recoList"></div>
       </div>
-    </details>
-    <details>
-      <summary><span class="section-icon">&#128683;</span> Muted / Banned / Word Limited</summary>
-      <div id="mutedList"></div>
-      <div id="bannedList"></div>
-      <div style="margin-top:8px">
-        <label style="font-size:12px;color:var(--text5);display:block;margin-bottom:6px">Word-limited Users</label>
-        <div id="wordLimitsList" style="max-height:160px;overflow:auto;border:1px solid var(--border);background:var(--bg2);padding:8px;border-radius:8px;font-size:13px;color:var(--text5)">None</div>
+      <div class="admin-section" id="sec-usermgmt">
+        <div class="admin-section-title"><span>&#128100;</span> User Management</div>
+        <div id="userMgmtList"></div>
+        <div class="section-divider"></div>
+        <label>Add New User</label>
+        <input type="text" id="newUserUsername" placeholder="Username (for login)">
+        <input type="text" id="newUserName" placeholder="Display name (real name)">
+        <input type="text" id="newUserPasscode" placeholder="Password">
+        <label>Role</label>
+        <select id="newUserRole"><option value="Member">Member</option><option value="Admin">Admin</option></select>
+        <button id="addUserButton" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Add User</button>
       </div>
-    </details>
-    <details>
-      <summary><span class="section-icon">&#128227;</span> Announcement</summary>
-      <label style="color:var(--accent);font-size:12px;margin-bottom:4px;display:block">Current Announcements</label>
-      <div id="activeAnnouncementsList"><span style="color:var(--text7);font-size:12px">No active announcements</span></div>
-      <div class="section-divider"></div>
-      <label style="font-size:12px;margin-bottom:4px;display:block">New Announcement</label>
-      <textarea id="announcementInput" rows="3" placeholder="Type announcement..."></textarea>
-      <button id="announcementButton">Send announcement</button>
-    </details>
-    <details>
-      <summary><span class="section-icon">&#128172;</span> Feedback <span id="feedbackBadge" style="display:none;min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:4px;vertical-align:middle"></span></summary>
-      <label style="color:#66bb6a;font-weight:600">Account Requests <span id="acctReqBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
-      <div id="acctReqList"></div>
-      <div class="section-divider"></div>
-      <label style="color:#ff9800;font-weight:600">Appeals <span id="appealsBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
-      <div id="appealsList"></div>
-      <div class="section-divider"></div>
-      <label style="color:#42a5f5;font-weight:600">Recommendations <span id="recosBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
-      <div id="recoList"></div>
-    </details>
-    <details id="userMgmtSection">
-      <summary><span class="section-icon">&#128100;</span> User Management</summary>
-      <div id="userMgmtList"></div>
-      <div class="section-divider"></div>
-      <label>Add New User</label>
-      <input type="text" id="newUserUsername" placeholder="Username (for login)">
-      <input type="text" id="newUserName" placeholder="Display name (real name)">
-      <input type="text" id="newUserPasscode" placeholder="Password">
-      <label>Role</label>
-      <select id="newUserRole"><option value="Member">Member</option><option value="Admin">Admin</option></select>
-      <button id="addUserButton" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Add User</button>
-    </details>
-    <details id="adminToolsSection">
-      <summary><span class="section-icon">&#128465;</span> Admin Tools</summary>
-      <button id="lockChatButton" style="background:linear-gradient(135deg,var(--orange),#bf360c)">Lock Chat</button>
-      <button style="background:linear-gradient(135deg,#c62828,#b71c1c)" id="deleteAllChatButton">Delete All Chat</button>
-      <button style="background:linear-gradient(135deg,#555,#444)" id="chatCacheButton">&#128451; Chat Cache</button>
-      <button style="background:linear-gradient(135deg,#37474f,#263238)" id="deviceIdsButton">&#128274; Device IDs</button>
-      <div class="section-divider"></div>
-      <label>&#9881; Settings</label>
-      <div class="toggle-row">
-        <label>Show banned/muted in online bar</label>
-        <label class="toggle-switch"><input type="checkbox" id="togglePenalty" checked><span class="toggle-slider"></span></label>
+      <div class="admin-section" id="sec-tools">
+        <div class="admin-section-title"><span>&#128465;</span> Admin Tools</div>
+        <button id="lockdownButton" style="background:linear-gradient(135deg,#b71c1c,#880e0e)">&#128274; Lockdown</button>
+        <button style="background:linear-gradient(135deg,#c62828,#b71c1c)" id="deleteAllChatButton">Delete All Chat</button>
+        <button style="background:linear-gradient(135deg,#555,#444)" id="chatCacheButton">&#128451; Chat Cache</button>
+        <button style="background:linear-gradient(135deg,#37474f,#263238)" id="deviceIdsButton">&#128274; Device IDs</button>
+        <button style="background:linear-gradient(135deg,#1b5e20,#2e7d32)" id="recoverFilesButton">&#128451; Recover Deleted User Files</button>
+        <div class="section-divider"></div>
+        <label>&#9881; Settings</label>
+        <div class="toggle-row">
+          <label>Show banned/muted in online bar</label>
+          <label class="toggle-switch"><input type="checkbox" id="togglePenalty" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <label>&#9203; Rate Limiting (3 msg / 5s)</label>
+          <label class="toggle-switch"><input type="checkbox" id="toggleRateLimit"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="section-divider"></div>
+        <label>&#128218; Audit Log</label>
+        <button id="clearAuditLogBtn" class="btn-clear" style="margin-bottom:4px">Clear Audit Log</button>
+        <div class="audit-log-list" id="auditLogList"></div>
       </div>
-      <div class="toggle-row">
-        <label>&#9203; Rate Limiting (3 msg / 5s)</label>
-        <label class="toggle-switch"><input type="checkbox" id="toggleRateLimit"><span class="toggle-slider"></span></label>
-      </div>
-      <div class="section-divider"></div>
-      <label>&#128218; Audit Log</label>
-      <button id="clearAuditLogBtn" class="btn-clear" style="margin-bottom:4px">Clear Audit Log</button>
-      <div class="audit-log-list" id="auditLogList"></div>
-
-    </details>
+    </div>
   </div>
 </div>
 </div>
@@ -1613,6 +1662,15 @@ summary{font-size:calc(13px * var(--fs-scale))}
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script>
+/* Fingerprint.js Pro — initialize early, store visitorId for device tracking */
+var _fpVisitorId=null;
+var _fpPromise=import('https://fpjscdn.net/v4/AD782tjPUGScWzXfWJMf')
+  .then(function(Fingerprint){return Fingerprint.start()})
+  .then(function(fp){return fp.get()})
+  .then(function(result){_fpVisitorId=result.visitorId;return result.visitorId})
+  .catch(function(){_fpVisitorId=null;return null});
+</script>
 <script>
 /* ==============================
    FIREBASE INIT
@@ -2226,11 +2284,6 @@ db.ref('showPenaltyInOnline').on('value',snap=>{
 });
 db.ref('chatLocked').on('value',snap=>{
   chatLocked=!!snap.val();
-  const btn=document.getElementById('lockChatButton');
-  if(btn){
-    if(chatLocked){btn.textContent='Unlock Chat';btn.style.background='linear-gradient(135deg,#2e7d32,#1b5e20)'}
-    else{btn.textContent='Lock Chat';btn.style.background='linear-gradient(135deg,var(--orange),#bf360c)'}
-  }
   const lockBanner=document.getElementById('lockBanner');
   const inputRow=document.querySelector('.input-row');
   if(chatLocked){
@@ -2242,6 +2295,42 @@ db.ref('chatLocked').on('value',snap=>{
     lockBanner.style.display='none';inputRow.classList.remove('locked');
     messageInput.placeholder='Type a message...';
     if(muteWarning.textContent==='Chat is locked. Only admins can send messages.')muteWarning.textContent='';
+  }
+});
+var siteInLockdown=false;
+function _showLockdownPopup(){
+  if(document.getElementById('lockdownPopupOverlay'))return;
+  var overlay=document.createElement('div');overlay.className='lockdown-popup-overlay';overlay.id='lockdownPopupOverlay';
+  var popup=document.createElement('div');popup.className='lockdown-popup';
+  var closeBtn=document.createElement('button');closeBtn.className='lockdown-popup-close';closeBtn.innerHTML='&times;';closeBtn.onclick=function(){overlay.remove()};
+  var icon=document.createElement('span');icon.className='lockdown-popup-icon';icon.innerHTML='&#128274;';
+  var title=document.createElement('div');title.className='lockdown-popup-title';title.textContent='Site is in Lockdown';
+  var msg=document.createElement('div');msg.className='lockdown-popup-msg';msg.textContent='Access is currently restricted. Please try again later.';
+  popup.appendChild(closeBtn);popup.appendChild(icon);popup.appendChild(title);popup.appendChild(msg);
+  overlay.appendChild(popup);document.body.appendChild(overlay);
+}
+function _hideLockdownPopup(){var el=document.getElementById('lockdownPopupOverlay');if(el)el.remove()}
+db.ref('lockdown').on('value',snap=>{
+  siteInLockdown=!!snap.val();
+  const btn=document.getElementById('lockdownButton');
+  if(btn){
+    if(siteInLockdown){btn.innerHTML='&#128275; End Lockdown';btn.style.background='linear-gradient(135deg,#2e7d32,#1b5e20)'}
+    else{btn.innerHTML='&#128274; Lockdown';btn.style.background='linear-gradient(135deg,#b71c1c,#880e0e)'}
+  }
+  updateLockAvatar();
+  var reqBtn=document.getElementById('lockRequestToggle');
+  var reqArea=document.getElementById('lockRequestArea');
+  if(siteInLockdown){
+    if(reqBtn)reqBtn.style.display='none';
+    if(reqArea)reqArea.style.display='none';
+  }else{
+    if(reqBtn)reqBtn.style.display='';
+  }
+  if(siteInLockdown&&!currentRole){_showLockdownPopup()}
+  else{_hideLockdownPopup()}
+  if(siteInLockdown&&currentRole){
+    var isAdminOrOwner=currentRole==='Admin'||(adminUsers[currentRole]===true);
+    if(!isAdminOrOwner){logout();_showLockdownPopup()}
   }
 });
 db.ref('deletedMessages').on('value',snap=>{deletedMessages=snap.val()||{}});
@@ -2291,7 +2380,12 @@ setTimeout(function(){_modNotifInit=true},3000);
 document.getElementById('lockRequestToggle').addEventListener('click',function(){
   var fp=getDeviceFingerprint();
   if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('This device is banned from creating accounts (due to previous banned accounts using this same device).');return}
-  document.getElementById('lockRequestArea').style.display='block';this.style.display='none';
+  var lockRef=db.ref('loginAttempts/'+fp);
+  lockRef.once('value',function(snap){
+    var lockData=snap.val();
+    if(lockData&&lockData.lockedUntil&&lockData.lockedUntil>Date.now()){showToast('Account creation is disabled while you are locked out. Please wait for the lockout to expire.');return}
+    document.getElementById('lockRequestArea').style.display='block';document.getElementById('lockRequestToggle').style.display='none';
+  });
 });
 document.getElementById('lockRequestClose').addEventListener('click',function(){
   document.getElementById('lockRequestArea').style.display='none';document.getElementById('lockRequestToggle').style.display='block';
@@ -2299,6 +2393,14 @@ document.getElementById('lockRequestClose').addEventListener('click',function(){
 document.getElementById('lockRequestBtn').addEventListener('click',function(){
   var fp=getDeviceFingerprint();
   if(bannedDevices[fp]&&!EXCLUDED_DEVICES[fp]){showToast('Account requests from this device are restricted. Please ask the Owner to create an account for you.');return}
+  var lockRef=db.ref('loginAttempts/'+fp);
+  lockRef.once('value',function(snap){
+    var lockData=snap.val();
+    if(lockData&&lockData.lockedUntil&&lockData.lockedUntil>Date.now()){showToast('Account creation is disabled while you are locked out.');return}
+    _submitAccountRequest();
+  });
+});
+function _submitAccountRequest(){
   var reqUsername=document.getElementById('lockRequestUsername').value.trim();
   var name=document.getElementById('lockRequestName').value.trim();
   var passcode=document.getElementById('lockRequestPasscode').value.trim();
@@ -2314,7 +2416,7 @@ document.getElementById('lockRequestBtn').addEventListener('click',function(){
     document.getElementById('lockRequestName').value='';
     document.getElementById('lockRequestPasscode').value='';
   }).catch(console.error);
-});
+}
 
 /* ==============================
    HELPERS
@@ -2384,8 +2486,11 @@ function handleRoleChange(type){
   document.getElementById('gearWrapper').style.display=isAdmin?'flex':'none';
   document.getElementById('modDesktopIcon').style.display=isAdmin?'':'none';
   if(typeof updateAppDesignerVisibility==='function')updateAppDesignerVisibility();
-  document.getElementById('userMgmtSection').style.display=currentRole==='Admin'?'':'none';
-  document.getElementById('adminToolsSection').style.display=currentRole==='Admin'?'':'none';
+  var _isOwner=currentRole==='Admin';
+  document.getElementById('sec-usermgmt').style.display=_isOwner?'':'none';
+  document.getElementById('sec-tools').style.display=_isOwner?'':'none';
+  document.getElementById('userMgmtNavItem').style.display=_isOwner?'':'none';
+  document.getElementById('adminToolsNavItem').style.display=_isOwner?'':'none';
   if(type==='demoted'){
     for(var id in openWindows){if(openWindows[id].appId==='mod')closeWindow(id)}
     adminPanel.style.display='none';
@@ -2445,11 +2550,19 @@ function checkRateLimit(){
 /* ==============================
    DEVICE FINGERPRINT
    ============================== */
-function getDeviceFingerprint(){
+/* Original fingerprint function — kept as fallback if Fingerprint.js Pro trial expires.
+   To revert: remove the Pro script block above, uncomment _getLocalFingerprint, and
+   change getDeviceFingerprint to just return _getLocalFingerprint(). */
+function _getLocalFingerprint(){
   var ua=navigator.userAgent;
   var fpRaw=[navigator.platform,navigator.language,screen.width+'x'+screen.height,screen.colorDepth,new Date().getTimezoneOffset(),navigator.hardwareConcurrency||'',navigator.maxTouchPoints||0,ua].join('|');
   var fpHash=0;for(var i=0;i<fpRaw.length;i++){fpHash=((fpHash<<5)-fpHash)+fpRaw.charCodeAt(i);fpHash|=0}
   return(fpHash>>>0).toString(16).toUpperCase().padStart(8,'0');
+}
+function getDeviceFingerprint(){
+  /* Use Fingerprint.js Pro visitorId if available, otherwise fall back to local */
+  if(_fpVisitorId)return _fpVisitorId;
+  return _getLocalFingerprint();
 }
 
 /* ==============================
@@ -2522,7 +2635,7 @@ function updateLockAvatar(){
   if(currentRole&&profilePictures[currentRole]){
     container.innerHTML='<img class="lock-pfp-img" src="'+profilePictures[currentRole]+'" alt="">';
   }else{
-    container.innerHTML='&#128100;';
+    container.innerHTML=siteInLockdown?'&#128274;':'&#128100;';
     container.className='lock-avatar';
   }
 }
@@ -3044,8 +3157,11 @@ function loginAsRole(role){
     var modLabel=document.getElementById('iconLabel-mod');
     if(modLabel)modLabel.textContent=modTitle;
   }
-  document.getElementById('userMgmtSection').style.display=currentRole==='Admin'?'':'none';
-  document.getElementById('adminToolsSection').style.display=currentRole==='Admin'?'':'none';
+  var _isOwnerLogin=currentRole==='Admin';
+  document.getElementById('sec-usermgmt').style.display=_isOwnerLogin?'':'none';
+  document.getElementById('sec-tools').style.display=_isOwnerLogin?'':'none';
+  document.getElementById('userMgmtNavItem').style.display=_isOwnerLogin?'':'none';
+  document.getElementById('adminToolsNavItem').style.display=_isOwnerLogin?'':'none';
   document.getElementById('taskbarRecoBtn').style.display='flex';
   document.getElementById('taskbarLogoutBtn').style.display='flex';
   document.getElementById('headerThemeSlot').style.display='block';
@@ -3063,7 +3179,7 @@ function loginAsRole(role){
   presRef.set({name:currentDisplayName,timestamp:Date.now()});presRef.onDisconnect().remove();
   var deviceId=getDeviceFingerprint();
   localStorage.setItem('docosDeviceId',deviceId);localStorage.setItem('docosRole',role);
-  if(!EXCLUDED_DEVICES[deviceId])db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now()});
+  if(!EXCLUDED_DEVICES[deviceId])db.ref('deviceFingerprints/'+role+'/'+deviceId).set({lastLogin:Date.now(),source:_fpVisitorId?'pro':'local'});
 
   /* Initialize chat system */
   _listenChats();
@@ -3218,17 +3334,20 @@ function _clearLoginAttempts(){_getDeviceLockoutRef().remove()}
 function login(){
   const uname=usernameInput.value.trim();const pass=passwordInput.value.trim();loginError.textContent='';
   if(!uname||!pass){loginError.textContent='Enter both username and password.';loginError.style.color='';return}
-  /* Check device lockout */
-  var fp=getDeviceFingerprint();
-  var lockRef=db.ref('loginAttempts/'+fp);
-  lockRef.once('value',function(snap){
-    var lockData=snap.val();
-    if(lockData&&lockData.lockedUntil&&lockData.lockedUntil>Date.now()){
+  /* Wait for Fingerprint.js Pro if still loading, then check lockout */
+  function _proceedLogin(){
+    var fp=getDeviceFingerprint();
+    var lockRef=db.ref('loginAttempts/'+fp);
+    lockRef.once('value',function(snap){
+      var lockData=snap.val();
+      if(lockData&&lockData.lockedUntil&&lockData.lockedUntil>Date.now()){
       _showLockoutCountdown(lockData.lockedUntil);
       return;
     }
     _doLogin(uname,pass);
-  });
+    });
+  }
+  if(typeof _fpPromise!=='undefined'&&_fpPromise&&!_fpVisitorId){_fpPromise.then(_proceedLogin).catch(_proceedLogin)}else{_proceedLogin()}
 }
 
 function _doLogin(uname,pass){
@@ -3244,7 +3363,10 @@ function _doLogin(uname,pass){
   if(uname.toLowerCase()!==expectedUsername.toLowerCase()){_recordFailedLogin();return}
   if(isBanned(role)){
     var fp=getDeviceFingerprint();
-    if(!EXCLUDED_DEVICES[fp])db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
+    if(!EXCLUDED_DEVICES[fp]){
+      db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
+      db.ref('deviceFingerprints/'+role+'/'+fp).set({lastLogin:Date.now(),source:_fpVisitorId?'pro':'local',bannedLogin:true});
+    }
     const remaining=bannedRoles[role]-Date.now();
     loginError.textContent='You are banned for '+formatRemaining(remaining)+'.';
     document.getElementById('lockAppealToggle').style.display='block';
@@ -3262,6 +3384,11 @@ function _doLogin(uname,pass){
     }
     return;
   }
+  /* Lockdown: only Admin (Owner) and promoted admins can log in */
+  if(siteInLockdown){
+    var isAdminOrOwner=role==='Admin'||(adminUsers[role]===true);
+    if(!isAdminOrOwner){_showLockdownPopup();return}
+  }
   _clearLoginAttempts();
   loginAsRole(role);
 }
@@ -3277,12 +3404,17 @@ document.getElementById('lockLoginBtn').addEventListener('click',login);
     roleDisplayNames=snap.val()||{};
     if(!roleDisplayNames[savedRole])return;
     if(isBanned(savedRole))return;
+    /* Block auto-login during lockdown for non-admin users */
+    if(siteInLockdown){var isAdminOrOwner=savedRole==='Admin'||(adminUsers[savedRole]===true);if(!isAdminOrOwner)return}
     loginAsRole(savedRole);
   });
 })();
 
-/* Check lockout on page load */
-(function(){var fp=getDeviceFingerprint();db.ref('loginAttempts/'+fp).once('value',function(snap){var d=snap.val();if(d&&d.lockedUntil&&d.lockedUntil>Date.now())_showLockoutCountdown(d.lockedUntil)})})();
+/* Check lockout on page load — wait for Fingerprint.js Pro if available */
+(function(){
+  function _checkLockout(){var fp=getDeviceFingerprint();db.ref('loginAttempts/'+fp).once('value',function(snap){var d=snap.val();if(d&&d.lockedUntil&&d.lockedUntil>Date.now())_showLockoutCountdown(d.lockedUntil)})}
+  if(typeof _fpPromise!=='undefined'&&_fpPromise){_fpPromise.then(_checkLockout).catch(_checkLockout)}else{_checkLockout()}
+})();
 
 document.getElementById('lockEyeToggle').addEventListener('click',function(){
   if(passwordInput.type==='password'){passwordInput.type='text';this.style.opacity='.7'}
@@ -4220,6 +4352,8 @@ function updateNotifBadge(){
   /* Update Feedback section badges */
   var fb=document.getElementById('feedbackBadge');
   if(fb){if(count>0){fb.style.display='inline-block';fb.textContent=count}else{fb.style.display='none'}}
+  var fnb=document.getElementById('feedbackNavBadge');
+  if(fnb){if(count>0){fnb.style.display='inline-block';fnb.textContent=count}else{fnb.style.display='none'}}
   /* Individual feedback type badges */
   var ab=document.getElementById('appealsBadge');
   if(ab){if(appealCount>0){ab.style.display='inline-block';ab.textContent=appealCount}else{ab.style.display='none'}}
@@ -4427,6 +4561,12 @@ document.getElementById('deviceIdsButton').addEventListener('click',function(){
             tag.textContent='BANNED';
             row.appendChild(tag);
           }
+          if(fps[fp]&&fps[fp].source==='pro'){
+            var proTag=document.createElement('span');
+            proTag.style.cssText='color:#ff6d00;font-weight:700;font-size:9px;background:rgba(255,109,0,.12);padding:1px 5px;border-radius:3px;letter-spacing:.5px';
+            proTag.textContent='PRO';
+            row.appendChild(proTag);
+          }
           var lastLogin=fps[fp]&&fps[fp].lastLogin?new Date(fps[fp].lastLogin).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'';
           if(lastLogin){
             var time=document.createElement('span');
@@ -4468,7 +4608,7 @@ function renderUserMgmt(){
     if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
     var statusHtml=statusTags.length?' '+statusTags.join(' '):'';
     var maskedPass='\u2022\u2022\u2022\u2022\u2022\u2022';
-    info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span>'+(uname?' <span style="color:var(--accent);font-size:10px;white-space:nowrap">@'+escHtml(uname)+'</span>':'')+' <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
+    info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span>'+(uname?' <span style="color:var(--accent);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">@'+escHtml(uname)+'<button class="um-rm-uname" title="Remove username" style="background:none;border:none;color:#f44336;cursor:pointer;font-size:11px;padding:0 2px;line-height:1;opacity:.5;transition:opacity .15s">&times;</button></span>':'')+' <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
     var eyeBtn=info.querySelector('.um-eye');
     var passSpan=info.querySelector('.um-pass');
     (function(eb,ps,pc){
@@ -4480,6 +4620,15 @@ function renderUserMgmt(){
         eb.style.opacity=showing?'.7':'.4';
       });
     })(eyeBtn,passSpan,passcode);
+    var rmUnameInline=info.querySelector('.um-rm-uname');
+    if(rmUnameInline){
+      rmUnameInline.onmouseover=function(){this.style.opacity='1'};
+      rmUnameInline.onmouseout=function(){this.style.opacity='.5'};
+      (function(btn,r){btn.onclick=function(e){
+        e.stopPropagation();var u=usernames[r];if(!u)return;
+        db.ref().update({['/usernames/'+r]:null,['/usedUsernames/'+u.toLowerCase()]:null}).then(function(){showToast('Removed @'+u+' from '+(roleDisplayNames[r]||r));logAudit('edit','Removed username @'+u+' from '+(roleDisplayNames[r]||r))});
+      }})(rmUnameInline,role);
+    }
     topRow.appendChild(info);
     if(role!=='Admin'){
       var delBtn=document.createElement('button');delBtn.className='small-btn';delBtn.style.cssText='background:none;color:#e53935;border:1px solid rgba(229,57,53,.3);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;white-space:nowrap';delBtn.textContent='✕ Remove';delBtn.onmouseover=function(){this.style.background='#e53935';this.style.color='#fff';this.style.borderColor='#e53935'};delBtn.onmouseout=function(){this.style.background='none';this.style.color='#e53935';this.style.borderColor='rgba(229,57,53,.3)'};
@@ -4536,9 +4685,24 @@ document.getElementById('toggleRateLimit').addEventListener('change',function(){
   db.ref('rateLimitEnabled').set(this.checked);
   logAudit('lock',(this.checked?'Enabled':'Disabled')+' rate limiting');
 });
-document.getElementById('lockChatButton').addEventListener('click',function(){
+/* Admin sidebar navigation */
+(function(){
+  var navItems=document.querySelectorAll('.admin-nav-item');
+  navItems.forEach(function(item){
+    item.addEventListener('click',function(){
+      var secId=this.getAttribute('data-section');
+      if(!secId)return;
+      navItems.forEach(function(n){n.classList.remove('active')});
+      this.classList.add('active');
+      document.querySelectorAll('.admin-section').forEach(function(s){s.classList.remove('active')});
+      var sec=document.getElementById(secId);
+      if(sec)sec.classList.add('active');
+    });
+  });
+})();
+document.getElementById('lockdownButton').addEventListener('click',function(){
   if(!isAnyAdmin())return;
-  db.ref('chatLocked').set(!chatLocked).then(()=>logAudit('lock',(chatLocked?'Unlocked':'Locked')+' chat')).catch(console.error);
+  db.ref('lockdown').set(!siteInLockdown).then(()=>logAudit('lock',(siteInLockdown?'Ended':'Activated')+' lockdown')).catch(console.error);
 });
 document.getElementById('deleteAllChatButton').addEventListener('click',function(){
   if(!isAnyAdmin())return;
@@ -4556,6 +4720,150 @@ document.getElementById('deleteAllChatButton').addEventListener('click',function
     setTimeout(()=>{btn.textContent='Delete All Chat';btn.style.background='#e04040';delete btn.dataset.confirm},3000);
   }
 });
+
+/* ==============================
+   RECOVER DELETED USER FILES
+   ============================== */
+document.getElementById('recoverFilesButton').addEventListener('click',function(){
+  if(!isAnyAdmin())return;
+  var existing=document.querySelector('.recover-overlay');if(existing){existing.remove();return}
+  var overlay=document.createElement('div');overlay.className='recover-overlay';
+  var modal=document.createElement('div');modal.className='recover-modal';
+  var closeBtn=document.createElement('button');closeBtn.className='recover-modal-close';closeBtn.innerHTML='&times;';closeBtn.onclick=function(){overlay.remove()};
+  var title=document.createElement('h3');title.textContent='\u{1F5C3} Recover Deleted User Files';
+  var bodyDiv=document.createElement('div');
+  bodyDiv.innerHTML='<div style="text-align:center;padding:20px;color:var(--text5);font-size:13px">Loading...</div>';
+  modal.appendChild(closeBtn);modal.appendChild(title);modal.appendChild(bodyDiv);
+  overlay.appendChild(modal);overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
+
+  /* Fetch userFiles (shallow) and roleDisplayNames to find orphaned users */
+  var fileUsersRef=db.ref('userFiles');
+  fileUsersRef.once('value',function(filesSnap){
+    var allFiles=filesSnap.val()||{};
+    var fileUserKeys=Object.keys(allFiles);
+    var activeRoles=Object.keys(roleDisplayNames);
+    var orphaned=fileUserKeys.filter(function(u){return activeRoles.indexOf(u)===-1});
+    bodyDiv.innerHTML='';
+    if(!orphaned.length){
+      bodyDiv.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--text5);font-size:13px"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.3;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>No deleted users with orphaned files found.</div>';
+      return;
+    }
+    var subtitle=document.createElement('div');
+    subtitle.style.cssText='font-size:12px;color:var(--text5);margin-bottom:12px;text-align:center';
+    subtitle.textContent=orphaned.length+' deleted user(s) with orphaned files';
+    bodyDiv.appendChild(subtitle);
+    orphaned.forEach(function(orphanRole){
+      var userData=allFiles[orphanRole];
+      var fileCount=Object.keys(userData).length;
+      var types={};Object.keys(userData).forEach(function(k){var t=userData[k].type||'?';types[t]=(types[t]||0)+1});
+      var card=document.createElement('div');card.className='recover-user-card';
+      var nameEl=document.createElement('div');nameEl.style.cssText='font-weight:700;font-size:14px;color:var(--text);margin-bottom:4px';nameEl.textContent=orphanRole;
+      var statsEl=document.createElement('div');statsEl.style.cssText='font-size:11px;color:var(--text6)';
+      var statParts=[];
+      if(types.folder)statParts.push(types.folder+' folder'+(types.folder>1?'s':''));
+      if(types.image)statParts.push(types.image+' image'+(types.image>1?'s':''));
+      if(types.file)statParts.push(types.file+' file'+(types.file>1?'s':''));
+      if(types.video)statParts.push(types.video+' video'+(types.video>1?'s':''));
+      statsEl.textContent=fileCount+' total entries: '+statParts.join(', ');
+      card.appendChild(nameEl);card.appendChild(statsEl);
+      card.onclick=function(){_showRecoverDetail(overlay,modal,orphanRole,userData)};
+      bodyDiv.appendChild(card);
+    });
+  });
+});
+
+function _showRecoverDetail(overlay,parentModal,orphanRole,userData){
+  parentModal.style.display='none';
+  var detailModal=document.createElement('div');detailModal.className='recover-modal';
+  var closeBtn=document.createElement('button');closeBtn.className='recover-modal-close';closeBtn.innerHTML='&times;';closeBtn.onclick=function(){overlay.remove()};
+  var backBtn=document.createElement('button');
+  backBtn.style.cssText='background:none;border:1px solid var(--border);color:var(--text5);font-size:12px;padding:4px 10px;border-radius:6px;cursor:pointer;margin-bottom:10px;transition:all .15s';
+  backBtn.textContent='\u2190 Back';backBtn.onclick=function(){detailModal.remove();parentModal.style.display=''};
+  var title=document.createElement('h3');title.textContent='\u{1F5C2} '+orphanRole+"'s Files";
+
+  /* Build file tree */
+  var treeDiv=document.createElement('div');treeDiv.className='recover-tree';
+  var children={};
+  Object.keys(userData).forEach(function(k){
+    var p=userData[k].parentId||'desktop';
+    if(!children[p])children[p]=[];
+    children[p].push(k);
+  });
+  function buildTree(parentId,indent){
+    var container=document.createElement('div');
+    if(indent>0)container.className='recover-tree-indent';
+    if(!children[parentId])return container;
+    var kids=children[parentId].slice().sort(function(a,b){return(userData[a].name||'').localeCompare(userData[b].name||'')});
+    kids.forEach(function(kid){
+      var v=userData[kid];
+      var row=document.createElement('div');row.className='recover-file-item';
+      var icon=v.type==='folder'?'\u{1F4C1}':v.type==='image'?'\u{1F5BC}':v.type==='video'?'\u{1F3AC}':'\u{1F4C4}';
+      var nameSpan=document.createElement('span');nameSpan.style.cssText='flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+      nameSpan.textContent=icon+' '+v.name;
+      var typeSpan=document.createElement('span');typeSpan.style.cssText='font-size:10px;color:var(--text7);flex-shrink:0';
+      typeSpan.textContent=v.type;
+      row.appendChild(nameSpan);row.appendChild(typeSpan);
+      container.appendChild(row);
+      if(v.type==='folder'){container.appendChild(buildTree(kid,indent+1))}
+    });
+    return container;
+  }
+  treeDiv.appendChild(buildTree('desktop',0));
+
+  /* Transfer controls */
+  var actionsDiv=document.createElement('div');actionsDiv.className='recover-actions';
+  actionsDiv.style.cssText='display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)';
+  var transferLabel=document.createElement('label');transferLabel.style.cssText='font-size:12px;font-weight:600;color:var(--text4)';transferLabel.textContent='Transfer all files to:';
+  var selectEl=document.createElement('select');
+  selectEl.style.cssText='width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:6px;background:var(--input-bg);color:var(--text);font-size:13px;cursor:pointer';
+  var activeRoles=Object.keys(roleDisplayNames).sort();
+  activeRoles.forEach(function(r){
+    var opt=document.createElement('option');opt.value=r;opt.textContent=(roleDisplayNames[r]||r)+' ('+r+')';selectEl.appendChild(opt);
+  });
+  var transferBtn=document.createElement('button');
+  transferBtn.style.cssText='width:100%;padding:10px;border:none;border-radius:8px;background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;font-weight:700;cursor:pointer;font-size:13px;transition:opacity .2s';
+  transferBtn.textContent='Transfer Files to Desktop';
+  transferBtn.onclick=function(){
+    var targetRole=selectEl.value;
+    if(!targetRole){showToast('Select a target user');return}
+    if(transferBtn.dataset.confirm){
+      transferBtn.disabled=true;transferBtn.textContent='Transferring...';
+      db.ref('userFiles/'+targetRole).once('value',function(existSnap){
+        var existingFiles=existSnap.val()||{};
+        var updates={};
+        Object.keys(userData).forEach(function(k){updates[k]=userData[k]});
+        db.ref('userFiles/'+targetRole).update(updates).then(function(){
+          showToast('Transferred '+Object.keys(userData).length+' files from '+orphanRole+' to '+(roleDisplayNames[targetRole]||targetRole));
+          logAudit('recover','Transferred '+Object.keys(userData).length+' files from deleted user '+orphanRole+' to '+targetRole);
+          transferBtn.textContent='Done!';transferBtn.style.background='#388e3c';
+          setTimeout(function(){overlay.remove()},1200);
+        }).catch(function(err){showToast('Error: '+err.message);transferBtn.disabled=false;transferBtn.textContent='Transfer Files to Desktop'});
+      });
+    }else{
+      transferBtn.dataset.confirm='1';transferBtn.textContent='Click again to confirm transfer to '+(roleDisplayNames[selectEl.value]||selectEl.value);
+      transferBtn.style.background='#c62828';
+      setTimeout(function(){transferBtn.textContent='Transfer Files to Desktop';transferBtn.style.background='linear-gradient(135deg,#1b5e20,#2e7d32)';delete transferBtn.dataset.confirm},4000);
+    }
+  };
+  var deleteBtn=document.createElement('button');
+  deleteBtn.style.cssText='width:100%;padding:8px;border:none;border-radius:6px;background:var(--border2);color:var(--text4);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s';
+  deleteBtn.textContent='Delete Orphaned Files Permanently';
+  deleteBtn.onclick=function(){
+    if(deleteBtn.dataset.confirm){
+      db.ref('userFiles/'+orphanRole).remove().then(function(){
+        showToast('Deleted all files for '+orphanRole);
+        logAudit('recover','Permanently deleted orphaned files for '+orphanRole);
+        overlay.remove();
+      }).catch(function(err){showToast('Error: '+err.message)});
+    }else{
+      deleteBtn.dataset.confirm='1';deleteBtn.textContent='Click again to permanently delete';deleteBtn.style.background='#a00';deleteBtn.style.color='#fff';
+      setTimeout(function(){deleteBtn.textContent='Delete Orphaned Files Permanently';deleteBtn.style.background='var(--border2)';deleteBtn.style.color='var(--text4)';delete deleteBtn.dataset.confirm},3000);
+    }
+  };
+  actionsDiv.appendChild(transferLabel);actionsDiv.appendChild(selectEl);actionsDiv.appendChild(transferBtn);actionsDiv.appendChild(deleteBtn);
+  detailModal.appendChild(closeBtn);detailModal.appendChild(backBtn);detailModal.appendChild(title);detailModal.appendChild(treeDiv);detailModal.appendChild(actionsDiv);
+  overlay.appendChild(detailModal);
+}
 
 /* ==============================
    DEMOTE POPUP
@@ -7932,7 +8240,13 @@ function _extractAppName(html){
    ============================== */
 function _optimizeHtmlForLoading(html){
   if(!html||!html.trim())return html;
-  /* 0. Strip nonce attributes — they break blob URL loading */
+  /* 0. Strip orphaned closing tags at the start (from bad pastes / Google Sites embeds) */
+  html=html.replace(/^\s*<\/script>\s*/gi,'');
+  /* 0a. Strip script blocks referencing undefined globals (gadgets, jQuery $) from bad embeds */
+  html=html.replace(/<script[^>]*>\s*gadgets\.[^<]*<\/script>/gi,'');
+  html=html.replace(/<script[^>]*>\s*var\s+_params\s*=\s*gadgets\.[^<]*<\/script>/gi,'');
+  html=html.replace(/<script[^>]*>\s*\$\(document\)\.ready[^<]*<\/script>/gi,'');
+  /* 0b. Strip nonce attributes — they break blob URL loading */
   html=html.replace(/\s+nonce\s*=\s*["'][^"']*["']/gi,'');
   /* 0b. Shim ytgame SDK for YouTube Playables games loaded in blob iframes */
   if(/ytgame\.js/i.test(html)){
@@ -7972,6 +8286,7 @@ function _optimizeHtmlForLoading(html){
   if(bestBase&&!hasBase)tags+='<base href="'+bestBase+'">';
   Object.keys(origins).forEach(function(o){
     tags+='<link rel="preconnect" href="'+o+'" crossorigin>';
+
     tags+='<link rel="dns-prefetch" href="'+o+'">';
   });
   /* Preload script tags (as="script") and known asset types (as="fetch") */
@@ -7983,11 +8298,13 @@ function _optimizeHtmlForLoading(html){
     }
   });
 
-  /* 4. Inject tags into <head> or prepend */
+  /* 4. Inject tags into <head> or prepend. Wrap malformed HTML that has <body> but no <head>/<html> */
   if(html.indexOf('<head')!==-1){
     html=html.replace(/<head([^>]*)>/i,'<head$1>'+tags);
   }else if(html.indexOf('<html')!==-1){
     html=html.replace(/<html([^>]*)>/i,'<html$1><head>'+tags+'</head>');
+  }else if(/<body[\s>]/i.test(html)){
+    html='<!DOCTYPE html><html><head>'+tags+'</head>'+html.replace(/<\/head>\s*/i,'')+'</html>';
   }else{
     html=tags+html;
   }
@@ -8283,14 +8600,20 @@ function removeCustomDesktopIcon(appId){
 }
 function _addBuiltinStoreIcon(appId){
   var def=appDefs[appId];if(!def)return;
-  var existing=document.querySelector('.desktop-icon[data-app="'+appId+'"]');
+  var icons=document.getElementById('desktopIcons');if(!icons)return;
+  var existing=icons.querySelector('[data-app="'+appId+'"]');
   if(existing)return;
-  var desktop=document.getElementById('desktop');if(!desktop)return;
+  var pos=null;
+  try{var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));if(saved&&saved[appId])pos=saved[appId]}catch(e){}
+  if(!pos)pos=findOpenIconPosition();
   var icon=document.createElement('div');
   icon.className='desktop-icon';
   icon.dataset.app=appId;
   icon.setAttribute('ondblclick',"openApp('"+appId+"')");
   icon.setAttribute('onclick',"if(window.innerWidth<=768)openApp('"+appId+"')");
+  var posLeft=typeof pos.left==='string'?pos.left:pos.left+'px';
+  var posTop=typeof pos.top==='string'?pos.top:pos.top+'px';
+  icon.style.cssText='left:'+posLeft+';top:'+posTop;
   var iconImg=document.createElement('div');
   iconImg.className='icon-img';
   iconImg.style.background=def.iconBg||'linear-gradient(135deg,#667,#445)';
@@ -8300,7 +8623,7 @@ function _addBuiltinStoreIcon(appId){
   label.id='iconLabel-'+appId;
   label.textContent=def.title;
   icon.appendChild(iconImg);icon.appendChild(label);
-  desktop.appendChild(icon);
+  icons.appendChild(icon);
   initCustomIconDrag(icon);
 }
 function removeCustomAppFully(appId){
@@ -8935,6 +9258,9 @@ function _fsRenderDesktopItems(){
       /* Never restore icons hidden by App Manager */
       var amSt=_amAppStates[aid];
       if(amSt&&amSt.hidden&&currentRole!=='Admin')return;
+      /* Never restore store-only/custom apps that aren't installed */
+      if(userAppsState[aid]&&userAppsState[aid]!=='desktop')return;
+      if((customAppsData[aid]||(_asBuiltinApps[aid]&&_asBuiltinApps[aid].storeOnly))&&userAppsState[aid]!=='desktop')return;
       ic.style.display='';
     }
   });
@@ -9346,9 +9672,17 @@ function _amToast(msg){
 }
 
 function _amApplyHiddenApps(){
+  /* Build set of apps physically inside folders so we don't restore them */
+  var appsInFolders={};
+  Object.keys(_fsItems).forEach(function(k){
+    var it=_fsItems[k];
+    if(it.type==='app'&&it.linkedApp)appsInFolders[it.linkedApp]=true;
+  });
   document.querySelectorAll('.desktop-icon').forEach(function(ic){
     var aid=ic.dataset.app;
     if(!aid||aid==='appdesigner')return;
+    /* Never restore icons that are inside folders */
+    if(appsInFolders[aid])return;
     var st=_amAppStates[aid];
     if(st&&st.hidden&&currentRole!=='Admin'){
       ic.style.display='none';
@@ -9356,7 +9690,7 @@ function _amApplyHiddenApps(){
       if(aid!=='mod'&&aid!=='appdesigner'){
         if(aid.startsWith('custom_')){
           if(userAppsState[aid]==='desktop')ic.style.display='';
-        }else{
+        }else if(!aid.startsWith('fs_')){
           ic.style.display='';
         }
       }
