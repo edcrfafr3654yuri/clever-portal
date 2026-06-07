@@ -107,6 +107,10 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .tb-reco-icon{font-size:14px;line-height:1}
 .taskbar-logout{width:34px;height:34px;border-radius:8px;border:none;background:none;color:var(--text4,rgba(255,255,255,.6));font-size:16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
 .taskbar-logout:hover{background:rgba(255,60,60,.15);color:#f55}
+.taskbar-moon{cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;border:none;background:none;font-size:16px}
+.taskbar-moon.on{color:#ffd93d;text-shadow:0 0 8px rgba(255,217,61,.5)}
+.taskbar-moon.off{color:var(--text4,rgba(255,255,255,.3));filter:brightness(0) drop-shadow(0 0 2px rgba(255,255,255,.3))}
+.taskbar-moon:hover{background:rgba(255,255,255,.06)}
 
 /* Windows */
 .os-window{position:absolute;background:var(--bg2);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;min-width:320px;min-height:200px;z-index:10;transition:box-shadow .2s}
@@ -987,6 +991,7 @@ summary::marker{color:var(--border2)}
   .taskbar-clock-date{display:none}
   .taskbar-reco{padding:0 10px;height:36px;font-size:11px}
   .taskbar-logout{width:42px;height:42px;font-size:18px}
+  .taskbar-moon{width:42px;height:42px;font-size:18px}
   .taskbar-user{font-size:11px;padding:0 6px}
 
   /* Header */
@@ -1487,6 +1492,123 @@ summary{font-size:calc(13px * var(--fs-scale))}
 .pong-dc-msg{font-size:13px;color:rgba(255,255,255,.7);line-height:1.4}
 .pong-dc-btn{padding:9px 0;border:none;border-radius:8px;background:linear-gradient(135deg,#ff4444,#cc2222);color:#fff;font-weight:700;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:transform .15s}
 .pong-dc-btn:hover{transform:scale(1.03)}
+/* ===== DOCFLIX APP ===== */
+.docflix-intro{position:absolute;top:0;left:0;width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;z-index:1000;animation:docflixIntroFade 3s ease-in-out forwards}
+.docflix-intro-logo{font-size:72px;font-weight:900;background:linear-gradient(135deg,#e50914,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-2px;animation:docflixIntroZoom 3s ease-in-out;opacity:0}
+.docflix-intro-logo span{-webkit-text-fill-color:#fff;font-weight:400;font-size:60px}
+@keyframes docflixIntroFade{0%{opacity:1}70%{opacity:1}100%{opacity:0;pointer-events:none}}
+@keyframes docflixIntroZoom{0%{transform:scale(0.5);opacity:0}20%{transform:scale(1.1);opacity:1}30%{transform:scale(1);opacity:1}70%{transform:scale(1);opacity:1}100%{transform:scale(1.2);opacity:0}}
+.docflix-app{height:100%;display:flex;flex-direction:column;background:#0f0f0f;color:#fff;overflow:hidden;position:relative;font-family:'Segoe UI',system-ui,sans-serif}
+.docflix-nav{display:flex;align-items:center;gap:20px;padding:12px 24px;background:#0f0f0f;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;flex-wrap:wrap}
+.docflix-logo{font-size:20px;font-weight:900;background:linear-gradient(135deg,#e50914,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.5px;cursor:pointer;flex-shrink:0}
+.docflix-logo span{-webkit-text-fill-color:#fff;font-weight:400}
+.docflix-nav-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.docflix-nav-tab{padding:6px 14px;border:none;border-radius:20px;background:transparent;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.docflix-nav-tab:hover{color:#fff;background:rgba(255,255,255,.06)}
+.docflix-nav-tab.active{color:#fff;background:rgba(229,9,20,.25)}
+.docflix-search{display:flex;align-items:center;gap:6px;margin-left:auto;background:rgba(255,255,255,.06);border-radius:8px;padding:6px 12px;min-width:120px}
+.docflix-search input{background:none;border:none;outline:none;color:#fff;font-size:12px;width:100%;min-width:80px}
+.docflix-search input::placeholder{color:rgba(255,255,255,.25)}
+.docflix-admin-bar{display:flex;align-items:center;gap:8px;padding:8px 24px;background:rgba(229,9,20,.08);border-bottom:1px solid rgba(229,9,20,.15);flex-shrink:0;flex-wrap:wrap}
+.docflix-admin-bar span{font-size:11px;font-weight:600;color:#e50914;text-transform:uppercase;letter-spacing:1px}
+.docflix-admin-btn{padding:5px 14px;border:none;border-radius:6px;background:#e50914;color:#fff;font-size:11px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.docflix-admin-btn:hover{opacity:.85}
+.docflix-admin-btn.secondary{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+.docflix-admin-btn.secondary:hover{background:rgba(255,255,255,.12);color:#fff}
+.docflix-content{flex:1;overflow-y:auto;overflow-x:hidden;padding:0}
+.docflix-hero{position:relative;width:100%;min-height:280px;max-height:360px;display:flex;align-items:flex-end;background:linear-gradient(135deg,#1a1a2e,#16213e);overflow:hidden;cursor:pointer}
+.docflix-hero-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.4}
+.docflix-hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(0deg,#0f0f0f 0%,transparent 50%,transparent 100%)}
+.docflix-hero-content{position:relative;z-index:2;padding:40px 28px 28px;max-width:70%}
+.docflix-hero-title{font-size:32px;font-weight:900;margin-bottom:6px;line-height:1.2}
+.docflix-hero-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.5;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.docflix-hero-type{display:inline-block;padding:3px 10px;border-radius:4px;background:rgba(229,9,20,.2);color:#e50914;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.docflix-hero-play{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border:none;border-radius:6px;background:#e50914;color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.docflix-hero-play:hover{opacity:.85}
+.docflix-section{padding:20px 24px 8px}
+.docflix-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.docflix-section-title{font-size:16px;font-weight:700;color:#fff}
+.docflix-section-count{font-size:11px;color:rgba(255,255,255,.3)}
+.docflix-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scroll-behavior:smooth}
+.docflix-row::-webkit-scrollbar{height:4px}
+.docflix-row::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:4px}
+.docflix-card{flex-shrink:0;width:170px;cursor:pointer;transition:transform .2s;border-radius:8px;overflow:hidden;position:relative}
+.docflix-card:hover{transform:scale(1.05)}
+.docflix-card-img{width:170px;height:240px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden;position:relative}
+.docflix-card-img img{width:100%;height:100%;object-fit:cover}
+.docflix-card-type{position:absolute;top:6px;left:6px;padding:2px 8px;border-radius:3px;background:rgba(229,9,20,.85);color:#fff;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.docflix-card-hidden{position:absolute;top:6px;right:6px;padding:2px 8px;border-radius:3px;background:rgba(255,193,7,.9);color:#000;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.docflix-card.hidden-card{opacity:.5}
+.docflix-card-title{font-size:12px;font-weight:600;margin-top:6px;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.docflix-card-desc{font-size:10px;color:rgba(255,255,255,.4);padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.docflix-empty{padding:40px;text-align:center;color:rgba(255,255,255,.2);font-size:13px}
+.docflix-modal{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);animation:docflixFadeIn .2s}
+@keyframes docflixFadeIn{from{opacity:0}to{opacity:1}}
+.docflix-modal-box{background:#1a1a2e;border-radius:16px;max-width:700px;width:90%;max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.docflix-modal-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .15s}
+.docflix-modal-close:hover{background:rgba(255,255,255,.15)}
+.docflix-modal-body{padding:20px}
+.docflix-modal-title{font-size:20px;font-weight:900;margin-bottom:4px}
+.docflix-modal-meta{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;display:flex;gap:8px;align-items:center}
+.docflix-modal-meta .docflix-type-badge{padding:2px 8px;border-radius:3px;background:rgba(229,9,20,.2);color:#e50914;font-size:10px;font-weight:700;text-transform:uppercase}
+.docflix-modal-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:16px}
+.docflix-modal-player{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:40px;color:rgba(255,255,255,.1);margin-bottom:16px}
+.docflix-modal-player iframe,.docflix-modal-player video{width:100%;height:100%;border:none}
+.docflix-modal-admin{padding:16px 20px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:8px;flex-wrap:wrap}
+.docflix-modal-admin-btn{padding:6px 14px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+.docflix-modal-admin-btn.edit{border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.6)}
+.docflix-modal-admin-btn.edit:hover{background:rgba(255,255,255,.06);color:#fff}
+.docflix-modal-admin-btn.del{background:#e50914;color:#fff}
+.docflix-modal-admin-btn.del:hover{opacity:.85}
+.docflix-modal-admin-btn.hide{border:1px solid rgba(255,255,255,.1);background:rgba(255,193,7,.15);color:#ffc107}
+.docflix-modal-admin-btn.hide:hover{background:rgba(255,193,7,.25);color:#fff}
+.docflix-form-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100001;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);backdrop-filter:blur(8px)}
+.docflix-form-box{background:#1a1a2e;border-radius:16px;max-width:520px;width:90%;max-height:85vh;overflow-y:auto;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.docflix-form-box h3{font-size:16px;font-weight:700;margin-bottom:16px}
+.docflix-form-group{margin-bottom:12px}
+.docflix-form-group label{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px}
+.docflix-form-group input,.docflix-form-group select,.docflix-form-group textarea{width:100%;padding:8px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:12px;outline:none;transition:border-color .15s;font-family:inherit}
+.docflix-form-group input:focus,.docflix-form-group select:focus,.docflix-form-group textarea:focus{border-color:#e50914}
+.docflix-form-group textarea{resize:vertical;min-height:60px}
+.docflix-form-group select option{background:#1a1a2e;color:#fff}
+.docflix-form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.docflix-form-btn{padding:8px 20px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.docflix-form-btn.primary{background:#e50914;color:#fff}
+.docflix-form-btn.primary:hover{opacity:.85}
+.docflix-form-btn.cancel{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6)}
+.docflix-form-btn.cancel:hover{background:rgba(255,255,255,.1);color:#fff}
+.docflix-toast{position:fixed;bottom:24px;right:24px;padding:10px 20px;border-radius:8px;background:rgba(229,9,20,.9);color:#fff;font-size:12px;font-weight:600;z-index:100002;animation:docflixToastIn .3s}
+@keyframes docflixToastIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.df-tmdb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;padding:20px 24px}
+.df-tmdb-card{cursor:pointer;transition:transform .2s;border-radius:8px;overflow:hidden}
+.df-tmdb-card:hover{transform:scale(1.05)}
+.df-tmdb-card-img{width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;color:rgba(255,255,255,.2)}
+.df-tmdb-card-img img{width:100%;height:100%;object-fit:cover}
+.df-tmdb-card-title{font-size:12px;font-weight:600;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.df-tmdb-card-year{font-size:10px;color:rgba(255,255,255,.4)}
+.docflix-row .df-tmdb-card{flex-shrink:0;width:150px}
+.df-tmdb-detail{display:flex;gap:20px;padding:20px}
+.df-tmdb-poster{width:200px;flex-shrink:0;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#1a1a2e,#16213e)}
+.df-tmdb-poster img{width:100%;height:auto;display:block}
+.df-tmdb-info{flex:1;min-width:0}
+.df-tmdb-info h2{font-size:24px;font-weight:900;margin-bottom:8px}
+.df-tmdb-info .meta{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:12px;display:flex;gap:12px;flex-wrap:wrap}
+.df-tmdb-info .overview{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:16px}
+.df-provider-select{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.df-provider-btn{padding:8px 16px;border:1px solid rgba(255,255,255,.15);border-radius:6px;background:transparent;color:rgba(255,255,255,.7);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.df-provider-btn:hover{background:rgba(255,255,255,.06);color:#fff}
+.df-provider-btn.active{background:#e50914;border-color:#e50914;color:#fff}
+.df-episode-select{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+.df-episode-select label{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px}
+.df-episode-select select{padding:8px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#fff;font-size:12px;outline:none;min-width:120px;cursor:pointer}
+.df-episode-select select option{background:#1a1a2e;color:#fff}
+.df-episode-select select:focus{border-color:#e50914}
+.df-episode-info{margin-top:16px;padding:16px;background:rgba(255,255,255,.06);border-radius:8px;border:1px solid rgba(255,255,255,.1)}
+.df-episode-info:empty{display:none}
+.df-play-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:none;border-radius:6px;background:#e50914;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s;margin-top:16px}
+.df-play-btn:hover{opacity:.85}
+.df-tmdb-loading{text-align:center;padding:60px 20px;color:rgba(255,255,255,.4);font-size:13px}
+.df-tmdb-empty{text-align:center;padding:60px 20px;color:rgba(255,255,255,.3);font-size:13px}
 </style>
 </head>
 <body data-theme="dark">
@@ -1556,6 +1678,10 @@ summary{font-size:calc(13px * var(--fs-scale))}
         <div class="icon-img" style="background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7)"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
         <div class="icon-label" id="iconLabel-appstore">App Store</div>
       </div>
+      <div class="desktop-icon" data-app="docflix" ondblclick="openApp('docflix')" onclick="if(window.innerWidth<=768)openApp('docflix')" style="left:10px;top:710px">
+        <div class="icon-img" style="background:linear-gradient(135deg,#0f0f0f,#1a1a2e)"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div class="icon-label" id="iconLabel-docflix">Docflix</div>
+      </div>
       <div class="desktop-icon" data-app="trash" id="trashDesktopIcon" ondblclick="openApp('trash')" onclick="if(window.innerWidth<=768)openApp('trash')" style="left:10px;top:610px">
         <div class="icon-img" style="background:linear-gradient(135deg,#546e7a,#37474f)"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></div>
         <div class="icon-label" id="iconLabel-trash">Trash</div>
@@ -1567,6 +1693,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
     <div class="taskbar-divider"></div>
     <div class="taskbar-items" id="taskbarItems"></div>
     <button class="taskbar-reco" id="taskbarRecoBtn" style="display:none" title="Recommend"><span class="tb-reco-icon">&#128172;</span> Recommend</button>
+    <button class="taskbar-moon off" id="taskbarMoonBtn" style="display:none" title="In-app notifications off">&#127769;</button>
     <button class="taskbar-logout" id="taskbarLogoutBtn" style="display:none" title="Logout">&#9211;</button>
     <div class="taskbar-user" id="taskbarUser" style="display:none"><span class="taskbar-user-avatar" id="taskbarUserAvatar">&#128100;</span><span class="taskbar-user-name" id="taskbarUserName"></span></div>
     <div class="taskbar-clock" id="taskbarClock"><span class="taskbar-clock-time"></span><span class="taskbar-clock-date"></span></div>
@@ -1797,6 +1924,10 @@ function _notifySW(msg){
 }
 
 var _notificationsEnabled=true;
+
+function _inAppNotifsEnabled(){return localStorage.getItem('docosInAppNotif_'+(currentRole||''))!=='false'}
+function _setInAppNotifs(v){localStorage.setItem('docosInAppNotif_'+(currentRole||''),v);_syncSettingsToFirebase();_updateMoonBtn();showToast(v?'In-app notifications on':'In-app notifications off')}
+function _updateMoonBtn(){var b=document.getElementById('taskbarMoonBtn');if(!b)return;var on=_inAppNotifsEnabled();b.className='taskbar-moon '+(on?'on':'off');b.title=on?'In-app notifications on':'In-app notifications off';var ian=document.querySelector('#settingsInAppNotif');if(ian)ian.checked=on}
 
 /* Tab title flashing for unread messages */
 var _origTitle=document.title;
@@ -3269,6 +3400,8 @@ function loginAsRole(role){
   document.getElementById('adminToolsNavItem').style.display=_isOwnerLogin?'':'none';
   document.getElementById('taskbarRecoBtn').style.display='flex';
   document.getElementById('taskbarLogoutBtn').style.display='flex';
+  document.getElementById('taskbarMoonBtn').style.display='flex';
+  _updateMoonBtn();
   document.getElementById('headerThemeSlot').style.display='block';
   function _revealDesktop(){
     _amApplyHiddenApps();
@@ -3535,32 +3668,32 @@ passwordInput.addEventListener('keydown',e=>{if(e.key==='Enter')login()});
 usernameInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();passwordInput.focus()}});
 
 function logout(){
-  _roleNotifDismissed={};
-  _forceSaveLastSeen();_chatIsOpen=false;
-  _lastSeenTs=0;_lastSeenInserted=false;
-  _notificationsEnabled=false;
-  _notifySW({type:'CLEAR_USER'});
-  /* Disconnect Pong WS on logout */
-  if(_pongWs){try{_pongWs.close()}catch(e){}_pongWs=null}
-  if(typeof _vcCleanupCall==='function'&&_vcInCall)_vcHangUp();
-  if(typeof _vcIncomingRef==='object'&&_vcIncomingRef){_vcIncomingRef.off();_vcIncomingRef=null;}
-  if(typeof _vcRemoveIncomingOverlay==='function')_vcRemoveIncomingOverlay();
-  if(currentRole){db.ref('onlineUsers/'+currentRole).remove();setTyping(false);}
-  if(typeof teardownUserAppsListener==='function')teardownUserAppsListener();
-  localStorage.removeItem('docosDeviceId');localStorage.removeItem('docosRole');
-  currentRole=null;currentDisplayName=null;replyTo=null;_announcementsReady=false;_dismissedAnnouncements={};
-  document.getElementById('gearWrapper').style.display='none';adminPanel.style.display='none';
-  document.getElementById('modDesktopIcon').style.display='none';
-  document.getElementById('appDesignerIcon').style.display='none';
-  document.getElementById('taskbarRecoBtn').style.display='none';document.getElementById('taskbarLogoutBtn').style.display='none';
-  document.getElementById('headerThemeSlot').style.display='none';
-  chatScreen.style.display='none';
-  var tbUser=document.getElementById('taskbarUser');if(tbUser)tbUser.style.display='none';
-  Object.keys(openWindows).forEach(function(id){closeWindow(id)});
-  /* Remove all custom app desktop icons on logout */
-  document.querySelectorAll('.desktop-icon').forEach(function(ic){var aid=ic.dataset.app;if(aid&&(aid.startsWith('custom_')||aid.startsWith('fs_')))ic.remove()});
-  if(_fsRef){_fsRef.off();_fsRef=null}_fsItems={};
-  if(typeof resetDesktopConfig==='function')resetDesktopConfig();
+  try {
+    _roleNotifDismissed={};
+    _forceSaveLastSeen();_chatIsOpen=false;
+    _lastSeenTs=0;_lastSeenInserted=false;
+    _notificationsEnabled=false;
+    _notifySW({type:'CLEAR_USER'});
+    if(_pongWs){try{_pongWs.close()}catch(e){}_pongWs=null}
+    if(typeof _vcCleanupCall==='function'&&_vcInCall)_vcHangUp();
+    if(typeof _vcIncomingRef==='object'&&_vcIncomingRef){_vcIncomingRef.off();_vcIncomingRef=null;}
+    if(typeof _vcRemoveIncomingOverlay==='function')_vcRemoveIncomingOverlay();
+    if(currentRole){db.ref('onlineUsers/'+currentRole).remove();setTyping(false);}
+    if(typeof teardownUserAppsListener==='function')teardownUserAppsListener();
+    localStorage.removeItem('docosDeviceId');localStorage.removeItem('docosRole');
+    currentRole=null;currentDisplayName=null;replyTo=null;_announcementsReady=false;_dismissedAnnouncements={};
+    document.getElementById('gearWrapper').style.display='none';adminPanel.style.display='none';
+    document.getElementById('modDesktopIcon').style.display='none';
+    document.getElementById('appDesignerIcon').style.display='none';
+    document.getElementById('taskbarRecoBtn').style.display='none';document.getElementById('taskbarLogoutBtn').style.display='none';document.getElementById('taskbarMoonBtn').style.display='none';
+    document.getElementById('headerThemeSlot').style.display='none';
+    chatScreen.style.display='none';
+    var tbUser=document.getElementById('taskbarUser');if(tbUser)tbUser.style.display='none';
+    Object.keys(openWindows).forEach(function(id){try{closeWindow(id)}catch(e){}});
+    document.querySelectorAll('.desktop-icon').forEach(function(ic){var aid=ic.dataset.app;if(aid&&(aid.startsWith('custom_')||aid.startsWith('fs_')))ic.remove()});
+    if(_fsRef){_fsRef.off();_fsRef=null}_fsItems={};
+    if(typeof resetDesktopConfig==='function')resetDesktopConfig();
+  } catch(e) { console.error('[Logout Error]',e); }
   desktop.classList.add('hidden');lockScreen.classList.remove('hidden');
   usernameInput.value='';passwordInput.value='';
   roleLabel.textContent='Not logged in';muteWarning.textContent='';
@@ -3569,7 +3702,7 @@ function logout(){
 }
 
 logoutButton.addEventListener('click',logout);
-document.getElementById('taskbarLogoutBtn').addEventListener('click',logout);
+document.getElementById('taskbarMoonBtn').onclick=function(){_setInAppNotifs(!_inAppNotifsEnabled())};
 /* Gear icon opens mod panel app */
 gearIcon.addEventListener('click',function(){
   if(!isAnyAdmin())return;
@@ -5409,7 +5542,7 @@ var appDefs={
         var ian=d.querySelector('#settingsInAppNotif');
         if(ian){
           ian.onchange=function(){
-            if(currentRole){localStorage.setItem('docosInAppNotif_'+currentRole,ian.checked);_syncSettingsToFirebase()}
+            if(currentRole){localStorage.setItem('docosInAppNotif_'+currentRole,ian.checked);_syncSettingsToFirebase();_updateMoonBtn()}
           };
         }
         /* Tab notifications */
@@ -5628,11 +5761,11 @@ var appDefs={
             '<option value="website">Website (URL)</option>'+
           '</select>'+
         '</div>'+
-        '<div id="adHtmlSection" style="'+secStyle+'">'+
-          '<label style="'+lblStyle+'">HTML Content</label>'+
-          '<textarea id="adContent" rows="10" placeholder="<h1>Hello World</h1>\n<p>This is my custom app!</p>" style="'+inputStyle+';resize:vertical;font-family:monospace;font-size:12px;min-height:100px"></textarea>'+
-          '<div style="'+smallStyle+'">Write HTML that will be displayed inside the app window</div>'+
-        '</div>'+
+'<div id="adHtmlSection" style="'+secStyle+'">'+
+  '<label style="'+lblStyle+'">HTML Content</label>'+
+  '<textarea id="adContent" rows="10" placeholder="<h1>Hello World</h1>\n<p>This is my custom app!</p>" style="'+inputStyle+';resize:vertical;font-family:monospace;font-size:12px;min-height:100px"></textarea>'+
+  '<div style="'+smallStyle+'">Write HTML that will be displayed inside the app window</div>'+
+'</div>'+
         '<div id="adWebsiteSection" style="'+secStyle+';display:none">'+
           '<label style="'+lblStyle+'">Website URL</label>'+
           '<input id="adWebsiteUrl" type="url" placeholder="https://example.com" style="'+inputStyle+'">'+
@@ -6416,6 +6549,346 @@ var appDefs={
           eb.onclick=function(){_emptyTrash()};
         }
       },0);
+      return d;
+    }
+  },
+  docflix:{
+    title:'Docflix',
+    icon:'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+    iconBg:'linear-gradient(135deg,#0f0f0f,#1a1a2e)',
+    width:960,height:620,
+    getContent:function(){
+      var d=document.createElement('div');d.className='docflix-app';
+      var _dfState={items:[],filter:'All',search:'',selected:null,editing:null,tmdbView:false,tmdbResults:[],tmdbDetail:null,tmdbProvider:'toutstream',tmdbSeason:1,tmdbEpisode:1,popularResults:null,popularLoading:false};
+      if(window._dfRef){window._dfRef.off()}window._dfRef=db.ref('docflixContent');var _dfRef=window._dfRef;
+      function _dfToast(msg){var t=document.createElement('div');t.className='docflix-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
+      function _dfEscapeHtml(s){var E=document.createElement('div');E.textContent=s;return E.innerHTML}
+      function _dfLoad(){
+        _dfRef.on('value',function(snap){
+          _dfState.items=[];var v=snap.val()||{};
+          Object.keys(v).forEach(function(k){v[k]._id=k;_dfState.items.push(v[k])});
+          _dfState.items.sort(function(a,b){return(b.createdAt||0)-(a.createdAt||0)});
+          _dfRender();
+        });
+      }
+      var _dfNavTabsRef=null;
+      function _dfUpdateTabs(){
+        if(!_dfNavTabsRef)return;
+        var tabs=_dfNavTabsRef.querySelectorAll('.docflix-nav-tab');
+        tabs.forEach(function(btn){btn.className='docflix-nav-tab'+(btn.textContent===_dfState.filter?' active':'')});
+      }
+      function _dfBuildNav(){
+        var nav=document.createElement('div');nav.className='docflix-nav';
+        var logo=document.createElement('div');logo.className='docflix-logo';logo.innerHTML='DOCFLIX<span>+</span>';
+        logo.onclick=function(){_dfState.filter='All';_dfState.search='';_dfState.tmdbDetail=null;_dfRender();_dfUpdateTabs()};
+        nav.appendChild(logo);
+        var tabs=document.createElement('div');tabs.className='docflix-nav-tabs';_dfNavTabsRef=tabs;
+        ['All','Movies','TV Shows','Videos'].forEach(function(t){
+          var btn=document.createElement('button');btn.className='docflix-nav-tab'+(t===_dfState.filter?' active':'');btn.textContent=t;
+          btn.onclick=function(){_dfState.filter=t;_dfState.tmdbDetail=null;_dfUpdateTabs();_dfRender()};
+          tabs.appendChild(btn);
+        });
+        nav.appendChild(tabs);
+        var searchWrap=document.createElement('div');searchWrap.className='docflix-search';
+        searchWrap.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+        var searchIn=document.createElement('input');        searchIn.placeholder='Search...';searchIn.value=_dfState.search;
+        searchIn.oninput=function(){_dfState.search=this.value;_dfState.tmdbDetail=null;if(this.value.trim())_dfSearchTmdb();else{_dfState.tmdbResults=[];_dfRender()}};
+        searchWrap.appendChild(searchIn);nav.appendChild(searchWrap);
+        return nav;
+      }
+      function _dfBuildAdminBar(){
+        var bar=document.createElement('div');bar.className='docflix-admin-bar';
+        bar.innerHTML='<span>&#128274; Admin</span>';
+        var addBtn=document.createElement('button');addBtn.className='docflix-admin-btn';addBtn.innerHTML='&#43; Add Content';
+        addBtn.onclick=function(){_dfShowForm(null)};
+        bar.appendChild(addBtn);
+        return bar;
+      }
+      function _dfBuildHero(){
+        var visible=_dfState.items.filter(function(i){return currentRole==='Admin'||!i.hidden});
+        var featured=visible.filter(function(i){return i.featured});
+        var item=featured.length?featured[Math.floor(Math.random()*featured.length)]:visible[Math.floor(Math.random()*visible.length)];
+        if(!item){var e=document.createElement('div');e.className='docflix-hero';e.style.cursor='default';return e}
+        var hero=document.createElement('div');hero.className='docflix-hero';
+        hero.onclick=function(){_dfShowDetail(item._id)};
+        var bg='';if(item.posterUrl)bg='<img class="docflix-hero-bg" src="'+_dfEscapeHtml(item.posterUrl)+'" alt="">';
+        var typeLabel=item.type==='movie'?'Movie':item.type==='tv-show'?'TV Show':'Video';
+        hero.innerHTML=bg+'<div class="docflix-hero-overlay"></div><div class="docflix-hero-content"><div class="docflix-hero-type">'+typeLabel+'</div><div class="docflix-hero-title">'+_dfEscapeHtml(item.title)+'</div><div class="docflix-hero-desc">'+_dfEscapeHtml((item.description||'').substring(0,200))+'</div><button class="docflix-hero-play">&#9654; Play</button></div>';
+        return hero;
+      }
+      function _dfBuildSection(category,items){
+        var sec=document.createElement('div');sec.className='docflix-section';
+        var hdr=document.createElement('div');hdr.className='docflix-section-header';
+        hdr.innerHTML='<span class="docflix-section-title">'+category+'</span><span class="docflix-section-count">'+items.length+' titles</span>';
+        sec.appendChild(hdr);
+        var row=document.createElement('div');row.className='docflix-row';
+        items.forEach(function(item){
+          var card=document.createElement('div');card.className='docflix-card'+(item.hidden?' hidden-card':'');
+          card.onclick=function(){_dfShowDetail(item._id)};
+          var typeLabel=item.type==='movie'?'Movie':item.type==='tv-show'?'TV Show':'Video';
+          var imgHtml='';if(item.posterUrl)imgHtml='<img src="'+_dfEscapeHtml(item.posterUrl)+'" alt="">';
+          var hiddenBadge=item.hidden?'<span class="docflix-card-hidden">HIDDEN</span>':'';
+          card.innerHTML='<div class="docflix-card-img">'+imgHtml+'<span class="docflix-card-type">'+typeLabel+'</span>'+hiddenBadge+'</div><div class="docflix-card-title">'+_dfEscapeHtml(item.title)+'</div><div class="docflix-card-desc">'+_dfEscapeHtml((item.description||'').substring(0,60))+'</div>';
+          row.appendChild(card);
+        });
+        sec.appendChild(row);
+        return sec;
+      }
+      function _dfBuildTmdbRow(title,items){
+        if(!items.length)return null;
+        var sec=document.createElement('div');sec.className='docflix-section';
+        var hdr=document.createElement('div');hdr.className='docflix-section-header';
+        hdr.innerHTML='<span class="docflix-section-title">'+title+'</span><span class="docflix-section-count">'+items.length+' titles</span>';
+        sec.appendChild(hdr);
+        var row=document.createElement('div');row.className='df-tmdb-grid';
+        items.forEach(function(item){
+          var card=document.createElement('div');card.className='df-tmdb-card';
+          card.onclick=function(){_dfLoadTmdbDetail(item.id,item.media_type)};
+          var imgHtml=item.poster_path?'<img src="'+TMDB_IMG+item.poster_path+'" alt="">':'';
+          var t=item.title||item.name||'Unknown';
+          var year=(item.release_date||item.first_air_date||'').substring(0,4);
+          card.innerHTML='<div class="df-tmdb-card-img">'+imgHtml+'</div><div class="df-tmdb-card-title">'+_dfEscapeHtml(t)+'</div><div class="df-tmdb-card-year">'+year+' &middot; '+(item.media_type==='movie'?'Movie':'TV Show')+'</div>';
+          row.appendChild(card);
+        });
+        sec.appendChild(row);
+        return sec;
+      }
+      function _dfAppendPopularRows(content,filter){
+        if(!_dfState.popularResults){_dfLoadPopular();return}
+        var data=_dfState.popularResults;
+        if(filter==='All'||filter==='Movies'){var r=_dfBuildTmdbRow('Popular Movies',data.movies);if(r)content.appendChild(r)}
+        if(filter==='All'||filter==='TV Shows'){var r2=_dfBuildTmdbRow('Popular TV Shows',data.tv);if(r2)content.appendChild(r2)}
+      }
+      function _dfRender(){
+        var content=d.querySelector('.docflix-content');if(!content)return;
+        content.innerHTML='';
+        if(_dfState.tmdbDetail){_dfRenderTmdbDetail();return}
+        if(_dfState.search.trim()&&_dfState.tmdbResults.length){_dfRenderTmdb();return}
+        var filtered=_dfState.items.filter(function(i){return currentRole==='Admin'||!i.hidden});
+        if(_dfState.search){var q=_dfState.search.toLowerCase();filtered=filtered.filter(function(i){return(i.title||'').toLowerCase().indexOf(q)!==-1||(i.description||'').toLowerCase().indexOf(q)!==-1})}
+        if(_dfState.filter==='Movies')filtered=filtered.filter(function(i){return i.type==='movie'});
+        else if(_dfState.filter==='TV Shows')filtered=filtered.filter(function(i){return i.type==='tv-show'});
+        else if(_dfState.filter==='Videos')filtered=filtered.filter(function(i){return i.type==='video'});
+        if(filtered.length){
+          content.appendChild(_dfBuildHero());
+          var types={};
+          filtered.forEach(function(i){var t=i.type||'other';if(!types[t])types[t]=[];types[t].push(i)});
+          Object.keys(types).forEach(function(t){content.appendChild(_dfBuildSection(t==='movie'?'Movies':t==='tv-show'?'TV Shows':t==='video'?'Videos':'Other',types[t]))});
+        }
+        if(_dfState.filter!=='Videos')_dfAppendPopularRows(content,_dfState.filter);
+        if(!filtered.length&&!_dfState.popularResults){content.innerHTML='<div class="docflix-empty">&#128250; No content found</div>'}
+      }
+      function _dfShowDetail(id){
+        var item=_dfState.items.find(function(i){return i._id===id});if(!item)return;
+        var overlay=document.createElement('div');overlay.className='docflix-modal';
+        var typeLabel=item.type==='movie'?'Movie':item.type==='tv-show'?'TV Show':'Video';
+        var playerHtml='<div class="docflix-modal-player">&#9654; No embed provided</div>';
+        if(item.embedHtml)playerHtml='<div class="docflix-modal-player">'+item.embedHtml+'</div>';
+        var posterHtml='';if(item.posterUrl)posterHtml='<img src="'+_dfEscapeHtml(item.posterUrl)+'" style="width:100%;max-height:240px;object-fit:cover;border-radius:12px;margin-bottom:12px" alt="">';
+        var adminHtml='';if(currentRole==='Admin')adminHtml='<div class="docflix-modal-admin"><button class="docflix-modal-admin-btn edit" data-id="'+item._id+'">&#9998; Edit</button><button class="docflix-modal-admin-btn del" data-id="'+item._id+'">&#128465; Delete</button><button class="docflix-modal-admin-btn hide" data-id="'+item._id+'">'+(item.hidden?'&#128065; Show':'&#128064; Hide')+'</button></div>';
+        overlay.innerHTML='<div class="docflix-modal-box"><button class="docflix-modal-close">&times;</button><div class="docflix-modal-body">'+posterHtml+'<div class="docflix-modal-title">'+_dfEscapeHtml(item.title)+'</div><div class="docflix-modal-meta"><span class="docflix-type-badge">'+typeLabel+'</span><span>'+(item.createdBy?'Added by '+_dfEscapeHtml(item.createdBy):'')+'</span></div><div class="docflix-modal-desc">'+_dfEscapeHtml(item.description||'No description')+'</div>'+playerHtml+'</div>'+adminHtml+'</div>';
+        document.body.appendChild(overlay);
+        overlay.querySelector('.docflix-modal-close').onclick=function(){overlay.remove()};
+        overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
+        var eb=overlay.querySelector('.docflix-modal-admin-btn.edit');
+        if(eb)eb.onclick=function(){overlay.remove();_dfShowForm(item)};
+        var db=overlay.querySelector('.docflix-modal-admin-btn.del');
+        if(db)db.onclick=function(){if(!confirm('Delete "'+item.title+'"?'))return;_dfRef.child(item._id).remove();_dfToast('Deleted: '+item.title);overlay.remove()};
+        var hb=overlay.querySelector('.docflix-modal-admin-btn.hide');
+        if(hb)hb.onclick=function(){_dfRef.child(item._id).update({hidden:!item.hidden}).then(function(){_dfToast(item.hidden?'Unhidden: '+item.title:'Hidden: '+item.title);overlay.remove()}).catch(function(e){_dfToast('Error: '+e.message)})};
+      }
+      function _dfShowForm(editItem){
+        var overlay=document.createElement('div');overlay.className='docflix-form-overlay';
+        var isEdit=!!editItem;
+        var title=isEdit?'Edit Content':'Add Content';
+        var btnLabel=isEdit?'Save Changes':'Add to Docflix';
+        overlay.innerHTML='<div class="docflix-form-box"><h3>'+title+'</h3><form id="dfForm"><div class="docflix-form-group"><label>Title</label><input id="dfFormTitle" value="'+_dfEscapeHtml(editItem?editItem.title:'')+'" required></div><div class="docflix-form-group"><label>Description</label><textarea id="dfFormDesc" rows="3">'+_dfEscapeHtml(editItem?editItem.description:'')+'</textarea></div><div class="docflix-form-group"><label>Poster Image</label><div style="display:flex;gap:10px"><div style="flex:1"><div style="display:flex;gap:6px;margin-bottom:6px"><input id="dfFormPoster" value="'+_dfEscapeHtml(editItem?editItem.posterUrl:'')+'" placeholder="Paste an image URL or use the Paste button" style="flex:1"><button type="button" class="docflix-admin-btn" id="dfPasteBtn" style="white-space:nowrap">Paste</button></div><div id="dfPosterPreview" style="width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.2)">No image</div></div></div></div><div class="docflix-form-group"><label>Embed HTML (from App Designer)</label><textarea id="dfFormEmbed" rows="4" placeholder="Paste HTML embed code here...">'+_dfEscapeHtml(editItem?editItem.embedHtml:'')+'</textarea></div><div class="docflix-form-group"><label><input type="checkbox" id="dfFormFeatured"'+(editItem&&editItem.featured?' checked':'')+'> Featured (show in hero banner)</label></div><div class="docflix-form-actions"><button type="button" class="docflix-form-btn cancel" id="dfFormCancel">Cancel</button><button type="submit" class="docflix-form-btn primary">'+btnLabel+'</button></div></form></div>';
+        document.body.appendChild(overlay);
+        overlay.querySelector('#dfFormCancel').onclick=function(){overlay.remove()};
+        overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
+        overlay.querySelector('#dfPasteBtn').onclick=function(){navigator.clipboard.read().then(function(items){for(var i=0;i<items.length;i++){var types=items[i].types;for(var j=0;j<types.length;j++){if(types[j].startsWith('image/')){items[i].getType(types[j]).then(function(blob){var reader=new FileReader();reader.onload=function(){var poster=document.getElementById('dfFormPoster');poster.value=reader.result;_dfToast('Poster image pasted!');updatePosterPreview()};reader.readAsDataURL(blob)});return}}}navigator.clipboard.readText().then(function(t){var poster=document.getElementById('dfFormPoster');poster.value=t;_dfToast('Poster URL pasted!');updatePosterPreview()}).catch(function(){_dfToast('No image or URL found in clipboard')})}).catch(function(){navigator.clipboard.readText().then(function(t){var poster=document.getElementById('dfFormPoster');poster.value=t;_dfToast('Poster URL pasted!');updatePosterPreview()}).catch(function(){_dfToast('Failed to read clipboard')})})};
+        function updatePosterPreview(){var v=document.getElementById('dfFormPoster').value.trim();var p=document.getElementById('dfPosterPreview');if(v){p.innerHTML='<img src="'+v.replace(/"/g,'&quot;')+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML=\'<span style=font-size:11px;color:rgba(255,255,255,.2)>Invalid image</span>\'">'}else{p.innerHTML='No image'}}
+        document.getElementById('dfFormPoster').oninput=updatePosterPreview;
+        overlay.querySelector('#dfForm').onsubmit=function(e){
+          e.preventDefault();
+          var data={title:document.getElementById('dfFormTitle').value.trim(),type:'video',description:document.getElementById('dfFormDesc').value.trim(),posterUrl:document.getElementById('dfFormPoster').value.trim(),embedHtml:document.getElementById('dfFormEmbed').value,featured:document.getElementById('dfFormFeatured').checked,hidden:editItem?!!editItem.hidden:false,createdBy:currentDisplayName||currentRole||'Unknown',createdAt:Date.now()};
+          if(!data.title){_dfToast('Title is required');return}
+          if(isEdit){_dfRef.child(editItem._id).update(data).then(function(){_dfToast('Updated: '+data.title);overlay.remove()}).catch(function(e){_dfToast('Error: '+e.message)})}
+          else{_dfRef.push(data).then(function(){_dfToast('Added: '+data.title);overlay.remove()}).catch(function(e){_dfToast('Error: '+e.message)})}
+        };
+      }
+      var TMDB_API_KEY='56058a5cb4c5ee8d556387859802c7d8';
+      var TMDB_BASE='https://api.themoviedb.org/3';
+      var TMDB_IMG='https://image.tmdb.org/t/p/w500';
+      function _dfSearchTmdb(){
+        if(!_dfState.search.trim()){_dfState.tmdbResults=[];_dfRender();return}
+        var content=d.querySelector('.docflix-content');if(!content)return;
+        content.innerHTML='<div class="df-tmdb-loading">Searching TMDB...</div>';
+        fetch(TMDB_BASE+'/search/multi?api_key='+TMDB_API_KEY+'&query='+encodeURIComponent(_dfState.search))
+        .then(function(r){return r.json()})
+        .then(function(data){
+          _dfState.tmdbResults=(data.results||[]).filter(function(i){return i.media_type==='movie'||i.media_type==='tv'});
+          _dfRender();
+        }).catch(function(){content.innerHTML='<div class="df-tmdb-empty">Failed to search TMDB</div>'});
+      }
+      function _dfRenderTmdb(){
+        var content=d.querySelector('.docflix-content');if(!content)return;
+        content.innerHTML='';
+        if(!_dfState.tmdbResults.length){
+          content.innerHTML='<div class="df-tmdb-empty">'+(_dfState.search?'No results found':'Search for movies and TV shows on TMDB')+'</div>';
+          return;
+        }
+        var grid=document.createElement('div');grid.className='df-tmdb-grid';
+        _dfState.tmdbResults.forEach(function(item){
+          var card=document.createElement('div');card.className='df-tmdb-card';
+          card.onclick=function(){_dfLoadTmdbDetail(item.id,item.media_type)};
+          var imgHtml=item.poster_path?'<img src="'+TMDB_IMG+item.poster_path+'" alt="">':'';
+          var title=item.title||item.name||'Unknown';
+          var year=(item.release_date||item.first_air_date||'').substring(0,4);
+          card.innerHTML='<div class="df-tmdb-card-img">'+imgHtml+'</div><div class="df-tmdb-card-title">'+_dfEscapeHtml(title)+'</div><div class="df-tmdb-card-year">'+year+' &middot; '+(item.media_type==='movie'?'Movie':'TV Show')+'</div>';
+          grid.appendChild(card);
+        });
+        content.appendChild(grid);
+      }
+      function _dfLoadPopular(){
+        if(_dfState.popularResults||_dfState.popularLoading)return;
+        _dfState.popularLoading=true;
+        Promise.all([
+          fetch(TMDB_BASE+'/movie/popular?api_key='+TMDB_API_KEY+'&page=1').then(function(r){return r.json()}),
+          fetch(TMDB_BASE+'/tv/popular?api_key='+TMDB_API_KEY+'&page=1').then(function(r){return r.json()})
+        ]).then(function(results){
+          var movies=(results[0].results||[]).map(function(m){m.media_type='movie';return m});
+          var tv=(results[1].results||[]).map(function(t){t.media_type='tv';return t});
+          _dfState.popularResults={movies:movies,tv:tv};
+          _dfState.popularLoading=false;
+          _dfRender();
+        }).catch(function(){
+          _dfState.popularLoading=false;
+        });
+      }
+      function _dfLoadTmdbDetail(id,mediaType){
+        var content=d.querySelector('.docflix-content');if(!content)return;
+        content.innerHTML='<div class="df-tmdb-loading">Loading details...</div>';
+        _dfState.tmdbSeason=1;_dfState.tmdbEpisode=1;
+        fetch(TMDB_BASE+'/'+mediaType+'/'+id+'?api_key='+TMDB_API_KEY+'&append_to_response=external_ids')
+        .then(function(r){return r.json()})
+        .then(function(data){
+          data._mediaType=mediaType;
+          _dfState.tmdbDetail=data;
+          _dfRenderTmdbDetail();
+        }).catch(function(){content.innerHTML='<div class="df-tmdb-empty">Failed to load details</div>'});
+      }
+      function _dfRenderTmdbDetail(){
+        var content=d.querySelector('.docflix-content');if(!content)return;
+        content.innerHTML='';
+        var item=_dfState.tmdbDetail;if(!item)return;
+        var backBtn=document.createElement('button');backBtn.className='docflix-nav-tab';backBtn.innerHTML='&larr; Back';backBtn.style.cssText='margin:16px 24px 0';
+        backBtn.onclick=function(){_dfState.tmdbDetail=null;_dfRender()};
+        content.appendChild(backBtn);
+        var detail=document.createElement('div');detail.className='df-tmdb-detail';
+        var posterHtml=item.poster_path?'<img src="'+TMDB_IMG+item.poster_path+'" alt="">':'';
+        var title=item.title||item.name||'Unknown';
+        var year=(item.release_date||item.first_air_date||'').substring(0,4);
+        var genres=(item.genres||[]).map(function(g){return g.name}).join(', ');
+        var rating=item.vote_average?item.vote_average.toFixed(1):'N/A';
+        var overview=item.overview||'No description available.';
+        var imdbId=(item.external_ids&&item.external_ids.imdb_id)||'';
+        var tmdbId=item.id;
+        var providerHtml='<div class="df-provider-select"><button class="df-provider-btn'+(_dfState.tmdbProvider==='toutstream'?' active':'')+'" data-provider="toutstream">TouStream <span style="font-size:9px;background:#2e7d32;color:#fff;padding:2px 6px;border-radius:3px;margin-left:4px;font-weight:700;letter-spacing:.5px">BEST</span></button><button class="df-provider-btn'+(_dfState.tmdbProvider==='123embed'?' active':'')+'" data-provider="123embed">123Embed</button></div>';
+        var episodeHtml='';
+        if(item._mediaType==='tv'){
+          var seasons=(item.seasons||[]).filter(function(s){return s.season_number>0});
+          var seasonOpts=seasons.map(function(s){return '<option value="'+s.season_number+'"'+(s.season_number===_dfState.tmdbSeason?' selected':'')+'>Season '+s.season_number+'</option>'}).join('');
+          episodeHtml='<div class="df-episode-select"><label>Season</label><select id="dfSeasonSelect">'+seasonOpts+'</select><label style="margin-top:10px">Episode</label><select id="dfEpisodeSelect"><option>Loading...</option></select></div>';
+        }
+        detail.innerHTML='<div class="df-tmdb-poster">'+posterHtml+'</div><div class="df-tmdb-info"><h2>'+_dfEscapeHtml(title)+'</h2><div class="meta"><span>'+year+'</span><span>'+_dfEscapeHtml(genres)+'</span><span>Rating: '+rating+'</span></div><div class="overview">'+_dfEscapeHtml(overview)+'</div>'+providerHtml+episodeHtml+'<div style="display:flex;gap:10px;margin-top:16px"><button class="df-play-btn" id="dfPlayBtn">&#9654; Play Here</button><button class="df-play-btn" id="dfPlayTabBtn" style="background:rgba(255,255,255,.1)">&#128279; Open in Tab</button></div></div>';
+        content.appendChild(detail);
+        if(item._mediaType==='tv'){
+          var epInfoDiv=document.createElement('div');
+          epInfoDiv.id='dfEpisodeInfo';
+          epInfoDiv.className='df-episode-info';
+          epInfoDiv.style.cssText='margin:20px;padding:16px;background:rgba(255,255,255,.06);border-radius:8px;border:1px solid rgba(255,255,255,.1)';
+          content.appendChild(epInfoDiv);
+        }
+        var playerContainer=document.createElement('div');
+        playerContainer.id='dfPlayerContainer';
+        playerContainer.style.cssText='width:100%;aspect-ratio:16/9;margin-top:20px;border-radius:12px;overflow:hidden;display:none;background:#000';
+        content.appendChild(playerContainer);
+        content.querySelectorAll('.df-provider-btn').forEach(function(btn){
+          btn.onclick=function(){_dfState.tmdbProvider=btn.dataset.provider;_dfRenderTmdbDetail()};
+        });
+        function _dfLoadEpisodes(seasonNum){
+          var epSel=content.querySelector('#dfEpisodeSelect');
+          if(!epSel)return;
+          epSel.innerHTML='<option>Loading...</option>';
+          _dfState.episodes=[];
+          fetch(TMDB_BASE+'/tv/'+tmdbId+'/season/'+seasonNum+'?api_key='+TMDB_API_KEY)
+          .then(function(r){return r.json()})
+          .then(function(seasonData){
+            var episodes=seasonData.episodes||[];
+            _dfState.episodes=episodes;
+            var epOpts=episodes.map(function(ep){return '<option value="'+ep.episode_number+'"'+(ep.episode_number===_dfState.tmdbEpisode?' selected':'')+'>Episode '+ep.episode_number+': '+_dfEscapeHtml(ep.name||'')+'</option>'}).join('');
+            epSel.innerHTML=epOpts||'<option>No episodes</option>';
+            _dfUpdateEpisodeInfo();
+          }).catch(function(){epSel.innerHTML='<option>Error loading</option>'});
+        }
+        function _dfUpdateEpisodeInfo(){
+          var infoBox=content.querySelector('#dfEpisodeInfo');
+          if(!infoBox)return;
+          var ep=_dfState.episodes.find(function(e){return e.episode_number===_dfState.tmdbEpisode});
+          if(!ep){infoBox.innerHTML='';return}
+          var stillHtml=ep.still_path?'<img src="'+TMDB_IMG+ep.still_path+'" alt="" style="width:280px;max-width:100%;border-radius:8px;margin-bottom:10px">':'';
+          var runtime=ep.runtime?ep.runtime+' min':'N/A';
+          var airDate=ep.air_date||'N/A';
+          var epRating=ep.vote_average?ep.vote_average.toFixed(1):'N/A';
+          var overview=ep.overview||'No description available.';
+          infoBox.innerHTML=stillHtml+'<div style="font-size:14px;font-weight:700;margin-bottom:6px">'+_dfEscapeHtml(ep.name||'Episode '+ep.episode_number)+'</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;display:flex;gap:12px;flex-wrap:wrap"><span>'+runtime+'</span><span>'+airDate+'</span><span>Rating: '+epRating+'</span></div><div style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.5">'+_dfEscapeHtml(overview)+'</div>';
+        }
+        if(item._mediaType==='tv'){
+          _dfLoadEpisodes(_dfState.tmdbSeason);
+          var seasonSel=content.querySelector('#dfSeasonSelect');
+          if(seasonSel)seasonSel.onchange=function(){_dfState.tmdbSeason=parseInt(this.value);_dfState.tmdbEpisode=1;_dfLoadEpisodes(_dfState.tmdbSeason)};
+          var epSel=content.querySelector('#dfEpisodeSelect');
+          if(epSel)epSel.onchange=function(){_dfState.tmdbEpisode=parseInt(this.value);_dfUpdateEpisodeInfo()};
+        }
+        function _dfGetStreamUrl(){
+          var url='';
+          if(item._mediaType==='movie'){
+            if(_dfState.tmdbProvider==='toutstream'){url='https://toustream.xyz/tou/movies/'+tmdbId}
+            else{url='https://play2.123embed.net/movie/'+(imdbId||tmdbId)}
+          }else{
+            if(_dfState.tmdbProvider==='toutstream'){url='https://toustream.xyz/tou/tv/'+tmdbId+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
+            else{url='https://play2.123embed.net/tv/'+(imdbId||tmdbId)+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
+          }
+          return url;
+        }
+        content.querySelector('#dfPlayBtn').onclick=function(){
+          var url=_dfGetStreamUrl();
+          var container=content.querySelector('#dfPlayerContainer');
+          container.style.display='block';
+          container.innerHTML='<iframe src="'+url+'" style="width:100%;height:100%;border:none" allowfullscreen allow="autoplay;fullscreen;encrypted-media"></iframe>';
+          container.scrollIntoView({behavior:'smooth',block:'start'});
+        };
+        content.querySelector('#dfPlayTabBtn').onclick=function(){
+          var url=_dfGetStreamUrl();
+          var newWin=window.open('about:blank','_blank');
+          if(!newWin||newWin.closed){_dfToast('Popup blocked - please allow popups');return}
+          newWin.document.open();
+          newWin.document.write('<!DOCTYPE html><html><head><title>'+_dfEscapeHtml(title)+'</title></head><body style="margin:0;overflow:hidden;background:#000"><iframe src="'+url+'" style="width:100vw;height:100vh;border:none" allowfullscreen allow="autoplay;fullscreen;encrypted-media"></iframe></body></html>');
+          newWin.document.close();
+        };
+      }
+      d.appendChild(_dfBuildNav());
+      if(currentRole==='Admin')d.appendChild(_dfBuildAdminBar());
+      var main=document.createElement('div');main.className='docflix-content';
+      d.appendChild(main);
+      _dfLoad();
+      _dfLoadPopular();
+      var intro=document.createElement('div');
+      intro.className='docflix-intro';
+      intro.innerHTML='<div class="docflix-intro-logo">DOCFLIX<span>+</span></div>';
+      d.appendChild(intro);
+      setTimeout(function(){intro.remove()},3000);
       return d;
     }
   }
@@ -8310,16 +8783,9 @@ var _asCategoryMap={
 
 /* Built-in app store metadata */
 var _asBuiltinApps={
-  chat:{category:'apps',rating:4.8,downloads:2400,author:'System'},
-  settings:{category:'apps',rating:4.5,downloads:1800,author:'System'},
-  videocall:{category:'apps',rating:4.6,downloads:1500,author:'System'},
-  mod:{category:'apps',rating:4.3,downloads:800,author:'System',adminOnly:true},
-  appdesigner:{category:'apps',rating:4.7,downloads:1200,author:'System',adminOnly:true},
-  appstore:{category:'apps',rating:4.9,downloads:3000,author:'System'},
   calculator:{category:'apps',rating:4.7,downloads:1900,author:'System',storeOnly:true},
   notepad:{category:'apps',rating:4.6,downloads:1600,author:'System',storeOnly:true},
-  pong:{category:'game',rating:4.9,downloads:2500,author:'',storeOnly:true},
-  trash:{category:'apps',rating:4.0,downloads:900,author:'System'}
+  pong:{category:'game',rating:4.9,downloads:2500,author:'',storeOnly:true}
 };
 
 /* AI-style smart categorizer — uses weighted keyword scoring */
@@ -8482,7 +8948,13 @@ function _asCreateBtn(entry,container,filter){
             registerCustomApp(id,appData);
             addCustomDesktopIcon(id,appData);
           }
+          openApp(id);
           showToast('\u2705 '+escHtml(entryName)+' installed!');
+          renderAppStore(container,filter);
+        }).catch(function(err){
+          showToast('Install failed: '+err.message);
+          btn.style.pointerEvents='';
+          btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Install';
           renderAppStore(container,filter);
         });
       };
@@ -10948,6 +11420,7 @@ function _vcStopListenRemoteState(){
 
 function _vcShowIncomingCall(callId,callerRole,callerName){
   if(_vcInCall)return;
+  if(!_inAppNotifsEnabled())return;
   _vcRemoveIncomingOverlay();
   var overlay=document.createElement('div');
   overlay.className='vc-incoming';
@@ -11571,6 +12044,7 @@ function _gcDeclineGroupCall(roomId){
 
 function _gcShowIncomingGroupCall(roomId,hostName,participantNames){
   if(_gcInGroupCall||_vcInCall)return;
+  if(!_inAppNotifsEnabled())return;
   _vcRemoveIncomingOverlay();
   var overlay=document.createElement('div');
   overlay.className='vc-incoming';
@@ -11631,13 +12105,12 @@ var _origVcCleanupOnLogout=null;
 (function(){
   var logoutBtn=document.getElementById('taskbarLogoutBtn');
   if(logoutBtn){
-    var origClick=logoutBtn.onclick;
     logoutBtn.onclick=function(){
       if(_gcInGroupCall)_gcHangUp();
       if(_gcActiveCallsRef){_gcActiveCallsRef.off();_gcActiveCallsRef=null;}
       _gcRejoinableRooms={};_gcLastRoomId=null;
       if(_gcIncomingListener){db.ref('groupCalls').off('child_added',_gcIncomingListener);_gcIncomingListener=null;}
-      if(origClick)origClick.call(this);
+      logout();
     };
   }
 })();
