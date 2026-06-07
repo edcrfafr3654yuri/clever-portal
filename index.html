@@ -2046,6 +2046,41 @@ let pendingAppeals={},pendingRecos={},pendingAccountRequests={},deniedAccountReq
 let rateLimitEnabled=false;
 let auditLog={};
 
+/* Block system */
+var myBlockedUsers={};
+var _blockedByMe={};
+function isBlockedByMe(role){return !!_blockedByMe[role]}
+function hasBlockedMe(role){return !!myBlockedUsers[role]}
+function isBlockedEitherWay(role){return isBlockedByMe(role)||hasBlockedMe(role)}
+function _setupBlockedUsersListener(){
+  if(!currentRole)return;
+  db.ref('blockedUsers/'+currentRole).on('value',function(snap){
+    _blockedByMe=snap.val()||{};
+    if(typeof renderMessages==='function'&&typeof _allMsgData==='object')renderMessages(_allMsgData);
+  });
+  db.ref('blockedUsers').on('value',function(snap){
+    var all=snap.val()||{};
+    myBlockedUsers={};
+    Object.keys(all).forEach(function(r){
+      if(r===currentRole)return;
+      if(all[r]&&all[r][currentRole])myBlockedUsers[r]=true;
+    });
+    if(typeof renderMessages==='function'&&typeof _allMsgData==='object')renderMessages(_allMsgData);
+  });
+}
+function blockUser(role){
+  if(!currentRole||role===currentRole||role==='Admin')return;
+  db.ref('blockedUsers/'+currentRole+'/'+role).set(true).then(function(){
+    showToast('Blocked '+(roleDisplayNames[role]||role));
+  });
+}
+function unblockUser(role){
+  if(!currentRole)return;
+  db.ref('blockedUsers/'+currentRole+'/'+role).remove().then(function(){
+    showToast('Unblocked '+(roleDisplayNames[role]||role));
+  });
+}
+
 /* Rate limiting state (local) */
 const RL_MAX=3,RL_WINDOW=5000;
 let rlTimestamps=[];
@@ -2842,6 +2877,33 @@ function openNicknamePopup(targetRole, anchorEl){
   removeBtn.onclick=function(e){ e.stopPropagation(); delete _localNicknames[targetRole]; _saveLocalNicknames(); inp.value=''; box.remove(); refresh(); };
   btns.appendChild(save); btns.appendChild(removeBtn);
   body.appendChild(inp); body.appendChild(btns);
+  if(targetRole!==currentRole&&targetRole!=='System'&&targetRole!=='Admin'){
+    var blockRow=document.createElement('div');
+    blockRow.style.cssText='margin-top:8px;padding-top:8px;border-top:1px solid var(--border)';
+    var blockBtn=document.createElement('button');
+    var _isBlocked=isBlockedByMe(targetRole);
+    blockBtn.textContent=_isBlocked?'Unblock User':'Block User';
+    blockBtn.style.cssText='width:100%;padding:7px 0;border-radius:6px;border:1px solid '+(_isBlocked?'var(--border)':'#e04040')+';background:'+(isBlockedByMe(targetRole)?'transparent':'rgba(224,64,64,.1)')+';color:'+(_isBlocked?'var(--text4)':'#e04040')+';font-size:12px;font-weight:600;cursor:pointer;transition:all .12s';
+    blockBtn.onclick=function(e){
+      e.stopPropagation();
+      if(isBlockedByMe(targetRole)){
+        unblockUser(targetRole);
+        blockBtn.textContent='Block User';
+        blockBtn.style.borderColor='#e04040';
+        blockBtn.style.background='rgba(224,64,64,.1)';
+        blockBtn.style.color='#e04040';
+      }else{
+        blockUser(targetRole);
+        blockBtn.textContent='Unblock User';
+        blockBtn.style.borderColor='var(--border)';
+        blockBtn.style.background='transparent';
+        blockBtn.style.color='var(--text4)';
+      }
+      refresh();
+    };
+    blockRow.appendChild(blockBtn);
+    body.appendChild(blockRow);
+  }
   box.appendChild(hdr); box.appendChild(body);
   document.body.appendChild(box);
   if(anchorEl){
@@ -3459,6 +3521,7 @@ function loginAsRole(role){
   });
   if(typeof setupUserAppsListener==='function')setupUserAppsListener();
   if(typeof _fsSetupListener==='function')_fsSetupListener();
+  if(typeof _setupBlockedUsersListener==='function')_setupBlockedUsersListener();
   if(typeof restoreDesktopConfig==='function')restoreDesktopConfig();
 
   if(typeof _vcListenForIncomingCalls==='function')_vcListenForIncomingCalls();
@@ -4355,6 +4418,79 @@ function buildReactionsRow(msgKey,reactionsData){
 }
 
 var _allMsgData={};
+function _renderFullMessage(wrapper,msg,key){
+  var actionBar=document.createElement('div');actionBar.className='msg-action-bar';
+  if(msg.senderRole!=='System'){
+    var replyBtn=document.createElement('button');replyBtn.className='msg-action-btn';replyBtn.title='Reply';replyBtn.textContent='↩';
+    replyBtn.onclick=function(e){e.stopPropagation();if(currentRole)setReply(key,msg.senderName||'?',msg.text||'')};
+    actionBar.appendChild(replyBtn);
+  }
+  if(msg.senderRole!=='System'){
+    var reactBtn=document.createElement('button');reactBtn.className='msg-action-btn';reactBtn.title='React';reactBtn.textContent='😊';
+    reactBtn.onclick=function(e){
+      e.stopPropagation();
+      var existingPicker=document.querySelector('.emoji-picker');if(existingPicker){existingPicker.remove();return}
+      var picker=document.createElement('div');picker.className='emoji-picker';
+      EMOJI_LIST.forEach(function(em){
+        var eb=document.createElement('button');eb.className='emoji-btn';eb.textContent=em;
+        eb.onclick=function(ev){ev.stopPropagation();toggleReaction(key,em);picker.remove()};
+        picker.appendChild(eb);
+      });
+      var btnRect=reactBtn.getBoundingClientRect();
+      picker.style.position='fixed';picker.style.zIndex='9999';
+      picker.style.right=(window.innerWidth-btnRect.right)+'px';
+      if(btnRect.top>120){picker.style.bottom=(window.innerHeight-btnRect.top+4)+'px';picker.style.top='auto'}
+      else{picker.style.top=(btnRect.bottom+4)+'px';picker.style.bottom='auto'}
+      document.body.appendChild(picker);
+      setTimeout(function(){document.addEventListener('click',function h(){picker.remove();document.removeEventListener('click',h)},100)});
+    };
+    actionBar.appendChild(reactBtn);
+  }
+  if(currentRole&&msg.senderRole===currentRole&&msg.senderRole!=='System'){
+    var editBtn=document.createElement('button');editBtn.className='msg-action-btn';editBtn.title='Edit';editBtn.textContent='✏️';
+    editBtn.onclick=function(e){e.stopPropagation();startEdit(key,msg.text||'')};
+    actionBar.appendChild(editBtn);
+    var delOwnBtn=document.createElement('button');delOwnBtn.className='msg-action-btn msg-del-btn';delOwnBtn.title='Delete';delOwnBtn.innerHTML='<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-7-3A1.5 1.5 0 0 1 5 1h6a1.5 1.5 0 0 1 1.5 1.5H14a.5.5 0 0 1 0 1h-.54l-.767 9.2A2 2 0 0 1 10.7 14.5H5.3a2 2 0 0 1-1.992-1.8L2.54 3.5H2a.5.5 0 0 1 0-1h1.5zM5 2a.5.5 0 0 0-.5.5h7A.5.5 0 0 0 11 2H5zM3.54 3.5l.76 9.12a1 1 0 0 0 1 .88h5.4a1 1 0 0 0 1-.88l.76-9.12H3.54zM8 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/></svg>';
+    delOwnBtn.onclick=function(e){e.stopPropagation();deleteMessage(key)};
+    actionBar.appendChild(delOwnBtn);
+  }
+  wrapper.appendChild(actionBar);
+  if(msg.senderRole!=='System'){wrapper.appendChild(buildAvatarEl(msg.senderRole,28))}
+  var main=document.createElement('div');main.className='message-main';
+  var header=document.createElement('div');header.className='message-header';
+  var time=new Date(msg.timestamp||0);
+  var timeStr=time.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  var senderSpan=document.createElement('span');senderSpan.className='sender-name';senderSpan.textContent=getDisplayName(msg.senderRole,msg.senderName||'Unknown');
+  if(msg.senderRole!=='System'){senderSpan.onclick=function(e){e.stopPropagation();openNicknamePopup(msg.senderRole,senderSpan)};}
+  header.appendChild(senderSpan);
+  var timeSpan=document.createElement('span');timeSpan.className='msg-time';timeSpan.textContent=' \u2022 '+timeStr;
+  header.appendChild(timeSpan);
+  if(msg.replyTo){
+    var q=document.createElement('div');q.className='reply-quote';
+    q.innerHTML='<div class="quote-sender">↩ '+escHtml(msg.replyTo.senderName||'?')+'</div><div class="quote-text">'+escHtml((msg.replyTo.text||'[image]').substring(0,80))+'</div>';
+    q.onclick=function(){
+      var orig=document.querySelector('[data-key="'+msg.replyTo.key+'"]');
+      if(orig){orig.scrollIntoView({behavior:'smooth',block:'center'});orig.style.outline='2px solid var(--accent)';setTimeout(function(){orig.style.outline=''},1200)}
+    };
+    main.appendChild(q);
+  }
+  main.appendChild(header);
+  var text=document.createElement('div');text.className='message-text';
+  if(msg.text){
+    text.innerHTML=linkify(msg.text);
+    if(msg.edited){var ed=document.createElement('span');ed.className='message-edited';ed.textContent='(edited)';text.appendChild(ed)}
+  }
+  if(msg.image){var img=document.createElement('img');img.src=msg.image;text.appendChild(img)}
+  if(msg.video){var vid=document.createElement('video');vid.src=msg.video;vid.controls=true;vid.playsInline=true;vid.preload='metadata';vid.style.cssText='max-width:100%;max-height:300px;border-radius:6px;margin-top:4px;display:block';text.appendChild(vid)}
+  main.appendChild(text);
+  var reactData=reactionsCache[key];
+  if(reactData){main.appendChild(buildReactionsRow(key,reactData))}
+  wrapper.appendChild(main);
+  if(isAnyAdmin()&&(msg.senderRole!=='System'||currentRole==='Admin')){
+    var delBtn=document.createElement('button');delBtn.className='delete-btn';delBtn.textContent='Delete';
+    delBtn.onclick=function(){deleteMessage(key)};wrapper.appendChild(delBtn);
+  }
+}
 function renderMessages(data){
   _allMsgData=data;
   // update word-limit UI (for current user) when messages change
@@ -4384,98 +4520,31 @@ function renderMessages(data){
     if(isAdminMsg)wrapper.classList.add('message-admin');
     if(msg.senderRole==='System')wrapper.classList.add('message-system');
 
-    /* Action bar */
-    const actionBar=document.createElement('div');actionBar.className='msg-action-bar';
-
-    /* Reply btn */
-    if(msg.senderRole!=='System'){
-      const replyBtn=document.createElement('button');replyBtn.className='msg-action-btn';replyBtn.title='Reply';replyBtn.textContent='↩';
-      replyBtn.onclick=e=>{e.stopPropagation();if(currentRole)setReply(key,msg.senderName||'?',msg.text||'')};
-      actionBar.appendChild(replyBtn);
-    }
-
-    /* React btn */
-    if(msg.senderRole!=='System'){
-      const reactBtn=document.createElement('button');reactBtn.className='msg-action-btn';reactBtn.title='React';reactBtn.textContent='😊';
-      reactBtn.onclick=e=>{
+    /* Blocked user message hiding */
+    var _msgBlocked=msg.senderRole!=='System'&&msg.senderRole!=='Admin'&&!(adminUsers[msg.senderRole]===true)&&isBlockedByMe(msg.senderRole);
+    if(_msgBlocked){
+      wrapper.style.cssText='margin-bottom:4px;padding:6px 14px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;opacity:.7;transition:all .15s';
+      var blockLabel=document.createElement('div');
+      blockLabel.style.cssText='display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text5)';
+      blockLabel.innerHTML='<span style="font-size:14px">&#128683;</span><span style="flex:1">'+escHtml(getDisplayName(msg.senderRole,msg.senderName||'Unknown'))+'\'s message hidden (blocked)</span>';
+      var showBtn=document.createElement('button');
+      showBtn.textContent='Show';
+      showBtn.style.cssText='padding:3px 10px;border-radius:4px;border:1px solid var(--border);background:var(--bg4);color:var(--text4);font-size:11px;font-weight:600;cursor:pointer;transition:all .12s';
+      showBtn.onclick=function(e){
         e.stopPropagation();
-        var existingPicker=document.querySelector('.emoji-picker');if(existingPicker){existingPicker.remove();return}
-        var picker=document.createElement('div');picker.className='emoji-picker';
-        EMOJI_LIST.forEach(em=>{
-          var eb=document.createElement('button');eb.className='emoji-btn';eb.textContent=em;
-          eb.onclick=ev=>{ev.stopPropagation();toggleReaction(key,em);picker.remove()};
-          picker.appendChild(eb);
-        });
-        var btnRect=reactBtn.getBoundingClientRect();
-        picker.style.position='fixed';
-        picker.style.zIndex='9999';
-        picker.style.right=(window.innerWidth-btnRect.right)+'px';
-        if(btnRect.top>120){picker.style.bottom=(window.innerHeight-btnRect.top+4)+'px';picker.style.top='auto'}
-        else{picker.style.top=(btnRect.bottom+4)+'px';picker.style.bottom='auto'}
-        document.body.appendChild(picker);
-        setTimeout(()=>document.addEventListener('click',function h(){picker.remove();document.removeEventListener('click',h)},100));
+        wrapper.innerHTML='';
+        wrapper.style.cssText='';
+        wrapper.className='message';
+        if(isAdminMsg)wrapper.classList.add('message-admin');
+        _renderFullMessage(wrapper,msg,key);
       };
-      actionBar.appendChild(reactBtn);
+      blockLabel.appendChild(showBtn);
+      wrapper.appendChild(blockLabel);
+      messagesDiv.appendChild(wrapper);
+      return;
     }
 
-    /* Edit btn (own messages) */
-    if(currentRole&&msg.senderRole===currentRole&&msg.senderRole!=='System'){
-      const editBtn=document.createElement('button');editBtn.className='msg-action-btn';editBtn.title='Edit';editBtn.textContent='✏️';
-      editBtn.onclick=e=>{e.stopPropagation();startEdit(key,msg.text||'')};
-      actionBar.appendChild(editBtn);
-      const delOwnBtn=document.createElement('button');delOwnBtn.className='msg-action-btn msg-del-btn';delOwnBtn.title='Delete';delOwnBtn.innerHTML='<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-7-3A1.5 1.5 0 0 1 5 1h6a1.5 1.5 0 0 1 1.5 1.5H14a.5.5 0 0 1 0 1h-.54l-.767 9.2A2 2 0 0 1 10.7 14.5H5.3a2 2 0 0 1-1.992-1.8L2.54 3.5H2a.5.5 0 0 1 0-1h1.5zM5 2a.5.5 0 0 0-.5.5h7A.5.5 0 0 0 11 2H5zM3.54 3.5l.76 9.12a1 1 0 0 0 1 .88h5.4a1 1 0 0 0 1-.88l.76-9.12H3.54zM8 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/></svg>';
-      delOwnBtn.onclick=e=>{e.stopPropagation();deleteMessage(key)};
-      actionBar.appendChild(delOwnBtn);
-    }
-
-    wrapper.appendChild(actionBar);
-
-    /* Profile picture avatar */
-    if(msg.senderRole!=='System'){
-      wrapper.appendChild(buildAvatarEl(msg.senderRole,28));
-    }
-
-    const main=document.createElement('div');main.className='message-main';
-    const header=document.createElement('div');header.className='message-header';
-    const time=new Date(msg.timestamp||0);
-    const timeStr=time.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    var senderSpan=document.createElement('span');senderSpan.className='sender-name';senderSpan.textContent=getDisplayName(msg.senderRole,msg.senderName||'Unknown');
-    if(msg.senderRole!=='System'){senderSpan.onclick=function(e){e.stopPropagation();openNicknamePopup(msg.senderRole,senderSpan)};}
-    header.appendChild(senderSpan);
-    var timeSpan=document.createElement('span');timeSpan.className='msg-time';timeSpan.textContent=' \u2022 '+timeStr;
-    header.appendChild(timeSpan);
-
-    /* Reply quote */
-    if(msg.replyTo){
-      const q=document.createElement('div');q.className='reply-quote';
-      q.innerHTML='<div class="quote-sender">↩ '+escHtml(msg.replyTo.senderName||'?')+'</div><div class="quote-text">'+escHtml((msg.replyTo.text||'[image]').substring(0,80))+'</div>';
-      q.onclick=()=>{
-        const orig=document.querySelector('[data-key="'+msg.replyTo.key+'"]');
-        if(orig){orig.scrollIntoView({behavior:'smooth',block:'center'});orig.style.outline='2px solid var(--accent)';setTimeout(()=>orig.style.outline='',1200)}
-      };
-      main.appendChild(q);
-    }
-
-    main.appendChild(header);
-    const text=document.createElement('div');text.className='message-text';
-    if(msg.text){
-      text.innerHTML=linkify(msg.text);
-      if(msg.edited){const ed=document.createElement('span');ed.className='message-edited';ed.textContent='(edited)';text.appendChild(ed)}
-    }
-    if(msg.image){var img=document.createElement('img');img.src=msg.image;text.appendChild(img)}
-    if(msg.video){var vid=document.createElement('video');vid.src=msg.video;vid.controls=true;vid.playsInline=true;vid.preload='metadata';vid.style.cssText='max-width:100%;max-height:300px;border-radius:6px;margin-top:4px;display:block';text.appendChild(vid)}
-    main.appendChild(text);
-
-    /* Reactions */
-    const reactData=reactionsCache[key];
-    if(reactData){main.appendChild(buildReactionsRow(key,reactData))}
-
-    wrapper.appendChild(main);
-
-    if(isAnyAdmin()&&(msg.senderRole!=='System'||currentRole==='Admin')){
-      const delBtn=document.createElement('button');delBtn.className='delete-btn';delBtn.textContent='Delete';
-      delBtn.onclick=()=>deleteMessage(key);wrapper.appendChild(delBtn);
-    }
+    _renderFullMessage(wrapper,msg,key);
     messagesDiv.appendChild(wrapper);
   });
   /* Scroll: if divider was inserted and this is the first render after login or chat reopen, scroll to divider */
@@ -5595,6 +5664,8 @@ var appDefs={
         var rb=d.querySelector('#settingsResetDesktop');
         if(rb){
           rb.onclick=function(){
+            _iconResetVersion++;
+            if(currentRole)localStorage.setItem('docosIconResetV_'+currentRole,_iconResetVersion);
             resetIconPositions();
             saveIconPositions();
             showToast('Desktop icons reset to default positions.');
@@ -7465,6 +7536,7 @@ function focusWindow(winId){
 
 function minimizeWindow(winId){
   if(!openWindows[winId])return;
+  if(openWindows[winId].appId==='chat'){document.querySelectorAll('.nick-popup').forEach(function(el){el.remove()})}
   openWindows[winId].minimized=true;
   openWindows[winId].el.classList.add('minimized');
   activeWindowId=null;
@@ -7506,6 +7578,7 @@ function closeWindow(winId){
   /* For chat app, save last-seen and hide instead of destroy */
   if(w.appId==='chat'){
     _forceSaveLastSeen();_chatIsOpen=false;
+    document.querySelectorAll('.nick-popup').forEach(function(el){el.remove()});
     var appDiv=w.el.querySelector('.app');
     if(appDiv){document.body.appendChild(appDiv);appDiv.style.display='none'}
   }
@@ -8948,7 +9021,6 @@ function _asCreateBtn(entry,container,filter){
             registerCustomApp(id,appData);
             addCustomDesktopIcon(id,appData);
           }
-          openApp(id);
           showToast('\u2705 '+escHtml(entryName)+' installed!');
           renderAppStore(container,filter);
         }).catch(function(err){
@@ -10416,7 +10488,6 @@ function setupUserAppsListener(){
   _userAppsRef.on('value',function(snap){
     userAppsState=snap.val()||{};
     syncDesktopWithUserState();
-    resolveOverlaps();saveIconPositions();
     var tl=document.getElementById('trashItemsList');
     if(tl)renderTrashItems(tl);
   });
@@ -11035,6 +11106,8 @@ function _vcUnlockAudio(){
 
 async function _vcStartCall(targetRole){
   if(_vcInCall||!currentRole)return;
+  if(isBlockedByMe(targetRole)){showToast('You have blocked '+(roleDisplayNames[targetRole]||targetRole)+'. Unblock them to call.');return}
+  if(hasBlockedMe(targetRole)){showToast('This user is unavailable.');return}
   _vcInCall=true;
   _vcIsCaller=true;
   _vcTargetRole=targetRole;
@@ -11420,6 +11493,7 @@ function _vcStopListenRemoteState(){
 
 function _vcShowIncomingCall(callId,callerRole,callerName){
   if(_vcInCall)return;
+  if(isBlockedByMe(callerRole)||hasBlockedMe(callerRole)){db.ref('videoCalls/'+callId+'/status').set('ended');return}
   if(!_inAppNotifsEnabled())return;
   _vcRemoveIncomingOverlay();
   var overlay=document.createElement('div');
@@ -12195,6 +12269,8 @@ function _pongInit(container){
   var btnUp=container.querySelector('#pongBtnUp');
   var btnDown=container.querySelector('#pongBtnDown');
 
+  _pongRenderOnlineUsers(container);
+
   if(quickPlayBtn) quickPlayBtn.onclick=function(){ _pongJoinQuick(container); };
   if(rematchBtn) rematchBtn.onclick=function(){ _pongRematch(); };
   if(backBtn) backBtn.onclick=function(){ _pongBackToLobby(container); };
@@ -12220,15 +12296,27 @@ function _pongBgConnect(){
   if(_pongWs && _pongWs.readyState<=1) return;
   var name=_pongGetDisplayName();
   if(!name)return;
-  try{_pongWs=new WebSocket(PONG_WS_URL)}catch(e){return}
+  try{_pongWs=new WebSocket(PONG_WS_URL)}catch(e){_pongWs=null;_pongRefreshOnlineList();return}
+  var _pongConnectTimeout=setTimeout(function(){
+    if(_pongWs&&_pongWs.readyState===0){
+      try{_pongWs.close()}catch(e){}
+      _pongWs=null;
+      _pongRefreshOnlineList();
+    }
+  },5000);
   _pongWs.onopen=function(){
+    clearTimeout(_pongConnectTimeout);
     _pongWs.send(JSON.stringify({action:'register',name:name}));
+    _pongRefreshOnlineList();
   };
   _pongWs.onmessage=function(e){
     var msg;try{msg=JSON.parse(e.data)}catch(er){return}
     _pongHandleMsg(msg,_pongContainer);
   };
   _pongWs.onclose=function(){
+    clearTimeout(_pongConnectTimeout);
+    _pongWs=null;
+    _pongRefreshOnlineList();
     if(_pongContainer){
       var dc=_pongContainer.querySelector('#pongDisconnect');
       if(dc&&_pongRender.state==='playing'){dc.textContent='Connection lost';dc.classList.add('show')}
@@ -12236,7 +12324,11 @@ function _pongBgConnect(){
     /* Auto-reconnect after 3s if still logged in */
     setTimeout(function(){if(currentDisplayName)_pongBgConnect()},3000);
   };
-  _pongWs.onerror=function(){};
+  _pongWs.onerror=function(){clearTimeout(_pongConnectTimeout)};
+}
+
+function _pongRefreshOnlineList(){
+  if(_pongContainer)_pongRenderOnlineUsers(_pongContainer);
 }
 
 function _pongConnect(container){
@@ -12318,13 +12410,13 @@ function _pongHandleMsg(msg,container){
 function _pongRenderOnlineUsers(container){
   var list=container.querySelector('#pongUsersList');
   if(!list)return;
-  /* Use Firebase onlineUsers (all portal users) merged with WS pong users */
+  var wsConnected=_pongWs&&_pongWs.readyState===1;
   var portalUsers=[];
   if(typeof onlineUsers==='object'){
     Object.keys(onlineUsers).forEach(function(roleId){
       if(roleId===currentRole)return;
       var name=(onlineUsers[roleId]&&onlineUsers[roleId].name)||roleId;
-      var hasPong=_pongOnlineUsers.indexOf(name)!==-1;
+      var hasPong=wsConnected&&_pongOnlineUsers.indexOf(name)!==-1;
       portalUsers.push({name:name,roleId:roleId,hasPong:hasPong});
     });
   }
@@ -12332,20 +12424,24 @@ function _pongRenderOnlineUsers(container){
     list.innerHTML='<div style="font-size:12px;color:rgba(255,255,255,.25);padding:8px 0">No other users online</div>';
     return;
   }
-  /* Sort: pong users first */
   portalUsers.sort(function(a,b){return (b.hasPong?1:0)-(a.hasPong?1:0)});
   var html='';
+  if(!wsConnected){
+    html+='<div style="font-size:11px;color:rgba(255,200,100,.6);padding:6px 0;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,.06)">⚠ Pong server offline — challenges unavailable</div>';
+  }
   portalUsers.forEach(function(u){
-    var dotColor=u.hasPong?'#00ff88':'#ffaa00';
-    var btnLabel=u.hasPong?'Challenge':'Invite';
-    var btnClass=u.hasPong?'pong-challenge-btn':'pong-challenge-btn';
-    var statusLabel=u.hasPong?'':'<span style="font-size:9px;color:rgba(255,255,255,.3);margin-left:4px">(no Pong)</span>';
-    html+='<div class="pong-user-item"><div class="pong-user-name"><div class="pong-user-dot" style="background:'+dotColor+'"></div>'+_escHtml(u.name)+statusLabel+'</div><button class="'+btnClass+'" data-target="'+_escAttr(u.name)+'" data-haspong="'+(u.hasPong?'1':'0')+'">'+btnLabel+'</button></div>';
+    var dotColor=u.hasPong?'#00ff88':(wsConnected?'#ffaa00':'#888');
+    var btnLabel=u.hasPong?'Challenge':(wsConnected?'Invite':'Offline');
+    var btnDisabled=!wsConnected?' disabled style="opacity:.4;cursor:not-allowed"':'';
+    var statusLabel=u.hasPong?'':(wsConnected?'<span style="font-size:9px;color:rgba(255,255,255,.3);margin-left:4px">(no Pong)</span>':'<span style="font-size:9px;color:rgba(255,255,255,.2);margin-left:4px">(server down)</span>');
+    html+='<div class="pong-user-item"><div class="pong-user-name"><div class="pong-user-dot" style="background:'+dotColor+'"></div>'+_escHtml(u.name)+statusLabel+'</div><button class="pong-challenge-btn" data-target="'+_escAttr(u.name)+'" data-roleid="'+_escAttr(u.roleId)+'" data-haspong="'+(u.hasPong?'1':'0')+'"'+btnDisabled+'>'+btnLabel+'</button></div>';
   });
   list.innerHTML=html;
   list.querySelectorAll('.pong-challenge-btn').forEach(function(btn){
+    if(btn.disabled)return;
     btn.onclick=function(){
       var target=btn.getAttribute('data-target');
+      var targetRoleId=btn.getAttribute('data-roleid');
       var hasPong=btn.getAttribute('data-haspong')==='1';
       if(hasPong){
         if(_pongWs&&_pongWs.readyState===1){
@@ -12353,20 +12449,15 @@ function _pongRenderOnlineUsers(container){
         }
       }else{
         showToast('Sent '+target+' an invite to install Pong!');
-        /* Send a chat message inviting them to install Pong from App Store */
-        if(typeof db!=='undefined'&&currentRole){
+        if(typeof db!=='undefined'&&currentRole&&targetRoleId){
           var inviteMsg='Hey! Install Pong from the App Store and play me! Open App Store > Games > Pong';
-          /* Find the target's roleId to DM them */
-          var targetRole=null;
-          Object.keys(onlineUsers).forEach(function(rid){
-            if((onlineUsers[rid]&&onlineUsers[rid].name)===target)targetRole=rid;
+          var cid=_dmChatId(currentRole,targetRoleId);
+          db.ref('dmIndex/'+currentRole+'/'+targetRoleId).set({name:(onlineUsers[targetRoleId]&&onlineUsers[targetRoleId].name)||targetRoleId,since:Date.now()});
+          var myName=currentDisplayName||currentRole;
+          db.ref('dmIndex/'+targetRoleId+'/'+currentRole).set({name:myName,since:Date.now()});
+          db.ref('dmMessages/'+cid).push({
+            text:inviteMsg,senderRole:currentRole,senderName:currentDisplayName,timestamp:Date.now()
           });
-          if(targetRole){
-            var dmId=[currentRole,targetRole].sort().join('_');
-            db.ref('directMessages/'+dmId).push({
-              text:inviteMsg,sender:currentRole,senderName:currentDisplayName,timestamp:Date.now()
-            });
-          }
         }
       }
     };
@@ -12555,6 +12646,11 @@ function _pongSendDir(dir){
   if(!_pongWs||_pongWs.readyState!==1)return;
   _pongLastDir=dir;
   _pongWs.send(JSON.stringify({action:'move',dir:dir}));
+}
+
+function _pongMobileMove(dir){
+  if(!_pongInGame)return;
+  _pongSendDir(dir);
 }
 
 /* Keyboard: attach to window at capture phase, before anything else.
