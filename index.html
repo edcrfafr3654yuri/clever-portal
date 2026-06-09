@@ -1504,15 +1504,20 @@ summary{font-size:calc(13px * var(--fs-scale))}
 .pong-canvas{border:1px solid rgba(255,255,255,.06);border-radius:8px;background:#0a0a12;display:block}
 .pong-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;z-index:2}
 .pong-countdown{font-size:72px;font-weight:900;color:#fff;text-shadow:0 0 40px rgba(0,212,255,.5)}
-.pong-game-over{text-align:center;padding:16px}
-.pong-game-over h3{font-size:20px;font-weight:900;margin-bottom:6px}
-.pong-game-over .pong-win{color:#00d4ff}
-.pong-game-over .pong-lose{color:#ff2d95}
-.pong-game-over p{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:12px}
+.pong-game-over{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);z-index:30;backdrop-filter:blur(4px)}
+.pong-result-popup{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px 32px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.pong-result-icon{font-size:48px;margin-bottom:8px}
+.pong-result-popup h3{font-size:20px;font-weight:900;margin-bottom:6px}
+.pong-result-popup .pong-win{color:#00d4ff}
+.pong-result-popup .pong-lose{color:#ff2d95}
+.pong-result-popup p{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:12px}
 .pong-rematch-btn{padding:10px 28px;border:none;border-radius:8px;background:linear-gradient(135deg,#7b2fff,#ff2d95);color:#fff;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:opacity .15s}
 .pong-rematch-btn:hover{opacity:.85}
 .pong-rematch-btn:disabled{opacity:.5;cursor:not-allowed}
-.pong-back-btn{margin-top:6px;padding:6px 16px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:transparent;color:rgba(255,255,255,.4);font-size:11px;cursor:pointer;transition:all .15s}
+.pong-back-btn{margin-top:8px;padding:8px 20px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:rgba(255,255,255,.05);color:var(--text);font-size:11px;cursor:pointer;transition:all .15s;display:inline-block}
+.pong-back-btn:hover{background:rgba(255,255,255,.1)}
+.pong-leaderboard-btn{margin-top:8px;padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer;transition:all .15s}
+.pong-leaderboard-btn:hover{background:var(--accent);color:#fff}
 .pong-back-btn:hover{border-color:rgba(255,255,255,.25);color:#fff}
 .pong-disconnect{display:none;padding:8px 14px;border-radius:6px;background:rgba(255,45,45,.08);border:1px solid rgba(255,45,45,.15);color:#ff5555;font-size:11px;text-align:center;margin-top:4px}
 .pong-disconnect.show{display:block}
@@ -5658,9 +5663,25 @@ var windowZIndex=10;
 var activeWindowId=null;
 var _restoringWindows=false;
 function _saveOpenWindows(){
+  var data={};
+  for(var id in openWindows){
+    var w=openWindows[id];
+    if(!w||!w.el)continue;
+    var rect=w.el.getBoundingClientRect();
+    data[id]={left:rect.left,top:rect.top,width:rect.width,height:rect.height,appId:w.appId};
+  }
+  try{localStorage.setItem('windowPositions',JSON.stringify(data))}catch(e){}
 }
 function _restoreOpenWindows(){
+  try{
+    var raw=localStorage.getItem('windowPositions');
+    if(!raw)return;
+    var data=JSON.parse(raw);
+    _windowPosRestoreData=data;
+  }catch(e){}
 }
+var _windowPosRestoreData=null;
+_restoreOpenWindows();
 
 /* Clock */
 (function updateClock(){
@@ -7078,14 +7099,31 @@ var appDefs={
     title:'Docflix',
     icon:'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
     iconBg:'linear-gradient(135deg,#0f0f0f,#1a1a2e)',
-    width:960,height:620,
+    width:960,height:620,maximized:true,
     getContent:function(){
       var d=document.createElement('div');d.className='docflix-app';
-      var _dfState={items:[],filter:'All',search:'',selected:null,editing:null,tmdbView:false,tmdbResults:[],tmdbDetail:null,tmdbProvider:'toutstream',tmdbSeason:1,tmdbEpisode:1,popularResults:null,popularLoading:false};
+      var _dfState={items:[],filter:'All',search:'',selected:null,editing:null,tmdbView:false,tmdbResults:[],tmdbDetail:null,tmdbProvider:'toutstream',tmdbSeason:1,tmdbEpisode:1,popularResults:null,popularLoading:false,hiddenProviders:{}};
       if(window._dfRef){window._dfRef.off()}window._dfRef=db.ref('docflixContent');var _dfRef=window._dfRef;
       function _dfToast(msg){var t=document.createElement('div');t.className='docflix-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
       function _dfEscapeHtml(s){var E=document.createElement('div');E.textContent=s;return E.innerHTML}
       var _dfInitialLoad=true;
+      var _dfHiddenRef=db.ref('docflixContent/_hiddenProviders');
+      function _dfToggleHiddenProvider(prov){
+        var hp=_dfState.hiddenProviders;
+        if(hp[prov]){delete hp[prov]}else{hp[prov]=true}
+        _dfHiddenRef.set(hp);
+        _dfUpdateProviderUI();
+      }
+      function _dfUpdateProviderUI(){
+        var allBtns=document.querySelectorAll('.df-provider-btn');
+        allBtns.forEach(function(b){
+          var prov=b.dataset.provider;
+          var hidden=_dfState.hiddenProviders[prov];
+          b.style.display=(currentRole==='Admin'||!hidden)?'':'none';
+          var eye=b.querySelector('.df-eye-toggle');
+          if(eye)eye.innerHTML=hidden?'&#128065;':'&#128064;';
+        });
+      }
       function _dfLoad(){
         _dfRef.on('child_added',function(snap){
           var val=snap.val();if(!val)return;
@@ -7108,6 +7146,7 @@ var appDefs={
           if(idx>-1)_dfState.items.splice(idx,1);
           if(!_dfInitialLoad)_dfRender();
         });
+        _dfHiddenRef.on('value',function(snap){var v=snap.val();_dfState.hiddenProviders=v||{};if(!_dfInitialLoad)_dfRender()});
         _dfRef.once('value',function(){_dfInitialLoad=false;_dfRender()});
       }
       var _dfNavTabsRef=null;
@@ -7339,14 +7378,28 @@ var appDefs={
         var overview=item.overview||'No description available.';
         var imdbId=(item.external_ids&&item.external_ids.imdb_id)||'';
         var tmdbId=item.id;
-        var providerHtml='<div class="df-provider-select"><button class="df-provider-btn'+(_dfState.tmdbProvider==='toutstream'?' active':'')+'" data-provider="toutstream">TouStream <span style="font-size:9px;background:#2e7d32;color:#fff;padding:2px 6px;border-radius:3px;margin-left:4px;font-weight:700;letter-spacing:.5px">BEST</span></button><button class="df-provider-btn'+(_dfState.tmdbProvider==='123embed'?' active':'')+'" data-provider="123embed">123Embed</button></div>';
+        function _dfProvBtn(prov,label,extra){
+          var hp=_dfState.hiddenProviders[prov];
+          if(currentRole!=='Admin'&&hp)return '';
+          var active=_dfState.tmdbProvider===prov?' active':'';
+          var eye=currentRole==='Admin'?' <span class="df-eye-toggle" style="cursor:pointer;font-size:13px;margin-left:2px">'+(hp?'&#128065;':'&#128064;')+'</span>':'';
+          var hiddenTag=hp?'<span style="position:absolute;top:-6px;right:-6px;font-size:8px;font-weight:700;background:#e50914;color:#fff;padding:1px 5px;border-radius:3px;letter-spacing:.5px;text-transform:uppercase;line-height:normal">HIDDEN</span>':'';
+          return '<button class="df-provider-btn'+active+'" data-provider="'+prov+'" style="position:relative">'+hiddenTag+label+eye+'</button>';
+        }
+        var providerHtml='<div style="margin-top:16px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sources</div><div class="df-provider-select">'+
+          _dfProvBtn('toutstream','TouStream <span style="font-size:9px;background:#2e7d32;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">BEST</span>')+
+          _dfProvBtn('123embed','123Embed')+
+          _dfProvBtn('vidlink','Vidlink <span style="font-size:9px;background:#e65100;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">POPUPS</span>')+
+          _dfProvBtn('cineby','Cineby <span style="font-size:9px;background:#e65100;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">POPUPS</span>')+
+          (item._mediaType==='tv'?_dfProvBtn('vidking','Vidking <span style="font-size:9px;background:#e65100;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">POPUPS</span>'):'')+
+          '</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:6px;line-height:1.4">Working sources may fluctuate so be sure to test them all</div>';
         var episodeHtml='';
         if(item._mediaType==='tv'){
           var seasons=(item.seasons||[]).filter(function(s){return s.season_number>0});
           var seasonOpts=seasons.map(function(s){return '<option value="'+s.season_number+'"'+(s.season_number===_dfState.tmdbSeason?' selected':'')+'>Season '+s.season_number+'</option>'}).join('');
           episodeHtml='<div class="df-episode-select"><label>Season</label><select id="dfSeasonSelect">'+seasonOpts+'</select><label style="margin-top:10px">Episode</label><select id="dfEpisodeSelect"><option>Loading...</option></select></div>';
         }
-        detail.innerHTML='<div class="df-tmdb-poster">'+posterHtml+'</div><div class="df-tmdb-info"><h2>'+_dfEscapeHtml(title)+'</h2><div class="meta"><span>'+year+'</span><span>'+_dfEscapeHtml(genres)+'</span><span>Rating: '+rating+'</span></div><div class="overview">'+_dfEscapeHtml(overview)+'</div>'+providerHtml+episodeHtml+'<div style="display:flex;gap:10px;margin-top:16px"><button class="df-play-btn" id="dfPlayBtn">&#9654; Play Here</button><button class="df-play-btn" id="dfPlayTabBtn" style="background:rgba(255,255,255,.1)">&#128279; Open in Tab</button></div></div>';
+        detail.innerHTML='<div class="df-tmdb-poster">'+posterHtml+'</div><div class="df-tmdb-info"><h2>'+_dfEscapeHtml(title)+'</h2><div class="meta"><span>'+year+'</span><span>'+_dfEscapeHtml(genres)+'</span><span>Rating: '+rating+'</span></div><div class="overview">'+_dfEscapeHtml(overview)+'</div>'+providerHtml+episodeHtml+'<div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"><button class="df-play-btn" id="dfPlayBtn" style="display:'+(_dfState.tmdbProvider==='cineby'?'none':'inline-flex')+'">&#9654; Play Here</button><button class="df-play-btn" id="dfPlayTabBtn" style="background:rgba(255,255,255,.1)">&#128279; Open in Tab</button><div id="dfVidlinkNotice" style="width:100%;font-size:11px;color:rgba(255,255,255,.4);display:'+(_dfState.tmdbProvider==='vidlink'?'block':'none')+'">Vidlink may break scrolling &mdash; use the scroll bar if needed</div></div></div>';
         content.appendChild(detail);
         if(item._mediaType==='tv'){
           var epInfoDiv=document.createElement('div');
@@ -7357,10 +7410,21 @@ var appDefs={
         }
         var playerContainer=document.createElement('div');
         playerContainer.id='dfPlayerContainer';
-        playerContainer.style.cssText='width:100%;aspect-ratio:16/9;margin-top:20px;border-radius:12px;overflow:hidden;display:none;background:#000';
+        playerContainer.style.cssText='width:100%;aspect-ratio:16/9;margin-top:20px;border-radius:12px;overflow:hidden;display:none;background:#000;position:relative';
         content.appendChild(playerContainer);
         content.querySelectorAll('.df-provider-btn').forEach(function(btn){
-          btn.onclick=function(){_dfState.tmdbProvider=btn.dataset.provider;_dfRenderTmdbDetail()};
+          btn.onclick=function(ev){
+            if(ev.target.classList.contains('df-eye-toggle'))return;
+            _dfState.tmdbProvider=btn.dataset.provider;
+            var pb=content.querySelector('#dfPlayBtn');
+            if(pb)pb.style.display=_dfState.tmdbProvider==='cineby'?'none':'inline-flex';
+            var n=content.querySelector('#dfVidlinkNotice');
+            if(n)n.style.display=_dfState.tmdbProvider==='vidlink'?'block':'none';
+            _dfRenderTmdbDetail()
+          };
+        });
+        content.querySelectorAll('.df-eye-toggle').forEach(function(el){
+          el.onclick=function(ev){ev.stopPropagation();_dfToggleHiddenProvider(this.closest('.df-provider-btn').dataset.provider)};
         });
         function _dfLoadEpisodes(seasonNum){
           var epSel=content.querySelector('#dfEpisodeSelect');
@@ -7400,22 +7464,47 @@ var appDefs={
           var url='';
           if(item._mediaType==='movie'){
             if(_dfState.tmdbProvider==='toutstream'){url='https://toustream.xyz/tou/movies/'+tmdbId}
+            else if(_dfState.tmdbProvider==='vidlink'){url='https://vidlink.pro/movie/'+tmdbId}
+            else if(_dfState.tmdbProvider==='cineby'){url='https://www.cineby.at/movie/'+tmdbId}
+            else if(_dfState.tmdbProvider==='vidking'){url='https://www.vidking.net/embed/movie/'+tmdbId}
             else{url='https://play2.123embed.net/movie/'+(imdbId||tmdbId)}
           }else{
             if(_dfState.tmdbProvider==='toutstream'){url='https://toustream.xyz/tou/tv/'+tmdbId+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
+            else if(_dfState.tmdbProvider==='vidlink'){url='https://vidlink.pro/tv/'+tmdbId+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
+            else if(_dfState.tmdbProvider==='cineby'){url='https://www.cineby.at/tv/'+tmdbId+'?play=true'}
+            else if(_dfState.tmdbProvider==='vidking'){url='https://www.vidking.net/embed/tv/'+tmdbId+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
             else{url='https://play2.123embed.net/tv/'+(imdbId||tmdbId)+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
           }
           return url;
         }
         content.querySelector('#dfPlayBtn').onclick=function(){
+          if(_dfState.tmdbProvider==='cineby'){_dfToast('Cineby does not support embedding - use Open in Tab');return}
           var url=_dfGetStreamUrl();
           var container=content.querySelector('#dfPlayerContainer');
           container.style.display='block';
-          container.innerHTML='<iframe src="'+url+'" style="width:100%;height:100%;border:none" allowfullscreen allow="autoplay;fullscreen;encrypted-media"></iframe>';
+          container.innerHTML='<iframe src="'+url+'" referrerpolicy="unsafe-url" style="width:100%;height:100%;border:none" allowfullscreen allow="autoplay;fullscreen;encrypted-media" id="dfPlayerIframe"></iframe>'+
+            '<button id="dfFullscreenBtn" style="position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:8px;border:none;background:rgba(0,0,0,.6);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .15s;backdrop-filter:blur(4px)" onmouseover="this.style.background=\'rgba(0,0,0,.8)\'" onmouseout="this.style.background=\'rgba(0,0,0,.6)\'" title="Fullscreen">⛶</button>';
           container.scrollIntoView({behavior:'smooth',block:'start'});
+          var fsBtn=container.querySelector('#dfFullscreenBtn');
+          if(fsBtn)fsBtn.onclick=function(ev){
+            ev.stopPropagation();
+            var iframe=container.querySelector('iframe');
+            if(!iframe)return;
+            if(document.fullscreenElement||document.webkitFullscreenElement){
+              if(document.exitFullscreen)document.exitFullscreen();
+              else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+            }else{
+              if(iframe.requestFullscreen)iframe.requestFullscreen();
+              else if(iframe.webkitRequestFullscreen)iframe.webkitRequestFullscreen();
+            }
+          };
         };
         content.querySelector('#dfPlayTabBtn').onclick=function(){
           var url=_dfGetStreamUrl();
+          if(_dfState.tmdbProvider==='cineby'){
+            window.open(url,'_blank');
+            return
+          }
           var newWin=window.open('about:blank','_blank');
           if(!newWin||newWin.closed){_dfToast('Popup blocked - please allow popups');return}
           newWin.document.open();
@@ -7843,9 +7932,26 @@ function createWindow(appId){
   var area=document.getElementById('desktopArea');
   var aW=area.offsetWidth,aH=area.offsetHeight;
   var w=Math.min(def.width,aW-40),h=Math.min(def.height,aH-40);
-  var offsetCount=Object.keys(openWindows).length;
-  var l=Math.max(20,60+offsetCount*30),t=Math.max(20,40+offsetCount*30);
-  if(l+w>aW)l=20;if(t+h>aH)t=20;
+  
+  /* Restore saved position */
+  var restored=false;
+  if(_windowPosRestoreData){
+    for(var _rid in _windowPosRestoreData){
+      var _rd=_windowPosRestoreData[_rid];
+      if(_rd.appId===appId){
+        l=_rd.left;t=_rd.top;w=_rd.width;h=_rd.height;
+        restored=true;
+        delete _windowPosRestoreData[_rid];
+        break;
+      }
+    }
+  }
+  if(!restored){
+    var offsetCount=Object.keys(openWindows).length;
+    l=Math.max(20,60+offsetCount*30);
+    t=Math.max(20,40+offsetCount*30);
+    if(l+w>aW)l=20;if(t+h>aH)t=20;
+  }
   win.style.cssText='left:'+l+'px;top:'+t+'px;width:'+w+'px;height:'+h+'px';
 
   /* Title bar (optional) */
@@ -7958,8 +8064,9 @@ function createWindow(appId){
   area.appendChild(win);
 
   /* Track */
-  openWindows[winId]={appId:appId,title:def.title,minimized:false,maximized:false,el:win,prevStyle:null};
-  focusWindow(winId);
+   openWindows[winId]={appId:appId,title:def.title,minimized:false,maximized:false,el:win,prevStyle:null};
+   if(def.maximized)toggleMaximize(winId);
+   focusWindow(winId);
   updateTaskbar();
   if(tb)initDrag(win,tb);else initDrag(win,body);
   if(!def.noResize)initResize(win);
@@ -8349,7 +8456,7 @@ function initDrag(win,titlebar){
       win.style.top=(origTop+dy)+'px';
     }
   });
-  document.addEventListener('mouseup',function(){if(dragActive){dragActive=false;removeIframeOverlay()}dragPending=false});
+  document.addEventListener('mouseup',function(){if(dragActive){dragActive=false;removeIframeOverlay();_saveOpenWindows()}dragPending=false});
   /* Double click title to maximize */
   if(titlebar.classList.contains('win-titlebar')){
     titlebar.addEventListener('dblclick',function(e){
@@ -8396,7 +8503,7 @@ function initResize(win){
       if(edge.cls.includes('n')){nh=Math.max(200,startH-dy);nt=startT+(startH-nh)}
       win.style.width=nw+'px';win.style.height=nh+'px';win.style.left=nl+'px';win.style.top=nt+'px';
     });
-    document.addEventListener('mouseup',function(){if(resizing){resizing=false;removeResizeOverlay()}});
+    document.addEventListener('mouseup',function(){if(resizing){resizing=false;removeResizeOverlay();_saveOpenWindows()}});
   });
 }
 
@@ -13497,6 +13604,7 @@ var PONG_WS_URL = 'wss://user:fb62865ee1b631fef94cdfa171f45b59@0ae713151595-tunn
 var CW=800, CH=500, PW=12, PH=90, BR=8;
 
 var _pongWs=null, _pongSide=null, _pongAnimFrame=null, _pongMyName=null;
+var _pongLastChallengeRoom=null;
 var _pongOnlineUsers=[];
 var _pongRender={ball:{x:CW/2,y:CH/2},p1:{y:CH/2,score:0,name:'P1'},p2:{y:CH/2,score:0,name:'P2'},state:'idle',countdown:3,winner:null};
 var _pongKeys={};
@@ -13533,13 +13641,13 @@ function _pongGetPlayerId(){
 window._pongBuildUI=function(){
   var d=document.createElement('div');
   d.className='pong-app';
+  d.style.position='relative';
   _pongContainer=d;
 
   d.innerHTML=
     '<div class="pong-lobby" id="pongLobby">'+
       '<h2>PONG</h2>'+
       '<button class="pong-quick-play" id="pongPlayAI" style="margin-bottom:16px">PLAY VS AI</button>'+
-      '<button class="pong-leaderboard-btn" id="pongLeaderboardBtn" style="margin-bottom:16px;padding:10px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:12px;cursor:pointer;width:100%">🏆 Leaderboard</button>'+
       '<div class="pong-online-list" id="pongOnlineList">'+
         '<h3>Online Players</h3>'+
         '<div id="pongUsersList" style="min-height:40px"><div style="font-size:12px;color:rgba(255,255,255,.3)">Loading...</div></div>'+
@@ -13569,10 +13677,18 @@ window._pongBuildUI=function(){
           '<div class="pong-result-stats" id="pongResultStats" style="display:none;margin:16px 0;padding:12px;background:var(--bg3);border-radius:8px;font-size:12px;color:var(--text4)"></div>'+
           '<button class="pong-rematch-btn" id="pongRematchBtn" style="display:none">REMATCH</button><br>'+
           '<button class="pong-back-btn" id="pongBackBtn">Back to Lobby</button>'+
-          '<button class="pong-leaderboard-btn" id="pongLeaderboardBtn" style="margin-top:10px;padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer">View Leaderboard</button>'+
+          '<button class="pong-leaderboard-btn" id="pongLeaderboardBtnGO" style="margin-top:10px;padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer">🏆 Leaderboard</button>'+
         '</div>'+
       '</div>'+
     '</div>';
+
+  /* Leaderboard button — top-right of Pong window */
+  var lbBtn=document.createElement('button');
+  lbBtn.id='pongLeaderboardBtn';
+  lbBtn.textContent='🏆';
+  lbBtn.title='Leaderboard';
+  lbBtn.style.cssText='position:absolute;top:4px;right:4px;z-index:60;padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:rgba(0,0,0,0.5);color:var(--text);font-size:14px;cursor:pointer;display:none;line-height:1';
+  d.appendChild(lbBtn);
 
   /* Click on game area to ensure window focus for keyboard input */
   d.addEventListener('click',function(){
@@ -13594,9 +13710,25 @@ function _pongInit(container){
 
   _pongRenderOnlineUsers(container);
 
+  /* Show leaderboard button in lobby */
+  var lbBtn=container.querySelector('#pongLeaderboardBtn');
+  if(lbBtn)lbBtn.style.display='';
+
   if(playAIBtn) playAIBtn.onclick=function(){ _pongStartAIGame(container); };
   if(rematchBtn) rematchBtn.onclick=function(){ _pongRematch(); };
   if(backBtn) backBtn.onclick=function(){ _pongBackToLobby(container); };
+
+  /* Leaderboard button (top-right of Pong) */
+  if(lbBtn) lbBtn.onclick=function(){ _pongShowLeaderboard(container); };
+  
+  /* Leaderboard button (game over popup) */
+  var lbBtnGO=container.querySelector('#pongLeaderboardBtnGO');
+  if(lbBtnGO) lbBtnGO.onclick=function(){ _pongShowLeaderboard(container); };
+
+  /* Auto-join if room exists (accepted challenge) */
+  if(_pongFB&&_pongFB.roomRef&&_pongFB.roomId){
+    _pongStartOnlineGame(container);
+  }
 
   if(btnUp){
     btnUp.ontouchstart=function(e){e.preventDefault();_pongMobileMove(-1)};
@@ -13627,6 +13759,11 @@ function _pongBgConnect(){
     Object.keys(lobby).forEach(function(pid){
       if(lobby[pid]&&lobby[pid].name&&pid!==_pongGetPlayerId()){
         _pongOnlineUsers.push(lobby[pid].name);
+        /* Check for incoming challenge (dedup by roomId) */
+        if(lobby[pid].target===currentRole&&lobby[pid].roomId&&lobby[pid].roomId!==_pongLastChallengeRoom){
+          _pongLastChallengeRoom=lobby[pid].roomId;
+          _pongShowChallengeNotif(lobby[pid].name,lobby[pid].roomId);
+        }
       }
     });
     _pongRefreshOnlineList();
@@ -13707,8 +13844,10 @@ function _pongStartOnlineGame(container){
 
   var lobby=container.querySelector('#pongLobby');
   var gameArea=container.querySelector('#pongGameArea');
+  var lbBtn=container.querySelector('#pongLeaderboardBtn');
   if(lobby)lobby.style.display='none';
   if(gameArea)gameArea.classList.add('active');
+  if(lbBtn)lbBtn.style.display='none';
 
   var p1Name=container.querySelector('#pongP1Name');
   var p2Name=container.querySelector('#pongP2Name');
@@ -13732,6 +13871,17 @@ function _pongStartOnlineGame(container){
     _pongRender.p2={y:state.p2.y,score:state.p2.score,name:_pongFB.mySide==='right'?_pongGetDisplayName():_pongFB.opponentName};
     _pongRender.state=state.phase;
 
+    /* Update overlay (countdown etc) */
+    var ov=container.querySelector('#pongOverlay');
+    if(ov){
+      if(state.phase==='countdown'){
+        ov.innerHTML='<div class="pong-countdown">'+(state.countdown||3)+'</div>';
+        ov.style.display='block';
+      }else{
+        ov.style.display='none';
+      }
+    }
+
     if(state.phase==='playing'&&!_pongAnimFrame){
       _pongStartRender(container);
     }
@@ -13754,8 +13904,28 @@ function _pongStartOnlineGame(container){
   });
   _pongFB.listeners.push(playersRef);
 
+  /* Update overlay with countdown/waiting */
+  var overlay=container.querySelector('#pongOverlay');
+  if(overlay){
+    if(_pongFB.isHost){
+      overlay.innerHTML='<div style="font-size:14px;color:rgba(255,255,255,.5);padding:20px">Waiting for opponent...</div>';
+    }else{
+      overlay.innerHTML='<div style="font-size:14px;color:rgba(255,255,255,.5);padding:20px">Joining game...</div>';
+    }
+  }
+
   if(_pongFB.isHost){
-    _pongRunHostGameLoop(container);
+    /* Wait for both players before starting */
+    var waitRef=roomRef.child('players');
+    var waitListener=waitRef.on('value',function(snap){
+      var players=snap.val()||{};
+      var connected=Object.keys(players).filter(function(pid){return players[pid]&&players[pid].connected});
+      if(connected.length>=2){
+        waitRef.off('value',waitListener);
+        _pongRunHostGameLoop(container);
+      }
+    });
+    _pongFB.listeners.push({off:function(){waitRef.off('value',waitListener)}});
   }
 }
 
@@ -13981,17 +14151,42 @@ function _pongRenderOnlineUsers(container){
       if(hasPong){
         var playerId=_pongGetPlayerId();
         var playerName=_pongGetDisplayName();
+        var roomId='pong_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+        var roomRef=db.ref('pongRooms/'+roomId);
+        roomRef.set({
+          created:Date.now(),
+          host:playerId,
+          players:{},
+          state:{phase:'waiting',ball:{x:CW/2,y:CH/2,vx:0,vy:0},p1:{y:CH/2,score:0},p2:{y:CH/2,score:0},winner:null}
+        });
+        roomRef.child('players/'+playerId).set({
+          name:playerName,
+          side:'left',
+          connected:true,
+          ts:Date.now()
+        });
+        roomRef.child('players/'+playerId).onDisconnect().update({connected:false});
+        /* Store pending room so Pong can pick it up when opened */
+        _pongFB.roomRef=roomRef;
+        _pongFB.roomId=roomId;
+        _pongFB.playerId=playerId;
+        _pongFB.isHost=true;
+        _pongFB.opponentId=targetRoleId;
+        _pongFB.opponentName=target;
+        _pongFB.mySide='left';
         var lobbyRef=db.ref('pongLobby');
         lobbyRef.child(playerId).set({
           name:playerName,
           role:currentRole||'anon',
           target:targetRoleId,
           targetName:target,
+          roomId:roomId,
           ts:Date.now()
         });
         lobbyRef.child(playerId).onDisconnect().remove();
         showToast('Challenge sent to '+target+'!');
         setTimeout(function(){lobbyRef.child(playerId).remove()},10000);
+        openApp('pong');
       }else{
         showToast('Sent '+target+' an invite to install Pong!');
         if(typeof db!=='undefined'&&currentRole&&targetRoleId){
@@ -14083,16 +14278,32 @@ function _pongShowChallengeNotif(from,roomId){
 
   /* Accept */
   notif.querySelector('#pongCNAccept').onclick=function(){
-    if(_pongWs&&_pongWs.readyState===1){
-      _pongWs.send(JSON.stringify({action:'accept_challenge',from:from,room_id:roomId}));
+    var playerId=_pongGetPlayerId();
+    var playerName=_pongGetDisplayName();
+    if(typeof db!=='undefined'&&roomId){
+      var roomRef=db.ref('pongRooms/'+roomId);
+      _pongFB.roomRef=roomRef;
+      _pongFB.roomId=roomId;
+      _pongFB.isHost=false;
+      _pongFB.opponentId=from;
+      _pongFB.opponentName=from;
+      _pongFB.mySide='right';
+      _pongFB.playerId=playerId;
+      roomRef.child('players/'+playerId).set({
+        name:playerName,
+        side:'right',
+        connected:true,
+        ts:Date.now()
+      });
+      roomRef.child('players/'+playerId).onDisconnect().update({connected:false});
     }
     notif.remove();
     openApp('pong');
   };
   /* Decline */
   notif.querySelector('#pongCNDecline').onclick=function(){
-    if(_pongWs&&_pongWs.readyState===1){
-      _pongWs.send(JSON.stringify({action:'decline_challenge',from:from,room_id:roomId}));
+    if(typeof db!=='undefined'&&roomId){
+      db.ref('pongRooms/'+roomId).remove();
     }
     notif.remove();
   };
@@ -14130,13 +14341,18 @@ function _pongUpdateOverlay(container,msg){
 
 function _pongShowGameOver(container,winner){
   try{
+    /* Stop render loop */
+    if(_pongAnimFrame){cancelAnimationFrame(_pongAnimFrame);_pongAnimFrame=null}
+    
     var popup=container.querySelector('#pongResultPopup');
+    var goPanel=container.querySelector('#pongGameOver');
     var title=container.querySelector('#pongGOTitle');
     var sub=container.querySelector('#pongGOSub');
     var icon=container.querySelector('#pongResultIcon');
     var stats=container.querySelector('#pongResultStats');
     var rematchBtn=container.querySelector('#pongRematchBtn');
-    var myName=_pongSide==='left'?_pongRender.p1.name:_pongRender.p2.name;
+    var mySide=_pongFB&&_pongFB.mySide;
+    var myName=mySide==='left'?_pongRender.p1.name:_pongRender.p2.name;
     var isWin=winner===myName;
     
     var role=currentRole||'guest';
@@ -14152,6 +14368,7 @@ function _pongShowGameOver(container,winner){
       }).catch(function(e){console.error('[Pong Stat]',e)});
     }
     
+    if(goPanel)goPanel.style.display='';
     if(popup){popup.style.display='block';popup.style.zIndex='100';}
     if(icon){icon.textContent=isWin?'🏆':'💀';icon.style.fontSize='48px';icon.style.animation=isWin?'bounce 0.5s':'shake 0.5s'}
     if(title){title.textContent=isWin?'VICTORY!':'DEFEAT';title.className=isWin?'pong-win':'pong-lose'}
@@ -14166,8 +14383,9 @@ function _pongShowGameOver(container,winner){
     }
     if(rematchBtn){rematchBtn.style.display='inline-block';rematchBtn.disabled=false;rematchBtn.textContent='REMATCH';rematchBtn.onclick=function(){
       popup.style.display='none';
-      if(_pongFB.roomId){
-        _pongWs.send(JSON.stringify({action:'rematch'}));
+      if(goPanel)goPanel.style.display='none';
+      if(_pongFB&&_pongFB.roomId){
+        _pongBackToLobby(container);
       }else{
         _pongStartAIGame(container);
       }
@@ -14187,6 +14405,7 @@ function _pongBackToLobby(container){
   _pongInGame=false;_pongInputInitDone=false;
   _pongAIMode=false;_pongAIRunning=false;
   if(_pongAIAnimFrame){cancelAnimationFrame(_pongAIAnimFrame);_pongAIAnimFrame=null}
+  if(_pongAnimFrame){cancelAnimationFrame(_pongAnimFrame);_pongAnimFrame=null}
   _pongFBCleanup();
   if(_pongWs)_pongWs.close();_pongWs=null;
   var lobby=container.querySelector('#pongLobby');
@@ -14194,16 +14413,17 @@ function _pongBackToLobby(container){
   var goPanel=container.querySelector('#pongGameOver');
   var dc=container.querySelector('#pongDisconnect');
   var aiBtn=container.querySelector('#pongPlayAI');
+  var lbBtn=container.querySelector('#pongLeaderboardBtn');
   if(lobby)lobby.style.display='';
   if(gameArea)gameArea.classList.remove('active');
   if(goPanel)goPanel.style.display='none';
   if(dc)dc.classList.remove('show');
   if(aiBtn)aiBtn.disabled=false;
+  if(lbBtn)lbBtn.style.display='';
   _pongBallTrail=[];_pongParticles=[];
   _pongRender.p1.score=0;_pongRender.p2.score=0;_pongRender.state='idle';
   var s1=container.querySelector('#pongP1Score');var s2=container.querySelector('#pongP2Score');
   if(s1)s1.textContent='0';if(s2)s2.textContent='0';
-  if(_pongAnimFrame){cancelAnimationFrame(_pongAnimFrame);_pongAnimFrame=null}
 }
 
 /* ── Input ── */
@@ -14420,8 +14640,10 @@ function _pongStartAIGame(container){
 
   var lobby=container.querySelector('#pongLobby');
   var gameArea=container.querySelector('#pongGameArea');
+  var lbBtn=container.querySelector('#pongLeaderboardBtn');
   if(lobby)lobby.style.display='none';
   if(gameArea)gameArea.classList.add('active');
+  if(lbBtn)lbBtn.style.display='none';
 
   var p1Name=container.querySelector('#pongP1Name');
   var p2Name=container.querySelector('#pongP2Name');
@@ -14543,6 +14765,7 @@ function _pongAIEndGame(won){
   }
   
   if(!_pongAIContainer)return;
+  var goPanel=_pongAIContainer.querySelector('#pongGameOver');
   var popup=_pongAIContainer.querySelector('#pongResultPopup');
   var title=_pongAIContainer.querySelector('#pongGOTitle');
   var sub=_pongAIContainer.querySelector('#pongGOSub');
@@ -14550,6 +14773,7 @@ function _pongAIEndGame(won){
   var stats=_pongAIContainer.querySelector('#pongResultStats');
   var rematchBtn=_pongAIContainer.querySelector('#pongRematchBtn');
   
+  if(goPanel)goPanel.style.display='';
   if(popup)popup.style.display='block';
   if(icon){icon.textContent=won?'🏆':'💀';icon.style.fontSize='48px';icon.style.animation=won?'bounce 0.5s':'shake 0.5s'}
   if(title){title.textContent=won?'VICTORY!':'DEFEAT';title.className=won?'pong-win':'pong-lose'}
@@ -14564,6 +14788,7 @@ function _pongAIEndGame(won){
   }
   if(rematchBtn){rematchBtn.style.display='inline-block';rematchBtn.disabled=false;rematchBtn.textContent='REMATCH';rematchBtn.onclick=function(){
     popup.style.display='none';
+    if(goPanel)goPanel.style.display='none';
     _pongStartAIGame(_pongAIContainer);
   }}
 }
@@ -14604,6 +14829,7 @@ function _pongRenderLeaderboard(container,entries,myAIW,myAIL,myOW,myOL){
   var lobby=container.querySelector('#pongLobby');
   var gameArea=container.querySelector('#pongGameArea');
   var goPanel=container.querySelector('#pongGameOver');
+  var wasInGame=goPanel&&goPanel.style.display!=='none';
   if(lobby)lobby.style.display='none';
   if(gameArea)gameArea.style.display='none';
   if(goPanel)goPanel.style.display='none';
@@ -14612,34 +14838,74 @@ function _pongRenderLeaderboard(container,entries,myAIW,myAIL,myOW,myOL){
   lb.id='pongLeaderboard';
   lb.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;background:var(--bg);color:var(--text);display:flex;flex-direction:column;z-index:50';
   lb.innerHTML=
-    '<div style="display:flex;align-items:center;gap:8px;padding:16px;border-bottom:1px solid var(--border)">'+
-    '<button id="pongLBBBack" style="font-size:20px;background:none;border:none;color:var(--text);cursor:pointer;padding:8px">←</button>'+
-    '<h2 style="margin:0;font-size:18px">🏆 Pong Leaderboard</h2></div>'+
-    '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:11px;color:var(--text5);text-align:center">'+
-    '<div>Rank</div><div>Player</div><div>Online W/L</div><div>AI W/L</div></div>'+
-    '<div id="pongLBList" style="flex:1;overflow-y:auto;padding:8px 16px"></div>';
+    '<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border)">'+
+    '<button id="pongLBBBack" style="width:32px;height:32px;border-radius:8px;font-size:18px;background:var(--bg3);border:1px solid var(--border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s">←</button>'+
+    '<h2 style="margin:0;font-size:17px">🏆 Leaderboard</h2></div>'+
+    '<div style="display:grid;grid-template-columns:44px 1fr 80px 80px;gap:4px;padding:10px 16px;border-bottom:2px solid var(--border);font-size:10px;font-weight:700;color:var(--text5);text-transform:uppercase;letter-spacing:.5px">'+
+    '<div style="text-align:center">#</div><div>Player</div><div style="text-align:center">Online</div><div style="text-align:center">vs AI</div></div>'+
+    '<div id="pongLBList" style="flex:1;overflow-y:auto;padding:0"></div>'+
+    '<div style="display:grid;grid-template-columns:44px 1fr 80px 80px;gap:4px;padding:10px 16px;border-top:2px solid var(--border);font-size:12px;font-weight:700;background:var(--bg2)">'+
+    '<div style="text-align:center">👤</div><div>You</div><div style="text-align:center">'+myOW+'W / '+myOL+'L</div><div style="text-align:center">'+myAIW+'W / '+myAIL+'L</div></div>'+
+    (currentRole==='Admin'?'<div style="padding:10px 16px;border-top:1px solid var(--border)"><button id="pongResetStatsBtn" style="width:100%;padding:8px;border:1px solid #ff4444;border-radius:8px;background:rgba(255,68,68,.1);color:#ff6666;font-size:11px;font-weight:600;cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'rgba(255,68,68,.2)\'" onmouseout="this.style.background=\'rgba(255,68,68,.1)\'">🗑 Reset All Stats</button></div>':'');
   
-  container.querySelector('.pong-app').appendChild(lb);
+  container.appendChild(lb);
   
   var list=lb.querySelector('#pongLBList');
   var html='';
   if(entries.length===0){
-    html='<div style="text-align:center;color:var(--text5);padding:40px">No online stats yet</div>';
+    html='<div style="text-align:center;color:var(--text5);padding:48px 16px;font-size:13px">No online stats yet — play some games!</div>';
   }else{
     entries.slice(0,50).forEach(function(e,i){
       var isMe=currentRole&&e.name===(currentDisplayName||currentRole);
-      html+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px'+(isMe?' font-weight:700;background:rgba(255,217,61,.1)':'')+'">'+
-        '<div>'+(i+1)+'</div>'+
-        '<div>'+(isMe?e.name+' (You)':e.name)+'</div>'+
-        '<div>'+e.oW+'W / '+e.oL+'L</div>'+
-        '<div>'+e.aiW+'W / '+e.aiL+'L</div></div>';
+      var bg=isMe?'background:rgba(255,217,61,.08)':'';
+      var hl=isMe?';font-weight:700':'';
+      html+='<div style="display:grid;grid-template-columns:44px 1fr 80px 80px;gap:4px;padding:8px 16px;border-bottom:1px solid var(--border);font-size:12px;transition:background .1s'+';'+bg+hl+'"'+
+        ' onmouseover="this.style.background=\''+(isMe?'rgba(255,217,61,.12)':'var(--bg3)')+'\'"'+
+        ' onmouseout="this.style.background=\''+(isMe?'rgba(255,217,61,.08)':'')+'\'">'+
+        '<div style="text-align:center;color:var(--text5)">'+(i+1)+'</div>'+
+        '<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(isMe?e.name+' (You)':e.name)+'</div>'+
+        '<div style="text-align:center;color:var(--text4)">'+e.oW+'W / '+e.oL+'L</div>'+
+        '<div style="text-align:center;color:var(--text4)">'+e.aiW+'W / '+e.aiL+'L</div></div>';
     });
   }
   list.innerHTML=html;
   
   lb.querySelector('#pongLBBBack').onclick=function(){
     lb.remove();
-    if(lobby)lobby.style.display='';
+    if(wasInGame&&goPanel){goPanel.style.display='';if(gameArea)gameArea.style.display=''}
+    else if(lobby)lobby.style.display='';
+  };
+  
+  var resetBtn=lb.querySelector('#pongResetStatsBtn');
+  if(resetBtn)resetBtn.onclick=function(){
+    /* Custom modal instead of confirm() */
+    var overlay=document.createElement('div');
+    overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)';
+    overlay.innerHTML=
+      '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px 32px 22px;max-width:360px;width:90%;text-align:center;box-shadow:0 16px 64px rgba(0,0,0,.6)">'+
+      '<div style="font-size:36px;margin-bottom:12px">🗑</div>'+
+      '<h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--text)">Reset All Stats?</h3>'+
+      '<p style="margin:0 0 20px;font-size:13px;color:var(--text5);line-height:1.5">This will permanently delete <strong>everyone\'s</strong> Pong stats (wins/losses) from Firebase. Your own localStorage stats will also be cleared.<br><br>This <strong>cannot</strong> be undone.</p>'+
+      '<div style="display:flex;gap:10px">'+
+      '<button id="pongResetCancel" style="flex:1;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;transition:background .15s">Cancel</button>'+
+      '<button id="pongResetConfirm" style="flex:1;padding:10px;border:none;border-radius:10px;background:#e53935;color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .15s">Yes, Reset</button>'+
+      '</div></div>';
+    document.body.appendChild(overlay);
+    overlay.querySelector('#pongResetCancel').onclick=function(){overlay.remove()};
+    overlay.querySelector('#pongResetConfirm').onclick=function(){
+      overlay.remove();
+      var role=currentRole||'guest';
+      localStorage.removeItem('pongAIWins_'+role);
+      localStorage.removeItem('pongAILosses_'+role);
+      localStorage.removeItem('pongOnlineWins_'+role);
+      localStorage.removeItem('pongOnlineLosses_'+role);
+      if(typeof db!=='undefined'){
+        db.ref('pongStats').remove();
+      }
+      showToast('All Pong stats reset');
+      _pongShowLeaderboard(container);
+    };
+    overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
   };
 }
 
