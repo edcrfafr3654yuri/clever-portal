@@ -1673,6 +1673,7 @@ body.anim-iconBounce .desktop-icon{transition:transform .15s ease}
 body.anim-iconBounce .desktop-icon:active{transform:scale(.9)}
 body.anim-iconBounce .desktop-icon.icon-bounce{animation:iconBounce .4s cubic-bezier(.16,1,.3,1)}
 @keyframes iconBounce{0%{transform:scale(1)}30%{transform:scale(.85)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes bounce{0%{transform:scale(1)}20%{transform:scale(1.3)}40%{transform:scale(.9)}60%{transform:scale(1.15)}80%{transform:scale(.95)}100%{transform:scale(1)}}
 
 /* Notification slide-in */
 body.anim-notifSlide .notif-panel{transition:right .35s cubic-bezier(.16,1,.3,1)}
@@ -13538,6 +13539,7 @@ window._pongBuildUI=function(){
     '<div class="pong-lobby" id="pongLobby">'+
       '<h2>PONG</h2>'+
       '<button class="pong-quick-play" id="pongPlayAI" style="margin-bottom:16px">PLAY VS AI</button>'+
+      '<button class="pong-leaderboard-btn" id="pongLeaderboardBtn" style="margin-bottom:16px;padding:10px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:12px;cursor:pointer;width:100%">🏆 Leaderboard</button>'+
       '<div class="pong-online-list" id="pongOnlineList">'+
         '<h3>Online Players</h3>'+
         '<div id="pongUsersList" style="min-height:40px"><div style="font-size:12px;color:rgba(255,255,255,.3)">Loading...</div></div>'+
@@ -13560,10 +13562,15 @@ window._pongBuildUI=function(){
       '</div>'+
       '<div class="pong-disconnect" id="pongDisconnect"></div>'+
       '<div class="pong-game-over" id="pongGameOver" style="display:none">'+
-        '<h3 id="pongGOTitle">Game Over</h3>'+
-        '<p id="pongGOSub"></p>'+
-        '<button class="pong-rematch-btn" id="pongRematchBtn">REMATCH</button><br>'+
-        '<button class="pong-back-btn" id="pongBackBtn">Back to Lobby</button>'+
+        '<div class="pong-result-popup" id="pongResultPopup" style="display:none">'+
+          '<div class="pong-result-icon" id="pongResultIcon"></div>'+
+          '<h3 id="pongGOTitle">Game Over</h3>'+
+          '<p id="pongGOSub"></p>'+
+          '<div class="pong-result-stats" id="pongResultStats" style="display:none;margin:16px 0;padding:12px;background:var(--bg3);border-radius:8px;font-size:12px;color:var(--text4)"></div>'+
+          '<button class="pong-rematch-btn" id="pongRematchBtn" style="display:none">REMATCH</button><br>'+
+          '<button class="pong-back-btn" id="pongBackBtn">Back to Lobby</button>'+
+          '<button class="pong-leaderboard-btn" id="pongLeaderboardBtn" style="margin-top:10px;padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer">View Leaderboard</button>'+
+        '</div>'+
       '</div>'+
     '</div>';
 
@@ -13603,6 +13610,9 @@ function _pongInit(container){
     btnDown.onmousedown=function(){_pongMobileMove(1)};
     btnDown.onmouseup=function(){_pongMobileMove(0)};
   }
+
+  var leaderboardBtn=container.querySelector('#pongLeaderboardBtn');
+  if(leaderboardBtn) leaderboardBtn.onclick=function(){ _pongShowLeaderboard(container); };
 
   _pongConnect(container);
 }
@@ -13807,6 +13817,7 @@ function _pongRunHostGameLoop(container){
         var relY=(ball.y-p1.y)/(PH/2);
         ball.vy=relY*5;
         ball.x=20+PW+BR;
+        _pongSpawnConfetti(ball.x,ball.y,'#00d4ff');
       }
 
       if(ball.x+BR>=CW-20-PW&&ball.x+BR<=CW-20&&ball.y>=p2.y-PH/2&&ball.y<=p2.y+PH/2&&ball.vx>0){
@@ -13814,17 +13825,19 @@ function _pongRunHostGameLoop(container){
         var relY2=(ball.y-p2.y)/(PH/2);
         ball.vy=relY2*5;
         ball.x=CW-20-PW-BR;
+        _pongSpawnConfetti(ball.x,ball.y,'#ff2d95');
       }
 
-      var maxSpeed=12;
+      var maxSpeed=16;
       if(Math.abs(ball.vx)>maxSpeed)ball.vx=maxSpeed*Math.sign(ball.vx);
       if(Math.abs(ball.vy)>maxSpeed)ball.vy=maxSpeed*Math.sign(ball.vy);
 
       if(ball.x<0){
         p2.score++;
+        _pongSpawnConfetti(0,ball.y,'#ff2d95');
         ball.x=CW/2;ball.y=CH/2;
-        ball.vx=5*(Math.random()>0.5?1:-1);
-        ball.vy=3*(Math.random()>0.5?1:-1);
+        ball.vx=7*(Math.random()>0.5?1:-1);
+        ball.vy=5*(Math.random()>0.5?1:-1);
         if(p2.score>=5){
           phase='gameover';
           stateRef.update({phase:'gameover',ball:ball,p1:p1,p2:p2,winner:_pongFB.opponentName});
@@ -13834,9 +13847,10 @@ function _pongRunHostGameLoop(container){
       }
       if(ball.x>CW){
         p1.score++;
+        _pongSpawnConfetti(CW,ball.y,'#00d4ff');
         ball.x=CW/2;ball.y=CH/2;
-        ball.vx=5*(Math.random()>0.5?1:-1);
-        ball.vy=3*(Math.random()>0.5?1:-1);
+        ball.vx=7*(Math.random()>0.5?1:-1);
+        ball.vy=5*(Math.random()>0.5?1:-1);
         if(p1.score>=5){
           phase='gameover';
           stateRef.update({phase:'gameover',ball:ball,p1:p1,p2:p2,winner:_pongGetDisplayName()});
@@ -14115,19 +14129,50 @@ function _pongUpdateOverlay(container,msg){
 }
 
 function _pongShowGameOver(container,winner){
-  var panel=container.querySelector('#pongGameOver');if(!panel)return;
-  var title=container.querySelector('#pongGOTitle');
-  var sub=container.querySelector('#pongGOSub');
-  var myName=_pongSide==='left'?_pongRender.p1.name:_pongRender.p2.name;
-  if(winner===myName){
-    if(title){title.textContent='YOU WIN!';title.className='pong-win'}
-    if(sub)sub.textContent='Dominated the arena';
-  }else{
-    if(title){title.textContent='DEFEAT';title.className='pong-lose'}
-    if(sub)sub.textContent=winner+' wins the match';
-  }
-  panel.style.display='block';
-  var rb=container.querySelector('#pongRematchBtn');if(rb){rb.disabled=false;rb.textContent='REMATCH'}
+  try{
+    var popup=container.querySelector('#pongResultPopup');
+    var title=container.querySelector('#pongGOTitle');
+    var sub=container.querySelector('#pongGOSub');
+    var icon=container.querySelector('#pongResultIcon');
+    var stats=container.querySelector('#pongResultStats');
+    var rematchBtn=container.querySelector('#pongRematchBtn');
+    var myName=_pongSide==='left'?_pongRender.p1.name:_pongRender.p2.name;
+    var isWin=winner===myName;
+    
+    var role=currentRole||'guest';
+    var key=isWin?'pongOnlineWins_':'pongOnlineLosses_';
+    var val=parseInt(localStorage.getItem(key+role)||'0')+1;
+    localStorage.setItem(key+role,val);
+    
+    if(typeof db!=='undefined'&&currentRole){
+      db.ref('pongStats/'+currentRole).transaction(function(current){
+        var stats=current||{aiWins:0,aiLosses:0,onlineWins:0,onlineLosses:0};
+        stats[key==='pongOnlineWins_'?'onlineWins':'onlineLosses']++;
+        return stats;
+      }).catch(function(e){console.error('[Pong Stat]',e)});
+    }
+    
+    if(popup){popup.style.display='block';popup.style.zIndex='100';}
+    if(icon){icon.textContent=isWin?'🏆':'💀';icon.style.fontSize='48px';icon.style.animation=isWin?'bounce 0.5s':'shake 0.5s'}
+    if(title){title.textContent=isWin?'VICTORY!':'DEFEAT';title.className=isWin?'pong-win':'pong-lose'}
+    if(sub)sub.textContent=isWin?'You dominated the arena!':winner+' wins the match';
+    if(stats){
+      var aiWins=parseInt(localStorage.getItem('pongAIWins_'+role)||'0');
+      var aiLosses=parseInt(localStorage.getItem('pongAILosses_'+role)||'0');
+      var onlineWins=parseInt(localStorage.getItem('pongOnlineWins_'+role)||'0');
+      var onlineLosses=parseInt(localStorage.getItem('pongOnlineLosses_'+role)||'0');
+      stats.innerHTML='<b>This Match:</b> '+(isWin?'Win':'Loss')+' (Online)<br><b>Online:</b> '+onlineWins+'W/'+onlineLosses+'L &nbsp;|&nbsp; <b>vs AI:</b> '+aiWins+'W/'+aiLosses+'L';
+      stats.style.display='block';
+    }
+    if(rematchBtn){rematchBtn.style.display='inline-block';rematchBtn.disabled=false;rematchBtn.textContent='REMATCH';rematchBtn.onclick=function(){
+      popup.style.display='none';
+      if(_pongFB.roomId){
+        _pongWs.send(JSON.stringify({action:'rematch'}));
+      }else{
+        _pongStartAIGame(container);
+      }
+    }}
+  }catch(e){console.error('[GameOver Error]',e);_pongBackToLobby(container)}
 }
 
 function _pongRematch(){
@@ -14200,6 +14245,9 @@ window.addEventListener('keydown',function(e){
     document.activeElement.blur();
   }
   _pongKeys[k]=true;
+  if(_pongAIMode && _pongAIRunning){
+    _pongAIKeys[k]=true;
+  }
   var dir=0;
   if(_pongKeys['ArrowUp']||_pongKeys['w']||_pongKeys['W'])dir=-1;
   if(_pongKeys['ArrowDown']||_pongKeys['s']||_pongKeys['S'])dir=1;
@@ -14235,6 +14283,9 @@ window.addEventListener('keyup',function(e){
   var k=e.key;
   if(k!=='ArrowUp'&&k!=='ArrowDown'&&k!=='w'&&k!=='W'&&k!=='s'&&k!=='S')return;
   _pongKeys[k]=false;
+  if(_pongAIMode && _pongAIRunning){
+    _pongAIKeys[k]=false;
+  }
   if(_pongInGame || (_pongAIMode && _pongAIRunning)){
     e.preventDefault();
     e.stopPropagation();
@@ -14278,6 +14329,14 @@ function _pongSpawnParticles(x,y,color,count){
     _pongParticles.push({x:x,y:y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,decay:0.02+Math.random()*0.03,size:2+Math.random()*3,color:color});
   }
 }
+function _pongSpawnConfetti(x,y,color){
+  for(var i=0;i<30;i++){
+    var angle=(Math.random()-0.5)*Math.PI;
+    if(x<CW/2)angle=-angle;
+    var speed=4+Math.random()*6;
+    _pongParticles.push({x:x,y:y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-(2+Math.random()*3),life:1,decay:0.01+Math.random()*0.015,size:3+Math.random()*4,color:color,gravity:0.15});
+  }
+}
 
 function _pongDrawGame(ctx,canvas){
   ctx.clearRect(0,0,CW,CH);
@@ -14291,7 +14350,13 @@ function _pongDrawGame(ctx,canvas){
   ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
   ctx.beginPath();ctx.arc(CW/2,CH/2,60,0,Math.PI*2);ctx.stroke();
 
-  _pongParticles=_pongParticles.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;return p.life>0});
+  _pongParticles=_pongParticles.filter(function(p){
+    p.x+=p.vx;
+    p.y+=p.vy;
+    if(p.gravity)p.vy+=p.gravity;
+    p.life-=p.decay;
+    return p.life>0
+  });
   for(var i=0;i<_pongParticles.length;i++){
     var p=_pongParticles[i];ctx.globalAlpha=p.life*0.6;ctx.fillStyle=p.color;
     ctx.beginPath();ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);ctx.fill();
@@ -14336,7 +14401,7 @@ function _pongDrawPaddle(ctx,x,centerY,color,side){
 }
 
 var _pongAIMode=false;
-var _pongAIBall={x:CW/2,y:CH/2,vx:5,vy:3};
+var _pongAIBall={x:CW/2,y:CH/2,vx:7,vy:5};
 var _pongAIP1={y:CH/2,score:0};
 var _pongAIP2={y:CH/2,score:0};
 var _pongAIKeys={};
@@ -14424,19 +14489,21 @@ function _pongAIUpdate(){
     _pongSpawnParticles(_pongAIBall.x,_pongAIBall.y,'#ff2d95',4);
   }
 
-  var maxSpeed=12;
+  var maxSpeed=16;
   if(Math.abs(_pongAIBall.vx)>maxSpeed)_pongAIBall.vx=maxSpeed*Math.sign(_pongAIBall.vx);
   if(Math.abs(_pongAIBall.vy)>maxSpeed)_pongAIBall.vy=maxSpeed*Math.sign(_pongAIBall.vy);
 
   if(_pongAIBall.x<0){
     _pongAIP2.score++;
     _pongAIUpdateScore();
+    _pongSpawnConfetti(0,_pongAIBall.y,'#ff2d95');
     _pongAIResetBall();
     if(_pongAIP2.score>=5)_pongAIEndGame(false);
   }
   if(_pongAIBall.x>CW){
     _pongAIP1.score++;
     _pongAIUpdateScore();
+    _pongSpawnConfetti(CW,_pongAIBall.y,'#00d4ff');
     _pongAIResetBall();
     if(_pongAIP1.score>=5)_pongAIEndGame(true);
   }
@@ -14445,8 +14512,8 @@ function _pongAIUpdate(){
 function _pongAIResetBall(){
   _pongAIBall.x=CW/2;
   _pongAIBall.y=CH/2;
-  _pongAIBall.vx=5*(Math.random()>0.5?1:-1);
-  _pongAIBall.vy=3*(Math.random()>0.5?1:-1);
+  _pongAIBall.vx=7*(Math.random()>0.5?1:-1);
+  _pongAIBall.vy=5*(Math.random()>0.5?1:-1);
 }
 
 function _pongAIUpdateScore(){
@@ -14461,18 +14528,119 @@ function _pongAIEndGame(won){
   _pongAIRunning=false;
   _pongInGame=false;
   if(_pongAIAnimFrame){cancelAnimationFrame(_pongAIAnimFrame);_pongAIAnimFrame=null}
+  
+  var role=currentRole||'guest';
+  var key=won?'pongAIWins_':'pongAILosses_';
+  var val=parseInt(localStorage.getItem(key+role)||'0')+1;
+  localStorage.setItem(key+role,val);
+  
+  if(typeof db!=='undefined'&&currentRole){
+    db.ref('pongStats/'+currentRole).transaction(function(current){
+      var stats=current||{aiWins:0,aiLosses:0,onlineWins:0,onlineLosses:0};
+      stats[key==='pongAIWins_'?'aiWins':'aiLosses']++;
+      return stats;
+    });
+  }
+  
   if(!_pongAIContainer)return;
-  var panel=_pongAIContainer.querySelector('#pongGameOver');
+  var popup=_pongAIContainer.querySelector('#pongResultPopup');
   var title=_pongAIContainer.querySelector('#pongGOTitle');
   var sub=_pongAIContainer.querySelector('#pongGOSub');
-  if(title){title.textContent=won?'YOU WIN!':'DEFEAT';title.className=won?'pong-win':'pong-lose'}
+  var icon=_pongAIContainer.querySelector('#pongResultIcon');
+  var stats=_pongAIContainer.querySelector('#pongResultStats');
+  var rematchBtn=_pongAIContainer.querySelector('#pongRematchBtn');
+  
+  if(popup)popup.style.display='block';
+  if(icon){icon.textContent=won?'🏆':'💀';icon.style.fontSize='48px';icon.style.animation=won?'bounce 0.5s':'shake 0.5s'}
+  if(title){title.textContent=won?'VICTORY!':'DEFEAT';title.className=won?'pong-win':'pong-lose'}
   if(sub)sub.textContent=won?'Great game!':'AI wins the match';
-  if(panel)panel.style.display='block';
-  var rb=_pongAIContainer.querySelector('#pongRematchBtn');
-  if(rb){rb.disabled=false;rb.textContent='REMATCH';rb.onclick=function(){
-    panel.style.display='none';
+  if(stats){
+    var aiWins=parseInt(localStorage.getItem('pongAIWins_'+role)||'0');
+    var aiLosses=parseInt(localStorage.getItem('pongAILosses_'+role)||'0');
+    var onlineWins=parseInt(localStorage.getItem('pongOnlineWins_'+role)||'0');
+    var onlineLosses=parseInt(localStorage.getItem('pongOnlineLosses_'+role)||'0');
+    stats.innerHTML='<b>This Match:</b> '+(won?'Win':'Loss')+' (vs AI)<br><b>Online:</b> '+onlineWins+'W/'+onlineLosses+'L &nbsp;|&nbsp; <b>vs AI:</b> '+aiWins+'W/'+aiLosses+'L';
+    stats.style.display='block';
+  }
+  if(rematchBtn){rematchBtn.style.display='inline-block';rematchBtn.disabled=false;rematchBtn.textContent='REMATCH';rematchBtn.onclick=function(){
+    popup.style.display='none';
     _pongStartAIGame(_pongAIContainer);
   }}
+}
+
+function _pongShowLeaderboard(container){
+  try{
+    var role=currentRole||'guest';
+    var aiWins=parseInt(localStorage.getItem('pongAIWins_'+role)||'0');
+    var aiLosses=parseInt(localStorage.getItem('pongAILosses_'+role)||'0');
+    var onlineWins=parseInt(localStorage.getItem('pongOnlineWins_'+role)||'0');
+    var onlineLosses=parseInt(localStorage.getItem('pongOnlineLosses_'+role)||'0');
+    
+    if(typeof db!=='undefined'&&currentRole){
+      db.ref('pongStats').once('value',function(snap){
+        var all=snap.val()||{};
+        var entries=[];
+        Object.keys(all).forEach(function(uid){
+          var s=all[uid];
+          entries.push({
+            name:onlineUsers[uid]?.name||uid,
+            aiW:s.aiWins||0,
+            aiL:s.aiLosses||0,
+            oW:s.onlineWins||0,
+            oL:s.onlineLosses||0,
+            total:s.aiWins+s.onlineWins||0
+          });
+        });
+        entries.sort(function(a,b){return b.total-a.total});
+        _pongRenderLeaderboard(container,entries,aiWins,aiLosses,onlineWins,onlineLosses);
+      });
+    }else{
+      _pongRenderLeaderboard(container,[],aiWins,aiLosses,onlineWins,onlineLosses);
+    }
+  }catch(e){console.error('[Leaderboard Error]',e)}
+}
+
+function _pongRenderLeaderboard(container,entries,myAIW,myAIL,myOW,myOL){
+  var lobby=container.querySelector('#pongLobby');
+  var gameArea=container.querySelector('#pongGameArea');
+  var goPanel=container.querySelector('#pongGameOver');
+  if(lobby)lobby.style.display='none';
+  if(gameArea)gameArea.style.display='none';
+  if(goPanel)goPanel.style.display='none';
+  
+  var lb=document.createElement('div');
+  lb.id='pongLeaderboard';
+  lb.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;background:var(--bg);color:var(--text);display:flex;flex-direction:column;z-index:50';
+  lb.innerHTML=
+    '<div style="display:flex;align-items:center;gap:8px;padding:16px;border-bottom:1px solid var(--border)">'+
+    '<button id="pongLBBBack" style="font-size:20px;background:none;border:none;color:var(--text);cursor:pointer;padding:8px">←</button>'+
+    '<h2 style="margin:0;font-size:18px">🏆 Pong Leaderboard</h2></div>'+
+    '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:11px;color:var(--text5);text-align:center">'+
+    '<div>Rank</div><div>Player</div><div>Online W/L</div><div>AI W/L</div></div>'+
+    '<div id="pongLBList" style="flex:1;overflow-y:auto;padding:8px 16px"></div>';
+  
+  container.querySelector('.pong-app').appendChild(lb);
+  
+  var list=lb.querySelector('#pongLBList');
+  var html='';
+  if(entries.length===0){
+    html='<div style="text-align:center;color:var(--text5);padding:40px">No online stats yet</div>';
+  }else{
+    entries.slice(0,50).forEach(function(e,i){
+      var isMe=currentRole&&e.name===(currentDisplayName||currentRole);
+      html+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px'+(isMe?' font-weight:700;background:rgba(255,217,61,.1)':'')+'">'+
+        '<div>'+(i+1)+'</div>'+
+        '<div>'+(isMe?e.name+' (You)':e.name)+'</div>'+
+        '<div>'+e.oW+'W / '+e.oL+'L</div>'+
+        '<div>'+e.aiW+'W / '+e.aiL+'L</div></div>';
+    });
+  }
+  list.innerHTML=html;
+  
+  lb.querySelector('#pongLBBBack').onclick=function(){
+    lb.remove();
+    if(lobby)lobby.style.display='';
+  };
 }
 
 function _pongAIDraw(ctx){
@@ -14487,7 +14655,13 @@ function _pongAIDraw(ctx){
   ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
   ctx.beginPath();ctx.arc(CW/2,CH/2,60,0,Math.PI*2);ctx.stroke();
 
-  _pongParticles=_pongParticles.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;return p.life>0});
+  _pongParticles=_pongParticles.filter(function(p){
+    p.x+=p.vx;
+    p.y+=p.vy;
+    if(p.gravity)p.vy+=p.gravity;
+    p.life-=p.decay;
+    return p.life>0
+  });
   for(var i=0;i<_pongParticles.length;i++){
     var p=_pongParticles[i];ctx.globalAlpha=p.life*0.6;ctx.fillStyle=p.color;
     ctx.beginPath();ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);ctx.fill();
@@ -14732,3 +14906,5 @@ _typingObserver.observe(document.body,{childList:true,subtree:true});
 </html>
 </body>
 </html>
+
+
