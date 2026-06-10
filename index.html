@@ -539,6 +539,15 @@ html,body{background:var(--bg);color:var(--text)}
 .recover-tree-indent{margin-left:16px}
 .recover-actions{display:flex;gap:8px;margin-top:10px}
 .theme-modal{width:640px;max-width:96%;max-height:90vh;overflow-y:auto}
+.confirm-overlay{position:fixed;top:0;left:0;width:100vw;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:99999}
+.confirm-modal{background:linear-gradient(135deg,var(--bg4),var(--bg5));border:1px solid var(--border);border-radius:14px;padding:24px 28px 20px;width:380px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8);position:relative;text-align:center}
+.confirm-msg{font-size:14px;color:var(--text);margin-bottom:18px;line-height:1.5}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+.confirm-btn{padding:8px 24px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s;min-width:80px}
+.confirm-btn-yes{background:linear-gradient(135deg,var(--red,#f55),var(--red2,#d33));color:#fff}
+.confirm-btn-yes:hover{opacity:.85}
+.confirm-btn-cancel{background:var(--bg3);border:1px solid var(--border2);color:var(--text5)}
+.confirm-btn-cancel:hover{background:var(--bg2)}
 .reco-modal-close,.cache-modal-close,.theme-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text5);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px;transition:all .2s}
 .theme-modal-close{position:sticky;float:right;top:0;right:0;z-index:1}
 .reco-modal-close:hover,.cache-modal-close:hover,.theme-modal-close:hover{color:var(--text);background:var(--border2)}
@@ -1504,20 +1513,15 @@ summary{font-size:calc(13px * var(--fs-scale))}
 .pong-canvas{border:1px solid rgba(255,255,255,.06);border-radius:8px;background:#0a0a12;display:block}
 .pong-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;z-index:2}
 .pong-countdown{font-size:72px;font-weight:900;color:#fff;text-shadow:0 0 40px rgba(0,212,255,.5)}
-.pong-game-over{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);z-index:30;backdrop-filter:blur(4px)}
-.pong-result-popup{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px 32px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.5)}
-.pong-result-icon{font-size:48px;margin-bottom:8px}
-.pong-result-popup h3{font-size:20px;font-weight:900;margin-bottom:6px}
-.pong-result-popup .pong-win{color:#00d4ff}
-.pong-result-popup .pong-lose{color:#ff2d95}
-.pong-result-popup p{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:12px}
+.pong-game-over{text-align:center;padding:16px}
+.pong-game-over h3{font-size:20px;font-weight:900;margin-bottom:6px}
+.pong-game-over .pong-win{color:#00d4ff}
+.pong-game-over .pong-lose{color:#ff2d95}
+.pong-game-over p{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:12px}
 .pong-rematch-btn{padding:10px 28px;border:none;border-radius:8px;background:linear-gradient(135deg,#7b2fff,#ff2d95);color:#fff;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:opacity .15s}
 .pong-rematch-btn:hover{opacity:.85}
 .pong-rematch-btn:disabled{opacity:.5;cursor:not-allowed}
-.pong-back-btn{margin-top:8px;padding:8px 20px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:rgba(255,255,255,.05);color:var(--text);font-size:11px;cursor:pointer;transition:all .15s;display:inline-block}
-.pong-back-btn:hover{background:rgba(255,255,255,.1)}
-.pong-leaderboard-btn{margin-top:8px;padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer;transition:all .15s}
-.pong-leaderboard-btn:hover{background:var(--accent);color:#fff}
+.pong-back-btn{margin-top:6px;padding:6px 16px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:transparent;color:rgba(255,255,255,.4);font-size:11px;cursor:pointer;transition:all .15s}
 .pong-back-btn:hover{border-color:rgba(255,255,255,.25);color:#fff}
 .pong-disconnect{display:none;padding:8px 14px;border-radius:6px;background:rgba(255,45,45,.08);border:1px solid rgba(255,45,45,.15);color:#ff5555;font-size:11px;text-align:center;margin-top:4px}
 .pong-disconnect.show{display:block}
@@ -1678,7 +1682,6 @@ body.anim-iconBounce .desktop-icon{transition:transform .15s ease}
 body.anim-iconBounce .desktop-icon:active{transform:scale(.9)}
 body.anim-iconBounce .desktop-icon.icon-bounce{animation:iconBounce .4s cubic-bezier(.16,1,.3,1)}
 @keyframes iconBounce{0%{transform:scale(1)}30%{transform:scale(.85)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
-@keyframes bounce{0%{transform:scale(1)}20%{transform:scale(1.3)}40%{transform:scale(.9)}60%{transform:scale(1.15)}80%{transform:scale(.95)}100%{transform:scale(1)}}
 
 /* Notification slide-in */
 body.anim-notifSlide .notif-panel{transition:right .35s cubic-bezier(.16,1,.3,1)}
@@ -1899,7 +1902,6 @@ body:not(.anim-parallax) .particles-canvas{display:none}
       <div class="admin-nav-item" data-section="sec-feedback"><span>&#128172;</span> Feedback <span id="feedbackNavBadge" class="admin-nav-badge" style="display:none"></span></div>
       <div class="admin-nav-item" data-section="sec-usermgmt" id="userMgmtNavItem"><span>&#128100;</span> Users</div>
       <div class="admin-nav-item" data-section="sec-tools" id="adminToolsNavItem"><span>&#128465;</span> Tools</div>
-      <div class="admin-nav-item" data-section="sec-recordings" id="adminRecordingsNavItem" style="display:none"><span>&#127916;</span> Recordings</div>
     </div>
     <div class="admin-content">
       <div class="admin-section active" id="sec-useractions">
@@ -1998,12 +2000,6 @@ body:not(.anim-parallax) .particles-canvas{display:none}
         <label>&#128200; Usage (today)</label>
         <div id="usageStats" style="font-size:12px;color:var(--text5);padding:4px 0;line-height:1.6"></div>
       </div>
-      <div class="admin-section" id="sec-recordings">
-        <div class="admin-section-title"><span>&#127916;</span> Call Recordings</div>
-        <div style="margin-bottom:12px;font-size:12px;color:var(--text6);line-height:1.5">Recordings from completed 1-on-1 video calls. Only calls where the remote stream was successfully received are recorded. Recordings are stored as base64 in the database.</div>
-        <button id="deleteAllRecordingsBtn" class="btn-clear" style="margin-bottom:10px;background:linear-gradient(135deg,#c62828,b71c1c)">Delete All Recordings</button>
-        <div id="recordingsList" style="max-height:500px;overflow-y:auto"></div>
-      </div>
     </div>
   </div>
 </div>
@@ -2036,10 +2032,7 @@ function _uploadToStorage(folder,file){
   if(!_checkDailyQuota(file.size))return Promise.reject('Quota exceeded');
   var name=Date.now()+'_'+Math.random().toString(36).substr(2,8)+'_'+(file.name||'file');
   var ref=storage.ref(folder+'/'+name);
-  return ref.put(file).then(function(snapshot){return snapshot.ref.getDownloadURL()}).catch(function(e){
-    console.error('[Storage Upload Error]',e);
-    throw e;
-  });
+  return ref.put(file).then(function(snapshot){return snapshot.ref.getDownloadURL()});
 }
 var RTDB_VIDEO_MAX=20*1024*1024;
 var CHAT_IMAGE_MAX=5*1024*1024;
@@ -2432,6 +2425,26 @@ function showToast(msg){
   if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)}
   t.textContent=msg;t.classList.add('show');
   clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+/* ==============================
+   CONFIRM DIALOG
+   ============================== */
+function showConfirmDialog(msg,confirmLabel,callback){
+  if(typeof confirmLabel==='function'){callback=confirmLabel;confirmLabel='Delete'}
+  var ov=document.createElement('div');ov.className='confirm-overlay';
+  var modal=document.createElement('div');modal.className='confirm-modal';
+  var msgEl=document.createElement('div');msgEl.className='confirm-msg';msgEl.textContent=msg;
+  var btns=document.createElement('div');btns.className='confirm-btns';
+  var yesBtn=document.createElement('button');yesBtn.className='confirm-btn confirm-btn-yes';yesBtn.textContent=confirmLabel||'Delete';
+  var cancelBtn=document.createElement('button');cancelBtn.className='confirm-btn confirm-btn-cancel';cancelBtn.textContent='Cancel';
+  yesBtn.onclick=function(){ov.remove();if(callback)callback(true)};
+  cancelBtn.onclick=function(){ov.remove();if(callback)callback(false)};
+  ov.onclick=function(e){if(e.target===ov){ov.remove();if(callback)callback(false)}};
+  btns.appendChild(cancelBtn);btns.appendChild(yesBtn);
+  modal.appendChild(msgEl);modal.appendChild(btns);ov.appendChild(modal);
+  document.body.appendChild(ov);
+  setTimeout(function(){yesBtn.focus()},100);
 }
 
 /* ==============================
@@ -3917,7 +3930,6 @@ function logout(){
     _notificationsEnabled=false;
     _notifySW({type:'CLEAR_USER'});
     if(_pongWs){try{_pongWs.close()}catch(e){}_pongWs=null}
-    _pongFBCleanup();
     if(typeof _vcCleanupCall==='function'&&_vcInCall)_vcHangUp();
     if(typeof _vcIncomingRef==='object'&&_vcIncomingRef){_vcIncomingRef.off();_vcIncomingRef=null;}
     if(typeof _vcRemoveIncomingOverlay==='function')_vcRemoveIncomingOverlay();
@@ -3935,7 +3947,7 @@ function logout(){
     var tbUser=document.getElementById('taskbarUser');if(tbUser)tbUser.style.display='none';
     Object.keys(openWindows).forEach(function(id){try{var w=openWindows[id];if(w&&w.el)w.el.remove();delete openWindows[id]}catch(e){}});updateTaskbar();
     document.querySelectorAll('.desktop-icon').forEach(function(ic){var aid=ic.dataset.app;if(aid&&(aid.startsWith('custom_')||aid.startsWith('fs_')))ic.remove()});
-    if(_fsRef){_fsRef.off();_fsRef=null}_fsItems={};if(_afRef){_afRef.off();_afRef=null}_appFolders={};
+    if(_fsRef){_fsRef.off();_fsRef=null}_fsItems={};if(_afRef){_afRef.off();_afRef=null}_appFolders={};if(_tfRef){_tfRef.off();_tfRef=null}_trashedFolders={};
     if(typeof resetDesktopConfig==='function')resetDesktopConfig();
   } catch(e) { console.error('[Logout Error]',e); }
   desktop.classList.add('hidden');lockScreen.classList.remove('hidden');
@@ -4494,14 +4506,14 @@ function sendMessage(){
       showToast('Uploading image...');
       _uploadToStorage('chatImages',pendingImageFile).then(function(url){
         msgObj.image=url;delete msgObj.video;_pushMsg(msgObj);
-      }).catch(function(e){console.error('[Image Upload]',e);showToast('Image upload failed: '+(e.message||e));clearMediaPreview()});
+      }).catch(function(e){console.error(e);showToast('Image upload failed');clearMediaPreview()});
       return;
     }
     if(pendingVideoFile){
       showToast('Uploading video...');
       _uploadToStorage('chatVideos',pendingVideoFile).then(function(url){
         msgObj.video=url;delete msgObj.image;_pushMsg(msgObj);
-      }).catch(function(e){console.error('[Video Upload]',e);showToast('Video upload failed: '+(e.message||e));clearMediaPreview()});
+      }).catch(function(e){console.error(e);showToast('Video upload failed');clearMediaPreview()});
       return;
     }
   }
@@ -5319,7 +5331,7 @@ document.querySelectorAll('.admin-nav-item').forEach(function(item){
 });
 
 /* Delete all recordings */
-document.getElementById('deleteAllRecordingsBtn').addEventListener('click',function(){
+var _delRecBtn=document.getElementById('deleteAllRecordingsBtn');if(_delRecBtn)_delRecBtn.addEventListener('click',function(){
   if(!isAnyAdmin())return;
   var btn=this;
   if(btn.dataset.confirm){
@@ -5331,11 +5343,11 @@ document.getElementById('deleteAllRecordingsBtn').addEventListener('click',funct
   }
 });
 
-document.getElementById('lockdownButton').addEventListener('click',function(){
+var _lockBtn=document.getElementById('lockdownButton');if(_lockBtn)_lockBtn.addEventListener('click',function(){
   if(!isAnyAdmin())return;
   db.ref('lockdown').set(!siteInLockdown).then(()=>logAudit('lock',(siteInLockdown?'Ended':'Activated')+' lockdown')).catch(console.error);
 });
-document.getElementById('deleteAllChatButton').addEventListener('click',function(){
+var _delChatBtn=document.getElementById('deleteAllChatButton');if(_delChatBtn)_delChatBtn.addEventListener('click',function(){
   if(!isAnyAdmin())return;
   const btn=this;
   if(btn.dataset.confirm){
@@ -5355,7 +5367,7 @@ document.getElementById('deleteAllChatButton').addEventListener('click',function
 /* ==============================
    RESTORE ACCOUNT (unified: restore account + recover deleted user files)
    ============================== */
-document.getElementById('restoreAccountButton').addEventListener('click',function(){
+var _resBtn=document.getElementById('restoreAccountButton');if(_resBtn)_resBtn.addEventListener('click',function(){
   if(!isAnyAdmin())return;
   var existing=document.querySelector('.recover-overlay');if(existing){existing.remove();return}
   var overlay=document.createElement('div');overlay.className='recover-overlay';
@@ -5663,25 +5675,63 @@ var windowZIndex=10;
 var activeWindowId=null;
 var _restoringWindows=false;
 function _saveOpenWindows(){
-  var data={};
-  for(var id in openWindows){
-    var w=openWindows[id];
-    if(!w||!w.el)continue;
-    var rect=w.el.getBoundingClientRect();
-    data[id]={left:rect.left,top:rect.top,width:rect.width,height:rect.height,appId:w.appId};
+  if(_restoringWindows)return;
+  if(!currentRole)return;
+  var data=[];
+  for(var _wid in openWindows){
+    if(openWindows.hasOwnProperty(_wid))data.push({appId:openWindows[_wid].appId,minimized:!!openWindows[_wid].minimized});
   }
-  try{localStorage.setItem('windowPositions',JSON.stringify(data))}catch(e){}
+  localStorage.setItem('docosOpenWindows_'+currentRole,JSON.stringify(data));
 }
 function _restoreOpenWindows(){
-  try{
-    var raw=localStorage.getItem('windowPositions');
-    if(!raw)return;
-    var data=JSON.parse(raw);
-    _windowPosRestoreData=data;
-  }catch(e){}
+  if(!currentRole)return;
+  var saved=localStorage.getItem('docosOpenWindows_'+currentRole);
+  if(!saved)return;
+  var entries;try{entries=JSON.parse(saved)}catch(e){}
+  if(!entries||!entries.length)return;
+  localStorage.removeItem('docosOpenWindows_'+currentRole);
+  _restoringWindows=true;
+  var pending=[];
+  entries.forEach(function(entry){
+    var id=typeof entry==='string'?entry:entry.appId;
+    var wasMinimized=entry.minimized||false;
+    if(appDefs[id]){
+      openApp(id);
+      if(wasMinimized){
+        setTimeout(function(){
+          for(var _wid in openWindows){
+            if(openWindows[_wid].appId===id){minimizeWindow(_wid);break}
+          }
+        },100);
+      }
+    }else{pending.push(id)}
+  });
+  if(pending.length){
+    var _retry=function(){
+      var again=[];
+      pending.forEach(function(entry){
+        var id=typeof entry==='string'?entry:entry.appId;
+        var wasMinimized=entry.minimized||false;
+        if(_fsItems&&_fsItems[id]){
+          _fsOpenItem(id);
+          if(wasMinimized){
+            setTimeout(function(){
+              for(var _wid in openWindows){
+                if(openWindows[_wid].appId===id){minimizeWindow(_wid);break}
+              }
+            },100);
+          }
+        }else{again.push(entry)}
+      });
+      pending=again;
+      if(pending.length)setTimeout(_retry,800);
+      else{_restoringWindows=false;_saveOpenWindows()}
+    };
+    setTimeout(_retry,1000);
+  }else{
+    _restoringWindows=false;
+  }
 }
-var _windowPosRestoreData=null;
-_restoreOpenWindows();
 
 /* Clock */
 (function updateClock(){
@@ -5713,7 +5763,7 @@ var appDefs={
     title:'Mod Panel',
     icon:'&#128736;',
     iconBg:'linear-gradient(135deg,#e65100,#bf360c)',
-    width:750,height:600,
+    width:520,height:560,
     getContent:function(){
       var ap=document.getElementById('adminPanel');
       if(ap){ap.style.display='block';return ap;}
@@ -5754,7 +5804,7 @@ var appDefs={
         return '<label class="toggle-switch" style="flex-shrink:0"><input type="checkbox" id="'+id+'"'+(checked?' checked':'')+' ><span class="toggle-slider"></span></label>';
       }
 
-      d.innerHTML='<div id="settingsGeneralView"><h2 style="margin-bottom:20px;font-size:18px;font-weight:700">&#9881; Settings</h2>'+
+      d.innerHTML='<h2 style="margin-bottom:20px;font-size:18px;font-weight:700">&#9881; Settings</h2>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Profile Picture</label>'+
         '<div class="pfp-upload-area" id="settingsPfpArea"></div>'+
         '<div style="'+smallStyle+';margin-top:6px">Upload a profile picture (max 200KB, JPG/PNG)</div></div>'+
@@ -5802,29 +5852,8 @@ var appDefs={
         '<div style="'+smallStyle+';margin-bottom:10px">Show iOS-style app folder bubbles on the desktop</div>'+
         '<button id="settingsResetDesktop" style="'+btnStyle+'">Reset Icon Positions</button>'+
         '<div style="'+smallStyle+';margin-top:6px">Restore desktop icons to their default positions</div></div>'+
-        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Animations &amp; Effects</label>'+
-        '<div id="settingsAnimEntry" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s">'+
-        '<div><div style="font-size:13px;font-weight:600;color:var(--text2)">🎮 Customize Animations</div>'+
-        '<div style="font-size:11px;color:var(--text5);margin-top:2px">Toggle visual effects &amp; motion</div></div>'+
-        '<span style="font-size:18px;color:var(--text5)">›</span></div></div>'+
-        '<div style="'+secStyle+'"><div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Enable All Animations</span>'+makeToggle('settingsEnableAllAnim',false)+'</div>'+
-        '<div style="'+smallStyle+'">Master switch for all animation effects</div></div>'+
-        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Username</label>'+
-        '<div style="display:flex;gap:8px;align-items:center">'+
-        '<span id="settingsCurUsername" style="'+smallStyle+';font-family:monospace">@'+(usernames[role]||(roleDisplayNames[role]||role))+'</span>'+
-        '<button id="settingsChangeUnameBtn" style="'+btnStyle+'">Change Username</button>'+
-        '</div></div>'+
-        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Password</label>'+
-        '<button id="settingsChangePassBtn" style="'+btnStyle+'">Change Password</button></div>'+
-        '<div style="'+secStyle+'"><label style="'+lblStyle+'">About</label>'+
-        '<div style="'+smallStyle+'">DocOS v1.2 &mdash; A desktop environment for your apps.<br>Drag icons to rearrange, right-click to rename.</div></div></div>'+
-
-        /* ===== Animations Sub-page ===== */
-        '<div id="settingsAnimView" style="display:none;height:100%">'+
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">'+
-        '<button id="settingsAnimBack" style="'+btnStyle+';font-size:16px;padding:4px 10px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);color:var(--text);cursor:pointer">←</button>'+
-        '<h2 style="margin:0;font-size:16px;font-weight:700">🎮 Animations &amp; Effects</h2></div>'+
-        '<div id="settingsAnimToggles">'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Animations & Effects</label>'+
+        '<div style="'+smallStyle+';margin-bottom:12px">Customize visual effects and animations</div>'+
         '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Button Ripple Effects</span>'+makeToggle('animRipple',_animPrefs.ripple)+'</div>'+
         '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Context Menu Pop-in</span>'+makeToggle('animCtxMenu',_animPrefs.ctxMenu)+'</div>'+
         '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Desktop Icon Bounce</span>'+makeToggle('animIconBounce',_animPrefs.iconBounce)+'</div>'+
@@ -5835,17 +5864,16 @@ var appDefs={
         '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Floating Particles</span>'+makeToggle('animParticles',_animPrefs.particles)+'</div>'+
         '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Gradient Animations</span>'+makeToggle('animGradient',_animPrefs.gradient)+'</div>'+
         '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Smooth Scrolling</span>'+makeToggle('animSmoothScroll',_animPrefs.smoothScroll)+'</div>'+
-        '</div></div>';
-
-      /* Navigation logic for general/anim views */
-      setTimeout(function(){
-        var genView=d.querySelector('#settingsGeneralView');
-        var animView=d.querySelector('#settingsAnimView');
-        var animEntry=d.querySelector('#settingsAnimEntry');
-        var animBack=d.querySelector('#settingsAnimBack');
-        if(animEntry)animEntry.onclick=function(){genView.style.display='none';animView.style.display='block'};
-        if(animBack)animBack.onclick=function(){genView.style.display='block';animView.style.display='none'};
-      },0);
+        '</div>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Username</label>'+
+        '<div style="display:flex;gap:8px;align-items:center">'+
+        '<span id="settingsCurUsername" style="'+smallStyle+';font-family:monospace">@'+(usernames[role]||(roleDisplayNames[role]||role))+'</span>'+
+        '<button id="settingsChangeUnameBtn" style="'+btnStyle+'">Change Username</button>'+
+        '</div></div>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Password</label>'+
+        '<button id="settingsChangePassBtn" style="'+btnStyle+'">Change Password</button></div>'+
+        '<div style="'+secStyle+'"><label style="'+lblStyle+'">About</label>'+
+        '<div style="'+smallStyle+'">DocOS v1.2 &mdash; A desktop environment for your apps.<br>Drag icons to rearrange, right-click to rename.</div></div>';
 
       /* Apply saved settings immediately */
       document.body.style.setProperty('--fs-scale',parseInt(savedFS)/14);
@@ -6035,32 +6063,6 @@ var appDefs={
             };
           }
         });
-        /* Enable All Animations master toggle */
-        var enableAllAnim=d.querySelector('#settingsEnableAllAnim');
-        if(enableAllAnim){
-          enableAllAnim.checked=_animPrefs.enabled!==false;
-          var enabled=_animPrefs.enabled!==false;
-          Object.keys(animMap).forEach(function(elId){
-            var el=d.querySelector('#'+elId);
-            if(el)el.disabled=!enabled;
-          });
-          enableAllAnim.onchange=function(){
-            enabled=enableAllAnim.checked;
-            _animPrefs.enabled=enabled;
-            localStorage.setItem('docosAnim_enabled_'+(currentRole||''),enabled);
-            Object.keys(animMap).forEach(function(elId){
-              var el=d.querySelector('#'+elId);
-              var key=animMap[elId];
-              if(el){
-                el.checked=enabled;
-                el.disabled=!enabled;
-                _animPrefs[key]=enabled;
-                localStorage.setItem('docosAnim_'+key+'_'+(currentRole||''),enabled);
-              }
-            });
-            _updateAnimClasses();
-          };
-        }
         /* Cloaking (panic key) */
         var ckKeyBtn=d.querySelector('#settingsCloakKey');
         var ckAction=d.querySelector('#settingsCloakAction');
@@ -7099,31 +7101,14 @@ var appDefs={
     title:'Docflix',
     icon:'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
     iconBg:'linear-gradient(135deg,#0f0f0f,#1a1a2e)',
-    width:960,height:620,maximized:true,
+    width:960,height:620,
     getContent:function(){
       var d=document.createElement('div');d.className='docflix-app';
-      var _dfState={items:[],filter:'All',search:'',selected:null,editing:null,tmdbView:false,tmdbResults:[],tmdbDetail:null,tmdbProvider:'toutstream',tmdbSeason:1,tmdbEpisode:1,popularResults:null,popularLoading:false,hiddenProviders:{}};
+      var _dfState={items:[],filter:'All',search:'',selected:null,editing:null,tmdbView:false,tmdbResults:[],tmdbDetail:null,tmdbProvider:'toutstream',tmdbSeason:1,tmdbEpisode:1,popularResults:null,popularLoading:false};
       if(window._dfRef){window._dfRef.off()}window._dfRef=db.ref('docflixContent');var _dfRef=window._dfRef;
       function _dfToast(msg){var t=document.createElement('div');t.className='docflix-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
       function _dfEscapeHtml(s){var E=document.createElement('div');E.textContent=s;return E.innerHTML}
       var _dfInitialLoad=true;
-      var _dfHiddenRef=db.ref('docflixContent/_hiddenProviders');
-      function _dfToggleHiddenProvider(prov){
-        var hp=_dfState.hiddenProviders;
-        if(hp[prov]){delete hp[prov]}else{hp[prov]=true}
-        _dfHiddenRef.set(hp);
-        _dfUpdateProviderUI();
-      }
-      function _dfUpdateProviderUI(){
-        var allBtns=document.querySelectorAll('.df-provider-btn');
-        allBtns.forEach(function(b){
-          var prov=b.dataset.provider;
-          var hidden=_dfState.hiddenProviders[prov];
-          b.style.display=(currentRole==='Admin'||!hidden)?'':'none';
-          var eye=b.querySelector('.df-eye-toggle');
-          if(eye)eye.innerHTML=hidden?'&#128065;':'&#128064;';
-        });
-      }
       function _dfLoad(){
         _dfRef.on('child_added',function(snap){
           var val=snap.val();if(!val)return;
@@ -7146,7 +7131,6 @@ var appDefs={
           if(idx>-1)_dfState.items.splice(idx,1);
           if(!_dfInitialLoad)_dfRender();
         });
-        _dfHiddenRef.on('value',function(snap){var v=snap.val();_dfState.hiddenProviders=v||{};if(!_dfInitialLoad)_dfRender()});
         _dfRef.once('value',function(){_dfInitialLoad=false;_dfRender()});
       }
       var _dfNavTabsRef=null;
@@ -7378,28 +7362,14 @@ var appDefs={
         var overview=item.overview||'No description available.';
         var imdbId=(item.external_ids&&item.external_ids.imdb_id)||'';
         var tmdbId=item.id;
-        function _dfProvBtn(prov,label,extra){
-          var hp=_dfState.hiddenProviders[prov];
-          if(currentRole!=='Admin'&&hp)return '';
-          var active=_dfState.tmdbProvider===prov?' active':'';
-          var eye=currentRole==='Admin'?' <span class="df-eye-toggle" style="cursor:pointer;font-size:13px;margin-left:2px">'+(hp?'&#128065;':'&#128064;')+'</span>':'';
-          var hiddenTag=hp?'<span style="position:absolute;top:-6px;right:-6px;font-size:8px;font-weight:700;background:#e50914;color:#fff;padding:1px 5px;border-radius:3px;letter-spacing:.5px;text-transform:uppercase;line-height:normal">HIDDEN</span>':'';
-          return '<button class="df-provider-btn'+active+'" data-provider="'+prov+'" style="position:relative">'+hiddenTag+label+eye+'</button>';
-        }
-        var providerHtml='<div style="margin-top:16px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sources</div><div class="df-provider-select">'+
-          _dfProvBtn('toutstream','TouStream <span style="font-size:9px;background:#2e7d32;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">BEST</span>')+
-          _dfProvBtn('123embed','123Embed')+
-          _dfProvBtn('vidlink','Vidlink <span style="font-size:9px;background:#e65100;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">POPUPS</span>')+
-          _dfProvBtn('cineby','Cineby <span style="font-size:9px;background:#e65100;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">POPUPS</span>')+
-          (item._mediaType==='tv'?_dfProvBtn('vidking','Vidking <span style="font-size:9px;background:#e65100;color:#fff;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px">POPUPS</span>'):'')+
-          '</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:6px;line-height:1.4">Working sources may fluctuate so be sure to test them all</div>';
+        var providerHtml='<div class="df-provider-select"><button class="df-provider-btn'+(_dfState.tmdbProvider==='toutstream'?' active':'')+'" data-provider="toutstream">TouStream <span style="font-size:9px;background:#2e7d32;color:#fff;padding:2px 6px;border-radius:3px;margin-left:4px;font-weight:700;letter-spacing:.5px">BEST</span></button><button class="df-provider-btn'+(_dfState.tmdbProvider==='123embed'?' active':'')+'" data-provider="123embed">123Embed</button></div>';
         var episodeHtml='';
         if(item._mediaType==='tv'){
           var seasons=(item.seasons||[]).filter(function(s){return s.season_number>0});
           var seasonOpts=seasons.map(function(s){return '<option value="'+s.season_number+'"'+(s.season_number===_dfState.tmdbSeason?' selected':'')+'>Season '+s.season_number+'</option>'}).join('');
           episodeHtml='<div class="df-episode-select"><label>Season</label><select id="dfSeasonSelect">'+seasonOpts+'</select><label style="margin-top:10px">Episode</label><select id="dfEpisodeSelect"><option>Loading...</option></select></div>';
         }
-        detail.innerHTML='<div class="df-tmdb-poster">'+posterHtml+'</div><div class="df-tmdb-info"><h2>'+_dfEscapeHtml(title)+'</h2><div class="meta"><span>'+year+'</span><span>'+_dfEscapeHtml(genres)+'</span><span>Rating: '+rating+'</span></div><div class="overview">'+_dfEscapeHtml(overview)+'</div>'+providerHtml+episodeHtml+'<div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"><button class="df-play-btn" id="dfPlayBtn" style="display:'+(_dfState.tmdbProvider==='cineby'?'none':'inline-flex')+'">&#9654; Play Here</button><button class="df-play-btn" id="dfPlayTabBtn" style="background:rgba(255,255,255,.1)">&#128279; Open in Tab</button><div id="dfVidlinkNotice" style="width:100%;font-size:11px;color:rgba(255,255,255,.4);display:'+(_dfState.tmdbProvider==='vidlink'?'block':'none')+'">Vidlink may break scrolling &mdash; use the scroll bar if needed</div></div></div>';
+        detail.innerHTML='<div class="df-tmdb-poster">'+posterHtml+'</div><div class="df-tmdb-info"><h2>'+_dfEscapeHtml(title)+'</h2><div class="meta"><span>'+year+'</span><span>'+_dfEscapeHtml(genres)+'</span><span>Rating: '+rating+'</span></div><div class="overview">'+_dfEscapeHtml(overview)+'</div>'+providerHtml+episodeHtml+'<div style="display:flex;gap:10px;margin-top:16px"><button class="df-play-btn" id="dfPlayBtn">&#9654; Play Here</button><button class="df-play-btn" id="dfPlayTabBtn" style="background:rgba(255,255,255,.1)">&#128279; Open in Tab</button></div></div>';
         content.appendChild(detail);
         if(item._mediaType==='tv'){
           var epInfoDiv=document.createElement('div');
@@ -7410,21 +7380,10 @@ var appDefs={
         }
         var playerContainer=document.createElement('div');
         playerContainer.id='dfPlayerContainer';
-        playerContainer.style.cssText='width:100%;aspect-ratio:16/9;margin-top:20px;border-radius:12px;overflow:hidden;display:none;background:#000;position:relative';
+        playerContainer.style.cssText='width:100%;aspect-ratio:16/9;margin-top:20px;border-radius:12px;overflow:hidden;display:none;background:#000';
         content.appendChild(playerContainer);
         content.querySelectorAll('.df-provider-btn').forEach(function(btn){
-          btn.onclick=function(ev){
-            if(ev.target.classList.contains('df-eye-toggle'))return;
-            _dfState.tmdbProvider=btn.dataset.provider;
-            var pb=content.querySelector('#dfPlayBtn');
-            if(pb)pb.style.display=_dfState.tmdbProvider==='cineby'?'none':'inline-flex';
-            var n=content.querySelector('#dfVidlinkNotice');
-            if(n)n.style.display=_dfState.tmdbProvider==='vidlink'?'block':'none';
-            _dfRenderTmdbDetail()
-          };
-        });
-        content.querySelectorAll('.df-eye-toggle').forEach(function(el){
-          el.onclick=function(ev){ev.stopPropagation();_dfToggleHiddenProvider(this.closest('.df-provider-btn').dataset.provider)};
+          btn.onclick=function(){_dfState.tmdbProvider=btn.dataset.provider;_dfRenderTmdbDetail()};
         });
         function _dfLoadEpisodes(seasonNum){
           var epSel=content.querySelector('#dfEpisodeSelect');
@@ -7464,47 +7423,22 @@ var appDefs={
           var url='';
           if(item._mediaType==='movie'){
             if(_dfState.tmdbProvider==='toutstream'){url='https://toustream.xyz/tou/movies/'+tmdbId}
-            else if(_dfState.tmdbProvider==='vidlink'){url='https://vidlink.pro/movie/'+tmdbId}
-            else if(_dfState.tmdbProvider==='cineby'){url='https://www.cineby.at/movie/'+tmdbId}
-            else if(_dfState.tmdbProvider==='vidking'){url='https://www.vidking.net/embed/movie/'+tmdbId}
             else{url='https://play2.123embed.net/movie/'+(imdbId||tmdbId)}
           }else{
             if(_dfState.tmdbProvider==='toutstream'){url='https://toustream.xyz/tou/tv/'+tmdbId+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
-            else if(_dfState.tmdbProvider==='vidlink'){url='https://vidlink.pro/tv/'+tmdbId+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
-            else if(_dfState.tmdbProvider==='cineby'){url='https://www.cineby.at/tv/'+tmdbId+'?play=true'}
-            else if(_dfState.tmdbProvider==='vidking'){url='https://www.vidking.net/embed/tv/'+tmdbId+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
             else{url='https://play2.123embed.net/tv/'+(imdbId||tmdbId)+'/'+_dfState.tmdbSeason+'/'+_dfState.tmdbEpisode}
           }
           return url;
         }
         content.querySelector('#dfPlayBtn').onclick=function(){
-          if(_dfState.tmdbProvider==='cineby'){_dfToast('Cineby does not support embedding - use Open in Tab');return}
           var url=_dfGetStreamUrl();
           var container=content.querySelector('#dfPlayerContainer');
           container.style.display='block';
-          container.innerHTML='<iframe src="'+url+'" referrerpolicy="unsafe-url" style="width:100%;height:100%;border:none" allowfullscreen allow="autoplay;fullscreen;encrypted-media" id="dfPlayerIframe"></iframe>'+
-            '<button id="dfFullscreenBtn" style="position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:8px;border:none;background:rgba(0,0,0,.6);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .15s;backdrop-filter:blur(4px)" onmouseover="this.style.background=\'rgba(0,0,0,.8)\'" onmouseout="this.style.background=\'rgba(0,0,0,.6)\'" title="Fullscreen">⛶</button>';
+          container.innerHTML='<iframe src="'+url+'" style="width:100%;height:100%;border:none" allowfullscreen allow="autoplay;fullscreen;encrypted-media"></iframe>';
           container.scrollIntoView({behavior:'smooth',block:'start'});
-          var fsBtn=container.querySelector('#dfFullscreenBtn');
-          if(fsBtn)fsBtn.onclick=function(ev){
-            ev.stopPropagation();
-            var iframe=container.querySelector('iframe');
-            if(!iframe)return;
-            if(document.fullscreenElement||document.webkitFullscreenElement){
-              if(document.exitFullscreen)document.exitFullscreen();
-              else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
-            }else{
-              if(iframe.requestFullscreen)iframe.requestFullscreen();
-              else if(iframe.webkitRequestFullscreen)iframe.webkitRequestFullscreen();
-            }
-          };
         };
         content.querySelector('#dfPlayTabBtn').onclick=function(){
           var url=_dfGetStreamUrl();
-          if(_dfState.tmdbProvider==='cineby'){
-            window.open(url,'_blank');
-            return
-          }
           var newWin=window.open('about:blank','_blank');
           if(!newWin||newWin.closed){_dfToast('Popup blocked - please allow popups');return}
           newWin.document.open();
@@ -7682,7 +7616,8 @@ function renderTrashItems(container){
     }
     return false;
   });
-  if(!keys.length&&!fsTrashKeys.length){
+  var folderTrashKeys=Object.keys(_trashedFolders);
+  if(!keys.length&&!fsTrashKeys.length&&!folderTrashKeys.length){
     container.innerHTML='<div style="text-align:center;padding:40px 0;color:var(--text5);font-size:13px"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>Trash is empty</div>';
     return;
   }
@@ -7822,7 +7757,7 @@ function renderTrashItems(container){
     delBtn.style.cssText='padding:4px 12px;border-radius:6px;border:1px solid var(--red,#f55);background:none;color:var(--red,#f55);font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0;transition:all .15s';
     delBtn.onmouseover=function(){delBtn.style.background='var(--red,#f55)';delBtn.style.color='#fff'};
     delBtn.onmouseout=function(){delBtn.style.background='none';delBtn.style.color='var(--red,#f55)'};
-    (function(fid,fname){delBtn.onclick=function(e){e.stopPropagation();if(!confirm('Permanently delete "'+fname+'"?'))return;_fsPermDelete(fid)}})(fsId,item.name);
+    (function(fid,fname){delBtn.onclick=function(e){e.stopPropagation();showConfirmDialog('Permanently delete "'+fname+'"?' ,function(ok){if(ok)_fsPermDelete(fid)})}})(fsId,item.name);
     btnContainer.appendChild(delBtn);
     row.appendChild(iconDiv);row.appendChild(info);row.appendChild(btnContainer);
     /* Right-click context menu */
@@ -7834,13 +7769,62 @@ function renderTrashItems(container){
       (function(fid){ri.onclick=function(){closeContextMenu();_fsRestoreItem(fid)}})(fsId);
       menu.appendChild(ri);
       var di=document.createElement('div');di.className='ctx-menu-item';di.textContent='Delete Permanently';di.style.color='var(--red,#f55)';
-      (function(fid,fname){di.onclick=function(){closeContextMenu();if(!confirm('Permanently delete "'+fname+'"?'))return;_fsPermDelete(fid)}})(fsId,item.name);
+      (function(fid,fname){di.onclick=function(){closeContextMenu();showConfirmDialog('Permanently delete "'+fname+'"?' ,function(ok){if(ok)_fsPermDelete(fid)})}})(fsId,item.name);
       menu.appendChild(di);
       document.body.appendChild(menu);
       var mr=menu.getBoundingClientRect();
       if(mr.right>window.innerWidth)menu.style.left=(window.innerWidth-mr.width-4)+'px';
       if(mr.bottom>window.innerHeight)menu.style.top=(window.innerHeight-mr.height-4)+'px';
     });
+    container.appendChild(row);
+  });
+  /* Render trashed app folders */
+  folderTrashKeys.forEach(function(fid){
+    var fd=_trashedFolders[fid];
+    if(!fd)return;
+    var apps=fd.apps||[];
+    var row=document.createElement('div');
+    row.className='trash-item';
+    row.dataset.trashId=fid;
+    row.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;border:1px solid var(--border);margin-bottom:6px;background:var(--bg3);transition:background .15s';
+    row.onmouseover=function(){row.style.background='var(--bg4)'};
+    row.onmouseout=function(){row.style.background='var(--bg3)'};
+    /* Square glass preview matching desktop app-folder-bubble style */
+    var previewHtml='';
+    var maxPreview=Math.min(apps.length,4);
+    for(var pi=0;pi<maxPreview;pi++){
+      var cid=apps[pi];
+      if(!cid)continue;
+      var cEmoji='&#128640;';var col1='#555',col2='#333';
+      if(cid.startsWith('custom_')&&customAppsData[cid]){cEmoji=renderIconHtmlSmall(customAppsData[cid].icon,10)||'&#128640;';col1=customAppsData[cid].color1||'#555';col2=customAppsData[cid].color2||'#333'}
+      else if(appDefs[cid]){cEmoji=renderIconHtmlSmall(appDefs[cid].icon,10)||'&#128640;';var mm=appDefs[cid].iconBg&&appDefs[cid].iconBg.match(/linear-gradient\(135deg,\s*([^,]+),\s*([^)]+)\)/);if(mm){col1=mm[1].trim();col2=mm[2].trim()}}
+      previewHtml+='<div style="width:12px;height:12px;border-radius:2px;background:linear-gradient(135deg,'+col1+','+col2+');border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:6px;line-height:1;flex-shrink:0">'+cEmoji+'</div>';
+    }
+    if(apps.length>4)previewHtml+='<div style="width:12px;height:12px;border-radius:2px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:6px;color:rgba(255,255,255,.6);font-weight:700;flex-shrink:0">+'+(apps.length-4)+'</div>';
+    var iconDiv=document.createElement('div');
+    iconDiv.style.cssText='width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;flex-wrap:wrap;gap:0;align-content:flex-start;justify-content:flex-start;padding:4px;background:rgba(255,255,255,.12);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1.5px solid rgba(255,255,255,.25);box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.2)';
+    iconDiv.innerHTML=previewHtml;
+    var info=document.createElement('div');
+    info.style.cssText='flex:1;min-width:0';
+    var appCount=apps.length;
+    info.innerHTML='<div style="font-size:13px;font-weight:600;color:var(--text)">'+escHtml(fd.name||'Nameable')+'</div><div style="font-size:10px;color:var(--text5)">Folder &middot; '+appCount+' app'+(appCount!==1?'s':'')+'</div>';
+    var btnContainer=document.createElement('div');
+    btnContainer.style.cssText='display:flex;gap:6px;align-items:center;flex-shrink:0';
+    var restoreBtn=document.createElement('button');
+    restoreBtn.type='button';restoreBtn.textContent='Restore';
+    restoreBtn.style.cssText='padding:4px 12px;border-radius:6px;border:1px solid var(--accent);background:none;color:var(--accent);font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0;transition:all .15s';
+    restoreBtn.onmouseover=function(){restoreBtn.style.background='var(--accent)';restoreBtn.style.color='#fff'};
+    restoreBtn.onmouseout=function(){restoreBtn.style.background='none';restoreBtn.style.color='var(--accent)'};
+    (function(fid2,fd2){restoreBtn.onclick=function(e){e.stopPropagation();_restoreAppFolderFromTrash(fid2,fd2)}})(fid,fd);
+    btnContainer.appendChild(restoreBtn);
+    var delBtn=document.createElement('button');
+    delBtn.type='button';delBtn.textContent='Delete';
+    delBtn.style.cssText='padding:4px 12px;border-radius:6px;border:1px solid var(--red,#f55);background:none;color:var(--red,#f55);font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0;transition:all .15s';
+    delBtn.onmouseover=function(){delBtn.style.background='var(--red,#f55)';delBtn.style.color='#fff'};
+    delBtn.onmouseout=function(){delBtn.style.background='none';delBtn.style.color='var(--red,#f55)'};
+    (function(fid2,fd2){delBtn.onclick=function(e){e.stopPropagation();showConfirmDialog('Permanently delete folder "'+(fd2.name||'Nameable')+'" and all its contents?' ,function(ok){if(ok)_permanentlyDeleteAppFolder(fid2,fd2)})}})(fid,fd);
+    btnContainer.appendChild(delBtn);
+    row.appendChild(iconDiv);row.appendChild(info);row.appendChild(btnContainer);
     container.appendChild(row);
   });
 }
@@ -7874,13 +7858,15 @@ function restoreFromTrash(appId,name){
 
 function permanentlyDelete(appId,name){
   if(!currentRole)return;
-  if(!confirm('Permanently delete "'+name+'"? You can re-download it from the App Store.'))return;
-  db.ref('userApps/'+currentRole+'/'+appId).remove().then(function(){
+  showConfirmDialog('Permanently delete "'+name+'"? You can re-download it from the App Store.',function(confirmed){
+    if(!confirmed)return;
+    db.ref('userApps/'+currentRole+'/'+appId).remove().then(function(){
     delete userAppsState[appId];
     removeCustomDesktopIcon(appId);
     showToast('"'+name+'" permanently deleted');
     logAudit('app','Permanently deleted: '+name);
     var tl=document.getElementById('trashItemsList');if(tl)renderTrashItems(tl);
+    });
   });
 }
 
@@ -7892,32 +7878,58 @@ function _emptyTrash(){
     var pid=_fsItems[k].parentId;
     return pid==='trash'||(typeof pid==='string'&&pid.indexOf('trash_sub_')===0);
   });
-  if(!appKeys.length&&!fsAllTrash.length){showToast('Trash is already empty');return}
-  var total=appKeys.length+fsAllTrash.length;
-  if(!confirm('Permanently delete all '+total+' item(s) in Trash? This cannot be undone.'))return;
-  var promises=[];
-  appKeys.forEach(function(appId){
-    var app=customAppsData[appId];
-    var isAppStore=app&&app.distribution==='appstore';
-    if(isAppStore){
-      promises.push(db.ref('userApps/'+currentRole+'/'+appId).remove().then(function(){
-        delete userAppsState[appId];removeCustomDesktopIcon(appId);
-      }));
-    }else{
-      promises.push(db.ref('userApps/'+currentRole+'/'+appId).set('desktop').then(function(){
-        userAppsState[appId]='desktop';
-        if(customAppsData[appId])addCustomDesktopIcon(appId,customAppsData[appId]);
-      }));
+  var folderTrashKeys=Object.keys(_trashedFolders);
+  if(!appKeys.length&&!fsAllTrash.length&&!folderTrashKeys.length){showToast('Trash is already empty');return}
+  var total=appKeys.length+fsAllTrash.length+folderTrashKeys.length;
+  showConfirmDialog('Permanently delete all '+total+' item(s) in Trash? This cannot be undone.','Delete',function(confirmed){
+    if(!confirmed)return;
+    var promises=[];
+    appKeys.forEach(function(appId){
+      var app=customAppsData[appId];
+      var isAppStore=app&&app.distribution==='appstore';
+      if(isAppStore){
+        promises.push(db.ref('userApps/'+currentRole+'/'+appId).remove().then(function(){
+          delete userAppsState[appId];removeCustomDesktopIcon(appId);
+        }));
+      }else{
+        promises.push(db.ref('userApps/'+currentRole+'/'+appId).set('desktop').then(function(){
+          userAppsState[appId]='desktop';
+          if(customAppsData[appId])addCustomDesktopIcon(appId,customAppsData[appId]);
+        }));
+      }
+    });
+    if(fsAllTrash.length){
+      var fsUpdates={};
+      fsAllTrash.forEach(function(k){fsUpdates[k]=null});
+      promises.push(db.ref('userFiles/'+currentRole).update(fsUpdates));
     }
-  });
-  if(fsAllTrash.length){
-    var fsUpdates={};
-    fsAllTrash.forEach(function(k){fsUpdates[k]=null});
-    promises.push(db.ref('userFiles/'+currentRole).update(fsUpdates));
-  }
-  Promise.all(promises).then(function(){
-    showToast('Trash emptied');
-    var tl=document.getElementById('trashItemsList');if(tl)renderTrashItems(tl);
+    folderTrashKeys.forEach(function(fid){
+      var fd=_trashedFolders[fid];
+      if(!fd)return;
+      var apps=fd.apps||[];
+      apps.forEach(function(aid){
+        if(aid.startsWith('custom_')){
+          if(userAppsState[aid]){
+            promises.push(db.ref('userApps/'+currentRole+'/'+aid).remove().then(function(){
+              delete userAppsState[aid];removeCustomDesktopIcon(aid);
+            }));
+          }
+        }else{
+          /* System/builtin app — restore to desktop */
+          var icon=document.querySelector('.desktop-icon[data-app="'+aid+'"]');
+          if(icon&&icon.style.display==='none')icon.style.display='';
+        }
+      });
+      /* Close any open folder window */
+      for(var wid in openWindows){
+        if(openWindows[wid].appId===fid){closeWindow(wid);break}
+      }
+      promises.push(db.ref('trashedFolders/'+currentRole+'/'+fid).set(null));
+    });
+    Promise.all(promises).then(function(){
+      showToast('Trash emptied');
+      var tl=document.getElementById('trashItemsList');if(tl)renderTrashItems(tl);
+    });
   });
 }
 
@@ -7932,26 +7944,9 @@ function createWindow(appId){
   var area=document.getElementById('desktopArea');
   var aW=area.offsetWidth,aH=area.offsetHeight;
   var w=Math.min(def.width,aW-40),h=Math.min(def.height,aH-40);
-  
-  /* Restore saved position */
-  var restored=false;
-  if(_windowPosRestoreData){
-    for(var _rid in _windowPosRestoreData){
-      var _rd=_windowPosRestoreData[_rid];
-      if(_rd.appId===appId){
-        l=_rd.left;t=_rd.top;w=_rd.width;h=_rd.height;
-        restored=true;
-        delete _windowPosRestoreData[_rid];
-        break;
-      }
-    }
-  }
-  if(!restored){
-    var offsetCount=Object.keys(openWindows).length;
-    l=Math.max(20,60+offsetCount*30);
-    t=Math.max(20,40+offsetCount*30);
-    if(l+w>aW)l=20;if(t+h>aH)t=20;
-  }
+  var offsetCount=Object.keys(openWindows).length;
+  var l=Math.max(20,60+offsetCount*30),t=Math.max(20,40+offsetCount*30);
+  if(l+w>aW)l=20;if(t+h>aH)t=20;
   win.style.cssText='left:'+l+'px;top:'+t+'px;width:'+w+'px;height:'+h+'px';
 
   /* Title bar (optional) */
@@ -8064,9 +8059,8 @@ function createWindow(appId){
   area.appendChild(win);
 
   /* Track */
-   openWindows[winId]={appId:appId,title:def.title,minimized:false,maximized:false,el:win,prevStyle:null};
-   if(def.maximized)toggleMaximize(winId);
-   focusWindow(winId);
+  openWindows[winId]={appId:appId,title:def.title,minimized:false,maximized:false,el:win,prevStyle:null};
+  focusWindow(winId);
   updateTaskbar();
   if(tb)initDrag(win,tb);else initDrag(win,body);
   if(!def.noResize)initResize(win);
@@ -8456,7 +8450,7 @@ function initDrag(win,titlebar){
       win.style.top=(origTop+dy)+'px';
     }
   });
-  document.addEventListener('mouseup',function(){if(dragActive){dragActive=false;removeIframeOverlay();_saveOpenWindows()}dragPending=false});
+  document.addEventListener('mouseup',function(){if(dragActive){dragActive=false;removeIframeOverlay()}dragPending=false});
   /* Double click title to maximize */
   if(titlebar.classList.contains('win-titlebar')){
     titlebar.addEventListener('dblclick',function(e){
@@ -8503,7 +8497,7 @@ function initResize(win){
       if(edge.cls.includes('n')){nh=Math.max(200,startH-dy);nt=startT+(startH-nh)}
       win.style.width=nw+'px';win.style.height=nh+'px';win.style.left=nl+'px';win.style.top=nt+'px';
     });
-    document.addEventListener('mouseup',function(){if(resizing){resizing=false;removeResizeOverlay();_saveOpenWindows()}});
+    document.addEventListener('mouseup',function(){if(resizing){resizing=false;removeResizeOverlay()}});
   });
 }
 
@@ -9162,7 +9156,65 @@ function _iconDragTrash(appId,iconEl,oLeft,oTop){
   iconEl.style.left=oLeft+'px';iconEl.style.top=oTop+'px';
   if(appId.startsWith('custom_')){moveToTrash(appId)}
   else if(appId.startsWith('fs_')){_fsDeleteItem(appId)}
+  else if(appId.startsWith('af_')){_moveAppFolderToTrash(appId,iconEl)}
   else{showToast('Built-in app cannot be deleted.')}
+}
+function _moveAppFolderToTrash(folderId,iconEl){
+  if(!currentRole||!_appFolders[folderId])return;
+  if(iconEl)iconEl.remove();
+  var folder=_appFolders[folderId];
+  db.ref('trashedFolders/'+currentRole+'/'+folderId).set({
+    name:folder.name||'Nameable',
+    apps:folder.apps||[],
+    createdAt:folder.createdAt||Date.now(),
+    trashedAt:Date.now()
+  }).then(function(){
+    db.ref('appFolders/'+currentRole+'/'+folderId).set(null).then(function(){
+      showToast('Folder "'+(folder.name||'Nameable')+'" moved to Trash');
+      var tl=document.getElementById('trashItemsList');if(tl)renderTrashItems(tl);
+    });
+  });
+}
+function _restoreAppFolderFromTrash(folderId,folderData){
+  if(!currentRole||!folderData)return;
+  db.ref('appFolders/'+currentRole+'/'+folderId).set({
+    name:folderData.name||'Nameable',
+    apps:folderData.apps||[],
+    createdAt:folderData.createdAt||Date.now()
+  }).then(function(){
+    db.ref('trashedFolders/'+currentRole+'/'+folderId).set(null).then(function(){
+      showToast('Folder "'+(folderData.name||'Nameable')+'" restored from Trash');
+      var tl=document.getElementById('trashItemsList');if(tl)renderTrashItems(tl);
+    });
+  });
+}
+function _permanentlyDeleteAppFolder(folderId,folderData){
+  if(!currentRole||!folderData)return;
+  var apps=folderData.apps||[];
+  var promises=[];
+  apps.forEach(function(aid){
+    if(aid.startsWith('custom_')){
+      if(userAppsState[aid]){
+        promises.push(db.ref('userApps/'+currentRole+'/'+aid).remove().then(function(){
+          delete userAppsState[aid];
+          removeCustomDesktopIcon(aid);
+        }));
+      }
+    }else{
+      /* System/builtin app — restore to desktop */
+      var icon=document.querySelector('.desktop-icon[data-app="'+aid+'"]');
+      if(icon&&icon.style.display==='none')icon.style.display='';
+    }
+  });
+  /* Close any open folder window */
+  for(var wid in openWindows){
+    if(openWindows[wid].appId===folderId){closeWindow(wid);break}
+  }
+  promises.push(db.ref('trashedFolders/'+currentRole+'/'+folderId).set(null));
+  Promise.all(promises).then(function(){
+    showToast('Folder "'+(folderData.name||'Nameable')+'" permanently deleted. System apps restored.');
+    var tl=document.getElementById('trashItemsList');if(tl)renderTrashItems(tl);
+  });
 }
 function _iconDragStart(icon,cx,cy,isTouch){
   var group=_iconDragGetGroup(icon);
@@ -10505,20 +10557,18 @@ function findOpenIconPosition(){
   var container=document.getElementById('desktopIcons');
   var maxW=Math.max((container?container.clientWidth:window.innerWidth),800)-80;
   var maxH=Math.max((container?container.clientHeight:window.innerHeight),600)-100;
-  var occupied=[];
+  var occupiedSet={};
   document.querySelectorAll('.desktop-icon').forEach(function(ic){
-    occupied.push({x:parseInt(ic.style.left)||ic.offsetLeft,y:parseInt(ic.style.top)||ic.offsetTop});
+    var k='x'+((parseInt(ic.style.left)||ic.offsetLeft))+'y'+((parseInt(ic.style.top)||ic.offsetTop));
+    occupiedSet[k]=true;
   });
   for(var x=padX;x<=maxW;x+=colW){
     for(var y=padY;y<=maxH;y+=rowH){
-      var free=true;
-      for(var i=0;i<occupied.length;i++){
-        if(Math.abs(occupied[i].x-x)<colW&&Math.abs(occupied[i].y-y)<rowH){free=false;break;}
-      }
-      if(free)return{left:x,top:y};
+      if(!occupiedSet['x'+x+'y'+y])return{left:x,top:y};
     }
   }
-  return{left:padX,top:padY+(occupied.length*rowH)};
+  /* Grid full — place at first visible row instead of going off-screen */
+  return{left:padX,top:padY};
 }
 
 function addCustomDesktopIcon(appId,app){
@@ -10535,6 +10585,8 @@ function addCustomDesktopIcon(appId,app){
     var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
     if(saved&&saved[appId])pos=saved[appId];
   }catch(e){}
+  /* If saved position is off-screen, recalculate */
+  if(pos&&pos.top>2000){pos=null}
   if(!pos)pos=findOpenIconPosition();
   var icon=document.createElement('div');
   icon.className='desktop-icon';
@@ -10602,6 +10654,8 @@ var _fsItems={};
 var _fsRef=null;
 var _appFolders={};
 var _afRef=null;
+var _trashedFolders={};
+var _tfRef=null;
 
 var _fsRenderPending=false;
 function _fsScheduleRender(){
@@ -10647,6 +10701,9 @@ function _fsSetupListener(){
   if(_afRef)_afRef.off();
   _afRef=db.ref('appFolders/'+currentRole);
   _afRef.on('value',function(snap){_appFolders=snap.val()||{};_trackRead();_fsScheduleRender()});
+  if(_tfRef)_tfRef.off();
+  _tfRef=db.ref('trashedFolders/'+currentRole);
+  _tfRef.on('value',function(snap){_trashedFolders=snap.val()||{};_trackRead()});
 }
 
 function _fsCreateItem(type,name,parentId,clickX,clickY){
@@ -11503,6 +11560,7 @@ function _fsRenderDesktopItems(){
       var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
       if(saved&&saved[id])pos=saved[id];
     }catch(e){}
+    if(pos&&pos.top>2000){pos=null}
     if(!pos)pos=findOpenIconPosition();
     var icon=document.createElement('div');
     icon.className='desktop-icon';
@@ -11545,6 +11603,11 @@ function _fsRenderDesktopItems(){
     var f=_appFolders[fid];
     if(f&&f.apps)f.apps.forEach(function(aid){appsInFolders[aid]=true});
   });
+  /* Also keep apps inside trashed folders hidden (folder+apps go to trash as a unit) */
+  Object.keys(_trashedFolders).forEach(function(fid){
+    var f=_trashedFolders[fid];
+    if(f&&f.apps)f.apps.forEach(function(aid){appsInFolders[aid]=true});
+  });
   document.querySelectorAll('.desktop-icon').forEach(function(ic){
     var aid=ic.dataset.app;
     if(aid&&appsInFolders[aid])ic.style.display='none';
@@ -11574,6 +11637,7 @@ function _fsRenderDesktopItems(){
       var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
       if(saved&&saved[fid])pos=saved[fid];
     }catch(e){}
+    if(pos&&pos.top>2000){pos=null}
     if(!pos)pos=findOpenIconPosition();
     var icon=document.createElement('div');
     icon.className='desktop-icon';
@@ -13604,7 +13668,6 @@ var PONG_WS_URL = 'wss://user:fb62865ee1b631fef94cdfa171f45b59@0ae713151595-tunn
 var CW=800, CH=500, PW=12, PH=90, BR=8;
 
 var _pongWs=null, _pongSide=null, _pongAnimFrame=null, _pongMyName=null;
-var _pongLastChallengeRoom=null;
 var _pongOnlineUsers=[];
 var _pongRender={ball:{x:CW/2,y:CH/2},p1:{y:CH/2,score:0,name:'P1'},p2:{y:CH/2,score:0,name:'P2'},state:'idle',countdown:3,winner:null};
 var _pongKeys={};
@@ -13612,46 +13675,27 @@ var _pongBallTrail=[];
 var _pongParticles=[];
 var _pongContainer=null;
 
-var _pongFB={
-  lobbyRef:null,
-  roomRef:null,
-  roomId:null,
-  playerId:null,
-  isHost:false,
-  opponentId:null,
-  opponentName:null,
-  mySide:null,
-  gameLoop:null,
-  listeners:[]
-};
-
 function _pongGetDisplayName(){
   if(typeof currentDisplayName!=='undefined' && currentDisplayName) return currentDisplayName;
   if(typeof currentRole!=='undefined' && currentRole) return currentRole;
   return 'Player';
 }
 
-function _pongGetPlayerId(){
-  if(!_pongFB.playerId){
-    _pongFB.playerId=(currentRole||'anon')+'_'+Date.now()+'_'+Math.random().toString(36).substr(2,5);
-  }
-  return _pongFB.playerId;
-}
-
 window._pongBuildUI=function(){
   var d=document.createElement('div');
   d.className='pong-app';
-  d.style.position='relative';
   _pongContainer=d;
 
   d.innerHTML=
     '<div class="pong-lobby" id="pongLobby">'+
-      '<h2>PONG</h2>'+
-      '<button class="pong-quick-play" id="pongPlayAI" style="margin-bottom:16px">PLAY VS AI</button>'+
+      '<h2>PONG Online</h2>'+
       '<div class="pong-online-list" id="pongOnlineList">'+
         '<h3>Online Players</h3>'+
-        '<div id="pongUsersList" style="min-height:40px"><div style="font-size:12px;color:rgba(255,255,255,.3)">Loading...</div></div>'+
+        '<div id="pongUsersList" style="min-height:40px"><div style="font-size:12px;color:rgba(255,255,255,.3)">Connecting...</div></div>'+
       '</div>'+
+      '<div class="pong-or-divider">or</div>'+
+      '<button class="pong-quick-play" id="pongQuickPlay">QUICK PLAY</button>'+
+      '<div class="pong-status" id="pongStatus" style="display:none"><div class="pong-spin"></div><span id="pongStatusText">Searching...</span></div>'+
     '</div>'+
     '<div class="pong-game-area" id="pongGameArea">'+
       '<div class="pong-scoreboard">'+
@@ -13670,25 +13714,12 @@ window._pongBuildUI=function(){
       '</div>'+
       '<div class="pong-disconnect" id="pongDisconnect"></div>'+
       '<div class="pong-game-over" id="pongGameOver" style="display:none">'+
-        '<div class="pong-result-popup" id="pongResultPopup" style="display:none">'+
-          '<div class="pong-result-icon" id="pongResultIcon"></div>'+
-          '<h3 id="pongGOTitle">Game Over</h3>'+
-          '<p id="pongGOSub"></p>'+
-          '<div class="pong-result-stats" id="pongResultStats" style="display:none;margin:16px 0;padding:12px;background:var(--bg3);border-radius:8px;font-size:12px;color:var(--text4)"></div>'+
-          '<button class="pong-rematch-btn" id="pongRematchBtn" style="display:none">REMATCH</button><br>'+
-          '<button class="pong-back-btn" id="pongBackBtn">Back to Lobby</button>'+
-          '<button class="pong-leaderboard-btn" id="pongLeaderboardBtnGO" style="margin-top:10px;padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer">🏆 Leaderboard</button>'+
-        '</div>'+
+        '<h3 id="pongGOTitle">Game Over</h3>'+
+        '<p id="pongGOSub"></p>'+
+        '<button class="pong-rematch-btn" id="pongRematchBtn">REMATCH</button><br>'+
+        '<button class="pong-back-btn" id="pongBackBtn">Back to Lobby</button>'+
       '</div>'+
     '</div>';
-
-  /* Leaderboard button — top-right of Pong window */
-  var lbBtn=document.createElement('button');
-  lbBtn.id='pongLeaderboardBtn';
-  lbBtn.textContent='🏆';
-  lbBtn.title='Leaderboard';
-  lbBtn.style.cssText='position:absolute;top:4px;right:4px;z-index:60;padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:rgba(0,0,0,0.5);color:var(--text);font-size:14px;cursor:pointer;display:none;line-height:1';
-  d.appendChild(lbBtn);
 
   /* Click on game area to ensure window focus for keyboard input */
   d.addEventListener('click',function(){
@@ -13702,7 +13733,7 @@ window._pongBuildUI=function(){
 };
 
 function _pongInit(container){
-  var playAIBtn=container.querySelector('#pongPlayAI');
+  var quickPlayBtn=container.querySelector('#pongQuickPlay');
   var rematchBtn=container.querySelector('#pongRematchBtn');
   var backBtn=container.querySelector('#pongBackBtn');
   var btnUp=container.querySelector('#pongBtnUp');
@@ -13710,25 +13741,9 @@ function _pongInit(container){
 
   _pongRenderOnlineUsers(container);
 
-  /* Show leaderboard button in lobby */
-  var lbBtn=container.querySelector('#pongLeaderboardBtn');
-  if(lbBtn)lbBtn.style.display='';
-
-  if(playAIBtn) playAIBtn.onclick=function(){ _pongStartAIGame(container); };
+  if(quickPlayBtn) quickPlayBtn.onclick=function(){ _pongJoinQuick(container); };
   if(rematchBtn) rematchBtn.onclick=function(){ _pongRematch(); };
   if(backBtn) backBtn.onclick=function(){ _pongBackToLobby(container); };
-
-  /* Leaderboard button (top-right of Pong) */
-  if(lbBtn) lbBtn.onclick=function(){ _pongShowLeaderboard(container); };
-  
-  /* Leaderboard button (game over popup) */
-  var lbBtnGO=container.querySelector('#pongLeaderboardBtnGO');
-  if(lbBtnGO) lbBtnGO.onclick=function(){ _pongShowLeaderboard(container); };
-
-  /* Auto-join if room exists (accepted challenge) */
-  if(_pongFB&&_pongFB.roomRef&&_pongFB.roomId){
-    _pongStartOnlineGame(container);
-  }
 
   if(btnUp){
     btnUp.ontouchstart=function(e){e.preventDefault();_pongMobileMove(-1)};
@@ -13743,300 +13758,43 @@ function _pongInit(container){
     btnDown.onmouseup=function(){_pongMobileMove(0)};
   }
 
-  var leaderboardBtn=container.querySelector('#pongLeaderboardBtn');
-  if(leaderboardBtn) leaderboardBtn.onclick=function(){ _pongShowLeaderboard(container); };
-
   _pongConnect(container);
 }
 
 /* Background WS — connects at login so challenges work even if Pong app is closed */
 function _pongBgConnect(){
-  if(typeof db==='undefined')return;
-  _pongFB.lobbyRef=db.ref('pongLobby');
-  _pongFB.lobbyRef.on('value',function(snap){
-    var lobby=snap.val()||{};
-    _pongOnlineUsers=[];
-    Object.keys(lobby).forEach(function(pid){
-      if(lobby[pid]&&lobby[pid].name&&pid!==_pongGetPlayerId()){
-        _pongOnlineUsers.push(lobby[pid].name);
-        /* Check for incoming challenge (dedup by roomId) */
-        if(lobby[pid].target===currentRole&&lobby[pid].roomId&&lobby[pid].roomId!==_pongLastChallengeRoom){
-          _pongLastChallengeRoom=lobby[pid].roomId;
-          _pongShowChallengeNotif(lobby[pid].name,lobby[pid].roomId);
-        }
-      }
-    });
+  if(_pongWs && _pongWs.readyState<=1) return;
+  var name=_pongGetDisplayName();
+  if(!name)return;
+  try{_pongWs=new WebSocket(PONG_WS_URL)}catch(e){_pongWs=null;_pongRefreshOnlineList();return}
+  var _pongConnectTimeout=setTimeout(function(){
+    if(_pongWs&&_pongWs.readyState===0){
+      try{_pongWs.close()}catch(e){}
+      _pongWs=null;
+      _pongRefreshOnlineList();
+    }
+  },5000);
+  _pongWs.onopen=function(){
+    clearTimeout(_pongConnectTimeout);
+    _pongWs.send(JSON.stringify({action:'register',name:name}));
     _pongRefreshOnlineList();
-  });
-}
-
-function _pongFBCleanup(){
-  if(_pongFB.gameLoop){clearInterval(_pongFB.gameLoop);_pongFB.gameLoop=null}
-  _pongFB.listeners.forEach(function(ref){try{ref.off()}catch(e){}});
-  _pongFB.listeners=[];
-  if(_pongFB.roomRef){
-    _pongFB.roomRef.child('players/'+_pongFB.playerId).remove();
-    _pongFB.roomRef=null;
-  }
-  if(_pongFB.lobbyRef){
-    _pongFB.lobbyRef.child(_pongFB.playerId).remove();
-  }
-  _pongFB.roomId=null;
-  _pongFB.isHost=false;
-  _pongFB.opponentId=null;
-  _pongFB.opponentName=null;
-  _pongFB.mySide=null;
-}
-
-function _pongCreateRoom(container,opponentId,opponentName){
-  var roomId='pong_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-  var roomRef=db.ref('pongRooms/'+roomId);
-  var playerId=_pongGetPlayerId();
-  var playerName=_pongGetDisplayName();
-
-  _pongFB.roomRef=roomRef;
-  _pongFB.roomId=roomId;
-  _pongFB.isHost=true;
-  _pongFB.opponentId=opponentId;
-  _pongFB.opponentName=opponentName;
-  _pongFB.mySide='left';
-
-  roomRef.set({
-    created:Date.now(),
-    host:playerId,
-    players:{},
-    state:{
-      phase:'waiting',
-      ball:{x:CW/2,y:CH/2,vx:0,vy:0},
-      p1:{y:CH/2,score:0},
-      p2:{y:CH/2,score:0},
-      winner:null
+  };
+  _pongWs.onmessage=function(e){
+    var msg;try{msg=JSON.parse(e.data)}catch(er){return}
+    _pongHandleMsg(msg,_pongContainer);
+  };
+  _pongWs.onclose=function(){
+    clearTimeout(_pongConnectTimeout);
+    _pongWs=null;
+    _pongRefreshOnlineList();
+    if(_pongContainer){
+      var dc=_pongContainer.querySelector('#pongDisconnect');
+      if(dc&&_pongRender.state==='playing'){dc.textContent='Connection lost';dc.classList.add('show')}
     }
-  });
-
-  roomRef.child('players/'+playerId).set({
-    name:playerName,
-    side:'left',
-    connected:true,
-    ts:Date.now()
-  });
-
-  roomRef.child('players/'+playerId).onDisconnect().update({connected:false});
-
-  roomRef.child('players/'+opponentId).once('value',function(snap){
-    if(!snap.exists()){
-      roomRef.child('players/'+opponentId).set({
-        name:opponentName,
-        side:'right',
-        connected:true,
-        ts:Date.now()
-      });
-      roomRef.child('players/'+opponentId).onDisconnect().update({connected:false});
-    }
-  });
-
-  _pongStartOnlineGame(container);
-}
-
-function _pongStartOnlineGame(container){
-  var roomRef=_pongFB.roomRef;
-  if(!roomRef)return;
-
-  var lobby=container.querySelector('#pongLobby');
-  var gameArea=container.querySelector('#pongGameArea');
-  var lbBtn=container.querySelector('#pongLeaderboardBtn');
-  if(lobby)lobby.style.display='none';
-  if(gameArea)gameArea.classList.add('active');
-  if(lbBtn)lbBtn.style.display='none';
-
-  var p1Name=container.querySelector('#pongP1Name');
-  var p2Name=container.querySelector('#pongP2Name');
-  if(p1Name)p1Name.textContent=_pongFB.mySide==='left'?_pongGetDisplayName():_pongFB.opponentName;
-  if(p2Name)p2Name.textContent=_pongFB.mySide==='right'?_pongGetDisplayName():_pongFB.opponentName;
-
-  _pongInGame=true;
-
-  var stateRef=roomRef.child('state');
-  var stateListener=stateRef.on('value',function(snap){
-    var state=snap.val();
-    if(!state)return;
-
-    var s1=container.querySelector('#pongP1Score');
-    var s2=container.querySelector('#pongP2Score');
-    if(s1)s1.textContent=state.p1.score;
-    if(s2)s2.textContent=state.p2.score;
-
-    _pongRender.ball={x:state.ball.x,y:state.ball.y};
-    _pongRender.p1={y:state.p1.y,score:state.p1.score,name:_pongFB.mySide==='left'?_pongGetDisplayName():_pongFB.opponentName};
-    _pongRender.p2={y:state.p2.y,score:state.p2.score,name:_pongFB.mySide==='right'?_pongGetDisplayName():_pongFB.opponentName};
-    _pongRender.state=state.phase;
-
-    /* Update overlay (countdown etc) */
-    var ov=container.querySelector('#pongOverlay');
-    if(ov){
-      if(state.phase==='countdown'){
-        ov.innerHTML='<div class="pong-countdown">'+(state.countdown||3)+'</div>';
-        ov.style.display='block';
-      }else{
-        ov.style.display='none';
-      }
-    }
-
-    if(state.phase==='playing'&&!_pongAnimFrame){
-      _pongStartRender(container);
-    }
-
-    if(state.winner){
-      _pongInGame=false;
-      _pongShowGameOver(container,state.winner);
-    }
-  });
-  _pongFB.listeners.push(stateRef);
-
-  var playersRef=roomRef.child('players');
-  var playersListener=playersRef.on('value',function(snap){
-    var players=snap.val()||{};
-    var connected=Object.keys(players).filter(function(pid){return players[pid]&&players[pid].connected});
-    if(connected.length<2&&_pongInGame){
-      var dc=container.querySelector('#pongDisconnect');
-      if(dc){dc.textContent='Opponent disconnected';dc.classList.add('show')}
-    }
-  });
-  _pongFB.listeners.push(playersRef);
-
-  /* Update overlay with countdown/waiting */
-  var overlay=container.querySelector('#pongOverlay');
-  if(overlay){
-    if(_pongFB.isHost){
-      overlay.innerHTML='<div style="font-size:14px;color:rgba(255,255,255,.5);padding:20px">Waiting for opponent...</div>';
-    }else{
-      overlay.innerHTML='<div style="font-size:14px;color:rgba(255,255,255,.5);padding:20px">Joining game...</div>';
-    }
-  }
-
-  if(_pongFB.isHost){
-    /* Wait for both players before starting */
-    var waitRef=roomRef.child('players');
-    var waitListener=waitRef.on('value',function(snap){
-      var players=snap.val()||{};
-      var connected=Object.keys(players).filter(function(pid){return players[pid]&&players[pid].connected});
-      if(connected.length>=2){
-        waitRef.off('value',waitListener);
-        _pongRunHostGameLoop(container);
-      }
-    });
-    _pongFB.listeners.push({off:function(){waitRef.off('value',waitListener)}});
-  }
-}
-
-function _pongRunHostGameLoop(container){
-  var roomRef=_pongFB.roomRef;
-  var stateRef=roomRef.child('state');
-
-  var ball={x:CW/2,y:CH/2,vx:5*(Math.random()>0.5?1:-1),vy:3*(Math.random()>0.5?1:-1)};
-  var p1={y:CH/2,score:0};
-  var p2={y:CH/2,score:0};
-  var phase='countdown';
-  var countdown=3;
-
-  stateRef.update({phase:'countdown',ball:ball,p1:p1,p2:p2});
-
-  var countdownTimer=setInterval(function(){
-    countdown--;
-    if(countdown>0){
-      stateRef.update({phase:'countdown',countdown:countdown});
-    }else{
-      clearInterval(countdownTimer);
-      phase='playing';
-      stateRef.update({phase:'playing'});
-      _pongStartHostPhysics();
-    }
-  },1000);
-
-  function _pongStartHostPhysics(){
-    var p1Move=0,p2Move=0;
-
-    var p1InputRef=roomRef.child('input/'+(_pongFB.mySide==='left'?_pongFB.playerId:_pongFB.opponentId));
-    var p2InputRef=roomRef.child('input/'+(_pongFB.mySide==='right'?_pongFB.playerId:_pongFB.opponentId));
-
-    p1InputRef.on('value',function(snap){p1Move=snap.val()||0});
-    p2InputRef.on('value',function(snap){p2Move=snap.val()||0});
-    _pongFB.listeners.push(p1InputRef);
-    _pongFB.listeners.push(p2InputRef);
-
-    _pongFB.gameLoop=setInterval(function(){
-      if(phase!=='playing')return;
-
-      var pSpeed=6;
-      p1.y+=p1Move*pSpeed;
-      p1.y=Math.max(PH/2,Math.min(CH-PH/2,p1.y));
-
-      p2.y+=p2Move*pSpeed;
-      p2.y=Math.max(PH/2,Math.min(CH-PH/2,p2.y));
-
-      ball.x+=ball.vx;
-      ball.y+=ball.vy;
-
-      if(ball.y-BR<=0||ball.y+BR>=CH){
-        ball.vy*=-1;
-        ball.y=Math.max(BR,Math.min(CH-BR,ball.y));
-      }
-
-      if(ball.x-BR<=20+PW&&ball.x-BR>=20&&ball.y>=p1.y-PH/2&&ball.y<=p1.y+PH/2&&ball.vx<0){
-        ball.vx*=-1.05;
-        var relY=(ball.y-p1.y)/(PH/2);
-        ball.vy=relY*5;
-        ball.x=20+PW+BR;
-        _pongSpawnConfetti(ball.x,ball.y,'#00d4ff');
-      }
-
-      if(ball.x+BR>=CW-20-PW&&ball.x+BR<=CW-20&&ball.y>=p2.y-PH/2&&ball.y<=p2.y+PH/2&&ball.vx>0){
-        ball.vx*=-1.05;
-        var relY2=(ball.y-p2.y)/(PH/2);
-        ball.vy=relY2*5;
-        ball.x=CW-20-PW-BR;
-        _pongSpawnConfetti(ball.x,ball.y,'#ff2d95');
-      }
-
-      var maxSpeed=16;
-      if(Math.abs(ball.vx)>maxSpeed)ball.vx=maxSpeed*Math.sign(ball.vx);
-      if(Math.abs(ball.vy)>maxSpeed)ball.vy=maxSpeed*Math.sign(ball.vy);
-
-      if(ball.x<0){
-        p2.score++;
-        _pongSpawnConfetti(0,ball.y,'#ff2d95');
-        ball.x=CW/2;ball.y=CH/2;
-        ball.vx=7*(Math.random()>0.5?1:-1);
-        ball.vy=5*(Math.random()>0.5?1:-1);
-        if(p2.score>=5){
-          phase='gameover';
-          stateRef.update({phase:'gameover',ball:ball,p1:p1,p2:p2,winner:_pongFB.opponentName});
-          clearInterval(_pongFB.gameLoop);
-          return;
-        }
-      }
-      if(ball.x>CW){
-        p1.score++;
-        _pongSpawnConfetti(CW,ball.y,'#00d4ff');
-        ball.x=CW/2;ball.y=CH/2;
-        ball.vx=7*(Math.random()>0.5?1:-1);
-        ball.vy=5*(Math.random()>0.5?1:-1);
-        if(p1.score>=5){
-          phase='gameover';
-          stateRef.update({phase:'gameover',ball:ball,p1:p1,p2:p2,winner:_pongGetDisplayName()});
-          clearInterval(_pongFB.gameLoop);
-          return;
-        }
-      }
-
-      stateRef.update({ball:ball,p1:p1,p2:p2});
-    },33);
-  }
-}
-
-function _pongSendOnlineMove(dir){
-  if(!_pongFB.roomRef||!_pongFB.playerId)return;
-  _pongFB.roomRef.child('input/'+_pongFB.playerId).set(dir);
+    /* Auto-reconnect after 3s if still logged in */
+    setTimeout(function(){if(currentDisplayName)_pongBgConnect()},3000);
+  };
+  _pongWs.onerror=function(){clearTimeout(_pongConnectTimeout)};
 }
 
 function _pongRefreshOnlineList(){
@@ -14045,6 +13803,7 @@ function _pongRefreshOnlineList(){
 
 function _pongConnect(container){
   _pongContainer=container;
+  if(_pongWs && _pongWs.readyState<=1) return;
   _pongBgConnect();
 }
 
@@ -14121,12 +13880,13 @@ function _pongHandleMsg(msg,container){
 function _pongRenderOnlineUsers(container){
   var list=container.querySelector('#pongUsersList');
   if(!list)return;
+  var wsConnected=_pongWs&&_pongWs.readyState===1;
   var portalUsers=[];
   if(typeof onlineUsers==='object'){
     Object.keys(onlineUsers).forEach(function(roleId){
       if(roleId===currentRole)return;
       var name=(onlineUsers[roleId]&&onlineUsers[roleId].name)||roleId;
-      var hasPong=_pongOnlineUsers.indexOf(name)!==-1;
+      var hasPong=wsConnected&&_pongOnlineUsers.indexOf(name)!==-1;
       portalUsers.push({name:name,roleId:roleId,hasPong:hasPong});
     });
   }
@@ -14136,57 +13896,27 @@ function _pongRenderOnlineUsers(container){
   }
   portalUsers.sort(function(a,b){return (b.hasPong?1:0)-(a.hasPong?1:0)});
   var html='';
+  if(!wsConnected){
+    html+='<div style="font-size:11px;color:rgba(255,200,100,.6);padding:6px 0;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,.06)">⚠ Pong server offline — challenges unavailable</div>';
+  }
   portalUsers.forEach(function(u){
-    var dotColor=u.hasPong?'#00ff88':'#888';
-    var btnLabel=u.hasPong?'Challenge':'Invite';
-    var statusLabel=u.hasPong?'':'<span style="font-size:9px;color:rgba(255,255,255,.3);margin-left:4px">(no Pong)</span>';
-    html+='<div class="pong-user-item"><div class="pong-user-name"><div class="pong-user-dot" style="background:'+dotColor+'"></div>'+_escHtml(u.name)+statusLabel+'</div><button class="pong-challenge-btn" data-target="'+_escAttr(u.name)+'" data-roleid="'+_escAttr(u.roleId)+'" data-haspong="'+(u.hasPong?'1':'0')+'">'+btnLabel+'</button></div>';
+    var dotColor=u.hasPong?'#00ff88':(wsConnected?'#ffaa00':'#888');
+    var btnLabel=u.hasPong?'Challenge':(wsConnected?'Invite':'Offline');
+    var btnDisabled=!wsConnected?' disabled style="opacity:.4;cursor:not-allowed"':'';
+    var statusLabel=u.hasPong?'':(wsConnected?'<span style="font-size:9px;color:rgba(255,255,255,.3);margin-left:4px">(no Pong)</span>':'<span style="font-size:9px;color:rgba(255,255,255,.2);margin-left:4px">(server down)</span>');
+    html+='<div class="pong-user-item"><div class="pong-user-name"><div class="pong-user-dot" style="background:'+dotColor+'"></div>'+_escHtml(u.name)+statusLabel+'</div><button class="pong-challenge-btn" data-target="'+_escAttr(u.name)+'" data-roleid="'+_escAttr(u.roleId)+'" data-haspong="'+(u.hasPong?'1':'0')+'"'+btnDisabled+'>'+btnLabel+'</button></div>';
   });
   list.innerHTML=html;
   list.querySelectorAll('.pong-challenge-btn').forEach(function(btn){
+    if(btn.disabled)return;
     btn.onclick=function(){
       var target=btn.getAttribute('data-target');
       var targetRoleId=btn.getAttribute('data-roleid');
       var hasPong=btn.getAttribute('data-haspong')==='1';
       if(hasPong){
-        var playerId=_pongGetPlayerId();
-        var playerName=_pongGetDisplayName();
-        var roomId='pong_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-        var roomRef=db.ref('pongRooms/'+roomId);
-        roomRef.set({
-          created:Date.now(),
-          host:playerId,
-          players:{},
-          state:{phase:'waiting',ball:{x:CW/2,y:CH/2,vx:0,vy:0},p1:{y:CH/2,score:0},p2:{y:CH/2,score:0},winner:null}
-        });
-        roomRef.child('players/'+playerId).set({
-          name:playerName,
-          side:'left',
-          connected:true,
-          ts:Date.now()
-        });
-        roomRef.child('players/'+playerId).onDisconnect().update({connected:false});
-        /* Store pending room so Pong can pick it up when opened */
-        _pongFB.roomRef=roomRef;
-        _pongFB.roomId=roomId;
-        _pongFB.playerId=playerId;
-        _pongFB.isHost=true;
-        _pongFB.opponentId=targetRoleId;
-        _pongFB.opponentName=target;
-        _pongFB.mySide='left';
-        var lobbyRef=db.ref('pongLobby');
-        lobbyRef.child(playerId).set({
-          name:playerName,
-          role:currentRole||'anon',
-          target:targetRoleId,
-          targetName:target,
-          roomId:roomId,
-          ts:Date.now()
-        });
-        lobbyRef.child(playerId).onDisconnect().remove();
-        showToast('Challenge sent to '+target+'!');
-        setTimeout(function(){lobbyRef.child(playerId).remove()},10000);
-        openApp('pong');
+        if(_pongWs&&_pongWs.readyState===1){
+          _pongWs.send(JSON.stringify({action:'challenge',target:target}));
+        }
       }else{
         showToast('Sent '+target+' an invite to install Pong!');
         if(typeof db!=='undefined'&&currentRole&&targetRoleId){
@@ -14278,32 +14008,16 @@ function _pongShowChallengeNotif(from,roomId){
 
   /* Accept */
   notif.querySelector('#pongCNAccept').onclick=function(){
-    var playerId=_pongGetPlayerId();
-    var playerName=_pongGetDisplayName();
-    if(typeof db!=='undefined'&&roomId){
-      var roomRef=db.ref('pongRooms/'+roomId);
-      _pongFB.roomRef=roomRef;
-      _pongFB.roomId=roomId;
-      _pongFB.isHost=false;
-      _pongFB.opponentId=from;
-      _pongFB.opponentName=from;
-      _pongFB.mySide='right';
-      _pongFB.playerId=playerId;
-      roomRef.child('players/'+playerId).set({
-        name:playerName,
-        side:'right',
-        connected:true,
-        ts:Date.now()
-      });
-      roomRef.child('players/'+playerId).onDisconnect().update({connected:false});
+    if(_pongWs&&_pongWs.readyState===1){
+      _pongWs.send(JSON.stringify({action:'accept_challenge',from:from,room_id:roomId}));
     }
     notif.remove();
     openApp('pong');
   };
   /* Decline */
   notif.querySelector('#pongCNDecline').onclick=function(){
-    if(typeof db!=='undefined'&&roomId){
-      db.ref('pongRooms/'+roomId).remove();
+    if(_pongWs&&_pongWs.readyState===1){
+      _pongWs.send(JSON.stringify({action:'decline_challenge',from:from,room_id:roomId}));
     }
     notif.remove();
   };
@@ -14333,6 +14047,14 @@ function _pongShowDisconnectNotif(message,container){
   setTimeout(function(){if(notif.parentNode)notif.remove()},10000);
 }
 
+function _pongJoinQuick(container){
+  if(!_pongWs||_pongWs.readyState!==1){_pongConnect(container);return}
+  var btn=container.querySelector('#pongQuickPlay');if(btn)btn.disabled=true;
+  var st=container.querySelector('#pongStatus');if(st)st.style.display='flex';
+  var stTxt=container.querySelector('#pongStatusText');if(stTxt)stTxt.textContent='Searching for opponent...';
+  _pongWs.send(JSON.stringify({action:'join',name:_pongMyName||_pongGetDisplayName()}));
+}
+
 function _pongUpdateOverlay(container,msg){
   var ov=container.querySelector('#pongOverlay');if(!ov)return;
   if(msg.state==='countdown'){ov.innerHTML='<div class="pong-countdown">'+msg.countdown+'</div>';ov.style.display='block'}
@@ -14340,57 +14062,19 @@ function _pongUpdateOverlay(container,msg){
 }
 
 function _pongShowGameOver(container,winner){
-  try{
-    /* Stop render loop */
-    if(_pongAnimFrame){cancelAnimationFrame(_pongAnimFrame);_pongAnimFrame=null}
-    
-    var popup=container.querySelector('#pongResultPopup');
-    var goPanel=container.querySelector('#pongGameOver');
-    var title=container.querySelector('#pongGOTitle');
-    var sub=container.querySelector('#pongGOSub');
-    var icon=container.querySelector('#pongResultIcon');
-    var stats=container.querySelector('#pongResultStats');
-    var rematchBtn=container.querySelector('#pongRematchBtn');
-    var mySide=_pongFB&&_pongFB.mySide;
-    var myName=mySide==='left'?_pongRender.p1.name:_pongRender.p2.name;
-    var isWin=winner===myName;
-    
-    var role=currentRole||'guest';
-    var key=isWin?'pongOnlineWins_':'pongOnlineLosses_';
-    var val=parseInt(localStorage.getItem(key+role)||'0')+1;
-    localStorage.setItem(key+role,val);
-    
-    if(typeof db!=='undefined'&&currentRole){
-      db.ref('pongStats/'+currentRole).transaction(function(current){
-        var stats=current||{aiWins:0,aiLosses:0,onlineWins:0,onlineLosses:0};
-        stats[key==='pongOnlineWins_'?'onlineWins':'onlineLosses']++;
-        return stats;
-      }).catch(function(e){console.error('[Pong Stat]',e)});
-    }
-    
-    if(goPanel)goPanel.style.display='';
-    if(popup){popup.style.display='block';popup.style.zIndex='100';}
-    if(icon){icon.textContent=isWin?'🏆':'💀';icon.style.fontSize='48px';icon.style.animation=isWin?'bounce 0.5s':'shake 0.5s'}
-    if(title){title.textContent=isWin?'VICTORY!':'DEFEAT';title.className=isWin?'pong-win':'pong-lose'}
-    if(sub)sub.textContent=isWin?'You dominated the arena!':winner+' wins the match';
-    if(stats){
-      var aiWins=parseInt(localStorage.getItem('pongAIWins_'+role)||'0');
-      var aiLosses=parseInt(localStorage.getItem('pongAILosses_'+role)||'0');
-      var onlineWins=parseInt(localStorage.getItem('pongOnlineWins_'+role)||'0');
-      var onlineLosses=parseInt(localStorage.getItem('pongOnlineLosses_'+role)||'0');
-      stats.innerHTML='<b>This Match:</b> '+(isWin?'Win':'Loss')+' (Online)<br><b>Online:</b> '+onlineWins+'W/'+onlineLosses+'L &nbsp;|&nbsp; <b>vs AI:</b> '+aiWins+'W/'+aiLosses+'L';
-      stats.style.display='block';
-    }
-    if(rematchBtn){rematchBtn.style.display='inline-block';rematchBtn.disabled=false;rematchBtn.textContent='REMATCH';rematchBtn.onclick=function(){
-      popup.style.display='none';
-      if(goPanel)goPanel.style.display='none';
-      if(_pongFB&&_pongFB.roomId){
-        _pongBackToLobby(container);
-      }else{
-        _pongStartAIGame(container);
-      }
-    }}
-  }catch(e){console.error('[GameOver Error]',e);_pongBackToLobby(container)}
+  var panel=container.querySelector('#pongGameOver');if(!panel)return;
+  var title=container.querySelector('#pongGOTitle');
+  var sub=container.querySelector('#pongGOSub');
+  var myName=_pongSide==='left'?_pongRender.p1.name:_pongRender.p2.name;
+  if(winner===myName){
+    if(title){title.textContent='YOU WIN!';title.className='pong-win'}
+    if(sub)sub.textContent='Dominated the arena';
+  }else{
+    if(title){title.textContent='DEFEAT';title.className='pong-lose'}
+    if(sub)sub.textContent=winner+' wins the match';
+  }
+  panel.style.display='block';
+  var rb=container.querySelector('#pongRematchBtn');if(rb){rb.disabled=false;rb.textContent='REMATCH'}
 }
 
 function _pongRematch(){
@@ -14403,27 +14087,25 @@ function _pongRematch(){
 
 function _pongBackToLobby(container){
   _pongInGame=false;_pongInputInitDone=false;
-  _pongAIMode=false;_pongAIRunning=false;
-  if(_pongAIAnimFrame){cancelAnimationFrame(_pongAIAnimFrame);_pongAIAnimFrame=null}
-  if(_pongAnimFrame){cancelAnimationFrame(_pongAnimFrame);_pongAnimFrame=null}
-  _pongFBCleanup();
   if(_pongWs)_pongWs.close();_pongWs=null;
   var lobby=container.querySelector('#pongLobby');
   var gameArea=container.querySelector('#pongGameArea');
   var goPanel=container.querySelector('#pongGameOver');
   var dc=container.querySelector('#pongDisconnect');
-  var aiBtn=container.querySelector('#pongPlayAI');
-  var lbBtn=container.querySelector('#pongLeaderboardBtn');
+  var st=container.querySelector('#pongStatus');
+  var btn=container.querySelector('#pongQuickPlay');
   if(lobby)lobby.style.display='';
   if(gameArea)gameArea.classList.remove('active');
   if(goPanel)goPanel.style.display='none';
   if(dc)dc.classList.remove('show');
-  if(aiBtn)aiBtn.disabled=false;
-  if(lbBtn)lbBtn.style.display='';
+  if(st)st.style.display='none';
+  if(btn)btn.disabled=false;
   _pongBallTrail=[];_pongParticles=[];
   _pongRender.p1.score=0;_pongRender.p2.score=0;_pongRender.state='idle';
   var s1=container.querySelector('#pongP1Score');var s2=container.querySelector('#pongP2Score');
   if(s1)s1.textContent='0';if(s2)s2.textContent='0';
+  if(_pongAnimFrame){cancelAnimationFrame(_pongAnimFrame);_pongAnimFrame=null}
+  setTimeout(function(){_pongConnect(container)},200);
 }
 
 /* ── Input ── */
@@ -14438,23 +14120,14 @@ function _pongSendDir(dir){
 }
 
 function _pongMobileMove(dir){
-  if(!_pongInGame && !(_pongAIMode && _pongAIRunning))return;
-  if(_pongAIMode && _pongAIRunning){
-    _pongAIKeys['ArrowUp']=dir<0;
-    _pongAIKeys['ArrowDown']=dir>0;
-    return;
-  }
-  if(_pongFB.roomId){
-    _pongSendOnlineMove(dir);
-    return;
-  }
+  if(!_pongInGame)return;
   _pongSendDir(dir);
 }
 
 /* Keyboard: attach to window at capture phase, before anything else.
    Only check if a pong game is currently running (not focus-based). */
 window.addEventListener('keydown',function(e){
-  if(!_pongInGame && !(_pongAIMode && _pongAIRunning))return;
+  if(!_pongInGame)return;
   var k=e.key;
   if(k!=='ArrowUp'&&k!=='ArrowDown'&&k!=='w'&&k!=='W'&&k!=='s'&&k!=='S')return;
   e.preventDefault();
@@ -14465,19 +14138,10 @@ window.addEventListener('keydown',function(e){
     document.activeElement.blur();
   }
   _pongKeys[k]=true;
-  if(_pongAIMode && _pongAIRunning){
-    _pongAIKeys[k]=true;
-  }
   var dir=0;
   if(_pongKeys['ArrowUp']||_pongKeys['w']||_pongKeys['W'])dir=-1;
   if(_pongKeys['ArrowDown']||_pongKeys['s']||_pongKeys['S'])dir=1;
-  if(_pongFB.roomId){
-    _pongSendOnlineMove(dir);
-  }else if(_pongAIMode){
-    // AI mode handles input via _pongAIKeys in game loop
-  }else{
-    _pongSendDir(dir);
-  }
+  _pongSendDir(dir);
 },true);
 
 /* Cloaking (panic key) */
@@ -14503,23 +14167,14 @@ window.addEventListener('keyup',function(e){
   var k=e.key;
   if(k!=='ArrowUp'&&k!=='ArrowDown'&&k!=='w'&&k!=='W'&&k!=='s'&&k!=='S')return;
   _pongKeys[k]=false;
-  if(_pongAIMode && _pongAIRunning){
-    _pongAIKeys[k]=false;
-  }
-  if(_pongInGame || (_pongAIMode && _pongAIRunning)){
+  if(_pongInGame){
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
     var dir=0;
     if(_pongKeys['ArrowUp']||_pongKeys['w']||_pongKeys['W'])dir=-1;
     if(_pongKeys['ArrowDown']||_pongKeys['s']||_pongKeys['S'])dir=1;
-    if(_pongFB.roomId){
-      _pongSendOnlineMove(dir);
-    }else if(_pongAIMode){
-      // AI mode handles input via _pongAIKeys in game loop
-    }else{
-      _pongSendDir(dir);
-    }
+    _pongSendDir(dir);
   }
 },true);
 
@@ -14549,14 +14204,6 @@ function _pongSpawnParticles(x,y,color,count){
     _pongParticles.push({x:x,y:y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,decay:0.02+Math.random()*0.03,size:2+Math.random()*3,color:color});
   }
 }
-function _pongSpawnConfetti(x,y,color){
-  for(var i=0;i<30;i++){
-    var angle=(Math.random()-0.5)*Math.PI;
-    if(x<CW/2)angle=-angle;
-    var speed=4+Math.random()*6;
-    _pongParticles.push({x:x,y:y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-(2+Math.random()*3),life:1,decay:0.01+Math.random()*0.015,size:3+Math.random()*4,color:color,gravity:0.15});
-  }
-}
 
 function _pongDrawGame(ctx,canvas){
   ctx.clearRect(0,0,CW,CH);
@@ -14570,13 +14217,7 @@ function _pongDrawGame(ctx,canvas){
   ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
   ctx.beginPath();ctx.arc(CW/2,CH/2,60,0,Math.PI*2);ctx.stroke();
 
-  _pongParticles=_pongParticles.filter(function(p){
-    p.x+=p.vx;
-    p.y+=p.vy;
-    if(p.gravity)p.vy+=p.gravity;
-    p.life-=p.decay;
-    return p.life>0
-  });
+  _pongParticles=_pongParticles.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;return p.life>0});
   for(var i=0;i<_pongParticles.length;i++){
     var p=_pongParticles[i];ctx.globalAlpha=p.life*0.6;ctx.fillStyle=p.color;
     ctx.beginPath();ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);ctx.fill();
@@ -14619,345 +14260,6 @@ function _pongDrawPaddle(ctx,x,centerY,color,side){
   ctx.fillStyle=gGrad;
   if(side==='left')ctx.fillRect(0,y-20,4,PH+40);else ctx.fillRect(CW-4,y-20,4,PH+40);
 }
-
-var _pongAIMode=false;
-var _pongAIBall={x:CW/2,y:CH/2,vx:7,vy:5};
-var _pongAIP1={y:CH/2,score:0};
-var _pongAIP2={y:CH/2,score:0};
-var _pongAIKeys={};
-var _pongAIAnimFrame=null;
-var _pongAIRunning=false;
-var _pongAIContainer=null;
-
-function _pongStartAIGame(container){
-  _pongAIMode=true;
-  _pongAIContainer=container;
-  _pongAIRunning=true;
-  _pongAIBall={x:CW/2,y:CH/2,vx:5*(Math.random()>0.5?1:-1),vy:3*(Math.random()>0.5?1:-1)};
-  _pongAIP1={y:CH/2,score:0};
-  _pongAIP2={y:CH/2,score:0};
-  _pongAIKeys={};
-
-  var lobby=container.querySelector('#pongLobby');
-  var gameArea=container.querySelector('#pongGameArea');
-  var lbBtn=container.querySelector('#pongLeaderboardBtn');
-  if(lobby)lobby.style.display='none';
-  if(gameArea)gameArea.classList.add('active');
-  if(lbBtn)lbBtn.style.display='none';
-
-  var p1Name=container.querySelector('#pongP1Name');
-  var p2Name=container.querySelector('#pongP2Name');
-  var s1=container.querySelector('#pongP1Score');
-  var s2=container.querySelector('#pongP2Score');
-  if(p1Name)p1Name.textContent=_pongGetDisplayName();
-  if(p2Name)p2Name.textContent='AI';
-  if(s1)s1.textContent='0';
-  if(s2)s2.textContent='0';
-
-  _pongInGame=true;
-  _pongStartAIRender(container);
-}
-
-function _pongStartAIRender(container){
-  if(_pongAIAnimFrame)cancelAnimationFrame(_pongAIAnimFrame);
-  var canvas=container.querySelector('#pongCanvas');
-  if(!canvas)return;
-  var ctx=canvas.getContext('2d');
-
-  function frame(){
-    if(!_pongAIRunning)return;
-    _pongAIUpdate();
-    _pongAIDraw(ctx);
-    _pongAIAnimFrame=requestAnimationFrame(frame);
-  }
-  _pongAIAnimFrame=requestAnimationFrame(frame);
-}
-
-function _pongAIUpdate(){
-  var pSpeed=6;
-  if(_pongAIKeys['ArrowUp']||_pongAIKeys['w']||_pongAIKeys['W'])_pongAIP1.y-=pSpeed;
-  if(_pongAIKeys['ArrowDown']||_pongAIKeys['s']||_pongAIKeys['S'])_pongAIP1.y+=pSpeed;
-  _pongAIP1.y=Math.max(PH/2,Math.min(CH-PH/2,_pongAIP1.y));
-
-  var aiSpeed=4.5;
-  var aiTarget=_pongAIBall.y;
-  if(_pongAIBall.vx<0)aiTarget=CH/2;
-  var diff=aiTarget-_pongAIP2.y;
-  if(Math.abs(diff)>aiSpeed)_pongAIP2.y+=Math.sign(diff)*aiSpeed;
-  else _pongAIP2.y=aiTarget;
-  _pongAIP2.y=Math.max(PH/2,Math.min(CH-PH/2,_pongAIP2.y));
-
-  _pongAIBall.x+=_pongAIBall.vx;
-  _pongAIBall.y+=_pongAIBall.vy;
-
-  if(_pongAIBall.y-BR<=0||_pongAIBall.y+BR>=CH){
-    _pongAIBall.vy*=-1;
-    _pongAIBall.y=Math.max(BR,Math.min(CH-BR,_pongAIBall.y));
-  }
-
-  if(_pongAIBall.x-BR<=20+PW&&_pongAIBall.x-BR>=20&&_pongAIBall.y>=_pongAIP1.y-PH/2&&_pongAIBall.y<=_pongAIP1.y+PH/2&&_pongAIBall.vx<0){
-    _pongAIBall.vx*=-1.05;
-    var relY=(_pongAIBall.y-_pongAIP1.y)/(PH/2);
-    _pongAIBall.vy=relY*5;
-    _pongAIBall.x=20+PW+BR;
-    _pongSpawnParticles(_pongAIBall.x,_pongAIBall.y,'#00d4ff',4);
-  }
-
-  if(_pongAIBall.x+BR>=CW-20-PW&&_pongAIBall.x+BR<=CW-20&&_pongAIBall.y>=_pongAIP2.y-PH/2&&_pongAIBall.y<=_pongAIP2.y+PH/2&&_pongAIBall.vx>0){
-    _pongAIBall.vx*=-1.05;
-    var relY2=(_pongAIBall.y-_pongAIP2.y)/(PH/2);
-    _pongAIBall.vy=relY2*5;
-    _pongAIBall.x=CW-20-PW-BR;
-    _pongSpawnParticles(_pongAIBall.x,_pongAIBall.y,'#ff2d95',4);
-  }
-
-  var maxSpeed=16;
-  if(Math.abs(_pongAIBall.vx)>maxSpeed)_pongAIBall.vx=maxSpeed*Math.sign(_pongAIBall.vx);
-  if(Math.abs(_pongAIBall.vy)>maxSpeed)_pongAIBall.vy=maxSpeed*Math.sign(_pongAIBall.vy);
-
-  if(_pongAIBall.x<0){
-    _pongAIP2.score++;
-    _pongAIUpdateScore();
-    _pongSpawnConfetti(0,_pongAIBall.y,'#ff2d95');
-    _pongAIResetBall();
-    if(_pongAIP2.score>=5)_pongAIEndGame(false);
-  }
-  if(_pongAIBall.x>CW){
-    _pongAIP1.score++;
-    _pongAIUpdateScore();
-    _pongSpawnConfetti(CW,_pongAIBall.y,'#00d4ff');
-    _pongAIResetBall();
-    if(_pongAIP1.score>=5)_pongAIEndGame(true);
-  }
-}
-
-function _pongAIResetBall(){
-  _pongAIBall.x=CW/2;
-  _pongAIBall.y=CH/2;
-  _pongAIBall.vx=7*(Math.random()>0.5?1:-1);
-  _pongAIBall.vy=5*(Math.random()>0.5?1:-1);
-}
-
-function _pongAIUpdateScore(){
-  if(!_pongAIContainer)return;
-  var s1=_pongAIContainer.querySelector('#pongP1Score');
-  var s2=_pongAIContainer.querySelector('#pongP2Score');
-  if(s1)s1.textContent=_pongAIP1.score;
-  if(s2)s2.textContent=_pongAIP2.score;
-}
-
-function _pongAIEndGame(won){
-  _pongAIRunning=false;
-  _pongInGame=false;
-  if(_pongAIAnimFrame){cancelAnimationFrame(_pongAIAnimFrame);_pongAIAnimFrame=null}
-  
-  var role=currentRole||'guest';
-  var key=won?'pongAIWins_':'pongAILosses_';
-  var val=parseInt(localStorage.getItem(key+role)||'0')+1;
-  localStorage.setItem(key+role,val);
-  
-  if(typeof db!=='undefined'&&currentRole){
-    db.ref('pongStats/'+currentRole).transaction(function(current){
-      var stats=current||{aiWins:0,aiLosses:0,onlineWins:0,onlineLosses:0};
-      stats[key==='pongAIWins_'?'aiWins':'aiLosses']++;
-      return stats;
-    });
-  }
-  
-  if(!_pongAIContainer)return;
-  var goPanel=_pongAIContainer.querySelector('#pongGameOver');
-  var popup=_pongAIContainer.querySelector('#pongResultPopup');
-  var title=_pongAIContainer.querySelector('#pongGOTitle');
-  var sub=_pongAIContainer.querySelector('#pongGOSub');
-  var icon=_pongAIContainer.querySelector('#pongResultIcon');
-  var stats=_pongAIContainer.querySelector('#pongResultStats');
-  var rematchBtn=_pongAIContainer.querySelector('#pongRematchBtn');
-  
-  if(goPanel)goPanel.style.display='';
-  if(popup)popup.style.display='block';
-  if(icon){icon.textContent=won?'🏆':'💀';icon.style.fontSize='48px';icon.style.animation=won?'bounce 0.5s':'shake 0.5s'}
-  if(title){title.textContent=won?'VICTORY!':'DEFEAT';title.className=won?'pong-win':'pong-lose'}
-  if(sub)sub.textContent=won?'Great game!':'AI wins the match';
-  if(stats){
-    var aiWins=parseInt(localStorage.getItem('pongAIWins_'+role)||'0');
-    var aiLosses=parseInt(localStorage.getItem('pongAILosses_'+role)||'0');
-    var onlineWins=parseInt(localStorage.getItem('pongOnlineWins_'+role)||'0');
-    var onlineLosses=parseInt(localStorage.getItem('pongOnlineLosses_'+role)||'0');
-    stats.innerHTML='<b>This Match:</b> '+(won?'Win':'Loss')+' (vs AI)<br><b>Online:</b> '+onlineWins+'W/'+onlineLosses+'L &nbsp;|&nbsp; <b>vs AI:</b> '+aiWins+'W/'+aiLosses+'L';
-    stats.style.display='block';
-  }
-  if(rematchBtn){rematchBtn.style.display='inline-block';rematchBtn.disabled=false;rematchBtn.textContent='REMATCH';rematchBtn.onclick=function(){
-    popup.style.display='none';
-    if(goPanel)goPanel.style.display='none';
-    _pongStartAIGame(_pongAIContainer);
-  }}
-}
-
-function _pongShowLeaderboard(container){
-  try{
-    var role=currentRole||'guest';
-    var aiWins=parseInt(localStorage.getItem('pongAIWins_'+role)||'0');
-    var aiLosses=parseInt(localStorage.getItem('pongAILosses_'+role)||'0');
-    var onlineWins=parseInt(localStorage.getItem('pongOnlineWins_'+role)||'0');
-    var onlineLosses=parseInt(localStorage.getItem('pongOnlineLosses_'+role)||'0');
-    
-    if(typeof db!=='undefined'&&currentRole){
-      db.ref('pongStats').once('value',function(snap){
-        var all=snap.val()||{};
-        var entries=[];
-        Object.keys(all).forEach(function(uid){
-          var s=all[uid];
-          entries.push({
-            name:onlineUsers[uid]?.name||uid,
-            aiW:s.aiWins||0,
-            aiL:s.aiLosses||0,
-            oW:s.onlineWins||0,
-            oL:s.onlineLosses||0,
-            total:s.aiWins+s.onlineWins||0
-          });
-        });
-        entries.sort(function(a,b){return b.total-a.total});
-        _pongRenderLeaderboard(container,entries,aiWins,aiLosses,onlineWins,onlineLosses);
-      });
-    }else{
-      _pongRenderLeaderboard(container,[],aiWins,aiLosses,onlineWins,onlineLosses);
-    }
-  }catch(e){console.error('[Leaderboard Error]',e)}
-}
-
-function _pongRenderLeaderboard(container,entries,myAIW,myAIL,myOW,myOL){
-  var lobby=container.querySelector('#pongLobby');
-  var gameArea=container.querySelector('#pongGameArea');
-  var goPanel=container.querySelector('#pongGameOver');
-  var wasInGame=goPanel&&goPanel.style.display!=='none';
-  if(lobby)lobby.style.display='none';
-  if(gameArea)gameArea.style.display='none';
-  if(goPanel)goPanel.style.display='none';
-  
-  var lb=document.createElement('div');
-  lb.id='pongLeaderboard';
-  lb.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;background:var(--bg);color:var(--text);display:flex;flex-direction:column;z-index:50';
-  lb.innerHTML=
-    '<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border)">'+
-    '<button id="pongLBBBack" style="width:32px;height:32px;border-radius:8px;font-size:18px;background:var(--bg3);border:1px solid var(--border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s">←</button>'+
-    '<h2 style="margin:0;font-size:17px">🏆 Leaderboard</h2></div>'+
-    '<div style="display:grid;grid-template-columns:44px 1fr 80px 80px;gap:4px;padding:10px 16px;border-bottom:2px solid var(--border);font-size:10px;font-weight:700;color:var(--text5);text-transform:uppercase;letter-spacing:.5px">'+
-    '<div style="text-align:center">#</div><div>Player</div><div style="text-align:center">Online</div><div style="text-align:center">vs AI</div></div>'+
-    '<div id="pongLBList" style="flex:1;overflow-y:auto;padding:0"></div>'+
-    '<div style="display:grid;grid-template-columns:44px 1fr 80px 80px;gap:4px;padding:10px 16px;border-top:2px solid var(--border);font-size:12px;font-weight:700;background:var(--bg2)">'+
-    '<div style="text-align:center">👤</div><div>You</div><div style="text-align:center">'+myOW+'W / '+myOL+'L</div><div style="text-align:center">'+myAIW+'W / '+myAIL+'L</div></div>'+
-    (currentRole==='Admin'?'<div style="padding:10px 16px;border-top:1px solid var(--border)"><button id="pongResetStatsBtn" style="width:100%;padding:8px;border:1px solid #ff4444;border-radius:8px;background:rgba(255,68,68,.1);color:#ff6666;font-size:11px;font-weight:600;cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'rgba(255,68,68,.2)\'" onmouseout="this.style.background=\'rgba(255,68,68,.1)\'">🗑 Reset All Stats</button></div>':'');
-  
-  container.appendChild(lb);
-  
-  var list=lb.querySelector('#pongLBList');
-  var html='';
-  if(entries.length===0){
-    html='<div style="text-align:center;color:var(--text5);padding:48px 16px;font-size:13px">No online stats yet — play some games!</div>';
-  }else{
-    entries.slice(0,50).forEach(function(e,i){
-      var isMe=currentRole&&e.name===(currentDisplayName||currentRole);
-      var bg=isMe?'background:rgba(255,217,61,.08)':'';
-      var hl=isMe?';font-weight:700':'';
-      html+='<div style="display:grid;grid-template-columns:44px 1fr 80px 80px;gap:4px;padding:8px 16px;border-bottom:1px solid var(--border);font-size:12px;transition:background .1s'+';'+bg+hl+'"'+
-        ' onmouseover="this.style.background=\''+(isMe?'rgba(255,217,61,.12)':'var(--bg3)')+'\'"'+
-        ' onmouseout="this.style.background=\''+(isMe?'rgba(255,217,61,.08)':'')+'\'">'+
-        '<div style="text-align:center;color:var(--text5)">'+(i+1)+'</div>'+
-        '<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(isMe?e.name+' (You)':e.name)+'</div>'+
-        '<div style="text-align:center;color:var(--text4)">'+e.oW+'W / '+e.oL+'L</div>'+
-        '<div style="text-align:center;color:var(--text4)">'+e.aiW+'W / '+e.aiL+'L</div></div>';
-    });
-  }
-  list.innerHTML=html;
-  
-  lb.querySelector('#pongLBBBack').onclick=function(){
-    lb.remove();
-    if(wasInGame&&goPanel){goPanel.style.display='';if(gameArea)gameArea.style.display=''}
-    else if(lobby)lobby.style.display='';
-  };
-  
-  var resetBtn=lb.querySelector('#pongResetStatsBtn');
-  if(resetBtn)resetBtn.onclick=function(){
-    /* Custom modal instead of confirm() */
-    var overlay=document.createElement('div');
-    overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)';
-    overlay.innerHTML=
-      '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px 32px 22px;max-width:360px;width:90%;text-align:center;box-shadow:0 16px 64px rgba(0,0,0,.6)">'+
-      '<div style="font-size:36px;margin-bottom:12px">🗑</div>'+
-      '<h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--text)">Reset All Stats?</h3>'+
-      '<p style="margin:0 0 20px;font-size:13px;color:var(--text5);line-height:1.5">This will permanently delete <strong>everyone\'s</strong> Pong stats (wins/losses) from Firebase. Your own localStorage stats will also be cleared.<br><br>This <strong>cannot</strong> be undone.</p>'+
-      '<div style="display:flex;gap:10px">'+
-      '<button id="pongResetCancel" style="flex:1;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;transition:background .15s">Cancel</button>'+
-      '<button id="pongResetConfirm" style="flex:1;padding:10px;border:none;border-radius:10px;background:#e53935;color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .15s">Yes, Reset</button>'+
-      '</div></div>';
-    document.body.appendChild(overlay);
-    overlay.querySelector('#pongResetCancel').onclick=function(){overlay.remove()};
-    overlay.querySelector('#pongResetConfirm').onclick=function(){
-      overlay.remove();
-      var role=currentRole||'guest';
-      localStorage.removeItem('pongAIWins_'+role);
-      localStorage.removeItem('pongAILosses_'+role);
-      localStorage.removeItem('pongOnlineWins_'+role);
-      localStorage.removeItem('pongOnlineLosses_'+role);
-      if(typeof db!=='undefined'){
-        db.ref('pongStats').remove();
-      }
-      showToast('All Pong stats reset');
-      _pongShowLeaderboard(container);
-    };
-    overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
-  };
-}
-
-function _pongAIDraw(ctx){
-  ctx.clearRect(0,0,CW,CH);
-  var bg=ctx.createRadialGradient(CW/2,CH/2,0,CW/2,CH/2,400);
-  bg.addColorStop(0,'#0f1520');bg.addColorStop(1,'#080810');
-  ctx.fillStyle=bg;ctx.fillRect(0,0,CW,CH);
-
-  ctx.setLineDash([8,12]);ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(CW/2,0);ctx.lineTo(CW/2,CH);ctx.stroke();ctx.setLineDash([]);
-
-  ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.arc(CW/2,CH/2,60,0,Math.PI*2);ctx.stroke();
-
-  _pongParticles=_pongParticles.filter(function(p){
-    p.x+=p.vx;
-    p.y+=p.vy;
-    if(p.gravity)p.vy+=p.gravity;
-    p.life-=p.decay;
-    return p.life>0
-  });
-  for(var i=0;i<_pongParticles.length;i++){
-    var p=_pongParticles[i];ctx.globalAlpha=p.life*0.6;ctx.fillStyle=p.color;
-    ctx.beginPath();ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);ctx.fill();
-  }
-  ctx.globalAlpha=1;
-
-  _pongDrawPaddle(ctx,20,_pongAIP1.y,'#00d4ff','left');
-  _pongDrawPaddle(ctx,CW-20-PW,_pongAIP2.y,'#ff2d95','right');
-
-  ctx.shadowColor='#fff';ctx.shadowBlur=20;ctx.fillStyle='#fff';
-  ctx.beginPath();ctx.arc(_pongAIBall.x,_pongAIBall.y,BR,0,Math.PI*2);ctx.fill();
-  ctx.shadowBlur=0;
-  var bGlow=ctx.createRadialGradient(_pongAIBall.x,_pongAIBall.y,0,_pongAIBall.x,_pongAIBall.y,BR*3);
-  bGlow.addColorStop(0,'rgba(255,255,255,0.15)');bGlow.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle=bGlow;ctx.beginPath();ctx.arc(_pongAIBall.x,_pongAIBall.y,BR*3,0,Math.PI*2);ctx.fill();
-}
-
-window.addEventListener('keydown',function(e){
-  if(!_pongAIMode||!_pongAIRunning)return;
-  var k=e.key;
-  if(k!=='ArrowUp'&&k!=='ArrowDown'&&k!=='w'&&k!=='W'&&k!=='s'&&k!=='S')return;
-  e.preventDefault();
-  _pongAIKeys[k]=true;
-},true);
-
-window.addEventListener('keyup',function(e){
-  var k=e.key;
-  if(k!=='ArrowUp'&&k!=='ArrowDown'&&k!=='w'&&k!=='W'&&k!=='s'&&k!=='S')return;
-  _pongAIKeys[k]=false;
-},true);
 
 })();
 
@@ -15045,18 +14347,15 @@ document.addEventListener('click',function(e){
 
 /* ===== ANIMATIONS SYSTEM ===== */
 var _animPrefs={
-  enabled:false,
-  ripple:false,ctxMenu:false,iconBounce:false,notifSlide:false,typing:false,
-  hoverLift:false,parallax:false,particles:false,gradient:false,smoothScroll:false
+  ripple:true,ctxMenu:true,iconBounce:true,notifSlide:true,typing:true,
+  hoverLift:true,parallax:true,particles:true,gradient:true,smoothScroll:true
 };
 function _loadAnimPrefs(){
   var role=currentRole||'';
   var keys=['ripple','ctxMenu','iconBounce','notifSlide','typing','hoverLift','parallax','particles','gradient','smoothScroll'];
-  var enabled=localStorage.getItem('docosAnim_enabled_'+role);
-  _animPrefs.enabled=enabled===null?false:enabled!=='false';
   keys.forEach(function(k){
     var v=localStorage.getItem('docosAnim_'+k+'_'+role);
-    _animPrefs[k]=v===null?(_animPrefs.enabled?_animPrefs[k]:false):v!=='false';
+    _animPrefs[k]=v===null?true:v!=='false';
   });
   _updateAnimClasses();
 }
@@ -15172,5 +14471,3 @@ _typingObserver.observe(document.body,{childList:true,subtree:true});
 </html>
 </body>
 </html>
-
-
