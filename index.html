@@ -2813,7 +2813,7 @@ db.ref('bannedRoles').on('value',s=>{
   _prevBannedRoles=bannedRoles; bannedRoles=next; renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
-    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}_showBanPopup(currentRole)}
+    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var _bannedRole=currentRole;logout();setTimeout(function(){_showBanPopup(_bannedRole)},100)}
   }
   Object.keys(bannedRoles).forEach(function(role){
     if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
@@ -3048,7 +3048,7 @@ function _showBanPopup(role){
     (reason?'<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px">Reason: <strong style="color:#ffaa88">'+_escHtml(reason)+'</strong></div>':'')+
     '<button class="ban-popup-ok" style="padding:10px 32px;border:none;border-radius:8px;background:linear-gradient(135deg,#ff5555,#cc3333);color:#fff;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px">OK</button>';
   overlay.appendChild(popup);document.body.appendChild(overlay);
-  popup.querySelector('.ban-popup-ok').onclick=function(){overlay.remove();logout()};
+  popup.querySelector('.ban-popup-ok').onclick=function(){overlay.remove()};
 }
 db.ref('lockdown').on('value',snap=>{
   siteInLockdown=!!snap.val();
