@@ -2813,7 +2813,7 @@ db.ref('bannedRoles').on('value',s=>{
   _prevBannedRoles=bannedRoles; bannedRoles=next; renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
-    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var br=penaltyReasons[currentRole];showToast('You have been banned.'+(br?' Reason: '+br:''));logout()}
+    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}_showBanPopup(currentRole)}
   }
   Object.keys(bannedRoles).forEach(function(role){
     if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
@@ -3030,6 +3030,26 @@ function _showLockdownPopup(){
   overlay.appendChild(popup);document.body.appendChild(overlay);
 }
 function _hideLockdownPopup(){var el=document.getElementById('lockdownPopupOverlay');if(el)el.remove()}
+function _showBanPopup(role){
+  var existing=document.querySelector('.ban-popup-overlay');if(existing)existing.remove();
+  var remaining=bannedRoles[role]?bannedRoles[role]-Date.now():0;
+  var durationStr=remaining>315360000000?'Permanent':formatRemaining(remaining);
+  var reason=penaltyReasons[role]||'';
+  var name=roleDisplayNames[role]||role;
+  var overlay=document.createElement('div');overlay.className='ban-popup-overlay';
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:999999;backdrop-filter:blur(4px)';
+  var popup=document.createElement('div');popup.className='ban-popup';
+  popup.style.cssText='background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(255,80,80,0.3);border-radius:16px;padding:28px 32px;max-width:400px;width:90%;box-shadow:0 16px 48px rgba(0,0,0,0.6);text-align:center';
+  popup.innerHTML=
+    '<div style="font-size:48px;margin-bottom:12px">&#128683;</div>'+
+    '<div style="font-size:20px;font-weight:700;color:#ff5555;margin-bottom:8px">You Have Been Banned</div>'+
+    '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:4px">Account: <strong style="color:#fff">'+_escHtml(name)+'</strong></div>'+
+    '<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:'+(reason?'4px':'16px')+'">Duration: <strong style="color:#ff8888">'+_escHtml(durationStr)+'</strong></div>'+
+    (reason?'<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px">Reason: <strong style="color:#ffaa88">'+_escHtml(reason)+'</strong></div>':'')+
+    '<button class="ban-popup-ok" style="padding:10px 32px;border:none;border-radius:8px;background:linear-gradient(135deg,#ff5555,#cc3333);color:#fff;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px">OK</button>';
+  overlay.appendChild(popup);document.body.appendChild(overlay);
+  popup.querySelector('.ban-popup-ok').onclick=function(){overlay.remove();logout()};
+}
 db.ref('lockdown').on('value',snap=>{
   siteInLockdown=!!snap.val();
   const btn=document.getElementById('lockdownButton');
@@ -4484,7 +4504,8 @@ function _doLogin(uname,pass){
       db.ref('deviceFingerprints/'+role+'/'+fp).set({lastLogin:Date.now(),source:_fpVisitorId?'pro':'local',bannedLogin:true});
     }
     const remaining=bannedRoles[role]-Date.now();
-    loginError.textContent='You are banned for '+formatRemaining(remaining)+'.';
+    var banReason=penaltyReasons[role]?' Reason: '+penaltyReasons[role]+'.':'';
+    loginError.textContent='You are banned for '+formatRemaining(remaining)+'.'+banReason;
     document.getElementById('lockAppealToggle').style.display='block';
     document.getElementById('lockAppealToggle').dataset.role=role;
     document.getElementById('lockAppealArea').style.display='none';
@@ -5281,7 +5302,7 @@ function _renderFullMessage(wrapper,msg,key){
   var reactData=reactionsCache[key];
   if(reactData){main.appendChild(buildReactionsRow(key,reactData))}
   wrapper.appendChild(main);
-  if(isAnyAdmin()&&msg.senderRole!==currentRole&&msg.senderRole!=='System'){
+  if((isAnyAdmin()&&msg.senderRole!==currentRole)||(currentRole==='Admin'&&msg.senderRole==='System')){
     var adminDelBtn=document.createElement('button');adminDelBtn.className='msg-action-btn msg-del-btn';adminDelBtn.title='Delete';adminDelBtn.innerHTML='<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-7-3A1.5 1.5 0 0 1 5 1h6a1.5 1.5 0 0 1 1.5 1.5H14a.5.5 0 0 1 0 1h-.54l-.767 9.2A2 2 0 0 1 10.7 14.5H5.3a2 2 0 0 1-1.992-1.8L2.54 3.5H2a.5.5 0 0 1 0-1h1.5zM5 2a.5.5 0 0 0-.5.5h7A.5.5 0 0 0 11 2H5zM3.54 3.5l.76 9.12a1 1 0 0 0 1 .88h5.4a1 1 0 0 0 1-.88l.76-9.12H3.54zM8 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/></svg>';
     adminDelBtn.onclick=function(e){e.stopPropagation();deleteMessage(key,e)};actionBar.appendChild(adminDelBtn);
   }
