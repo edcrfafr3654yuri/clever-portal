@@ -618,7 +618,7 @@ html,body{background:var(--bg);color:var(--text)}
 .messages.compact .message-header{margin-bottom:1px}
 .messages.compact .message-text{font-size:0.93em;line-height:1.3}
 
-.message{margin-bottom:6px;padding:10px 14px;border-radius:10px;background:var(--bg4);display:flex;align-items:flex-start;gap:8px;transition:background .15s;border:1px solid transparent;position:relative}
+.message{margin-bottom:4px;padding:8px 12px;border-radius:10px;background:var(--bg4);display:flex;align-items:flex-start;gap:6px;transition:background .15s;border:1px solid transparent;position:relative}
 .message:hover{background:var(--msg-hover);border-color:var(--border)}
 .message:hover .message-main .msg-action-bar{opacity:1;pointer-events:all}
 .message-main{flex:1;min-width:0;position:relative}
@@ -656,7 +656,7 @@ html,body{background:var(--bg);color:var(--text)}
 .reply-quote .quote-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 
 /* Message actions bar */
-.msg-action-bar{position:absolute;top:-8px;right:8px;display:flex;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:2px 4px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
+.msg-action-bar{position:absolute;top:-14px;right:8px;display:flex;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:2px 4px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
 .msg-action-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:3px 5px;border-radius:12px;transition:background .15s,color .15s;line-height:1}
 .msg-action-btn:hover{background:var(--border)}
 .msg-action-btn.msg-del-btn{color:var(--text5)}
@@ -686,9 +686,10 @@ html,body{background:var(--bg);color:var(--text)}
 #messages.chat-style-whatsapp .message-admin .message-main .delete-btn{display:block;font-size:10px;padding:2px 8px;margin-top:4px}
 #messages.chat-style-whatsapp .message-admin .message-main{border-left:3px solid var(--admin-border);background:var(--admin-bg);position:relative}
 #messages.chat-style-whatsapp .message-admin .message-main::before{background:var(--admin-bg);border-color:var(--border) transparent transparent var(--border)}
-#messages.chat-style-whatsapp .msg-action-bar{position:static;background:transparent;border:none;padding:4px 0 0;border-radius:0;margin-top:4px;border-top:1px solid rgba(255,255,255,.1);justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .15s}
-#messages.chat-style-whatsapp .message:hover .msg-action-bar{opacity:1;pointer-events:all}
-#messages.chat-style-whatsapp .message.message-own .msg-action-bar{justify-content:flex-start}
+/* WhatsApp uses default floating action bar (top-right, no extra line) */
+/* Only show action bar on message-main hover, not whole message row */
+#messages.chat-style-whatsapp .message:hover .message-main .msg-action-bar{opacity:0;pointer-events:none}
+#messages.chat-style-whatsapp .message .message-main:hover .msg-action-bar{opacity:1;pointer-events:all}
 
 /* ===== Chat Style: Discord ===== */
 #messages.chat-style-discord .message{background:transparent;border:none;padding:4px 14px;gap:0;border-radius:0;align-items:flex-start}
@@ -731,22 +732,23 @@ html,body{background:var(--bg);color:var(--text)}
 #messages.chat-style-imessage .message-admin .message-main .delete-btn{display:block;font-size:10px;padding:2px 8px;margin-top:4px}
 #messages.chat-style-imessage .message.message-own .message-main .delete-btn{display:none}
 #messages.chat-style-imessage .message-system{padding:2px 14px;font-size:12px}
-#messages.chat-style-imessage .msg-action-bar{position:static;background:transparent;border:none;padding:4px 0 0;border-radius:0;margin-top:4px;border-top:1px solid rgba(255,255,255,.1);justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .15s}
-#messages.chat-style-imessage .message:hover .msg-action-bar{opacity:1;pointer-events:all}
-#messages.chat-style-imessage .message.message-own .msg-action-bar{justify-content:flex-start}
+/* iMessage uses default floating action bar (top-right, no extra line) */
+/* Only show action bar on message-main hover, not whole message row */
+#messages.chat-style-imessage .message:hover .message-main .msg-action-bar{opacity:0;pointer-events:none}
+#messages.chat-style-imessage .message .message-main:hover .msg-action-bar{opacity:1;pointer-events:all}
 
 /* ===== Chat Style: Modern ===== */
-#messages.chat-style-modern .message{background:var(--bg4);border:none;padding:8px 14px;gap:8px;border-radius:10px;margin-bottom:6px;box-shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);transition:box-shadow .2s,transform .15s}
+#messages.chat-style-modern .message{background:var(--bg4);border:none;padding:4px 8px;gap:4px;border-radius:8px;margin-bottom:3px;box-shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);transition:box-shadow .2s,transform .15s}
 #messages.chat-style-modern .message:hover{box-shadow:0 4px 12px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.08);transform:translateY(-1px);border-color:transparent}
 #messages.chat-style-modern .message .pfp-avatar,#messages.chat-style-modern .message .pfp-avatar-fallback{width:32px;height:32px;font-size:13px;margin-top:0;border:2px solid var(--border);transition:border-color .2s}
 #messages.chat-style-modern .message:hover .pfp-avatar,#messages.chat-style-modern .message:hover .pfp-avatar-fallback{border-color:var(--accent)}
-#messages.chat-style-modern .message-header{margin-bottom:2px;display:flex;align-items:center;gap:6px}
-#messages.chat-style-modern .message-header .sender-name{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.01em}
+#messages.chat-style-modern .message-header{margin-bottom:1px;display:flex;align-items:center;gap:4px}
+#messages.chat-style-modern .message-header .sender-name{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.01em}
 #messages.chat-style-modern .message-header .msg-time{font-size:10px;color:var(--text6);font-weight:400;margin-left:0}
 #messages.chat-style-modern .message.message-own .message-header{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:4px}
 #messages.chat-style-modern .message.message-own .message-header .msg-time{margin-left:0}
 #messages.chat-style-modern .message-main{display:flex;flex-direction:column;gap:2px}
-#messages.chat-style-modern .message-text{font-size:14px;line-height:1.5;padding:2px 0}
+#messages.chat-style-modern .message-text{font-size:13px;line-height:1.4;padding:1px 0}
 #messages.chat-style-modern .reply-quote{border-left:3px solid var(--accent);padding:6px 10px;margin-bottom:6px;background:var(--bg3);border-radius:8px;font-size:13px;color:var(--text5)}
 #messages.chat-style-modern .reply-quote .quote-sender{font-weight:600;color:var(--accent);margin-bottom:2px}
 #messages.chat-style-modern .message-admin{background:linear-gradient(135deg,var(--admin-bg),var(--bg4));border-left:3px solid var(--accent)}
@@ -907,8 +909,6 @@ html,body{background:var(--bg);color:var(--text)}
 .ctb-action:hover{background:var(--border);color:var(--text2)}
 .ctb-action.leave{border-color:#f44336;color:#f44336}
 .ctb-action.leave:hover{background:#f44336;color:#fff}
-.chat-style-selector{font-size:11px;padding:3px 22px 3px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") calc(100% - 6px) center no-repeat;color:var(--text5);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .2s,background-color .2s}
-.chat-style-selector:hover{border-color:var(--accent);color:var(--text2)}
 .chat-style-selector option{background:var(--bg4);color:var(--text2)}
 /* New chat modal */
 .friend-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99998}
@@ -2032,7 +2032,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
     <div class="app-title">DocOS</div>
     <div class="role-label" id="roleLabel">Not logged in</div>
   </div>
-  <div id="headerThemeSlot" style="margin-left:auto;display:none"></div>
+  <div id="headerThemeSlot" style="margin-left:auto;display:none;align-items:center;gap:4px"></div>
   <div class="header-right" style="display:none">
     <button id="recoButton" style="display:none">&#128172; Recommend</button>
     <div class="gear-wrapper" id="gearWrapper" style="display:none"><div class="gear-icon" id="gearIcon">&#9881;</div><div style="display:flex;flex-direction:column;gap:1px;align-items:flex-end;position:absolute;top:-2px;right:-8px"><div class="notif-badge" id="notifBadgeAcctReq" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeAppeals" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div><div class="notif-badge" id="notifBadgeRecos" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:8px;font-weight:700;text-align:center;line-height:14px;padding:0 3px"></div></div></div>
@@ -4250,7 +4250,7 @@ function loginAsRole(role){
   document.getElementById('taskbarMoonBtn').style.display='flex';
   document.getElementById('taskbarNotifBtn').style.display='flex';
   _updateMoonBtn();
-  document.getElementById('headerThemeSlot').style.display='block';
+  document.getElementById('headerThemeSlot').style.display='flex';
   function _revealDesktop(){
     _amApplyHiddenApps();
     lockScreen.classList.add('hidden');desktop.classList.remove('hidden');
@@ -4457,7 +4457,7 @@ function login(){
       return;
     }
     _doLogin(uname,pass);
-    });
+    }).catch(function(){_doLogin(uname,pass)});
   }
   if(typeof _fpPromise!=='undefined'&&_fpPromise&&!_fpVisitorId){_fpPromise.then(_proceedLogin).catch(_proceedLogin)}else{_proceedLogin()}
 }
@@ -4524,7 +4524,7 @@ document.getElementById('lockLoginBtn').addEventListener('click',login);
 
 /* Check lockout on page load — wait for Fingerprint.js Pro if available */
 (function(){
-  function _checkLockout(){var fp=getDeviceFingerprint();db.ref('loginAttempts/'+fp).once('value',function(snap){var d=snap.val();if(d&&d.lockedUntil&&d.lockedUntil>Date.now())_showLockoutCountdown(d.lockedUntil)})}
+  function _checkLockout(){var fp=getDeviceFingerprint();db.ref('loginAttempts/'+fp).once('value',function(snap){var d=snap.val();if(d&&d.lockedUntil&&d.lockedUntil>Date.now())_showLockoutCountdown(d.lockedUntil)}).catch(function(){})}
   if(typeof _fpPromise!=='undefined'&&_fpPromise){_fpPromise.then(_checkLockout).catch(_checkLockout)}else{_checkLockout()}
 })();
 
@@ -5278,11 +5278,11 @@ function _renderFullMessage(wrapper,msg,key){
   var reactData=reactionsCache[key];
   if(reactData){main.appendChild(buildReactionsRow(key,reactData))}
   wrapper.appendChild(main);
-  main.appendChild(actionBar);
-  if(isAnyAdmin()&&(msg.senderRole!=='System'||currentRole==='Admin')){
-    var delBtn=document.createElement('button');delBtn.className='delete-btn';delBtn.textContent='Delete';
-    delBtn.onclick=function(e){deleteMessage(key,e)};main.appendChild(delBtn);
+  if(isAnyAdmin()&&msg.senderRole!==currentRole&&msg.senderRole!=='System'){
+    var adminDelBtn=document.createElement('button');adminDelBtn.className='msg-action-btn msg-del-btn';adminDelBtn.title='Delete';adminDelBtn.innerHTML='<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-7-3A1.5 1.5 0 0 1 5 1h6a1.5 1.5 0 0 1 1.5 1.5H14a.5.5 0 0 1 0 1h-.54l-.767 9.2A2 2 0 0 1 10.7 14.5H5.3a2 2 0 0 1-1.992-1.8L2.54 3.5H2a.5.5 0 0 1 0-1h1.5zM5 2a.5.5 0 0 0-.5.5h7A.5.5 0 0 0 11 2H5zM3.54 3.5l.76 9.12a1 1 0 0 0 1 .88h5.4a1 1 0 0 0 1-.88l.76-9.12H3.54zM8 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/></svg>';
+    adminDelBtn.onclick=function(e){e.stopPropagation();deleteMessage(key,e)};actionBar.appendChild(adminDelBtn);
   }
+  main.appendChild(actionBar);
 }
 function renderMessages(data){
   _allMsgData=data;
@@ -9168,9 +9168,9 @@ function openApp(appId){
   var winId=createWindow(appId);
   if(appId==='chat'){
     setTimeout(function(){
-      if(document.querySelector('.header .chat-style-selector'))return;
+      if(document.getElementById('headerThemeSlot').querySelector('.chat-style-selector'))return;
       var csSel=document.createElement('select');csSel.className='chat-style-selector';
-      csSel.style.cssText='font-size:11px;padding:2px 20px 2px 6px;border-radius:4px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'8\' height=\'8\' fill=\'%23aaa\' viewBox=\'0 0 16 16\'%3E%3Cpath d=\'M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z\'/%3E%3C/svg%3E") calc(100% - 4px) center no-repeat;color:rgba(255,255,255,.6);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;margin-left:8px';
+      csSel.style.cssText='font-size:12px;padding:6px 30px 6px 10px;border-radius:6px;cursor:pointer;margin-left:6px';
       var stylesList=[{v:'classic',l:'Classic'},{v:'whatsapp',l:'WhatsApp'},{v:'discord',l:'Discord'},{v:'imessage',l:'iMessage'},{v:'modern',l:'Modern'}];
       stylesList.forEach(function(s){var o=document.createElement('option');o.value=s.v;o.textContent=s.l;csSel.appendChild(o)});
       var savedStyle=localStorage.getItem('docosChatStyle_'+(currentRole||''));
@@ -9182,8 +9182,7 @@ function openApp(appId){
         var mainSel=document.getElementById('settingsChatStyle');
         if(mainSel)mainSel.value=val;
       };
-      var headerDiv=document.querySelector('.header>div:first-child');
-      if(headerDiv)headerDiv.appendChild(csSel);
+      document.getElementById('headerThemeSlot').appendChild(csSel);
     },50);
   }
 }
