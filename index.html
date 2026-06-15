@@ -14959,7 +14959,7 @@ function _pongFBCleanup(){
   _pongFB.listeners.forEach(function(ref){try{ref.off()}catch(e){}});
   _pongFB.listeners=[];
   if(_pongFB.roomRef){
-    _pongFB.roomRef.child('players/'+_pongFB.playerId).remove();
+    _pongFB.roomRef.child('players/'+_pongFB.playerId).update({connected:false,ts:Date.now()});
     _pongFB.roomRef=null;
   }
   if(_pongFB.lobbyRef){
