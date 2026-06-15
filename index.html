@@ -2813,7 +2813,7 @@ db.ref('bannedRoles').on('value',s=>{
   _prevBannedRoles=bannedRoles; bannedRoles=next; renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
-    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var _bannedRole=currentRole;logout();setTimeout(function(){_showBanPopup(_bannedRole)},100)}
+    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var _bannedRole=currentRole;logout();_showBanPopup(_bannedRole)}
   }
   Object.keys(bannedRoles).forEach(function(role){
     if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
@@ -3033,7 +3033,8 @@ function _hideLockdownPopup(){var el=document.getElementById('lockdownPopupOverl
 function _showBanPopup(role){
   var existing=document.querySelector('.ban-popup-overlay');if(existing)existing.remove();
   var remaining=bannedRoles[role]?bannedRoles[role]-Date.now():0;
-  var durationStr=remaining>315360000000?'Permanent':formatRemaining(remaining);
+  var isPerm=remaining>315360000000;
+  var durationStr=isPerm?'Permanent':formatRemaining(remaining);
   var reason=penaltyReasons[role]||'';
   var name=roleDisplayNames[role]||role;
   var overlay=document.createElement('div');overlay.className='ban-popup-overlay';
@@ -3046,6 +3047,7 @@ function _showBanPopup(role){
     '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:4px">Account: <strong style="color:#fff">'+_escHtml(name)+'</strong></div>'+
     '<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:'+(reason?'4px':'16px')+'">Duration: <strong style="color:#ff8888">'+_escHtml(durationStr)+'</strong></div>'+
     (reason?'<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px">Reason: <strong style="color:#ffaa88">'+_escHtml(reason)+'</strong></div>':'')+
+    (isPerm?'<div style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:16px">This ban is permanent. Appeals are not available.</div>':'')+
     '<button class="ban-popup-ok" style="padding:10px 32px;border:none;border-radius:8px;background:linear-gradient(135deg,#ff5555,#cc3333);color:#fff;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px">OK</button>';
   overlay.appendChild(popup);document.body.appendChild(overlay);
   popup.querySelector('.ban-popup-ok').onclick=function(){overlay.remove()};
@@ -4504,20 +4506,29 @@ function _doLogin(uname,pass){
       db.ref('deviceFingerprints/'+role+'/'+fp).set({lastLogin:Date.now(),source:_fpVisitorId?'pro':'local',bannedLogin:true});
     }
     const remaining=bannedRoles[role]-Date.now();
+    var isPerm=remaining>315360000000;
+    var durationStr=isPerm?'Permanent':formatRemaining(remaining);
     var banReason=penaltyReasons[role]?' Reason: '+penaltyReasons[role]+'.':'';
-    loginError.textContent='You are banned for '+formatRemaining(remaining)+'.'+banReason;
-    document.getElementById('lockAppealToggle').style.display='block';
-    document.getElementById('lockAppealToggle').dataset.role=role;
-    document.getElementById('lockAppealArea').style.display='none';
-    document.getElementById('lockAppealSent').style.display='none';
-    document.getElementById('lockAppealText').value='';
-    var banCooldown=appealCooldownRemaining(role);
-    if(banCooldown>0){
-      document.getElementById('lockAppealDenied').style.display='block';
-      document.getElementById('lockAppealDenied').textContent='Your appeal was denied. 1 day cooldown before you can appeal again.';
+    loginError.textContent='You are banned for '+durationStr+'.'+banReason;
+    if(isPerm){
       document.getElementById('lockAppealToggle').style.display='none';
-    }else{
+      document.getElementById('lockAppealArea').style.display='none';
+      document.getElementById('lockAppealSent').style.display='none';
       document.getElementById('lockAppealDenied').style.display='none';
+    }else{
+      document.getElementById('lockAppealToggle').style.display='block';
+      document.getElementById('lockAppealToggle').dataset.role=role;
+      document.getElementById('lockAppealArea').style.display='none';
+      document.getElementById('lockAppealSent').style.display='none';
+      document.getElementById('lockAppealText').value='';
+      var banCooldown=appealCooldownRemaining(role);
+      if(banCooldown>0){
+        document.getElementById('lockAppealDenied').style.display='block';
+        document.getElementById('lockAppealDenied').textContent='Your appeal was denied. 1 day cooldown before you can appeal again.';
+        document.getElementById('lockAppealToggle').style.display='none';
+      }else{
+        document.getElementById('lockAppealDenied').style.display='none';
+      }
     }
     return;
   }
