@@ -2813,7 +2813,7 @@ db.ref('bannedRoles').on('value',s=>{
   _prevBannedRoles=bannedRoles; bannedRoles=next; renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
-    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var _bannedRole=currentRole;logout();_showBanPopup(_bannedRole)}
+    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var _bannedRole=currentRole;var _isPerm=remaining>315360000000;loginError.textContent='You are banned for '+(_isPerm?'Permanent':formatRemaining(remaining))+'.';logout();_showBanPopup(_bannedRole)}
   }
   Object.keys(bannedRoles).forEach(function(role){
     if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
@@ -3031,26 +3031,28 @@ function _showLockdownPopup(){
 }
 function _hideLockdownPopup(){var el=document.getElementById('lockdownPopupOverlay');if(el)el.remove()}
 function _showBanPopup(role){
-  var existing=document.querySelector('.ban-popup-overlay');if(existing)existing.remove();
-  var remaining=bannedRoles[role]?bannedRoles[role]-Date.now():0;
-  var isPerm=remaining>315360000000;
-  var durationStr=isPerm?'Permanent':formatRemaining(remaining);
-  var reason=penaltyReasons[role]||'';
-  var name=roleDisplayNames[role]||role;
-  var overlay=document.createElement('div');overlay.className='ban-popup-overlay';
-  overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:999999;backdrop-filter:blur(4px)';
-  var popup=document.createElement('div');popup.className='ban-popup';
-  popup.style.cssText='background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(255,80,80,0.3);border-radius:16px;padding:28px 32px;max-width:400px;width:90%;box-shadow:0 16px 48px rgba(0,0,0,0.6);text-align:center';
-  popup.innerHTML=
-    '<div style="font-size:48px;margin-bottom:12px">&#128683;</div>'+
-    '<div style="font-size:20px;font-weight:700;color:#ff5555;margin-bottom:8px">You Have Been Banned</div>'+
-    '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:4px">Account: <strong style="color:#fff">'+_escHtml(name)+'</strong></div>'+
-    '<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:'+(reason?'4px':'16px')+'">Duration: <strong style="color:#ff8888">'+_escHtml(durationStr)+'</strong></div>'+
-    (reason?'<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px">Reason: <strong style="color:#ffaa88">'+_escHtml(reason)+'</strong></div>':'')+
-    (isPerm?'<div style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:16px">This ban is permanent. Appeals are not available.</div>':'')+
-    '<button class="ban-popup-ok" style="padding:10px 32px;border:none;border-radius:8px;background:linear-gradient(135deg,#ff5555,#cc3333);color:#fff;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px">OK</button>';
-  overlay.appendChild(popup);document.body.appendChild(overlay);
-  popup.querySelector('.ban-popup-ok').onclick=function(){overlay.remove()};
+  try{
+    var existing=document.querySelector('.ban-popup-overlay');if(existing)existing.remove();
+    var remaining=bannedRoles[role]?bannedRoles[role]-Date.now():0;
+    var isPerm=remaining>315360000000;
+    var durationStr=isPerm?'Permanent':formatRemaining(remaining);
+    var reason=penaltyReasons[role]||'';
+    var name=roleDisplayNames[role]||role;
+    var overlay=document.createElement('div');overlay.className='ban-popup-overlay';
+    overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:999999;backdrop-filter:blur(4px)';
+    var popup=document.createElement('div');popup.className='ban-popup';
+    popup.style.cssText='background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(255,80,80,0.3);border-radius:16px;padding:28px 32px;max-width:400px;width:90%;box-shadow:0 16px 48px rgba(0,0,0,0.6);text-align:center';
+    popup.innerHTML=
+      '<div style="font-size:48px;margin-bottom:12px">&#128683;</div>'+
+      '<div style="font-size:20px;font-weight:700;color:#ff5555;margin-bottom:8px">You Have Been Banned</div>'+
+      '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:4px">Account: <strong style="color:#fff">'+_escHtml(name)+'</strong></div>'+
+      '<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:'+(reason?'4px':'16px')+'">Duration: <strong style="color:#ff8888">'+_escHtml(durationStr)+'</strong></div>'+
+      (reason?'<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px">Reason: <strong style="color:#ffaa88">'+_escHtml(reason)+'</strong></div>':'')+
+      (isPerm?'<div style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:16px">This ban is permanent. Appeals are not available.</div>':'')+
+      '<button class="ban-popup-ok" style="padding:10px 32px;border:none;border-radius:8px;background:linear-gradient(135deg,#ff5555,#cc3333);color:#fff;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px">OK</button>';
+    overlay.appendChild(popup);document.body.appendChild(overlay);
+    popup.querySelector('.ban-popup-ok').onclick=function(){overlay.remove()};
+  }catch(e){console.error('[BanPopup Error]',e)}
 }
 db.ref('lockdown').on('value',snap=>{
   siteInLockdown=!!snap.val();
@@ -4551,10 +4553,16 @@ document.getElementById('lockLoginBtn').addEventListener('click',login);
   db.ref('roleDisplayNames').once('value',snap=>{
     roleDisplayNames=snap.val()||{};
     if(!roleDisplayNames[savedRole])return;
-    if(isBanned(savedRole))return;
-    /* Block auto-login during lockdown for non-admin users */
-    if(siteInLockdown){var isAdminOrOwner=savedRole==='Admin'||(adminUsers[savedRole]===true);if(!isAdminOrOwner)return}
-    loginAsRole(savedRole);
+    /* Check ban directly from Firebase (bannedRoles may not be loaded yet) */
+    db.ref('bannedRoles/'+savedRole).once('value',function(banSnap){
+      var banVal=banSnap.val();
+      if(banVal){
+        var remaining=banVal-Date.now();
+        if(remaining>0){loginError.textContent='You are banned for '+(remaining>315360000000?'Permanent':formatRemaining(remaining))+'.';return}
+      }
+      if(siteInLockdown){var isAdminOrOwner=savedRole==='Admin'||(adminUsers[savedRole]===true);if(!isAdminOrOwner)return}
+      loginAsRole(savedRole);
+    });
   });
 })();
 
