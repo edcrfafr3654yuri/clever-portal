@@ -14897,7 +14897,6 @@ function _pongInit(container){
   if(lbBtn)lbBtn.style.display='';
 
   if(playAIBtn) playAIBtn.onclick=function(){ _pongStartAIGame(container); };
-  if(rematchBtn) rematchBtn.onclick=function(){ _pongRematch(); };
   if(backBtn) backBtn.onclick=function(){ _pongBackToLobby(container); };
 
   /* Leaderboard button (top-right of Pong) */
@@ -14934,7 +14933,7 @@ function _pongInit(container){
 
 /* Background WS — connects at login so challenges work even if Pong app is closed */
 function _pongBgConnect(){
-  if(typeof db==='undefined')return;
+  if(typeof db==='undefined'){setTimeout(_pongBgConnect,1000);return}
   if(_pongFB.lobbyRef){_pongFB.lobbyRef.off();_pongFB.lobbyRef=null}
   _pongFB.lobbyRef=db.ref('pongLobby');
   _pongFB.lobbyRef.on('value',function(snap){
@@ -15294,7 +15293,8 @@ function _pongRenderOnlineUsers(container){
       lobbyRef.child(playerId).onDisconnect().remove();
       showToast('Challenge sent to '+target+'!');
       setTimeout(function(){lobbyRef.child(playerId).remove()},10000);
-      openApp('pong');
+      /* Start the game directly (even if Pong is already open) */
+      _pongStartOnlineGame(container);
     };
   });
 }
