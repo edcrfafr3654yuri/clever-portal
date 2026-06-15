@@ -1992,11 +1992,15 @@ body:not(.anim-parallax) .particles-canvas{display:none}
         <div class="icon-img" style="background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7)"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
         <div class="icon-label" id="iconLabel-appstore">App Store</div>
       </div>
-      <div class="desktop-icon" data-app="docflix" ondblclick="openApp('docflix')" onclick="if(window.innerWidth<=768)openApp('docflix')" style="left:10px;top:710px">
+      <div class="desktop-icon" data-app="docflix" ondblclick="openApp('docflix')" onclick="if(window.innerWidth<=768)openApp('docflix')" style="left:10px;top:810px">
         <div class="icon-img" style="background:linear-gradient(135deg,#0f0f0f,#1a1a2e)"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         <div class="icon-label" id="iconLabel-docflix">Docflix</div>
       </div>
-      <div class="desktop-icon" data-app="trash" id="trashDesktopIcon" ondblclick="openApp('trash')" onclick="if(window.innerWidth<=768)openApp('trash')" style="left:10px;top:610px">
+      <div class="desktop-icon" data-app="pong" ondblclick="openApp('pong')" onclick="if(window.innerWidth<=768)openApp('pong')" style="left:10px;top:610px">
+        <div class="icon-img" style="background:linear-gradient(135deg,#00d4ff,#7b2fff)"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="6" width="3" height="12" rx="1.5"/><rect x="19" y="6" width="3" height="12" rx="1.5"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <div class="icon-label" id="iconLabel-pong">Pong</div>
+      </div>
+      <div class="desktop-icon" data-app="trash" id="trashDesktopIcon" ondblclick="openApp('trash')" onclick="if(window.innerWidth<=768)openApp('trash')" style="left:10px;top:710px">
         <div class="icon-img" style="background:linear-gradient(135deg,#546e7a,#37474f)"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></div>
         <div class="icon-label" id="iconLabel-trash">Trash</div>
       </div>
@@ -4542,7 +4546,6 @@ function logout(){
     _lastSeenTs=0;_lastSeenInserted=false;
     _notificationsEnabled=false;
     _notifySW({type:'CLEAR_USER'});
-    if(_pongWs){try{_pongWs.close()}catch(e){}_pongWs=null}
     _pongFBCleanup();
     if(typeof _vcCleanupCall==='function'&&_vcInCall)_vcHangUp();
     if(typeof _vcIncomingRef==='object'&&_vcIncomingRef){_vcIncomingRef.off();_vcIncomingRef=null;}
@@ -10935,7 +10938,7 @@ var _asCategoryMap={
 var _asBuiltinApps={
   calculator:{category:'apps',rating:4.7,downloads:1900,author:'System',storeOnly:true},
   notepad:{category:'apps',rating:4.6,downloads:1600,author:'System',storeOnly:true},
-  pong:{category:'game',rating:4.9,downloads:2500,author:'',storeOnly:true}
+  pong:{category:'game',rating:4.9,downloads:2500,author:''}
 };
 
 /* AI-style smart categorizer — uses weighted keyword scoring */
@@ -10992,7 +10995,7 @@ function _asStarHtml(rating){
 function _asGetAllApps(){
   var all=[];
   /* Add store-only built-in apps (calculator, notepad) */
-  var storeBuiltins=['calculator','notepad','pong'];
+  var storeBuiltins=['calculator','notepad'];
   storeBuiltins.forEach(function(id){
     if(!appDefs[id])return;
     var amSt=_amAppStates[id];
@@ -14780,10 +14783,9 @@ var _origVcCleanupOnLogout=null;
 (function(){
 'use strict';
 
-var PONG_WS_URL = 'wss://user:fb62865ee1b631fef94cdfa171f45b59@0ae713151595-tunnel-9fcaebou.devinapps.com/ws';
 var CW=800, CH=500, PW=12, PH=90, BR=8;
 
-var _pongWs=null, _pongSide=null, _pongAnimFrame=null, _pongMyName=null;
+var _pongAnimFrame=null;
 var _pongLastChallengeRoom=null;
 var _pongOnlineUsers=[];
 var _pongRender={ball:{x:CW/2,y:CH/2},p1:{y:CH/2,score:0,name:'P1'},p2:{y:CH/2,score:0,name:'P2'},state:'idle',countdown:3,winner:null};
@@ -14926,7 +14928,8 @@ function _pongInit(container){
   var leaderboardBtn=container.querySelector('#pongLeaderboardBtn');
   if(leaderboardBtn) leaderboardBtn.onclick=function(){ _pongShowLeaderboard(container); };
 
-  _pongConnect(container);
+  _pongContainer=container;
+  _pongBgConnect();
 }
 
 /* Background WS — connects at login so challenges work even if Pong app is closed */
@@ -15227,81 +15230,6 @@ function _pongRefreshOnlineList(){
   if(_pongContainer)_pongRenderOnlineUsers(_pongContainer);
 }
 
-function _pongConnect(container){
-  _pongContainer=container;
-  _pongBgConnect();
-}
-
-function _pongHandleMsg(msg,container){
-  switch(msg.type){
-    case 'registered':
-      _pongMyName=msg.name;
-      break;
-    case 'online_users':
-      _pongOnlineUsers=msg.users||[];
-      if(container)_pongRenderOnlineUsers(container);
-      break;
-    case 'joined':
-      _pongSide=msg.side;
-      break;
-    case 'waiting':
-      if(!container)break;
-      var st=container.querySelector('#pongStatus');
-      var stTxt=container.querySelector('#pongStatusText');
-      if(st)st.style.display='flex';
-      if(stTxt)stTxt.textContent=msg.message||'Waiting...';
-      break;
-    case 'matched':
-      if(!container){openApp('pong');break}
-      var lobby=container.querySelector('#pongLobby');
-      var gameArea=container.querySelector('#pongGameArea');
-      var goPanel=container.querySelector('#pongGameOver');
-      var dc2=container.querySelector('#pongDisconnect');
-      if(lobby)lobby.style.display='none';
-      if(gameArea)gameArea.classList.add('active');
-      if(goPanel)goPanel.style.display='none';
-      if(dc2)dc2.classList.remove('show');
-      _pongRender.p1.name=msg.p1;_pongRender.p2.name=msg.p2;
-      var n1=container.querySelector('#pongP1Name');var n2=container.querySelector('#pongP2Name');
-      if(n1)n1.textContent=msg.p1;if(n2)n2.textContent=msg.p2;
-      _pongInGame=true;
-      _pongKeys={};_pongLastDir=0;
-      if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
-      _pongStartRender(container);
-      break;
-    case 'state':
-      if(!container)break;
-      _pongRender.state=msg.state;
-      if(msg.ball){_pongRender.ball.x=msg.ball.x;_pongRender.ball.y=msg.ball.y}
-      if(msg.p1){_pongRender.p1.y=msg.p1.y;_pongRender.p1.score=msg.p1.score;var s1=container.querySelector('#pongP1Score');if(s1)s1.textContent=msg.p1.score}
-      if(msg.p2){_pongRender.p2.y=msg.p2.y;_pongRender.p2.score=msg.p2.score;var s2=container.querySelector('#pongP2Score');if(s2)s2.textContent=msg.p2.score}
-      _pongRender.countdown=msg.countdown;_pongRender.winner=msg.winner;
-      if(msg.state==='playing'){_pongBallTrail.push({x:_pongRender.ball.x,y:_pongRender.ball.y});if(_pongBallTrail.length>12)_pongBallTrail.shift()}
-      if(msg.state==='finished'){_pongInGame=false;_pongShowGameOver(container,msg.winner)}
-      _pongUpdateOverlay(container,msg);
-      break;
-    case 'opponent_left':
-      _pongInGame=false;
-      _pongShowDisconnectNotif(msg.message||'Opponent disconnected',container);
-      break;
-    case 'waiting_rematch':
-      if(container){var rb=container.querySelector('#pongRematchBtn');if(rb){rb.disabled=true;rb.textContent='WAITING...'}}
-      break;
-    case 'challenge_received':
-      _pongShowChallengeNotif(msg.from,msg.room_id);
-      break;
-    case 'challenge_sent':
-      if(typeof showToast==='function')showToast('Challenge sent to '+msg.target);
-      break;
-    case 'challenge_declined':
-      if(typeof showToast==='function')showToast(msg.by+' declined your challenge');
-      break;
-    case 'challenge_error':
-      if(typeof showToast==='function')showToast(msg.message);
-      break;
-  }
-}
-
 function _pongRenderOnlineUsers(container){
   var list=container.querySelector('#pongUsersList');
   if(!list)return;
@@ -15321,57 +15249,52 @@ function _pongRenderOnlineUsers(container){
   portalUsers.sort(function(a,b){return (b.hasPong?1:0)-(a.hasPong?1:0)});
   var html='';
   portalUsers.forEach(function(u){
-    var dotColor=u.hasPong?'#00ff88':'#888';
-    var btnLabel=u.hasPong?'Challenge':'Invite';
-    var statusLabel=u.hasPong?'':'<span style="font-size:9px;color:rgba(255,255,255,.3);margin-left:4px">(no Pong)</span>';
-    html+='<div class="pong-user-item"><div class="pong-user-name"><div class="pong-user-dot" style="background:'+dotColor+'"></div>'+_escHtml(u.name)+statusLabel+'</div><button class="pong-challenge-btn" data-target="'+_escAttr(u.name)+'" data-roleid="'+_escAttr(u.roleId)+'" data-haspong="'+(u.hasPong?'1':'0')+'">'+btnLabel+'</button></div>';
+    var dotColor='#00ff88';
+    html+='<div class="pong-user-item"><div class="pong-user-name"><div class="pong-user-dot" style="background:'+dotColor+'"></div>'+_escHtml(u.name)+'</div><button class="pong-challenge-btn" data-target="'+_escAttr(u.name)+'" data-roleid="'+_escAttr(u.roleId)+'">Challenge</button></div>';
   });
   list.innerHTML=html;
   list.querySelectorAll('.pong-challenge-btn').forEach(function(btn){
     btn.onclick=function(){
       var target=btn.getAttribute('data-target');
       var targetRoleId=btn.getAttribute('data-roleid');
-      var hasPong=btn.getAttribute('data-haspong')==='1';
-      if(hasPong){
-        var playerId=_pongGetPlayerId();
-        var playerName=_pongGetDisplayName();
-        var roomId='pong_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-        var roomRef=db.ref('pongRooms/'+roomId);
-        roomRef.set({
-          created:Date.now(),
-          host:playerId,
-          players:{},
-          state:{phase:'waiting',ball:{x:CW/2,y:CH/2,vx:0,vy:0},p1:{y:CH/2,score:0},p2:{y:CH/2,score:0},winner:null}
-        });
-        roomRef.child('players/'+playerId).set({
-          name:playerName,
-          side:'left',
-          connected:true,
-          ts:Date.now()
-        });
-        roomRef.child('players/'+playerId).onDisconnect().update({connected:false});
-        /* Store pending room so Pong can pick it up when opened */
-        _pongFB.roomRef=roomRef;
-        _pongFB.roomId=roomId;
-        _pongFB.playerId=playerId;
-        _pongFB.isHost=true;
-        _pongFB.opponentId=targetRoleId;
-        _pongFB.opponentName=target;
-        _pongFB.mySide='left';
-        var lobbyRef=db.ref('pongLobby');
-        lobbyRef.child(playerId).set({
-          name:playerName,
-          role:currentRole||'anon',
-          target:targetRoleId,
-          targetName:target,
-          roomId:roomId,
-          ts:Date.now()
-        });
-        lobbyRef.child(playerId).onDisconnect().remove();
-        showToast('Challenge sent to '+target+'!');
-        setTimeout(function(){lobbyRef.child(playerId).remove()},10000);
-        openApp('pong');
-      }
+      var playerId=_pongGetPlayerId();
+      var playerName=_pongGetDisplayName();
+      var roomId='pong_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+      var roomRef=db.ref('pongRooms/'+roomId);
+      roomRef.set({
+        created:Date.now(),
+        host:playerId,
+        players:{},
+        state:{phase:'waiting',ball:{x:CW/2,y:CH/2,vx:0,vy:0},p1:{y:CH/2,score:0},p2:{y:CH/2,score:0},winner:null}
+      });
+      roomRef.child('players/'+playerId).set({
+        name:playerName,
+        side:'left',
+        connected:true,
+        ts:Date.now()
+      });
+      roomRef.child('players/'+playerId).onDisconnect().update({connected:false});
+      /* Store pending room so Pong can pick it up when opened */
+      _pongFB.roomRef=roomRef;
+      _pongFB.roomId=roomId;
+      _pongFB.playerId=playerId;
+      _pongFB.isHost=true;
+      _pongFB.opponentId=targetRoleId;
+      _pongFB.opponentName=target;
+      _pongFB.mySide='left';
+      var lobbyRef=db.ref('pongLobby');
+      lobbyRef.child(playerId).set({
+        name:playerName,
+        role:currentRole||'anon',
+        target:targetRoleId,
+        targetName:target,
+        roomId:roomId,
+        ts:Date.now()
+      });
+      lobbyRef.child(playerId).onDisconnect().remove();
+      showToast('Challenge sent to '+target+'!');
+      setTimeout(function(){lobbyRef.child(playerId).remove()},10000);
+      openApp('pong');
     };
   });
 }
@@ -15380,27 +15303,6 @@ function _escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function _escAttr(s){return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
 function _pongShowChallengeNotif(from,roomId,fromRole){
-  var hasPongInstalled=typeof userAppsState!=='undefined'&&userAppsState['pong']==='desktop';
-  if(!hasPongInstalled){
-    var toast=document.createElement('div');
-    toast.style.cssText='position:fixed;top:20px;right:20px;z-index:100000;background:linear-gradient(135deg,rgba(10,10,30,.97),rgba(20,15,40,.97));border:1px solid rgba(0,212,255,.25);border-radius:16px;padding:16px 20px;width:320px;box-shadow:0 12px 48px rgba(0,0,0,.7);backdrop-filter:blur(24px);animation:pongNotifSlide .4s cubic-bezier(.16,1,.3,1);font-size:13px;color:#fff;line-height:1.5';
-    toast.innerHTML=
-      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#00d4ff,#7b2fff);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:16px">🎮</span></div><div><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(0,212,255,.7);font-weight:700">Pong Challenge</div><div style="font-size:15px;font-weight:700;margin-top:1px">'+_escHtml(from)+'</div></div></div>'+
-      '<div style="color:rgba(255,255,255,.6);margin-bottom:12px">wants to play Pong! Open the <strong>App Store</strong> and install Pong to play.</div>'+
-      '<button class="pong-cn-accept" style="width:100%;padding:9px 0;border:none;border-radius:8px;background:linear-gradient(135deg,#00d4ff,#7b2fff);color:#fff;font-weight:700;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:.5px">Open App Store</button>';
-    document.body.appendChild(toast);
-    toast.querySelector('button').onclick=function(){toast.remove();openApp('appstore')};
-    setTimeout(function(){if(toast.parentNode)toast.remove()},15000);
-    try{
-      var actx=new(window.AudioContext||window.webkitAudioContext)();
-      var osc=actx.createOscillator();osc.connect(actx.destination);
-      osc.type='sine';osc.frequency.setValueAtTime(880,actx.currentTime);
-      osc.frequency.setValueAtTime(1100,actx.currentTime+0.1);
-      osc.frequency.setValueAtTime(1320,actx.currentTime+0.2);
-      osc.start(actx.currentTime);osc.stop(actx.currentTime+0.4);
-    }catch(e){}
-    return;
-  }
   /* Remove any existing notification */
   var existing=document.querySelector('.pong-challenge-notif');
   if(existing)existing.remove();
@@ -15563,21 +15465,12 @@ function _pongShowGameOver(container,winner){
   }catch(e){console.error('[GameOver Error]',e);_pongBackToLobby(container)}
 }
 
-function _pongRematch(){
-  if(_pongWs&&_pongWs.readyState===1){
-    _pongInGame=true;_pongKeys={};_pongLastDir=0;
-    if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
-    _pongWs.send(JSON.stringify({action:'rematch'}));
-  }
-}
-
 function _pongBackToLobby(container){
   _pongInGame=false;_pongInputInitDone=false;
   _pongAIMode=false;_pongAIRunning=false;_pongMouseY=null;
   if(_pongAIAnimFrame){cancelAnimationFrame(_pongAIAnimFrame);_pongAIAnimFrame=null}
   if(_pongAnimFrame){cancelAnimationFrame(_pongAnimFrame);_pongAnimFrame=null}
   _pongFBCleanup();
-  if(_pongWs)_pongWs.close();_pongWs=null;
   var lobby=container.querySelector('#pongLobby');
   var gameArea=container.querySelector('#pongGameArea');
   var goPanel=container.querySelector('#pongGameOver');
@@ -15597,16 +15490,9 @@ function _pongBackToLobby(container){
 }
 
 /* ── Input ── */
-var _pongLastDir=0;
 var _pongInGame=false;
 var _pongInputInitDone=false;
 var _pongMouseY=null;
-
-function _pongSendDir(dir){
-  if(!_pongWs||_pongWs.readyState!==1)return;
-  _pongLastDir=dir;
-  _pongWs.send(JSON.stringify({action:'move',dir:dir}));
-}
 
 function _pongMobileMove(dir){
   if(!_pongInGame && !(_pongAIMode && _pongAIRunning))return;
@@ -15617,9 +15503,7 @@ function _pongMobileMove(dir){
   }
   if(_pongFB.roomId){
     _pongSendOnlineMove(dir);
-    return;
   }
-  _pongSendDir(dir);
 }
 
 /* Keyboard: attach to window at capture phase, before anything else.
@@ -15644,10 +15528,6 @@ window.addEventListener('keydown',function(e){
   if(_pongKeys['ArrowDown']||_pongKeys['s']||_pongKeys['S'])dir=1;
   if(_pongFB.roomId){
     _pongSendOnlineMove(dir);
-  }else if(_pongAIMode){
-    // AI mode handles input via _pongAIKeys in game loop
-  }else{
-    _pongSendDir(dir);
   }
 },true);
 
