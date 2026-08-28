@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,7 +53,7 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .lock-appeal-area textarea::placeholder{color:rgba(255,255,255,.35)}
 .lock-appeal-btn{width:100%;padding:8px;border:none;border-radius:8px;background:var(--orange);color:#fff;font-weight:700;cursor:pointer;font-size:12px;transition:opacity .2s}
 .lock-appeal-btn:hover{opacity:.85}
-.lock-appeal-sent{color:#4caf50;font-size:12px;text-align:center;margin-top:6px}
+.lock-appeal-sent{color:#4caf50;font-size:12px;text-align:center;margin-top:6px;background:rgba(76,175,80,.12);border:1px solid rgba(76,175,80,.35);border-radius:8px;padding:8px 10px;line-height:1.4}
 .lock-appeal-denied{color:#ff5555;font-size:12px;text-align:center;margin-top:6px;font-weight:600}
 .lock-branding{position:absolute;bottom:24px;font-size:13px;color:var(--text7,rgba(255,255,255,.2));font-weight:600;letter-spacing:1px}
 
@@ -2074,7 +2075,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
         <div class="attach-btn" id="attachBtn" title="Attach media"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
           <div class="attach-menu" id="attachMenu">
             <div class="attach-menu-item" id="attachFromComputer" style="display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> From Computer<span id="videoInfoBtn" style="position:relative;margin-left:auto;cursor:pointer;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--text5);flex-shrink:0" title="Video upload limits">?<span class="video-info-tooltip" style="display:none;position:absolute;bottom:calc(100% + 6px);right:0;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--text);white-space:nowrap;z-index:99999;box-shadow:0 4px 12px rgba(0,0,0,.3);pointer-events:none;line-height:1.5">~2-3 min at low quality (480p)<br>~30-60 sec at medium (720p)<br>~10-20 sec at high (1080p)</span></span></div>
-            <div class="attach-menu-item" id="attachFromFiles"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> From In-App Files</div>
+            <div class="attach-menu-item" id="attachFromFiles" style="display:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> From In-App Files</div>
           </div>
         </div>
         <input type="text" id="messageInput" placeholder="Type a message...">
@@ -2092,7 +2093,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
 </div>
 
 <!-- Admin Panel (standalone app) -->
-<div class="admin-panel" id="adminPanel" style="display:none">
+<div class="admin-panel" id="adminPanel" style="display:none!important">
   <div class="admin-sidebar-layout">
     <div class="admin-sidebar">
       <div class="admin-sidebar-title">Panel</div>
@@ -2102,11 +2103,12 @@ body:not(.anim-parallax) .particles-canvas{display:none}
       <div class="admin-nav-item" data-section="sec-feedback"><span>&#128172;</span> Feedback <span id="feedbackNavBadge" class="admin-nav-badge" style="display:none"></span></div>
       <div class="admin-nav-item" data-section="sec-usermgmt" id="userMgmtNavItem"><span>&#128100;</span> Users</div>
       <div class="admin-nav-item" data-section="sec-tools" id="adminToolsNavItem"><span>&#128465;</span> Tools</div>
+      <div class="admin-nav-item" data-section="sec-appbans" id="adminAppBansNavItem"><span>&#128274;</span> App Bans</div>
     </div>
     <div class="admin-content">
       <div class="admin-section active" id="sec-useractions">
         <div class="admin-section-title"><span>&#128101;</span> User Actions</div>
-        <label>&#128100; Target User</label>
+        <label style="display:flex;align-items:center;gap:6px">&#128100; Target User <button id="targetLockBtn" title="Lock selected user so only the Owner can unban/unmute" style="display:none;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;border:1px solid rgba(153,153,153,.35);background:none;color:#999;cursor:pointer;flex-shrink:0;padding:0;transition:all .15s"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></button></label>
         <div class="user-select-wrapper">
           <div class="custom-user-select" id="userSelectTrigger" tabindex="0">
             <span id="userSelectLabel">-- Select role --</span>
@@ -2114,6 +2116,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
           </div>
           <div class="cus-dropdown" id="userSelectDropdown"></div>
         </div>
+        <button id="targetLockBtn" style="display:none;margin-top:8px;width:100%;padding:8px 12px;border-radius:8px;border:1px solid rgba(153,153,153,.35);background:none;color:#999;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s">&nbsp;</button>
         <label>&#9203; Duration</label>
         <div class="preset-row">
           <span class="preset-chip" data-ms="300000">5 min</span>
@@ -2169,7 +2172,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
           <div class="attach-btn" id="announceAttachBtn" title="Attach media" style="position:relative;flex-shrink:0;margin-bottom:2px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             <div class="attach-menu" id="announceAttachMenu">
               <div class="attach-menu-item" id="announceAttachComputer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> From Computer</div>
-              <div class="attach-menu-item" id="announceAttachFiles"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> From In-App Files</div>
+              <div class="attach-menu-item" id="announceAttachFiles" style="display:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> From In-App Files</div>
             </div>
           </div>
           <textarea id="announcementInput" rows="3" placeholder="Type announcement..." style="flex:1"></textarea>
@@ -2227,18 +2230,54 @@ body:not(.anim-parallax) .particles-canvas{display:none}
                 <label>&#9203; Rate Limiting (3 msg / 5s)</label>
                 <label class="toggle-switch"><input type="checkbox" id="toggleRateLimit"><span class="toggle-slider"></span></label>
               </div>
+              <div class="toggle-row">
+                <label>Hide system notifications in chat</label>
+                <label class="toggle-switch"><input type="checkbox" id="toggleHideSysNotifs"><span class="toggle-slider"></span></label>
+              </div>
             </div>
           </div>
-          <div class="tools-card">
-            <div class="tools-card-header">&#128218; Audit Log</div>
-            <button id="clearAuditLogBtn" class="tools-btn clear" style="margin-bottom:6px">Clear Audit Log</button>
-            <div class="audit-log-list" id="auditLogList"></div>
-          </div>
-          <div class="tools-card">
-            <div class="tools-card-header">&#128200; Usage Today</div>
-            <div id="usageStats" style="font-size:12px;color:var(--text5);padding:6px 0;line-height:1.6"></div>
-          </div>
         </div>
+      </div>
+      <div class="admin-section" id="sec-appbans">
+        <div class="admin-section-title"><span>&#128274;</span> App Bans</div>
+        <label>&#128100; User</label>
+        <div class="user-select-wrapper">
+          <div class="custom-user-select" id="abUserSelect" tabindex="0">
+            <span id="abUserSelectLabel">-- Select user --</span>
+            <span class="cus-arrow">&#9660;</span>
+          </div>
+          <div class="cus-dropdown" id="abUserSelectDropdown"></div>
+        </div>
+        <label>&#128218; App</label>
+        <div class="user-select-wrapper">
+          <div class="custom-user-select" id="abAppSelect" tabindex="0">
+            <span id="abAppSelectLabel">-- Select app --</span>
+            <span class="cus-arrow">&#9660;</span>
+          </div>
+          <div class="cus-dropdown" id="abAppSelectDropdown"></div>
+        </div>
+        <label>&#9203; Duration</label>
+        <div class="preset-row">
+          <span class="preset-chip" data-ms="300000">5 min</span>
+          <span class="preset-chip" data-ms="900000">15 min</span>
+          <span class="preset-chip" data-ms="3600000">1 hour</span>
+          <span class="preset-chip" data-ms="86400000">1 day</span>
+          <span class="preset-chip" data-ms="permanent">Permanent</span>
+          <span class="preset-chip" data-ms="custom">Custom</span>
+        </div>
+        <div class="custom-duration" id="abCustomDuration">
+          <input type="number" id="abDurationInput" placeholder="Amount" min="1">
+          <select id="abUnitSelect">
+            <option value="seconds">Sec</option>
+            <option value="minutes" selected>Min</option>
+            <option value="hours">Hr</option>
+            <option value="days">Day</option>
+          </select>
+        </div>
+        <input type="hidden" id="abPresetMs" value="">
+        <button id="appBanButton" class="btn-ban" style="margin-top:8px;width:100%">&#128274; Ban from App</button>
+        <div style="margin-top:12px"><label style="font-size:11px;font-weight:600;color:#f44336;display:block;margin:8px 0 4px">Active App Bans</label>
+        <div id="appBansList"></div></div>
       </div>
     </div>
   </div>
@@ -2247,10 +2286,8 @@ body:not(.anim-parallax) .particles-canvas{display:none}
 
 
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+<script src="pocketbase.umd.min.js"></script>
+<script src="pb-shim.js"></script>
 <script>
 /* Fingerprint.js Pro — initialize early, store visitorId for device tracking */
 var _fpVisitorId=null;
@@ -2262,12 +2299,9 @@ var _fpPromise=import('https://fpjscdn.net/v4/AD782tjPUGScWzXfWJMf')
 </script>
 <script>
 /* ==============================
-   FIREBASE INIT
+   POCKETBASE INIT
    ============================== */
-const firebaseConfig={apiKey:"AIzaSyDDXdE1TSzc70MZLL5XxuXoqlgixno1H6E",authDomain:"chat-5e002.firebaseapp.com",databaseURL:"https://chat-5e002-default-rtdb.firebaseio.com",projectId:"chat-5e002",storageBucket:"chat-5e002.firebasestorage.app",messagingSenderId:"223458314389",appId:"1:223458314389:web:59e9524e34e73482ad339c",measurementId:"G-5XN710ZJSD"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
-const storage=firebase.storage();
+var _pbReady=_initPocketBase('http://127.0.0.1:8090');
 function _uploadToStorage(folder,file){
   if(!_checkDailyQuota(file.size))return Promise.reject('Quota exceeded');
   var name=Date.now()+'_'+Math.random().toString(36).substr(2,8)+'_'+(file.name||'file').replace(/[^a-zA-Z0-9._-]/g,'_');
@@ -2431,7 +2465,8 @@ function _doShowNotification(title,body,tag){
    STATE
    ============================== */
 let currentRole=null,currentDisplayName=null;
-let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={},usernames={},usedUsernames={};
+let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={},usernames={},usedUsernames={};let penaltyLocks={};
+let appBans={};
 let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},bannedDevices={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={};
 
@@ -2721,29 +2756,8 @@ function logAudit(type,text){
   db.ref('auditLog').push({type,text,actor:currentDisplayName||currentRole,timestamp:Date.now()});
 }
 
-db.ref('auditLog').on('value',snap=>{
-  auditLog=snap.val()||{};
-  renderAuditLog();
-});
-
-function renderAuditLog(){
-  const div=document.getElementById('auditLogList');
-  if(!div)return;
-  div.innerHTML='';
-  const keys=Object.keys(auditLog).sort((a,b)=>(auditLog[b].timestamp||0)-(auditLog[a].timestamp||0)).slice(0,80);
-  if(!keys.length){div.innerHTML='<span style="color:var(--text7);font-size:12px">No actions yet</span>';return}
-  keys.forEach(k=>{
-    const e=auditLog[k];
-    const item=document.createElement('div');
-    item.className='audit-entry audit-'+e.type;
-    const t=new Date(e.timestamp||0);
-    const tStr=t.toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-    item.innerHTML='<div class="audit-time">'+tStr+' · '+escHtml(e.actor||'?')+'</div><div class="audit-text">'+escHtml(e.text||'')+'</div>';
-    div.appendChild(item);
-  });
-}
-
-document.getElementById('clearAuditLogBtn').addEventListener('click',function(){
+var clearAuditLogBtn=document.getElementById('clearAuditLogBtn');
+if(clearAuditLogBtn)clearAuditLogBtn.addEventListener('click',function(){
   if(currentRole!=='Admin')return;
   if(this.dataset.confirm){
     db.ref('auditLog').remove().then(()=>showToast('Audit log cleared.'));
@@ -2763,7 +2777,7 @@ db.ref('validPasswords').on('value',s=>{validPasswords=s.val()||{};queueRenderUs
 db.ref('usernames').on('value',s=>{usernames=s.val()||{};queueRenderUserMgmt()});
 db.ref('usedUsernames').on('value',s=>{usedUsernames=s.val()||{}});
 
-db.ref('roleDisplayNames').on('value',s=>{roleDisplayNames=s.val()||{};rebuildUserDropdown();queueRenderUserMgmt()});
+db.ref('roleDisplayNames').on('value',s=>{roleDisplayNames=s.val()||{};rebuildUserDropdown();queueRenderUserMgmt();if(typeof _rebuildAppBanUserDropdown==='function')_rebuildAppBanUserDropdown();if(typeof renderAppBansList==='function')renderAppBansList()});
 var _adminUsersInitialized=false;
 db.ref('adminUsers').on('value',s=>{
   var oldAdminUsers=adminUsers;
@@ -2786,7 +2800,7 @@ db.ref('adminUsers').on('value',s=>{
     if(wasA&&!isA){
       if(r!==currentRole)db.ref('pendingRoleNotifications/'+r).set({type:'demoted',message:'Your admin privileges have been removed. You are now a Member.',timestamp:Date.now()});
     }else if(!wasA&&isA){
-      if(r!==currentRole)db.ref('pendingRoleNotifications/'+r).set({type:'promoted',message:'You have been promoted to Admin! You now have access to the Mod Panel.',timestamp:Date.now()});
+      if(r!==currentRole)db.ref('pendingRoleNotifications/'+r).set({type:'promoted',message:'You have been promoted to Admin! You now have access to the Admin Panel.',timestamp:Date.now()});
     }
   });
 });
@@ -2821,6 +2835,33 @@ db.ref('bannedRoles').on('value',s=>{
 });
 var penaltyReasons={};
 db.ref('penaltyReasons').on('value',function(s){penaltyReasons=s.val()||{};renderMutedList();renderBannedList()});
+db.ref('penaltyLocks').on('value',function(s){penaltyLocks=s.val()||{};renderMutedList();renderBannedList();queueRenderUserMgmt();if(typeof updateTargetLockBtn==='function')updateTargetLockBtn()});
+function _updatePenaltyTimers(){
+  var now=Date.now();
+  document.querySelectorAll('#mutedList .list-item, #bannedList .list-item').forEach(function(item){
+    var span=item.querySelector('span:first-child'); if(!span) return;
+    var role=item.dataset.role; if(!role) return;
+    var isMuted=item.parentNode.id==='mutedList';
+    var endTime=isMuted?mutedRoles[role]:bannedRoles[role];
+    if(!endTime||endTime<=now){ item.remove(); return; }
+    var remaining=endTime-now;
+    var parts=span.textContent.split('\u2022');
+    if(parts.length>1) span.textContent=parts[0].trim()+' \u2022 '+formatRemaining(remaining);
+  });
+  if(!document.querySelector('#mutedList .list-item')) mutedListDiv.innerHTML='<span style="color:var(--text7);font-size:12px">None</span>';
+  if(!document.querySelector('#bannedList .list-item')) bannedListDiv.innerHTML='<span style="color:var(--text7);font-size:12px">None</span>';
+}
+setInterval(_updatePenaltyTimers,1000);
+/* Sweep stale online entries every 60s */
+setInterval(function(){
+  Object.keys(onlineUsers).forEach(function(role){
+    var u=onlineUsers[role];
+    if(u&&u.timestamp&&(Date.now()-u.timestamp>120000)){
+      db.ref('onlineUsers/'+role).remove();
+    }
+  });
+},60000);
+db.ref('appBans').on('value',function(s){appBans=s.val()||{};renderAppBansList()});
 var _lastMsgTimestamp=0,_chatInitialized=false;
 var _unreadChatCount=0;
 function _isChatVisible(){if(typeof openWindows!=='object')return false;for(var w in openWindows){if(openWindows[w].appId==='chat'&&!openWindows[w].minimized)return true}return false}
@@ -3002,6 +3043,11 @@ db.ref('showPenaltyInOnline').on('value',snap=>{
   if(cb)cb.checked=showPenaltyInOnline;
   renderOnlineUsers();
 });
+db.ref('hideSystemNotifications').on('value',snap=>{
+  window.hideSystemNotifications=!!snap.val();
+  const cb=document.getElementById('toggleHideSysNotifs');
+  if(cb)cb.checked=window.hideSystemNotifications;
+});
 db.ref('chatLocked').on('value',snap=>{
   chatLocked=!!snap.val();
   const lockBanner=document.getElementById('lockBanner');
@@ -3155,10 +3201,12 @@ function _submitAccountRequest(){
   Object.keys(pendingAccountRequests).forEach(function(k){var r=pendingAccountRequests[k];if(r.passcode===passcode)alreadyPending=true;if(r.username&&r.username.toLowerCase()===reqUsername.toLowerCase())alreadyPending=true});
   if(alreadyPending){showToast('A request with that password or username is already pending.');return}
   db.ref('pendingAccountRequests').push({username:reqUsername,name:name,passcode:passcode,timestamp:Date.now()}).then(function(){
+    /* Collapse the form so the confirmation never overlaps the branding */
+    var uEl=document.getElementById('lockRequestUsername');if(uEl)uEl.style.display='none';
+    var nEl=document.getElementById('lockRequestName');if(nEl)nEl.style.display='none';
+    var pEl=document.getElementById('lockRequestPasscode');if(pEl)pEl.style.display='none';
+    var bEl=document.getElementById('lockRequestBtn');if(bEl)bEl.style.display='none';
     document.getElementById('lockRequestSent').style.display='block';
-    document.getElementById('lockRequestUsername').value='';
-    document.getElementById('lockRequestName').value='';
-    document.getElementById('lockRequestPasscode').value='';
   }).catch(console.error);
 }
 
@@ -3201,6 +3249,7 @@ function rebuildUserDropdown(){
       else userSelectLabel.style.color='';
       userSelectDropdown.classList.remove('show');
       userSelect.classList.remove('open');
+      if(typeof updateTargetLockBtn==='function')updateTargetLockBtn();
     });
     list.appendChild(opt);
   });
@@ -3217,6 +3266,35 @@ function rebuildUserDropdown(){
     searchInput.addEventListener('click',function(e){e.stopPropagation()});
   }
 }
+function updateTargetLockBtn(){
+  var btn=document.getElementById('targetLockBtn');
+  if(!btn)return;
+  if(currentRole!=='Admin'){
+    btn.style.display='none';return;
+  }
+  btn.style.display='inline-flex';
+  var role=userSelectValue;
+  if(!role){
+    btn.style.color='#999';btn.style.borderColor='rgba(153,153,153,.35)';
+    btn.title='Lock selected user so only the Owner can unban/unmute';
+    return;
+  }
+  var locked=penaltyLocks[role]===true;
+  btn.style.color=locked?'#ffc107':'#999';
+  btn.style.borderColor=locked?'rgba(255,193,7,.5)':'rgba(153,153,153,.35)';
+  btn.title=locked?'Locked — click to unlock':'Unlocked — click to lock';
+}
+(function(){
+  var btn=document.getElementById('targetLockBtn');
+  if(!btn)return;
+  btn.addEventListener('click',function(){
+    if(currentRole!=='Admin')return;
+    if(!userSelectValue){showToast('Select a target user first.');return}
+    var role=userSelectValue;
+    if(penaltyLocks[role]===true){db.ref('penaltyLocks/'+role).remove();showToast((roleDisplayNames[role]||role)+' unlocked.')}
+    else{db.ref('penaltyLocks/'+role).set(true);showToast((roleDisplayNames[role]||role)+' locked — only Owner can unban/unmute.')}
+  });
+})();
 function getDurationMs(amount,unit){
   const n=parseInt(amount,10);if(isNaN(n)||n<=0)return 0;
   switch(unit){case'seconds':return n*1000;case'minutes':return n*60*1000;case'hours':return n*3600000;case'days':return n*86400000;default:return 0}
@@ -3279,7 +3357,7 @@ function handleRoleChange(type){
     var modLabel=document.getElementById('iconLabel-mod');
     if(modLabel)modLabel.textContent=modTitle;
     if(chatLocked){document.querySelector('.input-row').classList.remove('locked');messageInput.placeholder='Type a message...'}
-    showRoleNotification('promoted','You have been promoted to Admin! You now have access to the Mod Panel.');
+    showRoleNotification('promoted','You have been promoted to Admin! You now have access to the Admin Panel.');
   }
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
 }
@@ -4273,6 +4351,7 @@ function loginAsRole(role){
   document.getElementById('sec-tools').style.display=_isOwnerLogin?'':'none';
   document.getElementById('userMgmtNavItem').style.display=_isOwnerLogin?'':'none';
   document.getElementById('adminToolsNavItem').style.display=_isOwnerLogin?'':'none';
+  document.getElementById('adminAppBansNavItem').style.display=isAdmin?'':'none';
   document.getElementById('taskbarRecoBtn').style.display='flex';
   document.getElementById('taskbarLogoutBtn').style.display='flex';
   document.getElementById('taskbarMoonBtn').style.display='flex';
@@ -4283,7 +4362,16 @@ function loginAsRole(role){
     _amApplyHiddenApps();
     lockScreen.classList.add('hidden');desktop.classList.remove('hidden');
   }
-  if(_amDataReady){_revealDesktop();}else{_amPendingLogin=_revealDesktop;setTimeout(function(){if(_amPendingLogin){_amPendingLogin();_amPendingLogin=null}},1500);}
+  /* Reveal the desktop immediately — don't block system/custom icons on the appManagement
+     snapshot round-trip. Hidden-app states are applied as soon as that data arrives. */
+  _revealDesktop();
+  _amPendingLogin=null;
+  /* Render desktop icons right away from the localStorage customApps cache + in-memory user state,
+     so icons don't wait on the customApps/userApps DB round-trip. The DB snapshot then re-syncs. */
+  if(typeof syncDesktopWithUserState==='function'){
+    try{syncDesktopWithUserState()}catch(e){}
+  }
+  setTimeout(function(){if(typeof syncDesktopWithUserState==='function'){try{syncDesktopWithUserState()}catch(e){}}},200);
   /* Connect Pong WebSocket in background for challenge notifications */
   if(typeof _pongBgConnect==='function'){
     setTimeout(_pongBgConnect,500);
@@ -4369,19 +4457,29 @@ function loginAsRole(role){
   },1200);
   /* Cloaking feature popup - one time only */
   var cloakPopupKey='docosCloakPopupSeen_'+currentRole;
+  function _dismissCloakPopup(ov){localStorage.setItem(cloakPopupKey,'1');if(ov)ov.remove()}
   if(!localStorage.getItem(cloakPopupKey)){
     setTimeout(function(){
       var existing=document.querySelector('.cloak-popup-overlay');if(existing)return;
       var overlay=document.createElement('div');overlay.className='cloak-popup-overlay';
       overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99999;animation:fadeIn .3s';
+      overlay.addEventListener('mousedown',function(e){if(e.target===overlay)_dismissCloakPopup(overlay)});
       var modal=document.createElement('div');
       modal.style.cssText='background:var(--bg2,#1e1e2e);border:1px solid var(--border,rgba(255,255,255,.1));border-radius:16px;padding:32px 28px 24px;width:400px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8);text-align:center';
       modal.innerHTML='<div style="font-size:48px;margin-bottom:8px">&#128373;</div><h3 style="margin:0 0 6px;font-size:18px;font-weight:700;color:var(--text,#eee)">New: Cloaking Key</h3><p style="font-size:13px;color:var(--text5,#888);line-height:1.6;margin-bottom:16px">Press <strong style="color:var(--text,#eee)">Escape</strong> to instantly close the page. Customize the key, action (Close page or go to a URL), and target URL in <strong style="color:var(--accent,#00aaff)">Settings</strong> under the Cloaking section.</p><button id="cloakPopupGotIt" style="padding:10px 32px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent,#00aaff),var(--accent2,#0066cc));color:#fff;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s">Got it</button>';
       overlay.appendChild(modal);
       document.body.appendChild(overlay);
-      overlay.querySelector('#cloakPopupGotIt').onclick=function(){localStorage.setItem(cloakPopupKey,'1');overlay.remove()};
-    },2000);
+      overlay.querySelector('#cloakPopupGotIt').onclick=function(){
+        localStorage.setItem(cloakPopupKey,'1');overlay.remove();
+        try{document.querySelector('.cloak-popup-overlay')&&document.querySelector('.cloak-popup-overlay').remove()}catch(e){}
+      };
+      /* Auto-dismiss after a few seconds so the popup can never wedge the desktop */
+      setTimeout(function(){if(document.body.contains(overlay))_dismissCloakPopup(overlay)},5000);
+    },2500);
   }
+  if(typeof _rebuildAppBanUserDropdown==='function')_rebuildAppBanUserDropdown();
+  if(typeof _rebuildAppBanAppDropdown==='function')_rebuildAppBanAppDropdown();
+  if(typeof renderAppBansList==='function')renderAppBansList();
   return true;
 }
 
@@ -4426,6 +4524,13 @@ function _showCreateUsernamePrompt(){
 var _loginLockoutMs=5*60*1000;
 var _loginMaxAttempts=3;
 var _lockoutTimer=null;
+
+function _stopLockoutTimer(){
+  if(_lockoutTimer){clearInterval(_lockoutTimer);_lockoutTimer=null}
+  var b=document.getElementById('lockLoginBtn');
+  if(b){b.disabled=false;b.style.opacity='1'}
+  loginError.textContent='';loginError.style.color='';
+}
 
 function _getDeviceLockoutRef(){return db.ref('loginAttempts/'+getDeviceFingerprint())}
 
@@ -4540,6 +4645,7 @@ function _doLogin(uname,pass){
     if(!isAdminOrOwner){_showLockdownPopup();return}
   }
   _clearLoginAttempts();
+  _stopLockoutTimer();
   loginAsRole(role);
 }
 
@@ -4580,6 +4686,9 @@ passwordInput.addEventListener('keydown',e=>{if(e.key==='Enter')login()});
 usernameInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();passwordInput.focus()}});
 
 function logout(){
+  /* Always re-enable the login button first — if any cleanup below throws, the user must
+     still be able to log into another account. */
+  try{_stopLockoutTimer()}catch(e){}
   try {
     _roleNotifDismissed={};
     _forceSaveLastSeen();_chatIsOpen=false;
@@ -4607,9 +4716,17 @@ function logout(){
     if(_fsRef){_fsRef.off();_fsRef=null}_fsItems={};if(_afRef){_afRef.off();_afRef=null}_appFolders={};if(_tfRef){_tfRef.off();_tfRef=null}_trashedFolders={};
     if(typeof resetDesktopConfig==='function')resetDesktopConfig();
   } catch(e) { console.error('[Logout Error]',e); }
+  /* Belt-and-braces: re-enable the login button regardless of any errors above */
+  try{_stopLockoutTimer()}catch(e){}
   desktop.classList.add('hidden');lockScreen.classList.remove('hidden');
   usernameInput.value='';passwordInput.value='';
   roleLabel.textContent='Not logged in';muteWarning.textContent='';
+  loginError.textContent='';loginError.style.color='';
+  document.getElementById('lockLoginBtn').disabled=false;
+  document.getElementById('lockLoginBtn').style.opacity='1';
+  document.getElementById('lockAppealToggle').style.display='none';
+  document.getElementById('lockAppealArea').style.display='none';
+  document.getElementById('lockAppealDenied').style.display='none';
   document.getElementById('replyPreviewBar').style.display='none';
   db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})});
 }
@@ -4649,6 +4766,7 @@ function muteUser(){
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(role==='Admin'&&currentRole!=='Admin'){showToast('You cannot mute the Owner.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot mute another admin.');return}
+  if(penaltyLocks[role]===true&&currentRole!=='Admin'){showToast((roleDisplayNames[role]||role)+' is locked by the Owner.');return}
   if(isMuted(role)){showToast((roleDisplayNames[role]||role)+' is already muted.');return}
   const displayName=roleDisplayNames[role]||role;
   var reason=document.getElementById('penaltyReason').value.trim();
@@ -4686,6 +4804,7 @@ function banUser(){
   const role=userSelectValue,dur=getSelectedDuration();
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot ban another admin.');return}
+  if(penaltyLocks[role]===true&&currentRole!=='Admin'){showToast((roleDisplayNames[role]||role)+' is locked by the Owner.');return}
   if(isBanned(role)){showToast((roleDisplayNames[role]||role)+' is already banned.');return}
   if(role==='Admin'&&currentRole!=='Admin'){
     var punishedRole=currentRole,punishedName=currentDisplayName||currentRole;
@@ -4732,25 +4851,223 @@ if(typeof userSelect!=='undefined' && userSelect){
 }
 
 /* ==============================
+   APP BANS
+   ============================== */
+var abUserSelectValue='',abAppSelectValue='',abSelectedPresetMs=0;
+function renderAppBansList(){
+  var list=document.getElementById('appBansList');if(!list)return;list.innerHTML='';
+  var roles=Object.keys(appBans);
+  var hasAny=false;
+  roles.forEach(function(role){
+    var apps=appBans[role];
+    if(!apps||typeof apps!=='object')return;
+    Object.keys(apps).forEach(function(appId){
+      var expiry=apps[appId];
+      if(expiry<=Date.now()){db.ref('appBans/'+role+'/'+appId).remove();return}
+      hasAny=true;
+      var remaining=expiry-Date.now();
+      var div=document.createElement('div');div.className='list-item';
+      var span=document.createElement('span');
+      var appTitle=(typeof appDefs==='object'&&appDefs[appId]&&appDefs[appId].title)||(typeof customAppsData==='object'&&customAppsData[appId]&&(customAppsData[appId].name||customAppsData[appId].title))||appId;
+      span.textContent=(roleDisplayNames[role]||role)+' \u2192 '+appTitle+' \u2022 '+formatRemaining(remaining);
+      var btn=document.createElement('button');btn.className='small-btn unban';btn.textContent='Unban';
+      btn.onclick=function(){
+        db.ref('appBans/'+role+'/'+appId).remove();
+        logAudit('appunban','Unbanned '+(roleDisplayNames[role]||role)+' from '+appTitle);
+        showToast('Unbanned '+(roleDisplayNames[role]||role)+' from '+appTitle);
+      };
+      div.appendChild(span);div.appendChild(btn);list.appendChild(div);
+    });
+  });
+  if(!hasAny)list.innerHTML='<span style="color:var(--text7);font-size:12px">No active app bans</span>';
+}
+function _rebuildAppBanUserDropdown(){
+  var label=document.getElementById('abUserSelectLabel');var dd=document.getElementById('abUserSelectDropdown');
+  if(!label||!dd)return;
+  label.textContent='-- Select user --';abUserSelectValue='';
+  dd.innerHTML='<input class="cus-search" id="abCusSearchInput" type="text" placeholder="Search..." autocomplete="off">';
+  var list=document.createElement('div');
+  var sorted=Object.keys(roleDisplayNames).sort(function(a,b){return(roleDisplayNames[a]||a).toLowerCase().localeCompare((roleDisplayNames[b]||b).toLowerCase())});
+  sorted.forEach(function(role){
+    var opt=document.createElement('div');opt.className='cus-opt';opt.dataset.role=role;
+    var labelTxt=(roleDisplayNames[role]||role);
+    var nameSpan=document.createElement('span');nameSpan.textContent=labelTxt;opt.appendChild(nameSpan);
+    opt.addEventListener('click',function(e){
+      e.stopPropagation();
+      abUserSelectValue=role;
+      label.textContent=labelTxt;label.style.color='';
+      dd.classList.remove('show');document.getElementById('abUserSelect').classList.remove('open');
+    });
+    list.appendChild(opt);
+  });
+  dd.appendChild(list);
+  var inp=document.getElementById('abCusSearchInput');
+  if(inp){
+    inp.addEventListener('input',function(){
+      var q=this.value.toLowerCase();
+      list.querySelectorAll('.cus-opt').forEach(function(o){o.style.display=o.textContent.toLowerCase().indexOf(q)!==-1?'flex':'none'});
+    });
+    inp.addEventListener('click',function(e){e.stopPropagation()});
+  }
+}
+function _rebuildAppBanAppDropdown(){
+  var label=document.getElementById('abAppSelectLabel');var dd=document.getElementById('abAppSelectDropdown');
+  if(!label||!dd)return;
+  label.textContent='-- Select app --';abAppSelectValue='';
+  dd.innerHTML='<input class="cus-search" id="abAppSearchInput" type="text" placeholder="Search apps..." autocomplete="off">';
+  var list=document.createElement('div');
+  if(typeof appDefs==='object'){
+    var appIds=Object.keys(appDefs).filter(function(a){return a!=='mod'&&a!=='appdesigner'&&a!=='settings'});
+    appIds.sort();
+    appIds.forEach(function(appId){
+      var opt=document.createElement('div');opt.className='cus-opt';opt.dataset.app=appId;
+      var title=appDefs[appId]&&appDefs[appId].title||appId;
+      var nameSpan=document.createElement('span');nameSpan.textContent=title;opt.appendChild(nameSpan);
+      opt.addEventListener('click',function(e){
+        e.stopPropagation();
+        abAppSelectValue=appId;
+        label.textContent=title;label.style.color='';
+        dd.classList.remove('show');document.getElementById('abAppSelect').classList.remove('open');
+      });
+      list.appendChild(opt);
+    });
+  }
+  if(typeof customAppsData==='object'){
+    var customIds=Object.keys(customAppsData);
+    if(customIds.length){
+      var sep=document.createElement('div');sep.style.cssText='padding:6px 12px;font-size:10px;font-weight:700;color:var(--text6);text-transform:uppercase;letter-spacing:.5px;margin-top:4px';
+      sep.textContent='Custom Apps';list.appendChild(sep);
+      customIds.sort(function(a,b){return(customAppsData[a].name||a).toLowerCase().localeCompare((customAppsData[b].name||b).toLowerCase())});
+      customIds.forEach(function(appId){
+        var app=customAppsData[appId];if(!app)return;
+        var opt=document.createElement('div');opt.className='cus-opt';opt.dataset.app=appId;
+        var title=app.name||app.title||appId;
+        var nameSpan=document.createElement('span');nameSpan.textContent=title;opt.appendChild(nameSpan);
+        opt.addEventListener('click',function(e){
+          e.stopPropagation();
+          abAppSelectValue=appId;
+          label.textContent=title;label.style.color='';
+          dd.classList.remove('show');document.getElementById('abAppSelect').classList.remove('open');
+        });
+        list.appendChild(opt);
+      });
+    }
+  }
+  dd.appendChild(list);
+  var inp=document.getElementById('abAppSearchInput');
+  if(inp){
+    inp.addEventListener('input',function(){
+      var q=this.value.toLowerCase();
+      list.querySelectorAll('.cus-opt').forEach(function(o){o.style.display=o.textContent.toLowerCase().indexOf(q)!==-1?'flex':'none'});
+    });
+    inp.addEventListener('click',function(e){e.stopPropagation()});
+  }
+}
+
+/* App Ban dropdowns & button */
+(function(){
+  var abUser=document.getElementById('abUserSelect');
+  var abApp=document.getElementById('abAppSelect');
+  var abBtn=document.getElementById('appBanButton');
+  if(abUser){
+    abUser.addEventListener('click',function(e){
+      e.stopPropagation();
+      var dd=document.getElementById('abUserSelectDropdown');
+      var isOpen=dd.classList.contains('show');
+      dd.classList.toggle('show');abUser.classList.toggle('open');
+      if(!isOpen){var inp=document.getElementById('abCusSearchInput');if(inp){inp.value='';inp.focus();var opts=dd.querySelectorAll('.cus-opt');opts.forEach(function(o){o.style.display='flex'})}}
+    });
+  }
+  if(abApp){
+    abApp.addEventListener('click',function(e){
+      e.stopPropagation();
+      var dd=document.getElementById('abAppSelectDropdown');
+      var isOpen=dd.classList.contains('show');
+      dd.classList.toggle('show');abApp.classList.toggle('open');
+      if(!isOpen){var inp=document.getElementById('abAppSearchInput');if(inp){inp.value='';inp.focus();var opts=dd.querySelectorAll('.cus-opt');opts.forEach(function(o){o.style.display='flex'})}}
+    });
+  }
+  document.addEventListener('click',function(){
+    var dd1=document.getElementById('abUserSelectDropdown');if(dd1){dd1.classList.remove('show');if(abUser)abUser.classList.remove('open')}
+    var dd2=document.getElementById('abAppSelectDropdown');if(dd2){dd2.classList.remove('show');if(abApp)abApp.classList.remove('open')}
+  });
+  /* Duration chips */
+  document.querySelectorAll('#sec-appbans .preset-chip').forEach(function(chip){
+    chip.addEventListener('click',function(){
+      document.querySelectorAll('#sec-appbans .preset-chip').forEach(function(c){c.classList.remove('active')});
+      this.classList.add('active');
+      var val=this.dataset.ms;
+      if(val==='custom'){document.getElementById('abCustomDuration').style.display='flex';abSelectedPresetMs=0}
+      else if(val==='permanent'){document.getElementById('abCustomDuration').style.display='none';abSelectedPresetMs=-1}
+      else{document.getElementById('abCustomDuration').style.display='none';abSelectedPresetMs=parseInt(val,10)}
+    });
+  });
+  function abGetDuration(){
+    if(abSelectedPresetMs===-1)return{ms:-1,label:'Permanent'};
+    if(abSelectedPresetMs>0)return{ms:abSelectedPresetMs,label:document.querySelector('#sec-appbans .preset-chip.active').textContent};
+    var inp=document.getElementById('abDurationInput');var unit=document.getElementById('abUnitSelect');
+    if(!inp||!unit)return null;
+    var ms=0,val=parseInt(inp.value.trim(),10);
+    if(!val||val<1)return null;
+    switch(unit.value){case'seconds':ms=val*1000;break;case'minutes':ms=val*60000;break;case'hours':ms=val*3600000;break;case'days':ms=val*86400000;break}
+    if(ms>0)return{ms,label:val+' '+unit.value};return null;
+  }
+  if(abBtn){
+    abBtn.addEventListener('click',function(){
+      if(!isAnyAdmin())return;
+      var role=abUserSelectValue,appId=abAppSelectValue,dur=abGetDuration();
+      if(!role||!appId||!dur){showToast('Select a user, app, and duration.');return}
+      var appTitle=(appDefs[appId]&&appDefs[appId].title)||(customAppsData[appId]&&(customAppsData[appId].name||customAppsData[appId].title))||appId;
+      if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot ban another admin from apps.');return}
+      if(appBans[role]&&appBans[role][appId]&&appBans[role][appId]>Date.now()){showToast((roleDisplayNames[role]||role)+' is already banned from '+appTitle+'.');return}
+      var displayName=roleDisplayNames[role]||role;
+      var expiry=dur.ms===-1?Number.MAX_SAFE_INTEGER:Date.now()+dur.ms;
+      db.ref('appBans/'+role+'/'+appId).set(expiry).then(function(){
+        showToast('Banned '+displayName+' from '+appTitle+' for '+dur.label+'.');
+        logAudit('appban','Banned '+displayName+' from '+appTitle+' for '+dur.label);
+        abUserSelectValue='';var ul=document.getElementById('abUserSelectLabel');if(ul)ul.textContent='-- Select user --';
+        abAppSelectValue='';var al=document.getElementById('abAppSelectLabel');if(al)al.textContent='-- Select app --';
+        document.querySelectorAll('#sec-appbans .preset-chip').forEach(function(c){c.classList.remove('active')});
+        document.getElementById('abCustomDuration').style.display='none';
+        document.getElementById('abDurationInput').value='';
+      }).catch(console.error);
+    });
+  }
+  /* Initialize user dropdown (roleDisplayNames available early) */
+  _rebuildAppBanUserDropdown();
+})();
+
+/* ==============================
    MUTED/BANNED LISTS
    ============================== */
 function renderMutedList(){
   mutedListDiv.innerHTML='';
   Object.keys(mutedRoles).forEach(role=>{
     const remaining=mutedRoles[role]-Date.now();if(remaining<=0)return;
-    const div=document.createElement('div');div.className='list-item';
+    const div=document.createElement('div');div.className='list-item';div.dataset.role=role;
     const span=document.createElement('span');
     var muteTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
     span.textContent=(roleDisplayNames[role]||role)+' ('+muteTag+') \u2022 '+formatRemaining(remaining);
     var reason=penaltyReasons[role];
     if(reason){var rs=document.createElement('span');rs.style.cssText='font-size:10px;color:var(--text6);display:block;margin-top:2px';rs.textContent='Reason: '+reason;div.appendChild(rs)}
+    var locked=penaltyLocks[role]===true;
+    var lockRow=document.createElement('div');lockRow.style.cssText='display:flex;align-items:center;gap:6px;margin-top:6px';
+    if(locked){
+      var lockTag=document.createElement('span');lockTag.style.cssText='font-size:10px;color:var(--text6);display:inline-flex;align-items:center;gap:4px';
+      lockTag.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>locked';
+      lockRow.appendChild(lockTag);
+    }
     const btn=document.createElement('button');btn.className='small-btn unmute';btn.textContent='Unmute';
     btn.onclick=()=>{
+      if(locked&&currentRole!=='Admin'){showToast('Only Owner can unban/unmute this user');return}
       logAudit('unmute','Unmuted '+(roleDisplayNames[role]||role));
       db.ref('mutedRoles').child(role).remove();
       db.ref('penaltyReasons/'+role).remove();
     };
-    div.appendChild(span);div.appendChild(btn);mutedListDiv.appendChild(div);
+    if(locked&&currentRole!=='Admin'){
+      btn.style.opacity='.45';btn.style.cursor='not-allowed';btn.title='Locked by owner — only the Owner can unmute';
+    }
+    lockRow.appendChild(btn);div.appendChild(span);div.appendChild(lockRow);mutedListDiv.appendChild(div);
   });
   if(!mutedListDiv.hasChildNodes())mutedListDiv.innerHTML='<span style="color:var(--text7);font-size:12px">None</span>';
 }
@@ -4758,20 +5075,31 @@ function renderBannedList(){
   bannedListDiv.innerHTML='';
   Object.keys(bannedRoles).forEach(role=>{
     const remaining=bannedRoles[role]-Date.now();if(remaining<=0)return;
-    const div=document.createElement('div');div.className='list-item';
+    const div=document.createElement('div');div.className='list-item';div.dataset.role=role;
     const span=document.createElement('span');
     var banTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
     span.textContent=(roleDisplayNames[role]||role)+' ('+banTag+') \u2022 '+formatRemaining(remaining);
     var reason=penaltyReasons[role];
     if(reason){var rs=document.createElement('span');rs.style.cssText='font-size:10px;color:var(--text6);display:block;margin-top:2px';rs.textContent='Reason: '+reason;div.appendChild(rs)}
+    var locked=penaltyLocks[role]===true;
+    var lockRow=document.createElement('div');lockRow.style.cssText='display:flex;align-items:center;gap:6px;margin-top:6px';
+    if(locked){
+      var lockTag=document.createElement('span');lockTag.style.cssText='font-size:10px;color:var(--text6);display:inline-flex;align-items:center;gap:4px';
+      lockTag.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>locked';
+      lockRow.appendChild(lockTag);
+    }
     const btn=document.createElement('button');btn.className='small-btn unban';btn.textContent='Unban';
     btn.onclick=()=>{
+      if(locked&&currentRole!=='Admin'){showToast('Only Owner can unban/unmute this user');return}
       logAudit('unban','Unbanned '+(roleDisplayNames[role]||role));
       db.ref('bannedRoles').child(role).remove();
       _unbanDevicesForRole(role);
       db.ref('penaltyReasons/'+role).remove();
     };
-    div.appendChild(span);div.appendChild(btn);bannedListDiv.appendChild(div);
+    if(locked&&currentRole!=='Admin'){
+      btn.style.opacity='.45';btn.style.cursor='not-allowed';btn.title='Locked by owner — only the Owner can unban';
+    }
+    lockRow.appendChild(btn);div.appendChild(span);div.appendChild(lockRow);bannedListDiv.appendChild(div);
   });
   if(!bannedListDiv.hasChildNodes())bannedListDiv.innerHTML='<span style="color:var(--text7);font-size:12px">None</span>';
 }
@@ -5069,11 +5397,7 @@ document.getElementById('imagePreviewClose').addEventListener('click',()=>{clear
     };
     input.click();
   });
-  /* From In-App Files */
-  document.getElementById('attachFromFiles').addEventListener('click',function(e){
-    e.stopPropagation();attachMenu.classList.remove('show');
-    _openFsFilePicker();
-  });
+  /* Removed: From In-App Files */
 })();
 
 function _openFsFilePicker(callback){
@@ -5338,7 +5662,8 @@ function renderMessages(data){
   var savedTs=_lastSeenTs;
   keys.forEach(key=>{
     var msgTs=data[key].timestamp||0;
-    /* Insert "new messages" divider */
+    const msg=data[key];
+    if(window.hideSystemNotifications && msg.senderRole==='System') return;
     if(_chatIsOpen&&savedTs>0&&!dividerInserted&&!_lastSeenInserted&&msgTs>savedTs){
       var divider=document.createElement('div');divider.className='new-msgs-divider';divider.id='newMsgsDivider';
       divider.innerHTML='<span>New Messages</span>';
@@ -5348,7 +5673,6 @@ function renderMessages(data){
       messagesDiv.appendChild(divider);
       dividerInserted=true;
     }
-    const msg=data[key];
     const wrapper=document.createElement('div');wrapper.className='message';wrapper.setAttribute('data-key',key);
     const isAdminMsg=msg.senderRole==='Admin'||adminUsers[msg.senderRole]===true;
     if(isAdminMsg)wrapper.classList.add('message-admin');
@@ -5406,6 +5730,8 @@ function renderOnlineUsers(){
   list.innerHTML='';penaltyList.innerHTML='';
   Object.keys(onlineUsers).forEach(role=>{
     var u=onlineUsers[role];
+    var isStale=u&&u.timestamp&&(Date.now()-u.timestamp>120000);
+    if(isStale){db.ref('onlineUsers/'+role).remove();return}
     var isBannedNow=bannedRoles[role]&&(bannedRoles[role]-Date.now())>0;
     var isMutedNow=mutedRoles[role]&&(mutedRoles[role]-Date.now())>0;
     if(!isBannedNow&&!isMutedNow){
@@ -5426,7 +5752,6 @@ function renderOnlineUsers(){
     var dot=document.createElement('span');dot.className='dot';dot.style.background='#c62828';span.appendChild(dot);
     var nameSpan=document.createElement('span'); nameSpan.style.marginLeft='6px'; nameSpan.textContent=getDisplayName(role,(onlineUsers[role]&&onlineUsers[role].name)||roleDisplayNames[role]||role);
     span.appendChild(nameSpan);
-    var tag=document.createElement('span');tag.className='online-tag tag-banned';tag.textContent='BANNED';span.appendChild(tag);penaltyList.appendChild(span);
     var tag=document.createElement('span');tag.className='online-tag tag-banned';tag.textContent='BANNED';span.appendChild(tag);penaltyList.appendChild(span);
   });
   Object.keys(mutedRoles).forEach(role=>{
@@ -5503,16 +5828,7 @@ announcementInput.addEventListener('paste',function(e){
     };
     input.click();
   });
-  document.getElementById('announceAttachFiles').addEventListener('click',function(e){
-    e.stopPropagation();menu.classList.remove('show');
-    _openFsFilePicker(function(dataUrl,type){
-      if(type==='image'){
-        pendingAnnounceImage=dataUrl;
-        document.getElementById('announcePreviewImg').src=dataUrl;
-        document.getElementById('announceImagePreview').style.display='block';
-      }
-    });
-  });
+  document.getElementById('announceAttachFiles').style.display='none';
 })();
 announcementButton.addEventListener('click',()=>{
   if(!isAnyAdmin())return;var text=announcementInput.value.trim();
@@ -5828,75 +6144,100 @@ function renderUserMgmt(){
   var roles=Object.keys(roleDisplayNames);if(!roles.length){div.textContent='No users';return}
   roles.sort(function(a,b){var oa=a==='Admin'?0:(adminUsers[a]===true?1:2);var ob=b==='Admin'?0:(adminUsers[b]===true?1:2);return oa-ob});
   roles.forEach(role=>{
-    var item=document.createElement('div');item.className='list-item';item.style.flexDirection='column';item.style.alignItems='stretch';item.style.gap='4px';
-    var topRow=document.createElement('div');topRow.style.display='flex';topRow.style.justifyContent='space-between';topRow.style.alignItems='center';
-    var info=document.createElement('span');info.style.cssText='font-size:12px;display:flex;align-items:center;flex-wrap:wrap;gap:4px';
+    var item=document.createElement('div');item.className='list-item um-row';item.style.cssText='border:1px solid var(--border2);border-radius:8px;padding:10px;background:var(--bg3);transition:border-color .15s';
+    item.dataset.role=role;
+    var topRow=document.createElement('div');topRow.style.cssText='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px';
+    var info=document.createElement('div');info.style.cssText='display:flex;flex-direction:column;gap:4px;min-width:0';
     var displayName=roleDisplayNames[role]||role,passcode=roleToPass[role]||'?',uname=usernames[role]||'';
     var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
     var statusTags=[];
-    if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px">BANNED</span>');
-    if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px">MUTED</span>');
-    var statusHtml=statusTags.length?' '+statusTags.join(' '):'';
-    var maskedPass='\u2022\u2022\u2022\u2022\u2022\u2022';
-    info.innerHTML='<span style="white-space:nowrap"><b>'+escHtml(displayName)+'</b> <span style="color:var(--text6)">('+roleTag+')</span>'+statusHtml+'</span>'+(uname?' <span style="color:var(--accent);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">@'+escHtml(uname)+'<button class="um-rm-uname" title="Remove username" style="background:none;border:none;color:#f44336;cursor:pointer;font-size:11px;padding:0 2px;line-height:1;opacity:.5;transition:opacity .15s">&times;</button></span>':'')+' <span style="color:var(--text7);font-size:10px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px">pass: <span class="um-pass" data-pass="'+escHtml(passcode)+'">'+maskedPass+'</span><button class="um-eye" style="background:none;border:none;color:var(--text6);cursor:pointer;opacity:.4;padding:1px 3px;vertical-align:middle;transition:opacity .15s;display:inline-flex;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></span>';
-    var eyeBtn=info.querySelector('.um-eye');
-    var passSpan=info.querySelector('.um-pass');
-    (function(eb,ps,pc){
-      var showing=false;
-      eb.addEventListener('click',function(e){
-        e.stopPropagation();
-        showing=!showing;
-        ps.textContent=showing?pc:'\u2022\u2022\u2022\u2022\u2022\u2022';
-        eb.style.opacity=showing?'.7':'.4';
-      });
-    })(eyeBtn,passSpan,passcode);
-    var rmUnameInline=info.querySelector('.um-rm-uname');
-    if(rmUnameInline){
-      rmUnameInline.onmouseover=function(){this.style.opacity='1'};
-      rmUnameInline.onmouseout=function(){this.style.opacity='.5'};
-      (function(btn,r){btn.onclick=function(e){
-        e.stopPropagation();var u=usernames[r];if(!u)return;
-        db.ref().update({['/usernames/'+r]:null,['/usedUsernames/'+u.toLowerCase()]:null}).then(function(){showToast('Removed @'+u+' from '+(roleDisplayNames[r]||r));logAudit('edit','Removed username @'+u+' from '+(roleDisplayNames[r]||r))});
-      }})(rmUnameInline,role);
+    if(isBanned(role))statusTags.push('<span style="color:#f44336;font-weight:700;font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(244,67,54,.12)">BANNED</span>');
+    if(isMuted(role))statusTags.push('<span style="color:#ff9800;font-weight:700;font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(255,152,0,.12)">MUTED</span>');
+    var statusHtml=statusTags.length?'<div style="display:flex;gap:4px;flex-wrap:wrap">'+statusTags.join('')+'</div>':'';
+    info.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:14px;font-weight:600">'+escHtml(displayName)+'</span><span style="font-size:11px;color:var(--text6);background:var(--bg2);padding:1px 6px;border-radius:4px">'+roleTag+'</span>'+(uname?'<span style="font-size:11px;color:var(--accent);font-weight:500">@'+escHtml(uname)+'</span>':'')+'</div>'+statusHtml;
+    var actions=document.createElement('div');actions.style.cssText='display:flex;align-items:center;gap:6px;flex-shrink:0';
+    if(currentRole==='Admin'&&role!=='Admin'){
+      var rLocked=penaltyLocks[role]===true;
+      var lockBtn=document.createElement('button');lockBtn.className='small-btn um-action-btn';lockBtn.title=rLocked?'Unlock \u2014 allow admins to edit penalties':'Lock \u2014 only Owner can unban/unmute';
+      lockBtn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+      lockBtn.style.cssText='background:none;color:'+(rLocked?'#ffc107':'#999')+';border:1px solid '+(rLocked?'rgba(255,193,7,.5)':'rgba(153,153,153,.35)')+';width:28px;height:28px;padding:0;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s';
+      lockBtn.onmouseover=function(){this.style.background=rLocked?'rgba(255,193,7,.12)':'rgba(153,153,153,.12)'};
+      lockBtn.onmouseout=function(){this.style.background='none'};
+      lockBtn.onclick=function(){
+        if(penaltyLocks[role]===true){db.ref('penaltyLocks/'+role).remove();showToast((roleDisplayNames[role]||role)+' unlocked.')}
+        else{db.ref('penaltyLocks/'+role).set(true);showToast((roleDisplayNames[role]||role)+' locked \u2014 only Owner can unban/unmute.')}
+      };
+      actions.appendChild(lockBtn);
     }
-    topRow.appendChild(info);
     if(role!=='Admin'){
-      var delBtn=document.createElement('button');delBtn.className='small-btn';delBtn.style.cssText='background:none;color:#e53935;border:1px solid rgba(229,57,53,.3);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;white-space:nowrap';delBtn.textContent='✕ Remove';delBtn.onmouseover=function(){this.style.background='#e53935';this.style.color='#fff';this.style.borderColor='#e53935'};delBtn.onmouseout=function(){this.style.background='none';this.style.color='#e53935';this.style.borderColor='rgba(229,57,53,.3)'};
+      var editBtn=document.createElement('button');editBtn.className='small-btn um-action-btn';editBtn.textContent='Edit';editBtn.style.cssText='background:var(--accent);color:#000;border:none;padding:5px 12px;font-size:11px;font-weight:600;border-radius:5px;cursor:pointer;transition:all .15s';
+      editBtn.onmouseover=function(){this.style.filter='brightness(1.1)'};
+      editBtn.onmouseout=function(){this.style.filter='none'};
+      editBtn.onclick=function(){
+        var expanded=item.classList.toggle('um-expanded');
+        editBtn.textContent=expanded?'Cancel':'Edit';
+        if(expanded){showEditForm(item,role,passcode,displayName,uname,roleTag)}else{hideEditForm(item)}
+      };
+      actions.appendChild(editBtn);
+      var delBtn=document.createElement('button');delBtn.className='small-btn um-action-btn danger';delBtn.textContent='Remove';delBtn.style.cssText='background:none;color:#e53935;border:1px solid rgba(229,57,53,.35);padding:5px 12px;font-size:11px;font-weight:600;border-radius:5px;cursor:pointer;transition:all .15s';
+      delBtn.onmouseover=function(){this.style.background='#e53935';this.style.color='#fff';this.style.borderColor='#e53935'};
+      delBtn.onmouseout=function(){this.style.background='none';this.style.color='#e53935';this.style.borderColor='rgba(229,57,53,.35)'};
       (function(r,p,btn){
-        function resetBtn(){delete btn.dataset.confirming;btn.textContent='\u2715 Remove';btn.style.background='none';btn.style.color='#e53935';btn.style.borderColor='rgba(229,57,53,.3)';btn.disabled=false;btn.onclick=startConfirm}
+        function resetBtn(){delete btn.dataset.confirming;btn.textContent='Remove';btn.style.background='none';btn.style.color='#e53935';btn.style.borderColor='rgba(229,57,53,.35)';btn.disabled=false;btn.onclick=startConfirm}
         function startConfirm(){if(btn.dataset.confirming)return;btn.dataset.confirming='1';btn.disabled=true;var sec=5;btn.textContent='Confirm ('+sec+'s)';btn.style.background='#a00';btn.style.color='#fff';btn.style.borderColor='#a00';btn.onmouseover=null;btn.onmouseout=null;
           var iv=setInterval(function(){sec--;if(sec>0){btn.textContent='Confirm ('+sec+'s)'}else{clearInterval(iv);btn.disabled=false;btn.textContent='Confirm Remove';btn.style.background='#e53935';btn.style.borderColor='#e53935';btn.onclick=function(){clearTimeout(resetTid);var backup={role:r,displayName:roleDisplayNames[r]||r,deletedAt:Date.now()};if(p&&p!=='?')backup.password=p;if(usernames[r])backup.username=usernames[r];db.ref('deletedAccounts/'+r).set(backup).then(function(){db.ref('roleDisplayNames').child(r).remove();if(p&&p!=='?')db.ref('validPasswords').child(p).remove();db.ref('usernames').child(r).remove();showToast('Removed '+r);logAudit('demote','Removed user '+(roleDisplayNames[r]||r))}).catch(function(err){showToast('Error: '+err.message)})}}},1000);
           var resetTid=setTimeout(function(){clearInterval(iv);resetBtn()},10000)}
         btn.onclick=startConfirm;
-      })(role,passcode,delBtn);topRow.appendChild(delBtn);
+      })(role,passcode,delBtn);actions.appendChild(delBtn);
     }
-    item.appendChild(topRow);
-    var editRow=document.createElement('div');editRow.style.display='flex';editRow.style.gap='4px';editRow.style.marginTop='4px';editRow.style.flexWrap='wrap';
-    var inpStyle='flex:1;min-width:0;padding:4px 6px;font-size:11px;border:1px solid var(--border2);border-radius:4px;background:var(--input-bg);color:var(--text);';
-    var unameInp=document.createElement('input');unameInp.placeholder='New username';unameInp.setAttribute('style',inpStyle);
-    var nameInp=document.createElement('input');nameInp.placeholder='New display name';nameInp.setAttribute('style',inpStyle);
-    var passInp=document.createElement('input');passInp.placeholder='New password';passInp.setAttribute('style',inpStyle);
-    var roleSelect=document.createElement('select');roleSelect.setAttribute('style',inpStyle+'cursor:pointer;');
-    var optM=document.createElement('option');optM.value='Member';optM.textContent='Member';
-    var optA=document.createElement('option');optA.value='Admin';optA.textContent='Admin';
-    roleSelect.appendChild(optM);roleSelect.appendChild(optA);
-    var curPerm=(role==='Admin'||adminUsers[role]===true)?'Admin':'Member';roleSelect.value=curPerm;
-    if(role==='Admin'){roleSelect.disabled=true;roleSelect.style.opacity='0.5'}
-    var saveBtn=document.createElement('button');saveBtn.className='small-btn';saveBtn.style.background='var(--accent)';saveBtn.style.color='#000';saveBtn.style.fontSize='10px';saveBtn.textContent='Save';
-    saveBtn.onclick=(function(r,oldPass,uInp,nInp,pInp,rSel,origPerm){return function(){
-      var newUname=uInp.value.trim(),newName=nInp.value.trim(),newPass=pInp.value.trim(),newPerm=rSel.value,changed=false,updates={};
-      if(newUname&&newUname!==(usernames[r]||'')){
-        if(_isUsernameTaken(newUname)&&!(usernames[r]&&usernames[r].toLowerCase()===newUname.toLowerCase())){showToast('Username "'+newUname+'" is unavailable.');return}
-        updates['/usernames/'+r]=newUname;updates['/usedUsernames/'+newUname.toLowerCase()]=true;changed=true;
-      }
-      if(newName&&newName!==(roleDisplayNames[r]||r)){updates['/roleDisplayNames/'+r]=newName;changed=true}
-      if(newPass&&newPass!==oldPass){if(oldPass&&oldPass!=='?')updates['/validPasswords/'+oldPass]=null;updates['/validPasswords/'+newPass]=r;changed=true}
-      if(newPerm!==origPerm){if(newPerm==='Admin'&&r!=='Admin')updates['/adminUsers/'+r]=true;else if(newPerm==='Member')updates['/adminUsers/'+r]=null;changed=true;logAudit(newPerm==='Admin'?'promote':'demote',(newPerm==='Admin'?'Promoted ':'Demoted ')+(newName||roleDisplayNames[r]||r))}
-      if(!changed){showToast('Nothing to change');return}
-      db.ref().update(updates).then(()=>showToast('Updated '+(newName||roleDisplayNames[r]||r))).catch(console.error);
-    }})(role,passcode,unameInp,nameInp,passInp,roleSelect,curPerm);
-    editRow.appendChild(unameInp);editRow.appendChild(nameInp);editRow.appendChild(passInp);editRow.appendChild(roleSelect);editRow.appendChild(saveBtn);item.appendChild(editRow);div.appendChild(item);
+    topRow.appendChild(info);topRow.appendChild(actions);item.appendChild(topRow);
+    div.appendChild(item);
   });
+}
+function showEditForm(item,role,passcode,displayName,uname,roleTag){
+  var editRow=document.createElement('div');editRow.className='um-edit-form';editRow.style.cssText='margin-top:12px;padding-top:12px;border-top:1px solid var(--border2);display:flex;flex-direction:column;gap:8px;animation:slideDown .15s ease-out';
+  var inpStyle='width:100%;padding:6px 10px;font-size:12px;border:1px solid var(--border2);border-radius:5px;background:var(--input-bg);color:var(--text);box-sizing:border-box';
+  var unameInp=document.createElement('input');unameInp.placeholder='Username (optional)';unameInp.value=uname;unameInp.setAttribute('style',inpStyle);
+  var nameInp=document.createElement('input');nameInp.placeholder='Display name';nameInp.value=displayName;nameInp.setAttribute('style',inpStyle);
+  var passBtn=document.createElement('button');passBtn.className='small-btn';passBtn.textContent='Reset Password';passBtn.style.cssText='background:#fff3e0;color:#e65100;border:1px solid rgba(230,81,0,.3);padding:6px 12px;font-size:11px;border-radius:5px;cursor:pointer;transition:all .15s';
+  passBtn.onmouseover=function(){this.style.background='#ffe0b2'};
+  passBtn.onmouseout=function(){this.style.background='#fff3e0'};
+  passBtn.onclick=function(){
+    var newPass=prompt('Enter new password for '+(roleDisplayNames[role]||role)+':');
+    if(!newPass)return;
+    if(validPasswords[newPass]&&validPasswords[newPass]!==role){showToast('Password already in use');return}
+    var oldPass=passcode;var updates={};
+    if(oldPass&&oldPass!=='?')updates['/validPasswords/'+oldPass]=null;
+    updates['/validPasswords/'+newPass]=role;
+    db.ref().update(updates).then(()=>showToast('Password reset for '+(roleDisplayNames[role]||role))).catch(console.error);
+  };
+  var roleSelect=document.createElement('select');roleSelect.setAttribute('style',inpStyle+'cursor:pointer;');
+  var optM=document.createElement('option');optM.value='Member';optM.textContent='Member';
+  var optA=document.createElement('option');optA.value='Admin';optA.textContent='Admin';
+  roleSelect.appendChild(optM);roleSelect.appendChild(optA);
+  var curPerm=(role==='Admin'||adminUsers[role]===true)?'Admin':'Member';roleSelect.value=curPerm;
+  if(role==='Admin'){roleSelect.disabled=true;roleSelect.style.opacity='0.5'}
+  var saveBtn=document.createElement('button');saveBtn.className='small-btn';saveBtn.style.background='var(--accent)';saveBtn.style.color='#000';saveBtn.style.fontSize='12px';saveBtn.style.padding='8px 16px';saveBtn.style.borderRadius='5px';saveBtn.textContent='Save Changes';
+  saveBtn.onclick=(function(r,oldPass,uInp,nInp,rSel,origPerm){return function(){
+    var newUname=uInp.value.trim(),newName=nInp.value.trim(),newPerm=rSel.value,changed=false,updates={};
+    if(newUname&&newUname!==(usernames[r]||'')){
+      if(_isUsernameTaken(newUname)&&!(usernames[r]&&usernames[r].toLowerCase()===newUname.toLowerCase())){showToast('Username "'+newUname+'" is unavailable.');return}
+      updates['/usernames/'+r]=newUname;updates['/usedUsernames/'+newUname.toLowerCase()]=true;changed=true;
+    }
+    if(newName&&newName!==(roleDisplayNames[r]||r)){updates['/roleDisplayNames/'+r]=newName;changed=true}
+    if(newPerm!==origPerm){if(newPerm==='Admin'&&r!=='Admin')updates['/adminUsers/'+r]=true;else if(newPerm==='Member')updates['/adminUsers/'+r]=null;changed=true;logAudit(newPerm==='Admin'?'promote':'demote',(newPerm==='Admin'?'Promoted ':'Demoted ')+(newName||roleDisplayNames[r]||r))}
+    if(!changed){showToast('Nothing to change');return}
+    db.ref().update(updates).then(()=>{showToast('Updated '+(newName||roleDisplayNames[r]||r));hideEditForm(item)}).catch(console.error);
+  }})(role,passcode,unameInp,nameInp,roleSelect,curPerm);
+  editRow.appendChild(unameInp);editRow.appendChild(nameInp);editRow.appendChild(passBtn);editRow.appendChild(roleSelect);editRow.appendChild(saveBtn);
+  item.appendChild(editRow);
+}
+function hideEditForm(item){
+  var form=item.querySelector('.um-edit-form');
+  if(form)form.remove();
+  var editBtn=item.querySelector('.um-action-btn:not(.danger)');
+  if(editBtn)editBtn.textContent='Edit';
+  item.classList.remove('um-expanded');
 }
 document.getElementById('addUserButton').addEventListener('click',function(){
   if(currentRole!=='Admin')return;
@@ -5918,6 +6259,10 @@ document.getElementById('toggleRateLimit').addEventListener('change',function(){
   if(!isAnyAdmin())return;
   db.ref('rateLimitEnabled').set(this.checked);
   logAudit('lock',(this.checked?'Enabled':'Disabled')+' rate limiting');
+});
+document.getElementById('toggleHideSysNotifs').addEventListener('change',function(){
+  db.ref('hideSystemNotifications').set(this.checked);
+  logAudit('lock',(this.checked?'Enabled':'Disabled')+' hide system notifications');
 });
 /* Admin sidebar navigation */
 (function(){
@@ -6555,7 +6900,7 @@ var appDefs={
     width:750,height:600,
     getContent:function(){
       var ap=document.getElementById('adminPanel');
-      if(ap){ap.style.display='block';return ap;}
+      if(ap){ap.style.display='block';if(typeof updateTargetLockBtn==='function')setTimeout(updateTargetLockBtn,0);return ap;}
       return null;
     }
   },
@@ -6646,13 +6991,6 @@ var appDefs={
         '<div style="'+smallStyle+';margin-bottom:10px">Show iOS-style app folder bubbles on the desktop</div>'+
         '<button id="settingsResetDesktop" style="'+btnStyle+'">Reset Icon Positions</button>'+
         '<div style="'+smallStyle+';margin-top:6px">Restore desktop icons to their default positions</div></div>'+
-        '<div style="'+secStyle+'"><label style="'+lblStyle+'">Animations &amp; Effects</label>'+
-        '<div id="settingsAnimEntry" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s">'+
-        '<div><div style="font-size:13px;font-weight:600;color:var(--text2)">🎮 Customize Animations</div>'+
-        '<div style="font-size:11px;color:var(--text5);margin-top:2px">Toggle visual effects &amp; motion</div></div>'+
-        '<span style="font-size:18px;color:var(--text5)">›</span></div></div>'+
-        '<div style="'+secStyle+'"><div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Enable All Animations</span>'+makeToggle('settingsEnableAllAnim',false)+'</div>'+
-        '<div style="'+smallStyle+'">Master switch for all animation effects</div></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Username</label>'+
         '<div style="display:flex;gap:8px;align-items:center">'+
         '<span id="settingsCurUsername" style="'+smallStyle+';font-family:monospace">@'+(usernames[role]||(roleDisplayNames[role]||role))+'</span>'+
@@ -6668,24 +7006,6 @@ var appDefs={
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">About</label>'+
         '<div style="'+smallStyle+'">DocOS v1.2 &mdash; A desktop environment for your apps.<br>Drag icons to rearrange, right-click to rename.</div></div></div>'+
 
-        /* ===== Animations Sub-page ===== */
-        '<div id="settingsAnimView" style="display:none;height:100%">'+
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">'+
-        '<button id="settingsAnimBack" style="'+btnStyle+';font-size:16px;padding:4px 10px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);color:var(--text);cursor:pointer">←</button>'+
-        '<h2 style="margin:0;font-size:16px;font-weight:700">🎮 Animations &amp; Effects</h2></div>'+
-        '<div id="settingsAnimToggles">'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Button Ripple Effects</span>'+makeToggle('animRipple',_animPrefs.ripple)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Context Menu Pop-in</span>'+makeToggle('animCtxMenu',_animPrefs.ctxMenu)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Desktop Icon Bounce</span>'+makeToggle('animIconBounce',_animPrefs.iconBounce)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Notification Slide-in</span>'+makeToggle('animNotifSlide',_animPrefs.notifSlide)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Typing Indicator Animation</span>'+makeToggle('animTyping',_animPrefs.typing)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Hover Lift Effect</span>'+makeToggle('animHoverLift',_animPrefs.hoverLift)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Background Parallax</span>'+makeToggle('animParallax',_animPrefs.parallax)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Floating Particles</span>'+makeToggle('animParticles',_animPrefs.particles)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Gradient Animations</span>'+makeToggle('animGradient',_animPrefs.gradient)+'</div>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Smooth Scrolling</span>'+makeToggle('animSmoothScroll',_animPrefs.smoothScroll)+'</div>'+
-        '</div></div>'+
-
         /* ===== Blocked Users Sub-page ===== */
         '<div id="settingsBlockView" style="display:none;height:100%">'+
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">'+
@@ -6696,14 +7016,9 @@ var appDefs={
       /* Navigation logic */
       setTimeout(function(){
         var genView=d.querySelector('#settingsGeneralView');
-        var animView=d.querySelector('#settingsAnimView');
         var blockView=d.querySelector('#settingsBlockView');
-        var animEntry=d.querySelector('#settingsAnimEntry');
-        var animBack=d.querySelector('#settingsAnimBack');
         var blockEntry=d.querySelector('#settingsBlockEntry');
         var blockBack=d.querySelector('#settingsBlockBack');
-        if(animEntry)animEntry.onclick=function(){genView.style.display='none';animView.style.display='block'};
-        if(animBack)animBack.onclick=function(){genView.style.display='block';animView.style.display='none'};
         if(blockEntry)blockEntry.onclick=function(){_renderBlockedList();genView.style.display='none';blockView.style.display='block'};
         if(blockBack)blockBack.onclick=function(){genView.style.display='block';blockView.style.display='none'};
       },0);
@@ -6894,45 +7209,6 @@ var appDefs={
           bf.onchange=function(){
             if(currentRole){localStorage.setItem('docosBubbleFiles_'+currentRole,bf.checked);_syncSettingsToFirebase()}
             _fsScheduleRender();
-          };
-        }
-        /* Animation toggles */
-        var animMap={animRipple:'ripple',animCtxMenu:'ctxMenu',animIconBounce:'iconBounce',animNotifSlide:'notifSlide',animTyping:'typing',animHoverLift:'hoverLift',animParallax:'parallax',animParticles:'particles',animGradient:'gradient',animSmoothScroll:'smoothScroll'};
-        Object.keys(animMap).forEach(function(elId){
-          var el=d.querySelector('#'+elId);
-          if(el){
-            el.onchange=function(){
-              var key=animMap[elId];
-              _animPrefs[key]=el.checked;
-              localStorage.setItem('docosAnim_'+key+'_'+(currentRole||''),el.checked);
-              _updateAnimClasses();
-            };
-          }
-        });
-        /* Enable All Animations master toggle */
-        var enableAllAnim=d.querySelector('#settingsEnableAllAnim');
-        if(enableAllAnim){
-          enableAllAnim.checked=_animPrefs.enabled!==false;
-          var enabled=_animPrefs.enabled!==false;
-          Object.keys(animMap).forEach(function(elId){
-            var el=d.querySelector('#'+elId);
-            if(el)el.disabled=!enabled;
-          });
-          enableAllAnim.onchange=function(){
-            enabled=enableAllAnim.checked;
-            _animPrefs.enabled=enabled;
-            localStorage.setItem('docosAnim_enabled_'+(currentRole||''),enabled);
-            Object.keys(animMap).forEach(function(elId){
-              var el=d.querySelector('#'+elId);
-              var key=animMap[elId];
-              if(el){
-                el.checked=enabled;
-                el.disabled=!enabled;
-                _animPrefs[key]=enabled;
-                localStorage.setItem('docosAnim_'+key+'_'+(currentRole||''),enabled);
-              }
-            });
-            _updateAnimClasses();
           };
         }
         /* Cloaking (panic key) */
@@ -8550,7 +8826,7 @@ var appDefs={
   }
 };
 /* music app removed - start */
-/* {
+/* music app removed - start (code omitted)
     title:'Music (Removed)',
     icon:'&#127925;',
     iconBg:'linear-gradient(135deg,#e91e63,#9c27b0)',
@@ -8691,9 +8967,13 @@ var appDefs={
       return d;
     }
   }
-music app removed - end */
+}
+*/
+/* music app removed - end */
 
 var userAppsState={};var _userAppsRef=null;
+/* Per-user permanently-removed apps (prevents auto re-add by syncDesktopWithUserState) */
+var _removedApps={};var _removedAppsRef=null;
 
 function renderTrashItems(container){
   if(!container)return;
@@ -8942,6 +9222,7 @@ function restoreFromTrash(appId,name){
   if(!currentRole)return;
   db.ref('userApps/'+currentRole+'/'+appId).set('desktop').then(function(){
     userAppsState[appId]='desktop';
+    if(_removedApps[appId]){delete _removedApps[appId];db.ref('removedApps/'+currentRole+'/'+appId).set(null)}
     if(customAppsData[appId])addCustomDesktopIcon(appId,customAppsData[appId]);
     showToast('"'+name+'" restored from Trash');
     logAudit('app','Restored from trash: '+name);
@@ -8953,6 +9234,8 @@ function permanentlyDelete(appId,name){
   if(!currentRole)return;
   showConfirmDialog('Permanently delete "'+name+'"? You can re-download it from the App Store.',function(confirmed){
     if(!confirmed)return;
+    _removedApps[appId]=1;
+    db.ref('removedApps/'+currentRole+'/'+appId).set(1);
     db.ref('userApps/'+currentRole+'/'+appId).remove().then(function(){
       delete userAppsState[appId];
       removeCustomDesktopIcon(appId);
@@ -9179,6 +9462,17 @@ function createWindow(appId){
 }
 
 function openApp(appId){
+  /* Check app bans */
+  if(currentRole&&appBans[currentRole]&&appBans[currentRole][appId]){
+    var abExpiry=appBans[currentRole][appId];
+    if(abExpiry>Date.now()){
+      var abRemaining=abExpiry-Date.now();
+      showToast('You are banned from this app. '+formatRemaining(abRemaining)+' remaining.');
+      return;
+    }else{
+      db.ref('appBans/'+currentRole+'/'+appId).remove();
+    }
+  }
     /* Block non-owners from opening locked/hidden apps */
     if(currentRole!=='Admin'&&appId!=='appdesigner'){
       var state=_amAppStates[appId];
@@ -9656,29 +9950,6 @@ document.addEventListener('contextmenu',function(e){
     var menu=document.createElement('div');menu.className='ctx-menu';menu.id='ctxMenu';
     menu.style.left=e.clientX+'px';menu.style.top=e.clientY+'px';
     var clickX=e.clientX,clickY=e.clientY;
-
-    var addItem=document.createElement('div');addItem.className='ctx-menu-item';
-    addItem.style.cssText='position:relative;display:flex;align-items:center;justify-content:space-between';
-    addItem.innerHTML='&#10133; Add <span style="font-size:10px;opacity:.6">&#9654;</span>';
-    var addSub=document.createElement('div');addSub.className='ctx-menu';
-    addSub.style.cssText='position:absolute;left:100%;top:-4px;display:none;min-width:160px';
-    var nf=document.createElement('div');nf.className='ctx-menu-item';nf.innerHTML='&#128193; New Folder';
-    nf.onclick=function(){closeContextMenu();_fsCreateItem('folder','New Folder','desktop',clickX,clickY)};
-    addSub.appendChild(nf);
-    var ntf=document.createElement('div');ntf.className='ctx-menu-item';ntf.innerHTML='&#128196; New Text File';
-    ntf.onclick=function(){closeContextMenu();_fsCreateItem('file','New File.txt','desktop',clickX,clickY)};
-    addSub.appendChild(ntf);
-    var imgItem=document.createElement('div');imgItem.className='ctx-menu-item';imgItem.innerHTML='&#128247; Upload Image';
-    imgItem.onclick=function(){closeContextMenu();_fsUploadImage('desktop',clickX,clickY)};
-    addSub.appendChild(imgItem);
-    var vidItem=document.createElement('div');vidItem.className='ctx-menu-item';vidItem.innerHTML='&#127910; Upload Video';vidItem.style.cssText='display:flex;align-items:center;gap:6px';
-    vidItem.onclick=function(e){if(e.target.closest('[title="Video upload limits"]'))return;closeContextMenu();_fsUploadVideo('desktop',clickX,clickY)};
-    vidItem.appendChild(_createVideoInfoBtn());
-    addSub.appendChild(vidItem);
-    addItem.appendChild(addSub);
-    addItem.onmouseenter=function(){addSub.style.display='block';var r=addSub.getBoundingClientRect();if(r.right>window.innerWidth){addSub.style.left='auto';addSub.style.right='100%'}if(r.bottom>window.innerHeight){addSub.style.top='auto';addSub.style.bottom='0'}};
-    addItem.onmouseleave=function(){addSub.style.display='none'};
-    menu.appendChild(addItem);
 
     var sep=document.createElement('div');sep.style.cssText='height:1px;background:var(--border);margin:4px 0';
     menu.appendChild(sep);
@@ -10328,6 +10599,8 @@ function _permanentlyDeleteAppFolder(folderId,folderData){
   var promises=[];
   apps.forEach(function(aid){
     if(aid.startsWith('custom_')){
+      _removedApps[aid]=1;
+      db.ref('removedApps/'+currentRole+'/'+aid).set(1);
       if(userAppsState[aid]){
         promises.push(db.ref('userApps/'+currentRole+'/'+aid).remove().then(function(){
           delete userAppsState[aid];
@@ -10338,6 +10611,12 @@ function _permanentlyDeleteAppFolder(folderId,folderData){
       /* System/builtin app — restore to desktop */
       var icon=document.querySelector('.desktop-icon[data-app="'+aid+'"]');
       if(icon&&icon.style.display==='none')icon.style.display='';
+      else if(!icon){
+        if(userAppsState[aid]==='desktop'){
+          if(_asBuiltinApps[aid]&&_asBuiltinApps[aid].storeOnly)_addBuiltinStoreIcon(aid,true);
+          else addCustomDesktopIcon(aid,null,true);
+        }
+      }
     }
   });
   /* Close any open folder window */
@@ -10665,6 +10944,8 @@ var customAppsData=(function(){
   }catch(e){}
   return {};
 })();
+/* Set once the live customApps master snapshot has loaded (guards auto-add against stale cache) */
+var _customAppsLiveLoaded=false;
 /* AI emoji keyword search database */
 var _emojiDB={};
 (function(){
@@ -11135,6 +11416,7 @@ function _asCreateBtn(entry,container,filter){
         btn.style.pointerEvents='none';
         db.ref('userApps/'+currentRole+'/'+id).set('desktop').then(function(){
           userAppsState[id]='desktop';
+          if(_removedApps[id]){delete _removedApps[id];db.ref('removedApps/'+currentRole+'/'+id).set(null)}
           if(isBuiltinStore){
             _addBuiltinStoreIcon(id);
           }else{
@@ -11715,6 +11997,21 @@ function initDocAppImgResize(img,container){
   });
 }
 
+function _isAppInAnyFolder(appId){
+  if(!currentRole||!appId)return false;
+  if(Object.keys(_fsItems).some(function(k){
+    var it=_fsItems[k];
+    return it&&it.type==='app'&&it.linkedApp===appId;
+  }))return true;
+  function scanFolders(map){
+    return Object.keys(map).some(function(fid){
+      var f=map[fid];
+      return f&&f.apps&&f.apps.indexOf(appId)!==-1;
+    });
+  }
+  return scanFolders(_appFolders)||scanFolders(_trashedFolders);
+}
+
 function findOpenIconPosition(){
   var colW=90,rowH=100,padX=10,padY=10;
   var container=document.getElementById('desktopIcons');
@@ -11722,6 +12019,7 @@ function findOpenIconPosition(){
   var maxH=Math.max((container?container.clientHeight:window.innerHeight),600)-100;
   var occupiedSet={};
   document.querySelectorAll('.desktop-icon').forEach(function(ic){
+    if(ic.style.display==='none')return;
     var k='x'+((parseInt(ic.style.left)||ic.offsetLeft))+'y'+((parseInt(ic.style.top)||ic.offsetTop));
     occupiedSet[k]=true;
   });
@@ -11733,8 +12031,36 @@ function findOpenIconPosition(){
   /* Grid full — place at first visible row instead of going off-screen */
   return{left:padX,top:padY};
 }
+/* Validate a saved icon position: must be numeric, within viewport, and grid-aligned */
+function _isValidIconPos(pos){
+  if(!pos||typeof pos!=='object')return false;
+  var left=parseInt(pos.left,10);
+  var top=parseInt(pos.top,10);
+  if(isNaN(left)||isNaN(top))return false;
+  if(left<0||top<0)return false;
+  if(left>window.innerWidth-120||top>window.innerHeight-160)return false;
+  var col=(left-10)%90,row=(top-10)%100;
+  if(col!==0||row!==0)return false;
+  return true;
+}
+function _getSavedIconPos(appId){
+  try{
+    var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
+    if(saved&&saved[appId]&&_isValidIconPos(saved[appId]))return saved[appId];
+  }catch(e){}
+  return null;
+}
+function _clearSavedIconPos(appId){
+  try{
+    var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
+    if(saved&&saved[appId]){
+      delete saved[appId];
+      localStorage.setItem('docosIconPositions_'+currentRole,JSON.stringify(saved));
+    }
+  }catch(e){}
+}
 
-function addCustomDesktopIcon(appId,app){
+function addCustomDesktopIcon(appId,app,force){
   var icons=document.getElementById('desktopIcons');
   if(!icons)return;
   /* Do not add icon if hidden for non-owner */
@@ -11742,14 +12068,10 @@ function addCustomDesktopIcon(appId,app){
     var amSt=_amAppStates&&_amAppStates[appId];
     if(amSt&&amSt.hidden)return;
   }
+  /* Apps inside an app-folder bubble live inside the bubble, not on the desktop */
+  if(!force&&_isAppInAnyFolder(appId))return;
   if(icons.querySelector('[data-app="'+appId+'"]'))return;
-  var pos=null;
-  try{
-    var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
-    if(saved&&saved[appId])pos=saved[appId];
-  }catch(e){}
-  /* If saved position is off-screen, recalculate */
-  if(pos&&pos.top>2000){pos=null}
+  var pos=_getSavedIconPos(appId);
   if(!pos)pos=findOpenIconPosition();
   var icon=document.createElement('div');
   icon.className='desktop-icon';
@@ -11759,6 +12081,10 @@ function addCustomDesktopIcon(appId,app){
   var posLeft=typeof pos.left==='string'?pos.left:pos.left+'px';
   var posTop=typeof pos.top==='string'?pos.top:pos.top+'px';
   icon.style.cssText='left:'+posLeft+';top:'+posTop;
+  var def=appDefs[appId];
+  if(app&&!app.color1&&def){app.color1=def.iconBg||'#667';app.color2='#445';if(!app.name)app.name=def.title;}
+  if(!app&&def){app={color1:def.iconBg||'#667',color2:'#445',name:def.title,icon:def.icon||'&#9881;'};}
+  if(!app){app={color1:'#667',color2:'#445',name:appId,icon:'&#128196;'};}
   icon.innerHTML='<div class="icon-img" style="background:linear-gradient(135deg,'+(app.color1||'#666')+','+(app.color2||'#444')+')">'+renderIconHtml(app.icon)+'</div><div class="icon-label" id="iconLabel-'+appId+'">'+escHtml(app.name)+'</div>';
   icons.appendChild(icon);
   initCustomIconDrag(icon);
@@ -11767,18 +12093,22 @@ function addCustomDesktopIcon(appId,app){
 function removeCustomDesktopIcon(appId){
   var icon=document.querySelector('.desktop-icon[data-app="'+appId+'"]');
   if(icon)icon.remove();
+  /* Clear saved grid position so an uninstall/reinstall lands back at the top-left grid */
+  var fixedIcons={chat:1,settings:1,mod:1,videocall:1,appdesigner:1,appstore:1,trash:1};
+  if(!fixedIcons[appId])_clearSavedIconPos(appId);
   /* Close window if open */
   for(var id in openWindows){
     if(openWindows[id].appId===appId){closeWindow(id);break}
   }
 }
-function _addBuiltinStoreIcon(appId){
+function _addBuiltinStoreIcon(appId,force){
   var def=appDefs[appId];if(!def)return;
   var icons=document.getElementById('desktopIcons');if(!icons)return;
+  /* Apps inside an app-folder bubble live inside the bubble, not on the desktop */
+  if(!force&&_isAppInAnyFolder(appId))return;
   var existing=icons.querySelector('[data-app="'+appId+'"]');
   if(existing)return;
-  var pos=null;
-  try{var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));if(saved&&saved[appId])pos=saved[appId]}catch(e){}
+  var pos=_getSavedIconPos(appId);
   if(!pos)pos=findOpenIconPosition();
   var icon=document.createElement('div');
   icon.className='desktop-icon';
@@ -11829,35 +12159,18 @@ function _fsScheduleRender(){
 /* Daily usage tracker */
 var _readCount=0;
 function _trackRead(){_readCount++}
-function _updateUsageStats(){
-  var el=document.getElementById('usageStats');
-  if(!el)return;
-  var today=new Date().toDateString();
-  var up=parseInt(localStorage.getItem('_dailyUpload_'+(currentRole||'')+'_'+today)||'0');
-  var rd=_readCount;
-  var pctUp=Math.round(up/DAILY_UPLOAD_LIMIT*100);
-  var pctRd=Math.round(rd/50000*100);
-  var warn='';
-  if(pctUp>80||pctRd>80)warn=' <span style="color:#f55">&#9888; Near limit!</span>';
-  el.innerHTML='Uploads: '+_fmtSize(up)+' / '+_fmtSize(DAILY_UPLOAD_LIMIT)+' ('+pctUp+'%)<br>Approx reads: '+rd.toLocaleString()+' / 50K ('+pctRd+'%)'+warn;
-}
 function _fmtSize(b){if(b>=1048576)return(b/1048576).toFixed(1)+'MB';if(b>=1024)return(b/1024).toFixed(1)+'KB';return b+'B'}
-setInterval(_updateUsageStats,10000);
 
 function _fsSetupListener(){
   if(!currentRole)return;
-  if(_fsRef)_fsRef.off();
-  _fsRef=db.ref('userFiles/'+currentRole);
+  /* File system (userFiles) is no longer loaded — bubble files only */
   _fsItems={};
-  _fsRef.on('child_added',function(snap){_fsItems[snap.key]=snap.val();_trackRead();_fsScheduleRender()});
-  _fsRef.on('child_changed',function(snap){_fsItems[snap.key]=snap.val();_fsScheduleRender()});
-  _fsRef.on('child_removed',function(snap){delete _fsItems[snap.key];_fsScheduleRender()});
   if(_afRef)_afRef.off();
   _afRef=db.ref('appFolders/'+currentRole);
   _afRef.on('value',function(snap){_appFolders=snap.val()||{};_trackRead();_fsScheduleRender()});
   if(_tfRef)_tfRef.off();
   _tfRef=db.ref('trashedFolders/'+currentRole);
-  _tfRef.on('value',function(snap){_trashedFolders=snap.val()||{};_trackRead()});
+  _tfRef.on('value',function(snap){_trashedFolders=snap.val()||{};_trackRead();_fsScheduleRender()});
 }
 
 function _fsCreateItem(type,name,parentId,clickX,clickY){
@@ -12350,8 +12663,21 @@ function _removeAppFromFolder(folderId,appId){
   var apps=(folder.apps||[]).filter(function(a){return a!==appId});
   db.ref('appFolders/'+currentRole+'/'+folderId+'/apps').set(apps);
   var iconEl=document.querySelector('.desktop-icon[data-app="'+appId+'"]');
+  if(!iconEl){
+    /* No icon existed (folder-contained apps don't create desktop icons) — create one */
+    if(customAppsData[appId]){
+      if(userAppsState[appId]==='desktop')addCustomDesktopIcon(appId,customAppsData[appId],true);
+    }else if(_asBuiltinApps[appId]&&_asBuiltinApps[appId].storeOnly){
+      _addBuiltinStoreIcon(appId,true);
+    }else if(appDefs[appId]){
+      addCustomDesktopIcon(appId,null,true);
+    }
+    iconEl=document.querySelector('.desktop-icon[data-app="'+appId+'"]');
+  }
   if(iconEl){iconEl.style.display='';/* Restore saved position if exists */
-    try{var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));if(saved&&saved[appId]){iconEl.style.left=(typeof saved[appId].left==='string'?saved[appId].left:saved[appId].left+'px');iconEl.style.top=(typeof saved[appId].top==='string'?saved[appId].top:saved[appId].top+'px')}}catch(e){}
+    var rp=_getSavedIconPos(appId);
+    if(rp){iconEl.style.left=(typeof rp.left==='string'?rp.left:rp.left+'px');iconEl.style.top=(typeof rp.top==='string'?rp.top:rp.top+'px')}
+    else{var rpos=findOpenIconPosition();iconEl.style.left=rpos.left+'px';iconEl.style.top=rpos.top+'px';}
   }
   /* If folder is now empty, delete it */
   if(apps.length===0){
@@ -12705,53 +13031,8 @@ function _fsRenderDesktopItems(){
   if(!icons)return;
   /* Remove old fs icons */
   icons.querySelectorAll('.desktop-icon[data-app^="fs_"]').forEach(function(el){el.remove()});
-  /* Add icons for desktop-level items */
-  Object.keys(_fsItems).forEach(function(id){
-    var item=_fsItems[id];
-    if(item.parentId!=='desktop')return;
-    var pos=null;
-    try{
-      var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
-      if(saved&&saved[id])pos=saved[id];
-    }catch(e){}
-    if(!pos)pos=findOpenIconPosition();
-    var icon=document.createElement('div');
-    icon.className='desktop-icon';
-    icon.dataset.app=id;
-    icon.setAttribute('ondblclick',"_fsOpenItem('"+id+"')");
-    icon.setAttribute('onclick',"if(window.innerWidth<=768)_fsOpenItem('"+id+"')");
-    var posLeft=typeof pos.left==='string'?pos.left:pos.left+'px';
-    var posTop=typeof pos.top==='string'?pos.top:pos.top+'px';
-    icon.style.cssText='left:'+posLeft+';top:'+posTop;
-    var emoji,bg;
-    if(item.type==='folder'){
-      emoji='&#128193;';bg='linear-gradient(135deg,#f9a825,#f57f17)';
-      icon.innerHTML='<div class="icon-img" style="background:'+bg+'">'+emoji+'</div><div class="icon-label" id="iconLabel-'+id+'">'+escHtml(item.name)+'</div>';
-    }
-    else if(item.type==='image'){emoji='&#128247;';bg='linear-gradient(135deg,#ab47bc,#7b1fa2)';icon.innerHTML='<div class="icon-img" style="background:'+bg+';overflow:hidden"><img src="'+item.content+'" style="width:100%;height:100%;object-fit:cover"></div><div class="icon-label" id="iconLabel-'+id+'">'+escHtml(item.name)+'</div>';}
-    else if(item.type==='video'){emoji='&#127910;';bg='linear-gradient(135deg,#e53935,#b71c1c)';icon.innerHTML='<div class="icon-img" style="background:'+bg+'">'+emoji+'</div><div class="icon-label" id="iconLabel-'+id+'">'+escHtml(item.name)+'</div>';}
-    else if(item.type==='applink'){emoji='&#128279;';bg='linear-gradient(135deg,#26c6da,#00838f)';icon.innerHTML='<div class="icon-img" style="background:'+bg+'">'+emoji+'</div><div class="icon-label" id="iconLabel-'+id+'">'+escHtml(item.name)+'</div>';}
-    else if(item.type==='app'){
-      var aId=item.linkedApp;var aEmoji='&#128640;';var aBg='linear-gradient(135deg,#666,#444)';
-      if(aId&&aId.startsWith('custom_')&&customAppsData[aId]){aEmoji=renderIconHtml(customAppsData[aId].icon)||'&#128640;';aBg='linear-gradient(135deg,'+(customAppsData[aId].color1||'#666')+','+(customAppsData[aId].color2||'#444')+')';}
-      else if(aId&&appDefs[aId]){aEmoji=appDefs[aId].icon||'&#128640;';aBg=appDefs[aId].iconBg||'linear-gradient(135deg,#666,#444)';}
-      icon.innerHTML='<div class="icon-img" style="background:'+aBg+'">'+aEmoji+'</div><div class="icon-label" id="iconLabel-'+id+'">'+escHtml(item.name)+'</div>';
-    }
-    else{icon.innerHTML='<div class="icon-img" style="overflow:visible;background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center"><div class="fs-doc-icon"><div class="doc-line"></div><div class="doc-line"></div><div class="doc-line"></div></div></div><div class="icon-label" id="iconLabel-'+id+'">'+escHtml(item.name)+'</div>';}
-    /* Restore saved label */
-    try{
-      var savedLabels=JSON.parse(localStorage.getItem('docosIconLabels_'+currentRole));
-      if(savedLabels&&savedLabels[id])icon.querySelector('.icon-label').textContent=savedLabels[id];
-    }catch(e){}
-    icons.appendChild(icon);
-    initCustomIconDrag(icon);
-  });
   /* Hide desktop icons for apps that are inside folders */
   var appsInFolders={};
-  Object.keys(_fsItems).forEach(function(k){
-    var it=_fsItems[k];
-    if(it.type==='app'&&it.linkedApp)appsInFolders[it.linkedApp]=true;
-  });
   Object.keys(_appFolders).forEach(function(fid){
     var f=_appFolders[fid];
     if(f&&f.apps)f.apps.forEach(function(aid){appsInFolders[aid]=true});
@@ -12785,12 +13066,7 @@ function _fsRenderDesktopItems(){
     Object.keys(_appFolders).forEach(function(fid){
     var folder=_appFolders[fid];
     if(!folder||!folder.apps||!folder.apps.length)return;
-    var pos=null;
-    try{
-      var saved=JSON.parse(localStorage.getItem('docosIconPositions_'+currentRole));
-      if(saved&&saved[fid])pos=saved[fid];
-    }catch(e){}
-    if(pos&&pos.top>2000){pos=null}
+    var pos=_getSavedIconPos(fid);
     if(!pos)pos=findOpenIconPosition();
     var icon=document.createElement('div');
     icon.className='desktop-icon';
@@ -12817,10 +13093,6 @@ function _fsRenderDesktopItems(){
   /* Refresh open folder windows */
   Object.keys(openWindows).forEach(function(wid){
     var aid=openWindows[wid].appId;
-    if(aid&&aid.startsWith('fs_')&&_fsItems[aid]&&_fsItems[aid].type==='folder'){
-      var listEl=document.getElementById('fsList-'+aid);
-      if(listEl)_fsRenderFolderContents(listEl,aid);
-    }
     if(aid&&aid.startsWith('af_')){
       var gridEl=document.getElementById('fsList-'+aid);
       if(gridEl)_fsRenderAppFolderGrid(gridEl,aid);
@@ -13023,7 +13295,7 @@ function _fsOpenImage(fileId,file){
   createWindow(fileId);
 }
 
-/* Native file drop on desktop */
+/* Native file drop on desktop has been removed with the file system */
 (function(){
   var da=document.getElementById('desktopArea');
   if(!da)return;
@@ -13031,7 +13303,7 @@ function _fsOpenImage(fileId,file){
   da.addEventListener('drop',function(e){
     e.preventDefault();
     if(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files.length){
-      _fsHandleDroppedFiles(e.dataTransfer.files,'desktop');
+      showToast('File system has been removed');
     }
   });
 })();
@@ -13049,19 +13321,25 @@ function setupUserAppsListener(){
     var tl=document.getElementById('trashItemsList');
     if(tl)renderTrashItems(tl);
   });
+  if(_removedAppsRef)_removedAppsRef.off();
+  _removedAppsRef=db.ref('removedApps/'+currentRole);
+  _removedAppsRef.on('value',function(snap){_removedApps=snap.val()||{}});
 }
 function teardownUserAppsListener(){
   if(_userAppsRef){_userAppsRef.off();_userAppsRef=null}
+  if(_removedAppsRef){_removedAppsRef.off();_removedAppsRef=null}
   userAppsState={};
+  _removedApps={};
 }
 function syncDesktopWithUserState(){
   if(!currentRole)return;
   var updates={};
-  /* Auto-add new apps from customApps that user hasn't seen yet (only desktop distribution) */
+  /* Auto-add new apps from customApps that user hasn't seen yet (only desktop distribution).
+     Only run once the live master snapshot has loaded so deleted apps can't resurrect via cache. */
   Object.keys(customAppsData).forEach(function(appId){
-    if(typeof userAppsState[appId]==='undefined'){
+    if(typeof userAppsState[appId]==='undefined'&&_customAppsLiveLoaded){
       var dist=customAppsData[appId].distribution||'desktop';
-      if(dist==='desktop'){
+      if(dist==='desktop'&&!_removedApps[appId]){
         updates['userApps/'+currentRole+'/'+appId]='desktop';
         userAppsState[appId]='desktop';
       }
@@ -13135,6 +13413,7 @@ function syncDesktopWithUserState(){
 /* Firebase listener for custom apps (master definitions) */
 db.ref('customApps').on('value',function(snap){
   var newData=snap.val()||{};
+  _customAppsLiveLoaded=true;
   /* Cache to localStorage for instant load on next page visit */
   try{localStorage.setItem('_dc_customAppsCache',JSON.stringify({data:newData,ts:Date.now()}))}catch(e){}
   /* Remove apps that no longer exist in master */
@@ -13150,6 +13429,8 @@ db.ref('customApps').on('value',function(snap){
   customAppsData=newData;
   /* Sync desktop based on per-user state */
   if(currentRole)syncDesktopWithUserState();
+  /* Re-render folder bubbles & file system app links (customAppsData now available) */
+  _fsScheduleRender();
   /* Update published list if App Designer is open */
   var adList=document.getElementById('adPublishedList');
   if(adList)renderPublishedAppsList(adList);
@@ -13219,17 +13500,11 @@ function _amToast(msg){
 }
 
 function _amApplyHiddenApps(){
-  /* Build set of apps physically inside folders so we don't restore them */
-  var appsInFolders={};
-  Object.keys(_fsItems).forEach(function(k){
-    var it=_fsItems[k];
-    if(it.type==='app'&&it.linkedApp)appsInFolders[it.linkedApp]=true;
-  });
   document.querySelectorAll('.desktop-icon').forEach(function(ic){
     var aid=ic.dataset.app;
     if(!aid||aid==='appdesigner')return;
     /* Never restore icons that are inside folders */
-    if(appsInFolders[aid])return;
+    if(_isAppInAnyFolder(aid))return;
     var st=_amAppStates[aid];
     if(st&&st.hidden&&currentRole!=='Admin'){
       ic.style.display='none';
@@ -15010,6 +15285,7 @@ function _pongFBCleanup(){
   _pongFB.opponentName=null;
   _pongFB.mySide=null;
 }
+window._pongFBCleanup=_pongFBCleanup;
 
 function _pongCreateRoom(container,opponentId,opponentName){
   var roomId='pong_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
