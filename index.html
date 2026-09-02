@@ -111,7 +111,21 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .taskbar-start{width:40px;height:40px;border-radius:12px;border:none;background:none;color:#fff;font-size:19px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center}
 .taskbar-start:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
 .taskbar-divider{width:1px;height:26px;background:rgba(255,255,255,.1);margin:0 6px}
-.taskbar-items{display:flex;gap:4px;flex:1;overflow-x:auto;justify-content:center}
+.taskbar-items{display:flex;gap:4px;flex:1;overflow-x:auto;justify-content:center;scrollbar-width:none}
+.taskbar-items::-webkit-scrollbar{display:none}
+.fullscreen-reveal-zone{display:none}
+.fullscreen-home-indicator{display:none}
+.desktop.fullscreen-app .taskbar{transform:translateY(calc(100% + 14px));opacity:.12;pointer-events:none;transition:transform .25s ease,opacity .25s ease}
+.desktop.fullscreen-app .fullscreen-home-indicator{display:block;position:fixed;z-index:251;bottom:7px;left:50%;width:74px;height:5px;border-radius:4px;background:rgba(255,255,255,.7);transform:translateX(-50%);box-shadow:0 0 12px rgba(255,255,255,.25);pointer-events:none;transition:opacity .2s}
+.desktop.fullscreen-app .fullscreen-reveal-zone{display:block;position:fixed;z-index:252;bottom:0;left:0;right:0;height:30px;cursor:pointer}
+.desktop.fullscreen-app.taskbar-peek .taskbar{transform:translateY(0);opacity:1;pointer-events:auto}
+.desktop.fullscreen-app.taskbar-peek .fullscreen-home-indicator{opacity:0}
+.desktop.fullscreen-app .desktop-area{overflow:visible}
+.desktop.fullscreen-app .os-window.maximized{height:calc(100% + 70px)!important}
+.desktop.fullscreen-app .os-window.maximized .win-titlebar{position:absolute;top:0;left:0;right:0;height:42px;z-index:20;opacity:0;transform:none;pointer-events:none;background:transparent!important;border:0!important;box-shadow:none;transition:opacity .2s ease}
+.desktop.fullscreen-app .os-window.maximized .win-titlebar .win-title,.desktop.fullscreen-app .os-window.maximized .win-titlebar .win-btn-aboutblank{display:none}
+.desktop.fullscreen-app .os-window.maximized .win-titlebar .win-btns{position:absolute;top:5px;right:8px}
+.desktop.fullscreen-app.top-peek .os-window.maximized .win-titlebar{opacity:1;pointer-events:auto}
 .taskbar-item{width:42px;height:42px;border-radius:12px;border:none;background:rgba(255,255,255,.05);color:var(--text4,rgba(255,255,255,.6));font-size:11px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;position:relative}
 .taskbar-item:hover{background:rgba(255,255,255,.12);color:var(--text2,rgba(255,255,255,.85));transform:translateY(-2px)}
 .taskbar-item.active{background:rgba(255,255,255,.13);color:#fff}
@@ -1330,8 +1344,7 @@ select:not(.native-reset) option{padding:8px;background:var(--bg4);color:var(--t
   /* Admin panel */
   .admin-sidebar{width:52px;min-width:52px;padding:8px 0}
   .admin-sidebar-title{display:none}
-  .admin-nav-item{padding:10px 0;justify-content:center;font-size:16px;border-left:none;border-bottom:2px solid transparent;gap:0;overflow:hidden;text-indent:-9999px}
-  .admin-nav-item span:first-child{text-indent:0;display:inline}
+  .admin-nav-item{padding:10px 2px;justify-content:center;font-size:10px;text-align:center;line-height:1.1;border-left:none;border-bottom:2px solid transparent;gap:0;overflow:hidden;text-indent:0;white-space:normal}
   .admin-nav-item.active{border-left:none;border-bottom-color:var(--accent)}
   .admin-nav-badge{position:absolute;top:2px;right:2px;min-width:14px;height:14px;font-size:8px;line-height:14px}
   .admin-nav-item{position:relative}
@@ -1557,7 +1570,7 @@ summary{font-size:calc(13px * var(--fs-scale))}
 /* ===== VIDEO CALL ===== */
 .vc-container{display:flex;flex-direction:column;height:100%;background:#000;position:relative;overflow:hidden}
 .vc-videos{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0}
-.vc-remote{width:100%;height:100%;object-fit:contain;background:#000;transform:scaleX(-1)}
+.vc-remote{width:100%;height:100%;object-fit:contain;background:#000}
 .vc-local{position:absolute;bottom:12px;right:12px;width:160px;height:120px;border-radius:10px;object-fit:contain;border:2px solid rgba(255,255,255,.3);background:#222;z-index:5;box-shadow:0 4px 16px rgba(0,0,0,.5);transform:scaleX(-1)}
 .vc-grid{flex:1;display:grid;gap:4px;padding:4px;min-height:0;background:#000;position:relative}
 .vc-grid.g1{grid-template-columns:1fr}
@@ -1566,7 +1579,8 @@ summary{font-size:calc(13px * var(--fs-scale))}
 .vc-grid.g4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
 .vc-grid.g5,.vc-grid.g6{grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr}
 .vc-grid-cell{position:relative;background:#111;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:0}
-.vc-grid-cell video{width:100%;height:100%;object-fit:contain;transform:scaleX(-1)}
+.vc-grid-cell video{width:100%;height:100%;object-fit:contain}
+.vc-grid-local-video{transform:scaleX(-1)!important}
 .vc-grid-cell .vc-grid-label{position:absolute;bottom:6px;left:8px;font-size:11px;font-weight:600;color:#fff;background:rgba(0,0,0,.6);padding:2px 8px;border-radius:10px;z-index:2}
 .vc-grid-cell .vc-grid-muted{position:absolute;top:6px;right:8px;display:none;align-items:center;gap:3px;background:rgba(0,0,0,.6);border-radius:10px;padding:2px 8px;z-index:2}
 .vc-grid-cell .vc-grid-muted.visible{display:flex}
@@ -1584,6 +1598,24 @@ summary{font-size:calc(13px * var(--fs-scale))}
 .vc-btn-video.active{background:#e04040}
 .vc-btn-hangup{background:#e04040;width:56px;height:56px;font-size:24px}
 .vc-btn-hangup:hover{background:#c62828}
+.vc-btn-switch{background:rgba(255,255,255,.12);font-size:18px}
+.vc-btn-switch:hover{background:rgba(255,255,255,.22)}
+.vc-container{background:radial-gradient(circle at 20% 0%,rgba(0,170,255,.12),transparent 35%),linear-gradient(160deg,#080b16,#111827)}
+.vc-controls{border-top:1px solid rgba(255,255,255,.12);box-shadow:0 -10px 30px rgba(0,0,0,.25)}
+.vc-user-list{background:transparent}
+.vc-user-item{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.vc-status{padding:8px 14px;border-radius:20px;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.vc-lobby-head{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.vc-lobby-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#5cd85c,#34c759,#28a745);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(52,199,89,.25)}
+.vc-lobby-title{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.4px}
+.vc-lobby-subtitle{font-size:12px;color:var(--text5);margin-top:2px}
+.vc-lobby-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;margin:16px 0 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px}
+.vc-lobby-toolbar label{display:flex;align-items:center;gap:8px;color:var(--text4);font-size:12px;cursor:pointer}
+.vc-lobby-toolbar input{width:16px;height:16px;accent-color:var(--accent)}
+.vc-lobby-section-label{font-size:10px;color:var(--text6);font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin:8px 2px}
+.vc-user-item{min-height:56px}
+.vc-call-btn{padding:8px 14px;border-radius:18px}
+@media(max-width:768px){.vc-lobby-title{font-size:20px}.vc-lobby-toolbar{margin-top:12px}.vc-lobby-icon{width:44px;height:44px}.vc-call-btn{min-height:40px}}
 .vc-status{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--text3,rgba(255,255,255,.7));font-size:15px;font-weight:600;text-align:center;z-index:3;pointer-events:none}
 .vc-remote-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:4;pointer-events:none;background:rgba(0,0,0,.75)}
 .vc-remote-overlay.visible{display:flex}
@@ -2030,7 +2062,40 @@ body:not(.anim-parallax) .particles-canvas{display:none}
 .um-btn-primary:hover{opacity:.9;transform:translateY(-1px)}
 .um-empty{grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text5);font-size:13px}
 .um-empty-icon{font-size:32px;margin-bottom:8px;opacity:.5}
+.um-card-actions{align-items:center;gap:6px;margin-top:2px}
+.um-card-actions .um-btn{width:auto!important;min-height:0!important;margin-top:0!important;padding:7px 11px;border-radius:8px;font-size:11px;box-shadow:none!important}
+.um-card-actions .um-btn:hover{box-shadow:none!important;transform:translateY(-1px)}
+.um-card-actions .um-btn-lock{width:32px!important;height:32px;padding:0}
+.um-add-actions .um-btn-primary{width:auto!important;margin-top:0!important;padding:9px 16px}
+.um-credentials{display:flex;flex-direction:column;gap:5px;padding:9px 10px;background:rgba(0,0,0,.08);border:1px solid var(--border);border-radius:10px}
+.um-credential-row{display:flex;align-items:center;gap:8px;min-width:0}
+.um-credential-label{width:68px;flex-shrink:0;font-size:10px;font-weight:700;color:var(--text6);text-transform:uppercase;letter-spacing:.5px}
+.um-credential-value{flex:1;min-width:0;font-family:Consolas,monospace;font-size:12px;color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.um-credential-eye{width:28px!important;height:26px!important;padding:0!important;margin:0!important;border:1px solid var(--border)!important;border-radius:6px!important;background:var(--bg3)!important;color:var(--text5)!important;font-size:13px!important;cursor:pointer}
+.um-credential-eye:hover{color:var(--accent)!important;border-color:var(--accent)!important;background:var(--bg4)!important;transform:none!important}
+.um-credential-toggle{width:auto!important;margin:0 0 0 auto!important;padding:5px 9px!important;border:1px solid var(--border)!important;border-radius:7px!important;background:var(--bg3)!important;color:var(--text5)!important;font-size:10px!important;box-shadow:none!important}
+.um-credential-toggle:hover{color:var(--accent)!important;border-color:var(--accent)!important;transform:none!important;box-shadow:none!important}
+.um-edit-field{display:flex;flex-direction:column;gap:4px}
+.um-edit-field-label{font-size:10px;font-weight:700;color:var(--text6);text-transform:uppercase;letter-spacing:.6px}
+.um-password-wrap{position:relative}
+.um-password-wrap input{padding-right:38px!important}
+.um-password-eye{position:absolute!important;right:6px;top:50%;transform:translateY(-50%);width:28px!important;height:28px!important;padding:0!important;margin:0!important;background:none!important;border:0!important;color:var(--text5)!important;box-shadow:none!important}
+.um-password-eye:hover{color:var(--accent)!important;transform:translateY(-50%)!important;box-shadow:none!important}
+.um-username-wrap{position:relative}
+.um-username-wrap input{padding-right:38px!important}
+.um-username-eye{position:absolute!important;right:6px;top:50%;transform:translateY(-50%);width:28px!important;height:28px!important;padding:0!important;margin:0!important;background:none!important;border:0!important;color:var(--text5)!important;box-shadow:none!important}
+.um-username-eye:hover{color:var(--accent)!important;transform:translateY(-50%)!important;box-shadow:none!important}
+.login-username-wrap{position:relative}
+.login-username-wrap input{padding-right:40px!important}
+.login-username-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--text6);padding:3px;cursor:pointer;line-height:1}
+.login-username-eye:hover{color:var(--text4)}
+.custom-user-select{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.custom-user-select.open{background:var(--bg4);transform:translateY(-1px)}
+.cus-dropdown{padding:6px;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.4)}
+.cus-dropdown .cus-search{border:1px solid var(--border);padding:9px 11px;border-radius:9px}
+@media(max-width:600px){.um-card-actions .um-btn{padding:8px 10px}.um-add-actions .um-btn-primary{width:100%!important}}
 @media(max-width:600px){.um-stats{grid-template-columns:repeat(2,1fr)}.um-grid{grid-template-columns:1fr}.um-add-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.vc-controls{padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:10px}.vc-btn{width:52px;height:52px;touch-action:manipulation}.vc-btn-hangup{width:58px;height:58px}.vc-local{width:112px;height:84px;right:10px;bottom:10px}}
 
 </style>
 </head>
@@ -2045,8 +2110,9 @@ body:not(.anim-parallax) .particles-canvas{display:none}
    <div class="lock-avatar" id="lockAvatarContainer">&#128100;</div>
    <div class="lock-username">DocOS</div>
    <div class="lock-form">
-     <div style="position:relative;width:100%;margin-bottom:8px">
-       <input type="text" id="lockUsernameInput" class="lock-input" placeholder="Enter username" autocomplete="username">
+       <div style="position:relative;width:100%;margin-bottom:8px">
+         <input type="text" id="lockUsernameInput" class="lock-input" placeholder="Enter username" autocomplete="username" style="padding-right:40px">
+         <button class="login-username-eye" id="loginUsernameEye" type="button" title="Show or hide username" aria-label="Show or hide username"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
      </div>
      <div style="position:relative;width:100%;margin-bottom:8px">
        <input type="password" id="lockPasswordInput" class="lock-input" placeholder="Enter password" autocomplete="current-password" style="padding-right:40px">
@@ -2079,7 +2145,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
     <button class="lock-appeal-btn" id="lockRequestBtn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">Submit Request</button>
     <div class="lock-appeal-sent" id="lockRequestSent" style="display:none">Account request submitted. Waiting for Admin review.</div>
   </div>
- </div>
+</div>
   <div class="lock-branding">DocOS</div>
 </div>
 
@@ -2095,7 +2161,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
         <div class="icon-label" id="iconLabel-settings">Settings</div>
       </div>
       <div class="desktop-icon" data-app="mod" id="modDesktopIcon" ondblclick="openApp('mod')" onclick="if(window.innerWidth<=768)openApp('mod')" style="left:10px;top:310px;display:none">
-        <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128736;<div id="modIconBadgeStack" style="position:absolute;top:-4px;right:-6px;display:flex;flex-direction:column;gap:2px;align-items:flex-end"><span id="modBadgeAcctReq" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#66bb6a"></span><span id="modBadgeAppeals" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#ff9800"></span><span id="modBadgeRecos" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#42a5f5"></span></div></div>
+      <div class="icon-img" style="background:linear-gradient(135deg,#e65100,#bf360c);position:relative">&#128737;<div id="modIconBadgeStack" style="position:absolute;top:-4px;right:-6px;display:flex;flex-direction:column;gap:2px;align-items:flex-end"><span id="modBadgeAcctReq" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#66bb6a"></span><span id="modBadgeAppeals" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#ff9800"></span><span id="modBadgeRecos" style="display:none;min-width:16px;height:16px;border-radius:8px;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 3px;box-shadow:0 2px 4px rgba(0,0,0,.4);background:#42a5f5"></span></div></div>
         <div class="icon-label" id="iconLabel-mod">Mod Panel</div>
       </div>
       <div class="desktop-icon" data-app="videocall" ondblclick="openApp('videocall')" onclick="if(window.innerWidth<=768)openApp('videocall')" style="left:10px;top:210px">
@@ -2136,6 +2202,8 @@ body:not(.anim-parallax) .particles-canvas{display:none}
     <div class="taskbar-user" id="taskbarUser" style="display:none"><span class="taskbar-user-avatar" id="taskbarUserAvatar">&#128100;</span><span class="taskbar-user-name" id="taskbarUserName"></span></div>
     <div class="taskbar-clock" id="taskbarClock"><span class="taskbar-clock-time"></span><span class="taskbar-clock-date"></span></div>
   </div>
+  <div class="fullscreen-reveal-zone" id="fullscreenRevealZone"></div>
+  <div class="fullscreen-home-indicator" aria-hidden="true"></div>
   <div class="notif-panel" id="notifPanel">
     <div class="notif-panel-header">
       <h3>Notifications</h3>
@@ -2218,19 +2286,19 @@ body:not(.anim-parallax) .particles-canvas{display:none}
   <div class="admin-sidebar-layout">
     <div class="admin-sidebar">
       <div class="admin-sidebar-title">Panel</div>
-      <div class="admin-nav-item active" data-section="sec-useractions"><span>&#128101;</span> Actions</div>
-      <div class="admin-nav-item" data-section="sec-penalties"><span>&#128683;</span> Penalties</div>
-      <div class="admin-nav-item" data-section="sec-announcements"><span>&#128227;</span> Announce</div>
-      <div class="admin-nav-item" data-section="sec-feedback"><span>&#128172;</span> Feedback <span id="feedbackNavBadge" class="admin-nav-badge" style="display:none"></span></div>
-      <div class="admin-nav-item" data-section="sec-usermgmt" id="userMgmtNavItem"><span>&#128100;</span> Users</div>
-      <div class="admin-nav-item" data-section="sec-tools" id="adminToolsNavItem"><span>&#128465;</span> Tools</div>
-      <div class="admin-nav-item" data-section="sec-appbans" id="adminAppBansNavItem"><span>&#128274;</span> App Bans</div>
-      <div class="admin-nav-item" data-section="sec-adminsettings" id="adminSettingsNavItem"><span>&#128295;</span> Settings</div>
+      <div class="admin-nav-item active" data-section="sec-useractions">Actions</div>
+      <div class="admin-nav-item" data-section="sec-penalties">Penalties</div>
+      <div class="admin-nav-item" data-section="sec-announcements">Announce</div>
+      <div class="admin-nav-item" data-section="sec-feedback">Feedback <span id="feedbackNavBadge" class="admin-nav-badge" style="display:none"></span></div>
+      <div class="admin-nav-item" data-section="sec-usermgmt" id="userMgmtNavItem">Users</div>
+      <div class="admin-nav-item" data-section="sec-tools" id="adminToolsNavItem">Tools</div>
+      <div class="admin-nav-item" data-section="sec-appbans" id="adminAppBansNavItem">App Bans</div>
+      <div class="admin-nav-item" data-section="sec-adminsettings" id="adminSettingsNavItem">Settings</div>
     </div>
     <div class="admin-content">
       <div class="admin-section active" id="sec-useractions">
-        <div class="admin-section-title"><span>&#128101;</span> User Actions</div>
-        <label style="display:flex;align-items:center;gap:6px">&#128100; Target User <button id="targetLockBtn" title="Lock selected user so only the Owner can unban/unmute" style="display:none;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;border:1px solid rgba(153,153,153,.35);background:none;color:#999;cursor:pointer;flex-shrink:0;padding:0;transition:all .15s"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></button></label>
+        <div class="admin-section-title">User Actions</div>
+         <label style="display:flex;align-items:center;gap:6px">Target User <button id="targetLockBtn" title="Lock selected user so only the Owner can unban/unmute" style="display:none;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;border:1px solid rgba(153,153,153,.35);background:none;color:#999;cursor:pointer;flex-shrink:0;padding:0;transition:all .15s"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></button></label>
         <div class="user-select-wrapper">
           <div class="custom-user-select" id="userSelectTrigger" tabindex="0">
             <span id="userSelectLabel">-- Select role --</span>
@@ -2238,7 +2306,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
           </div>
           <div class="cus-dropdown" id="userSelectDropdown"></div>
         </div>
-        <label>&#9203; Duration</label>
+         <label>Duration</label>
         <div class="preset-row">
           <span class="preset-chip" data-ms="300000">5 min</span>
           <span class="preset-chip" data-ms="900000">15 min</span>
@@ -2257,22 +2325,22 @@ body:not(.anim-parallax) .particles-canvas{display:none}
           </select>
         </div>
         <input type="hidden" id="presetMs" value="">
-        <label style="margin-top:6px">&#128221; Reason (optional)</label>
+         <label style="margin-top:6px">Reason (optional)</label>
         <input type="text" id="penaltyReason" placeholder="Reason for this action..." style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border2);background:var(--bg4);color:var(--text2);font-size:12px;outline:none;transition:border-color .2s;box-sizing:border-box;margin-top:4px">
         <div class="action-btn-row">
-          <button class="btn-mute" id="muteButton">&#128263; Mute</button>
-          <button class="btn-ban" id="banButton">&#128683; Ban</button>
+           <button class="btn-mute" id="muteButton">Mute</button>
+           <button class="btn-ban" id="banButton">Ban</button>
         </div>
       </div>
       <div class="admin-section" id="sec-penalties">
-        <div class="admin-section-title"><span>&#128683;</span> Muted / Banned</div>
+        <div class="admin-section-title">Muted / Banned</div>
         <label style="font-size:11px;font-weight:600;color:var(--orange);display:block;margin:8px 0 4px">Muted</label>
         <div id="mutedList"></div>
         <label style="font-size:11px;font-weight:600;color:#f44336;display:block;margin:12px 0 4px">Banned</label>
         <div id="bannedList"></div>
       </div>
       <div class="admin-section" id="sec-announcements">
-        <div class="admin-section-title"><span>&#128227;</span> Announcement</div>
+        <div class="admin-section-title">Announcement</div>
         <label style="color:var(--accent);font-size:12px;margin-bottom:4px;display:block">Current Announcements</label>
         <div id="activeAnnouncementsList"><span style="color:var(--text7);font-size:12px">No active announcements</span></div>
         <div class="section-divider"></div>
@@ -2316,19 +2384,19 @@ body:not(.anim-parallax) .particles-canvas{display:none}
         </div>
       </div>
       <div class="admin-section" id="sec-feedback">
-        <div class="admin-section-title"><span>&#128172;</span> Feedback <span id="feedbackBadge" style="display:none;min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:4px;vertical-align:middle"></span></div>
+        <div class="admin-section-title">Feedback <span id="feedbackBadge" style="display:none;min-width:16px;height:16px;border-radius:8px;background:#f44336;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:16px;padding:0 4px;margin-left:4px;vertical-align:middle"></span></div>
         <div id="ownerFeedbackSections" style="display:none">
         <div id="acctReqSection"><label style="color:#66bb6a;font-weight:600">Account Requests <span id="acctReqBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#66bb6a;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
         <div id="acctReqList"></div>
         <div class="section-divider"></div></div>
-        <label style="color:#42a5f5;font-weight:600">Recommendations <span id="recosBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
-        <div id="recoList"></div>
+        <div id="recoSection"><label style="color:#42a5f5;font-weight:600">Recommendations <span id="recosBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#42a5f5;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
+        <div id="recoList"></div></div>
         </div>
         <label style="color:#ff9800;font-weight:600">Appeals <span id="appealsBadge" style="display:none;min-width:14px;height:14px;border-radius:7px;background:#ff9800;color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px;padding:0 3px;margin-left:4px;vertical-align:middle"></span></label>
         <div id="appealsList"></div>
       </div>
       <div class="admin-section" id="sec-usermgmt">
-        <div class="admin-section-title"><span>&#128100;</span> User Management <span id="umCountBadge" style="margin-left:8px;font-size:10px;padding:2px 7px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;vertical-align:middle"></span></div>
+        <div class="admin-section-title">User Management <span id="umCountBadge" style="margin-left:8px;font-size:10px;padding:2px 7px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;vertical-align:middle"></span><button id="umCredentialToggle" class="um-credential-toggle" type="button">Hide credentials</button></div>
         <div class="um-stats" id="umStats">
           <div class="um-stat-card"><div class="um-stat-num" id="umStatTotal">0</div><div class="um-stat-label">Total Users</div></div>
           <div class="um-stat-card"><div class="um-stat-num" id="umStatAdmins">0</div><div class="um-stat-label">Admins</div></div>
@@ -2337,15 +2405,6 @@ body:not(.anim-parallax) .particles-canvas{display:none}
         </div>
         <div class="um-toolbar">
           <div class="um-search-wrap"><span class="um-search-icon">&#128269;</span><input class="um-search-input" id="umSearch" placeholder="Search users, usernames..."></div>
-          <select class="um-sort" id="umSort"><option value="name">Sort: Name</option><option value="role">Sort: Role</option><option value="status">Sort: Status</option><option value="recent">Sort: Recent</option></select>
-        </div>
-        <div class="um-filters" id="umFilters">
-          <button class="um-filter active" data-filter="all">All</button>
-          <button class="um-filter" data-filter="admin">Admins</button>
-          <button class="um-filter" data-filter="member">Members</button>
-          <button class="um-filter" data-filter="banned">Banned</button>
-          <button class="um-filter" data-filter="muted">Muted</button>
-          <button class="um-filter" data-filter="online">Online</button>
         </div>
         <div id="userMgmtList" class="um-grid"></div>
         <div class="um-add-card" id="umAddCard">
@@ -2360,53 +2419,37 @@ body:not(.anim-parallax) .particles-canvas{display:none}
         </div>
       </div>
       <div class="admin-section" id="sec-tools">
-        <div class="admin-section-title"><span>&#128465;</span> Admin Tools</div>
+        <div class="admin-section-title">Admin Tools</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div class="tools-card">
-            <div class="tools-card-header">&#128308; Emergency</div>
+            <div class="tools-card-header">Emergency</div>
             <div style="display:flex;flex-direction:column;gap:8px">
-              <button id="lockdownButton" class="tools-btn danger"><span>&#128274;</span> Lockdown</button>
+              <button id="lockdownButton" class="tools-btn danger">Lockdown</button>
             </div>
           </div>
           <div class="tools-card">
-            <div class="tools-card-header">&#128295; Utilities</div>
+            <div class="tools-card-header">Utilities</div>
             <div style="display:flex;flex-direction:column;gap:8px">
-              <button id="chatCacheButton" class="tools-btn neutral"><span>&#128451;</span> Chat Cache</button>
-              <button id="deviceIdsButton" class="tools-btn neutral"><span>&#128274;</span> Device IDs</button>
-              <button id="restoreAccountButton" class="tools-btn success"><span>&#128260;</span> Restore Account</button>
-            </div>
-          </div>
-          <div class="tools-card">
-            <div class="tools-card-header">&#9881; Settings</div>
-            <div style="display:flex;flex-direction:column;gap:2px">
-              <div class="toggle-row">
-                <label>Show banned/muted in online bar</label>
-                <label class="toggle-switch"><input type="checkbox" id="togglePenalty" checked><span class="toggle-slider"></span></label>
-              </div>
-              <div class="toggle-row">
-                <label>&#9203; Rate Limiting (3 msg / 5s)</label>
-                <label class="toggle-switch"><input type="checkbox" id="toggleRateLimit"><span class="toggle-slider"></span></label>
-              </div>
-              <div class="toggle-row">
-                <label>Hide system notifications in chat</label>
-                <label class="toggle-switch"><input type="checkbox" id="toggleHideSysNotifs"><span class="toggle-slider"></span></label>
-              </div>
+              <button id="chatCacheButton" class="tools-btn neutral">Chat Cache</button>
+              <button id="deviceIdsButton" class="tools-btn neutral">Device IDs</button>
+              <button id="restoreAccountButton" class="tools-btn success">Restore Account</button>
+              <button id="clearGlobalChatButton" class="tools-btn danger">Clear Global Chat</button>
+              <button id="clearAllChatButton" class="tools-btn danger">Clear All Chat</button>
             </div>
           </div>
         </div>
       </div>
       <div class="admin-section" id="sec-adminsettings">
-        <div class="admin-section-title"><span>&#128295;</span> Admin Settings</div>
+        <div class="admin-section-title">Admin Settings</div>
         <div class="tools-card">
-          <div class="tools-card-header">&#127912; Chat Color</div>
+          <div class="tools-card-header">Chat Color</div>
           <div style="display:flex;gap:10px;align-items:center;padding:4px 0">
             <input type="color" id="adminSettingsChatColor" value="#00aaff" style="width:60px;height:32px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:var(--bg3);padding:2px;box-sizing:border-box;flex-shrink:0">
             <span id="adminSettingsChatColorLabel" style="font-size:12px;color:var(--text5);flex:1">Your chat color visible to everyone</span>
             <button id="adminSettingsChatColorReset" class="tools-btn clear" style="width:auto;padding:6px 14px;margin:0">Reset</button>
           </div>
-        </div>
-        <div class="tools-card">
-          <div class="tools-card-header">&#128083; Chat Visibility</div>
+          <div class="section-divider"></div>
+          <div class="tools-card-header">Chat Visibility</div>
           <div style="display:flex;align-items:center;gap:10px;padding:6px 0">
             <label style="display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--text5);cursor:pointer;user-select:none">
               <span class="toggle-switch toggle-sm"><input type="checkbox" id="adminHideChatIndicator"><span class="toggle-slider"></span></span>
@@ -2414,11 +2457,27 @@ body:not(.anim-parallax) .particles-canvas{display:none}
             </label>
           </div>
           <div style="font-size:10px;color:var(--text6);margin-top:2px">Removes the blue background and border from your chat messages</div>
+          <div class="section-divider"></div>
+          <div class="tools-card-header">General Settings</div>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <div class="toggle-row">
+              <label>Show banned/muted in online bar</label>
+              <label class="toggle-switch"><input type="checkbox" id="togglePenalty" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <label>Rate Limiting (3 msg / 5s)</label>
+              <label class="toggle-switch"><input type="checkbox" id="toggleRateLimit"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <label>Hide system notifications in chat</label>
+              <label class="toggle-switch"><input type="checkbox" id="toggleHideSysNotifs"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="admin-section" id="sec-appbans">
-        <div class="admin-section-title"><span>&#128274;</span> App Bans</div>
-        <label>&#128100; User</label>
+        <div class="admin-section-title">App Bans</div>
+        <label>User</label>
         <div class="user-select-wrapper">
           <div class="custom-user-select" id="abUserSelect" tabindex="0">
             <span id="abUserSelectLabel">-- Select user --</span>
@@ -2426,7 +2485,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
           </div>
           <div class="cus-dropdown" id="abUserSelectDropdown"></div>
         </div>
-        <label>&#128218; App</label>
+        <label>App</label>
         <div class="user-select-wrapper">
           <div class="custom-user-select" id="abAppSelect" tabindex="0">
             <span id="abAppSelectLabel">-- Select app --</span>
@@ -2434,7 +2493,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
           </div>
           <div class="cus-dropdown" id="abAppSelectDropdown"></div>
         </div>
-        <label>&#9203; Duration</label>
+        <label>Duration</label>
         <div class="preset-row">
           <span class="preset-chip" data-ms="300000">5 min</span>
           <span class="preset-chip" data-ms="900000">15 min</span>
@@ -2453,7 +2512,7 @@ body:not(.anim-parallax) .particles-canvas{display:none}
           </select>
         </div>
         <input type="hidden" id="abPresetMs" value="">
-        <button id="appBanButton" class="btn-ban" style="margin-top:8px;width:100%">&#128274; Ban from App</button>
+        <button id="appBanButton" class="btn-ban" style="margin-top:8px;width:100%">Ban from App</button>
         <div style="margin-top:12px"><label style="font-size:11px;font-weight:600;color:#f44336;display:block;margin:8px 0 4px">Active App Bans</label>
         <div id="appBansList"></div></div>
       </div>
@@ -2630,18 +2689,14 @@ function _showCallNotification(title,body,tag){
 function _doShowNotification(title,body,tag){
   var opts={body:body,icon:location.origin+'/favicon.jpg',tag:tag||'call-notification',requireInteraction:true,vibrate:[200,100,200,100,200]};
   console.log('[Notif] Attempting notification with icon:',opts.icon);
-  if(navigator.serviceWorker){
-    navigator.serviceWorker.ready.then(function(reg){
-      console.log('[Notif] SW ready, showing via reg.showNotification');
-      reg.showNotification(title,opts).catch(function(e){console.log('[Notif] SW showNotification error:',e)});
-    }).catch(function(e){
-      console.log('[Notif] SW ready error:',e);
+  if(_swRegistration&&_swRegistration.active){
+    _swRegistration.showNotification(title,opts).catch(function(e){
+      console.log('[Notif] SW showNotification error:',e);
       try{new Notification(title,opts)}catch(e2){console.log('[Notif] Fallback Notification error:',e2)}
     });
   }else{
     try{new Notification(title,opts)}catch(e){console.log('[Notif] Notification constructor error:',e)}
   }
-  _notifySW({type:'SHOW_NOTIFICATION',title:title,body:body,tag:tag||'call-notification'});
 }
 
 /* ==============================
@@ -2649,11 +2704,13 @@ function _doShowNotification(title,body,tag){
    ============================== */
 let currentRole=null,currentDisplayName=null;
 let validPasswords={},roleDisplayNames={},mutedRoles={},bannedRoles={},usernames={},usedUsernames={};let penaltyLocks={};
+var adminPermissions={};
 let announcementDismissed=false,deniedAppeals={},chatLocked=false,adminUsers={},bannedDevices={};
 let skipAutoKick=false,onlineUsers={},showPenaltyInOnline=true,deletedMessages={},_prevOnlineUsers={},_onlineFirstLoad=true;
 
 let profilePictures={};
 let pendingAppeals={},pendingRecos={},pendingAccountRequests={},deniedAccountRequests={};
+var _feedbackNotifIds={};
 let rateLimitEnabled=false;
 let auditLog={};
 
@@ -2986,6 +3043,10 @@ db.ref('adminUsers').on('value',s=>{
     }
   });
 });
+db.ref('adminPermissions').on('value',function(s){
+  adminPermissions=s.val()||{};
+  _applyAdminPermissions();
+});
 db.ref('profilePictures').on('value',s=>{profilePictures=s.val()||{};renderOnlineUsers();updateTaskbarAvatar();updateLockAvatar();if(typeof window._settingsPfpRefresh==='function')window._settingsPfpRefresh();if(_activeChat.type==='global'){db.ref('chatMessages').once('value',snap=>{renderMessages(snap.val()||{})})}else{renderMessages(_allMsgData)}});
 var _prevMutedRoles={};
 db.ref('mutedRoles').on('value',s=>{
@@ -3090,40 +3151,36 @@ function showChatNotifPopup(senderName,text,senderRole){
   document.body.appendChild(popup);
   setTimeout(function(){if(popup.parentNode)popup.remove()},5000);
 }
-db.ref('chatMessages').on('value',snap=>{
-  var data=snap.val()||{};
-  if(_activeChat.type==='global'){_allMsgData=data;renderMessages(data);}
-  if(!_chatInitialized){_chatInitialized=true;var keys=Object.keys(data);if(keys.length){_lastMsgTimestamp=Math.max.apply(null,keys.map(function(k){return data[k].timestamp||0}))}return}
+function _handleNewGlobalMessage(msg){
+  if(!msg)return;
   var role=currentRole;
-  var keys=Object.keys(data);
-  var newMsgs=[];
-  keys.forEach(function(k){
-    var msg=data[k];
-    if((msg.timestamp||0)>_lastMsgTimestamp&&(!role||msg.senderRole!==role)&&msg.senderRole!=='System'){
-      newMsgs.push(msg);
-    }
-  });
-  if(newMsgs.length>0){
-    var last=newMsgs[newMsgs.length-1];
+  if((msg.timestamp||0)>_lastMsgTimestamp&&(!role||msg.senderRole!==role)&&msg.senderRole!=='System'){
     var chatVisible=_isChatVisible();
-    if(!chatVisible){_unreadChatCount+=newMsgs.length;updateChatBadge()}
+    if(!chatVisible){_unreadChatCount++;updateChatBadge()}
     if(role&&!chatVisible){
       var inAppEnabled=localStorage.getItem('docosInAppNotif_'+role);
       if(inAppEnabled===null||inAppEnabled==='true'){
-        showChatNotifPopup(last.senderName,last.text,last.senderRole);
+         showChatNotifPopup(msg.senderName,msg.text,msg.senderRole);
       }
       var tabEnabled=localStorage.getItem('docosTabNotif_'+role);
       if(tabEnabled===null||tabEnabled==='true'){
-        _flashTabTitle(last.senderName||'New Message');
+         _flashTabTitle(msg.senderName||'New Message');
       }
       var dnEnabled=localStorage.getItem('docosDesktopNotif_'+role)==='true';
       if(dnEnabled&&!document.hasFocus()&&'Notification' in window&&Notification.permission==='granted'){
-        new Notification(last.senderName||'New Message',{body:(last.text||'[image]').substring(0,100),icon:location.origin+'/favicon.jpg'});
+         new Notification(msg.senderName||'New Message',{body:(msg.text||'[image]').substring(0,100),icon:location.origin+'/favicon.jpg'});
       }
-      if(typeof addNotification==='function')addNotification(last.senderName||'New Message',(last.text||'[image]').substring(0,100),'&#128172;','chat');
+      if(typeof addNotification==='function')addNotification(msg.senderName||'New Message',(msg.text||'[image]').substring(0,100),'&#128172;','chat');
     }
   }
-  if(keys.length){_lastMsgTimestamp=Math.max.apply(null,keys.map(function(k){return data[k].timestamp||0}))}
+  if((msg.timestamp||0)>_lastMsgTimestamp)_lastMsgTimestamp=msg.timestamp||0;
+}
+db.ref('chatMessages').once('value',function(snap){
+  var data=snap.val()||{};
+  var keys=Object.keys(data);
+  if(keys.length)_lastMsgTimestamp=Math.max.apply(null,keys.map(function(k){return data[k].timestamp||0}));
+  _chatInitialized=true;
+  db.ref('chatMessages').on('child_added',function(childSnap){_handleNewGlobalMessage(childSnap.val())});
 });
 var _activeAnnouncements={};var _dismissedAnnouncements={};var _announcementsReady=false;
 function _loadDismissedAnnouncements(cb){
@@ -3494,7 +3551,22 @@ db.ref('recommendations').on('value',snap=>{
   var prev=Object.keys(pendingRecos).length;
   pendingRecos=snap.val()||{};renderRecos();updateNotifBadge();
   var cur=Object.keys(pendingRecos).length;
-  if(_modNotifInit&&cur>prev&&(currentRole==='Admin'||currentRole==='Owner')){
+  if(currentRole==='Admin'&&typeof addNotification==='function'){
+    Object.keys(pendingRecos).forEach(function(k){
+      if(!_feedbackNotifIds[k]||!_notifications.some(function(n){return n.id===_feedbackNotifIds[k]})){
+        var r=pendingRecos[k];
+        _feedbackNotifIds[k]=addNotification('New recommendation',((r.name||r.role||'User')+' sent a recommendation.'),'&#128172;','mod',k);
+      }
+    });
+    Object.keys(_feedbackNotifIds).forEach(function(k){
+      if(!pendingRecos[k]){
+        _notifications=_notifications.filter(function(n){return n.sourceKey!==k});
+        delete _feedbackNotifIds[k];
+      }
+    });
+    _updateNotifBadge();
+  }
+  if(_modNotifInit&&cur>prev&&(currentRole==='Admin'||_hasAdminPermission('accountRequests'))){
     var newest=null;Object.keys(pendingRecos).forEach(function(k){var r=pendingRecos[k];if(!newest||r.timestamp>newest.timestamp)newest=r});
     if(newest)showToast('New recommendation from '+(newest.name||newest.role));
   }
@@ -3542,11 +3614,9 @@ function _submitAccountRequest(){
   var name=document.getElementById('lockRequestName').value.trim();
   var passcode=document.getElementById('lockRequestPasscode').value.trim();
   if(!reqUsername||!name||!passcode){showToast('Please fill in all fields.');return}
-  if(validPasswords[passcode]){showToast('That password is already in use. Choose a different one.');return}
-  if(_isUsernameTaken(reqUsername)){showToast('That username is unavailable.');return}
-  var alreadyPending=false;
-  Object.keys(pendingAccountRequests).forEach(function(k){var r=pendingAccountRequests[k];if(r.passcode===passcode)alreadyPending=true;if(r.username&&r.username.toLowerCase()===reqUsername.toLowerCase())alreadyPending=true});
-  if(alreadyPending){showToast('A request with that password or username is already pending.');return}
+  var nameTaken=Object.keys(roleDisplayNames).some(function(role){return String(roleDisplayNames[role]||'').toLowerCase()===name.toLowerCase()});
+  if(!nameTaken){Object.keys(pendingAccountRequests).forEach(function(k){var r=pendingAccountRequests[k];if(r.name&&r.name.toLowerCase()===name.toLowerCase())nameTaken=true})}
+  if(nameTaken){showToast('That display name is already in use.');return}
   db.ref('pendingAccountRequests').push({username:reqUsername,name:name,passcode:passcode,timestamp:Date.now()}).then(function(){
     document.getElementById('lockRequestSent').style.display='block';
     document.getElementById('lockRequestUsername').value='';
@@ -3559,7 +3629,7 @@ function _submitAccountRequest(){
    HELPERS
    ============================== */
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function _isUsernameTaken(uname){var low=uname.toLowerCase();if(usedUsernames[low])return true;var taken=false;Object.keys(usernames).forEach(function(k){if(usernames[k].toLowerCase()===low)taken=true});return taken}
+function _isUsernameTaken(uname){var low=String(uname||'').toLowerCase();if(usedUsernames[low])return true;var taken=false;Object.keys(usernames).forEach(function(k){if(String(usernames[k]||'').toLowerCase()===low)taken=true});return taken}
 function _reserveUsername(uname){db.ref('usedUsernames/'+uname.toLowerCase()).set(true)}
 function linkify(str){var urlRe=/(https?:\/\/[^\s<]+)/g;return escHtml(str).replace(urlRe,url=>'<a href="'+url+'" target="_blank" rel="noopener">'+url+'</a>')}
 
@@ -3672,6 +3742,41 @@ function _unbanDevicesForRole(role){
   });
 }
 function isAnyAdmin(){return currentRole==='Admin'||(currentRole&&adminUsers[currentRole]===true)}
+var _defaultAdminPermissions={actions:true,penalties:true,announcements:true,feedback:true,appbans:true,adminsettings:true,accountRequests:false};
+function _hasAdminPermission(key){
+  if(currentRole==='Admin')return true;
+  if(!currentRole||adminUsers[currentRole]!==true)return false;
+  var saved=adminPermissions[currentRole];
+  return saved&&saved[key]!==undefined?saved[key]===true:_defaultAdminPermissions[key]===true;
+}
+function _applyAdminPermissions(){
+  if(!currentRole||!isAnyAdmin())return;
+  var isOwner=currentRole==='Admin';
+  var sections={
+    'sec-useractions':isOwner||_hasAdminPermission('actions'),
+    'sec-penalties':isOwner||_hasAdminPermission('penalties'),
+    'sec-announcements':isOwner||_hasAdminPermission('announcements'),
+    'sec-feedback':isOwner||_hasAdminPermission('feedback'),
+    'sec-appbans':isOwner||_hasAdminPermission('appbans'),
+    'sec-adminsettings':isOwner||_hasAdminPermission('adminsettings'),
+    'sec-usermgmt':isOwner,
+    'sec-tools':isOwner
+  };
+  Object.keys(sections).forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=sections[id]?'':'none'});
+  var navMap={
+    'sec-useractions':'', 'sec-penalties':'', 'sec-announcements':'', 'sec-feedback':'',
+    'sec-usermgmt':'userMgmtNavItem','sec-tools':'adminToolsNavItem','sec-appbans':'adminAppBansNavItem','sec-adminsettings':'adminSettingsNavItem'
+  };
+  Object.keys(navMap).forEach(function(id){var nav=navMap[id]?document.getElementById(navMap[id]):document.querySelector('.admin-nav-item[data-section="'+id+'"]');if(nav)nav.style.display=sections[id]?'':'none'});
+  var acct=document.getElementById('acctReqSection');if(acct)acct.style.display=isOwner||_hasAdminPermission('accountRequests')?'':'none';
+  var ownerFb=document.getElementById('ownerFeedbackSections');if(ownerFb)ownerFb.style.display='';
+  var reco=document.getElementById('recoSection');if(reco)reco.style.display=isOwner?'':'none';
+  var active=document.querySelector('.admin-nav-item.active');
+  if(active&&active.style.display==='none'){
+    var first=document.querySelector('.admin-nav-item:not([style*="display: none"])');
+    if(first)first.click();
+  }
+}
 
 var _roleNotifDismissed={};
 function _dismissRoleNotif(role,type){
@@ -3681,7 +3786,7 @@ function _dismissRoleNotif(role,type){
 function handleRoleChange(type){
   if(_roleNotifDismissed[currentRole]===type)return;
   var isAdmin=currentRole==='Admin'||adminUsers[currentRole]===true;
-  var roleTag=currentRole==='Admin'?'Owner':(isAdmin?'Admin':'Member');
+  var roleTag=isAdmin?'Admin':'Member';
   roleLabel.textContent=currentDisplayName+' ('+roleTag+')';
   document.getElementById('gearWrapper').style.display=isAdmin?'flex':'none';
   document.getElementById('modDesktopIcon').style.display=isAdmin?'':'none';
@@ -3695,7 +3800,8 @@ function handleRoleChange(type){
   document.getElementById('sec-adminsettings').style.display=isAdmin?'':'none';
   document.getElementById('adminSettingsNavItem').style.display=isAdmin?'':'none';
   var ownerFbSections=document.getElementById('ownerFeedbackSections');
-  if(ownerFbSections)ownerFbSections.style.display=_isOwner?'':'none';
+  if(ownerFbSections)ownerFbSections.style.display='';
+  _applyAdminPermissions();
   if(type==='demoted'){
     for(var id in openWindows){if(openWindows[id].appId==='mod')closeWindow(id)}
     adminPanel.style.display='none';
@@ -3739,7 +3845,7 @@ function showRoleNotification(type,message){
    RATE LIMITING
    ============================== */
 function checkRateLimit(){
-  if(!rateLimitEnabled||isAnyAdmin())return true;
+  if(!rateLimitEnabled)return true;
   const now=Date.now();
   rlTimestamps=rlTimestamps.filter(t=>now-t<RL_WINDOW);
   if(rlTimestamps.length>=RL_MAX){
@@ -3941,6 +4047,19 @@ function _listenChats(){
     });
     db.ref('groupChats').on('value',function(snap2){
       _groupChats=snap2.val()||{};
+      if(_activeChat.type==='group'){
+        var activeGc=_groupChats[_activeChat.id];
+        if(!activeGc||!activeGc.members||!activeGc.members[currentRole]){
+          _switchChat('global','global');
+        }else{
+          var activeName=document.getElementById('chatTopName');
+          var activeSub=document.getElementById('chatTopSub');
+          var activeIcon=document.getElementById('chatTopIcon');
+          if(activeName){activeName.textContent=activeGc.name||'Group';activeName.style.cursor='pointer';activeName.onclick=function(){_openGroupInfo(_activeChat.id)}}
+          if(activeSub)activeSub.textContent=Object.keys(activeGc.members).length+' members';
+          if(activeIcon){activeIcon.style.display='flex';activeIcon.innerHTML=activeGc.image?'<img src="'+escHtml(activeGc.image)+'" alt="">':'G';activeIcon.onclick=function(){_openGroupInfo(_activeChat.id)}}
+        }
+      }
       _setupGcMsgListeners();
       _renderChatList();
     });
@@ -4009,6 +4128,8 @@ function _setupDmMsgListeners(){
         if(_closedDms[otherRole]&&prevTs>0&&last.timestamp>prevTs&&last.senderRole!==currentRole){
           delete _closedDms[otherRole];_saveClosedChats();
         }
+      }else{
+        delete _dmLastMsg[cid];
       }
       _renderChatList();
     });
@@ -4045,6 +4166,8 @@ function _setupGcMsgListeners(){
         if(_closedGcs[gid]&&prevTs>0&&last.timestamp>prevTs&&last.senderRole!==currentRole){
           delete _closedGcs[gid];_saveClosedChats();
         }
+      }else{
+        delete _gcLastMsg[gid];
       }
       _renderChatList();
     });
@@ -4715,14 +4838,14 @@ function _showAddChatModal(){
 function loginAsRole(role){
   if(isBanned(role))return false;
   currentRole=role;currentDisplayName=roleDisplayNames[role]||role;
-  var roleTag=currentRole==='Admin'?'Owner':(adminUsers[currentRole]===true?'Admin':'Member');
+  var roleTag=(currentRole==='Admin'||adminUsers[currentRole]===true)?'Admin':'Member';
   roleLabel.textContent=currentDisplayName+' ('+roleTag+')';
   var isAdmin=currentRole==='Admin'||adminUsers[currentRole]===true;
   document.getElementById('gearWrapper').style.display=isAdmin?'flex':'none';
   document.getElementById('modDesktopIcon').style.display=isAdmin?'':'none';
   if(typeof updateAppDesignerVisibility==='function')updateAppDesignerVisibility();
   if(isAdmin){
-    var modTitle=currentRole==='Admin'?'Owner Panel':'Admin Panel';
+    var modTitle='Admin Panel';
     appDefs.mod.title=modTitle;
     var modLabel=document.getElementById('iconLabel-mod');
     if(modLabel)modLabel.textContent=modTitle;
@@ -4736,7 +4859,8 @@ function loginAsRole(role){
   document.getElementById('sec-adminsettings').style.display=isAdmin?'':'none';
   document.getElementById('adminSettingsNavItem').style.display=isAdmin?'':'none';
   var ownerFbSections=document.getElementById('ownerFeedbackSections');
-  if(ownerFbSections)ownerFbSections.style.display=_isOwnerLogin?'':'none';
+  if(ownerFbSections)ownerFbSections.style.display='';
+  _applyAdminPermissions();
   _initAdminSettingsUI();
   if(typeof _rebuildAppBanUserDropdown==='function')_rebuildAppBanUserDropdown();
   if(typeof _rebuildAppBanAppDropdown==='function')_rebuildAppBanAppDropdown();
@@ -5061,7 +5185,9 @@ document.getElementById('lockLoginBtn').addEventListener('click',login);
         if(remaining>0){loginError.textContent='You are banned for '+(remaining>315360000000?'Permanent':formatRemaining(remaining))+'.';return}
       }
       if(siteInLockdown){var isAdminOrOwner=savedRole==='Admin'||(adminUsers[savedRole]===true);if(!isAdminOrOwner)return}
-      loginAsRole(savedRole);
+      if(loginAsRole(savedRole)){
+        setTimeout(function(){showToast('Welcome back, '+(roleDisplayNames[savedRole]||savedRole)+'! You were signed in automatically.')},1000);
+      }
     });
   });
 })();
@@ -5075,6 +5201,10 @@ document.getElementById('lockLoginBtn').addEventListener('click',login);
 document.getElementById('lockEyeToggle').addEventListener('click',function(){
   if(passwordInput.type==='password'){passwordInput.type='text';this.style.opacity='.7'}
   else{passwordInput.type='password';this.style.opacity='.4'}
+});
+document.getElementById('loginUsernameEye').addEventListener('click',function(){
+  if(usernameInput.type==='password'){usernameInput.type='text';this.style.opacity='.7'}
+  else{usernameInput.type='password';this.style.opacity='.4'}
 });
 passwordInput.addEventListener('keydown',e=>{if(e.key==='Enter')login()});
 usernameInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();passwordInput.focus()}});
@@ -5098,7 +5228,7 @@ function logout(){
     document.getElementById('modDesktopIcon').style.display='none';
     document.getElementById('appDesignerIcon').style.display='none';
     document.getElementById('taskbarRecoBtn').style.display='none';document.getElementById('taskbarLogoutBtn').style.display='none';document.getElementById('taskbarMoonBtn').style.display='none';document.getElementById('taskbarNotifBtn').style.display='none';
-    _notifications=[];_updateNotifBadge();_toggleNotifPanel(false);
+    _notifications=[];_feedbackNotifIds={};_updateNotifBadge();_toggleNotifPanel(false);
     document.getElementById('headerThemeSlot').style.display='none';
     chatScreen.style.display='none';
     var tbUser=document.getElementById('taskbarUser');if(tbUser)tbUser.style.display='none';
@@ -5155,7 +5285,7 @@ function getSelectedDuration(){
    ADMIN ACTIONS
    ============================== */
 function muteUser(){
-  if(!isAnyAdmin())return;
+  if(!isAnyAdmin()||!_hasAdminPermission('actions'))return;
   const role=userSelectValue,dur=getSelectedDuration();
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(role==='Admin'&&currentRole!=='Admin'){showToast('You cannot mute the Owner.');return}
@@ -5194,7 +5324,7 @@ function banAllLinkedDevices(role){
   });
 }
 function banUser(){
-  if(!isAnyAdmin())return;
+  if(!isAnyAdmin()||!_hasAdminPermission('actions'))return;
   const role=userSelectValue,dur=getSelectedDuration();
   if(!role||!dur){showToast('Select a user and duration.');return}
   if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot ban another admin.');return}
@@ -5294,7 +5424,7 @@ if(typeof userSelect!=='undefined' && userSelect){
   }
   if(abBtn){
     abBtn.addEventListener('click',function(){
-      if(!isAnyAdmin())return;
+      if(!isAnyAdmin()||!_hasAdminPermission('appbans'))return;
       var role=abUserSelectValue,appId=abAppSelectValue,dur=abGetDuration();
       if(!role||!appId||!dur){showToast('Select a user, app, and duration.');return}
       if(typeof appDefs!=='object'||!appDefs[appId]){showToast('Invalid app.');return}
@@ -5329,7 +5459,7 @@ function renderMutedList(){
     const remaining=mutedRoles[role]-Date.now();if(remaining<=0)return;
     const div=document.createElement('div');div.className='list-item';div.dataset.role=role;
     const span=document.createElement('span');
-    var muteTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+    var muteTag=role==='Admin'||adminUsers[role]?'Admin':'Member';
     span.textContent=(roleDisplayNames[role]||role)+' ('+muteTag+') \u2022 '+formatRemaining(remaining);
     var reason=penaltyReasons[role];
     if(reason){var rs=document.createElement('span');rs.style.cssText='font-size:10px;color:var(--text6);display:block;margin-top:2px';rs.textContent='Reason: '+reason;div.appendChild(rs)}
@@ -5360,7 +5490,7 @@ function renderBannedList(){
     const remaining=bannedRoles[role]-Date.now();if(remaining<=0)return;
     const div=document.createElement('div');div.className='list-item';div.dataset.role=role;
     const span=document.createElement('span');
-    var banTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+    var banTag=role==='Admin'||adminUsers[role]?'Admin':'Member';
     span.textContent=(roleDisplayNames[role]||role)+' ('+banTag+') \u2022 '+formatRemaining(remaining);
     var reason=penaltyReasons[role];
     if(reason){var rs=document.createElement('span');rs.style.cssText='font-size:10px;color:var(--text6);display:block;margin-top:2px';rs.textContent='Reason: '+reason;div.appendChild(rs)}
@@ -5567,23 +5697,25 @@ document.getElementById('replyPreviewCancel').addEventListener('click',()=>{
    MESSAGING
    ============================== */
 let pendingImage=null;
+let pendingImageFile=null;
 let pendingVideo=null;
+let pendingVideoFile=null;
 
 function showMediaPreview(dataUrl,type){
   var preview=document.getElementById('imagePreview');
   var imgEl=document.getElementById('imagePreviewImg');
   var vidEl=document.getElementById('videoPreviewEl');
   if(type==='video'){
-    pendingVideo=dataUrl;pendingImage=null;
+    pendingVideo=dataUrl;pendingImage=null;pendingImageFile=null;
     vidEl.src=dataUrl;vidEl.style.display='block';imgEl.style.display='none';
   }else{
-    pendingImage=dataUrl;pendingVideo=null;
+    pendingImage=dataUrl;pendingVideo=null;pendingVideoFile=null;
     imgEl.src=dataUrl;imgEl.style.display='block';vidEl.style.display='none';
   }
   preview.style.display='flex';
 }
 function clearMediaPreview(){
-  pendingImage=null;pendingVideo=null;
+  pendingImage=null;pendingImageFile=null;pendingVideo=null;pendingVideoFile=null;
   document.getElementById('imagePreview').style.display='none';
   document.getElementById('imagePreviewImg').style.display='none';document.getElementById('imagePreviewImg').src='';
   document.getElementById('videoPreviewEl').style.display='none';document.getElementById('videoPreviewEl').src='';
@@ -5705,7 +5837,7 @@ messageInput.addEventListener('paste',e=>{
     if(items[i].type.indexOf('image')!==-1){
       e.preventDefault();var file=items[i].getAsFile();
       var reader=new FileReader();
-      reader.onload=function(ev){showMediaPreview(ev.target.result,'image')};
+      reader.onload=function(ev){pendingImageFile=file;showMediaPreview(ev.target.result,'image')};
       reader.readAsDataURL(file);
       break;
     }
@@ -5762,11 +5894,12 @@ document.getElementById('imagePreviewClose').addEventListener('click',()=>{clear
       if(isVideo&&file.size>RTDB_VIDEO_MAX){showToast('Video too large (max ~20MB). Try a shorter clip.');return}
       if(isVideo){
         showToast('Loading video...');
-        showMediaPreview(URL.createObjectURL(file),'video');
+         pendingVideoFile=file;
+         showMediaPreview(URL.createObjectURL(file),'video');
       }else{
         if(file.size>CHAT_IMAGE_MAX){showToast('Image too large (max 5MB).');return}
         var reader=new FileReader();
-        reader.onload=function(ev){showMediaPreview(ev.target.result,'image')};
+        reader.onload=function(ev){pendingImageFile=file;showMediaPreview(ev.target.result,'image')};
         reader.readAsDataURL(file);
       }
     };
@@ -5832,15 +5965,25 @@ function sendMessage(){
   muteWarning.textContent='';
   const text=messageInput.value.trim(),img=pendingImage,vid=pendingVideo;
   if(!text&&!img&&!vid)return;
-  var msgObj={senderRole:currentRole,senderName:currentDisplayName,timestamp:Date.now()};
-  msgObj.text=text||'';msgObj.image=img;msgObj.video=vid;
-  if(replyTo){msgObj.replyTo={key:replyTo.key,senderName:replyTo.senderName,text:replyTo.text||''}}
-  _getChatRef().push(msgObj).then(()=>{
-    messageInput.value='';pendingImage=null;pendingVideo=null;
+  var uploadPromise=Promise.resolve({image:img,video:vid});
+  if(pendingImageFile||pendingVideoFile){
+    uploadPromise=Promise.resolve().then(function(){
+      if(pendingImageFile)return _uploadToStorage('chatMedia/'+currentRole,pendingImageFile).then(function(url){return{image:url,video:null}});
+      return _uploadToStorage('chatMedia/'+currentRole,pendingVideoFile).then(function(url){return{image:null,video:url}});
+    });
+  }
+  sendButton.disabled=true;
+  uploadPromise.then(function(media){
+    var msgObj={senderRole:currentRole,senderName:currentDisplayName,timestamp:Date.now()};
+    msgObj.text=text||'';msgObj.image=media.image;msgObj.video=media.video;
+    if(replyTo){msgObj.replyTo={key:replyTo.key,senderName:replyTo.senderName,text:replyTo.text||''}}
+    return _getChatRef().push(msgObj);
+  }).then(function(){
+    messageInput.value='';pendingImage=null;pendingImageFile=null;pendingVideo=null;pendingVideoFile=null;
     clearMediaPreview();
     replyTo=null;document.getElementById('replyPreviewBar').style.display='none';
     setTyping(false);clearTimeout(typingTimeout);
-  }).catch(function(err){console.error('[Send]',err);showToast('Failed to send: '+err.message)});
+  }).catch(function(err){console.error('[Send]',err);showToast('Failed to send: '+(err.message||err))}).then(function(){sendButton.disabled=false});
 }
 
 /* ==============================
@@ -6290,7 +6433,7 @@ announcementInput.addEventListener('paste',function(e){
   document.getElementById('announceAttachFiles').style.display='none';
 })();
 announcementButton.addEventListener('click',()=>{
-  if(!isAnyAdmin())return;var text=announcementInput.value.trim();
+  if(!isAnyAdmin()||!_hasAdminPermission('announcements'))return;var text=announcementInput.value.trim();
   if(!text&&!pendingAnnounceImage&&!announcePoll){showToast('Enter an announcement or attach an image.');return}
   var senderName=announceAnon?'Anonymous':(currentDisplayName||currentRole||'Admin');
   var obj={text:text||'',senderName,timestamp:Date.now()};
@@ -6348,18 +6491,18 @@ document.getElementById('muteAppealSendBtn').addEventListener('click',()=>{
 function updateNotifBadge(){
   var appealCount=Object.keys(pendingAppeals).length;
   var recoCount=Object.keys(pendingRecos).length;
-  var acctReqCount=(currentRole==='Admin')?Object.keys(pendingAccountRequests).length:0;
+  var acctReqCount=(currentRole==='Admin'||_hasAdminPermission('accountRequests'))?Object.keys(pendingAccountRequests).length:0;
   var isOwner=currentRole==='Admin';
   const count=isOwner?(appealCount+recoCount+acctReqCount):appealCount;
   var nba=document.getElementById('notifBadgeAcctReq');
-  if(nba){if(isOwner&&acctReqCount>0){nba.style.display='inline-block';nba.textContent=acctReqCount}else{nba.style.display='none'}}
+  if(nba){if(acctReqCount>0){nba.style.display='inline-block';nba.textContent=acctReqCount}else{nba.style.display='none'}}
   var nbp=document.getElementById('notifBadgeAppeals');
   if(nbp){if(appealCount>0){nbp.style.display='inline-block';nbp.textContent=appealCount}else{nbp.style.display='none'}}
   var nbr=document.getElementById('notifBadgeRecos');
   if(nbr){if(isOwner&&recoCount>0){nbr.style.display='inline-block';nbr.textContent=recoCount}else{nbr.style.display='none'}}
   /* Update Mod Panel desktop icon badges (stacked) */
   var mba=document.getElementById('modBadgeAcctReq');
-  if(mba){if(isOwner&&acctReqCount>0){mba.style.display='inline-block';mba.textContent=acctReqCount}else{mba.style.display='none'}}
+  if(mba){if(acctReqCount>0){mba.style.display='inline-block';mba.textContent=acctReqCount}else{mba.style.display='none'}}
   var mbp=document.getElementById('modBadgeAppeals');
   if(mbp){if(appealCount>0){mbp.style.display='inline-block';mbp.textContent=appealCount}else{mbp.style.display='none'}}
   var mbr=document.getElementById('modBadgeRecos');
@@ -6375,7 +6518,7 @@ function updateNotifBadge(){
   var rb=document.getElementById('recosBadge');
   if(rb){if(isOwner&&recoCount>0){rb.style.display='inline-block';rb.textContent=recoCount}else{rb.style.display='none'}}
   var arb=document.getElementById('acctReqBadge');
-  if(arb){if(isOwner&&acctReqCount>0){arb.style.display='inline-block';arb.textContent=acctReqCount}else{arb.style.display='none'}}
+  if(arb){if(acctReqCount>0){arb.style.display='inline-block';arb.textContent=acctReqCount}else{arb.style.display='none'}}
 
   /* Update taskbar item badge if Mod Panel window is open */
   var tbItems=document.querySelectorAll('.tb-item[data-app="mod"]');
@@ -6395,7 +6538,7 @@ function updateNotifBadge(){
   });
 }
 function renderAccountReqs(){
-  var sec=document.getElementById('acctReqSection');if(sec){sec.style.display=(currentRole==='Admin')?'':'none'}
+  var sec=document.getElementById('acctReqSection');if(sec){sec.style.display=(currentRole==='Admin'||_hasAdminPermission('accountRequests'))?'':'none'}
   var div=document.getElementById('acctReqList');if(!div)return;div.innerHTML='';if(currentRole!=='Admin')return;
   var keys=Object.keys(pendingAccountRequests);
   if(!keys.length){div.innerHTML='<span style="color:#66bb6a;font-size:12px;opacity:.6">No pending requests</span>';return}
@@ -6558,7 +6701,7 @@ document.getElementById('deviceIdsButton').addEventListener('click',function(){
       var item=document.createElement('div');
       item.style.cssText='padding:10px 12px;border-bottom:1px solid var(--border,#333)';
       var displayName=roleDisplayNames[role]||role;
-      var roleTag=role==='Admin'?'Owner':(adminUsers[role]?'Admin':'Member');
+      var roleTag=role==='Admin'||adminUsers[role]?'Admin':'Member';
       var header=document.createElement('div');
       header.innerHTML='<b style="font-size:13px">'+escHtml(displayName)+'</b> <span style="color:var(--text6);font-size:11px">('+roleTag+')</span>';
       item.appendChild(header);
@@ -6612,7 +6755,7 @@ document.getElementById('deviceIdsButton').addEventListener('click',function(){
 /* ==============================
    USER MANAGEMENT
    ============================== */
-var umFilter='all', umSearch='', umSort='name';
+var umFilter='all', umSearch='', umSort='name', umRevealedCredentials={};
 document.addEventListener('DOMContentLoaded',function(){
   var s=document.getElementById('umSearch');if(s)s.addEventListener('input',function(){umSearch=this.value.toLowerCase();renderUserMgmt()});
   var so=document.getElementById('umSort');if(so)so.addEventListener('change',function(){umSort=this.value;renderUserMgmt()});
@@ -6622,6 +6765,8 @@ document.addEventListener('DOMContentLoaded',function(){
       b.classList.add('active');umFilter=b.dataset.filter;renderUserMgmt();
     });
   });
+  var credentialToggle=document.getElementById('umCredentialToggle');
+  if(credentialToggle)credentialToggle.onclick=function(){umRevealedCredentials={};renderUserMgmt();showToast('Credentials hidden.');};
 });
 function renderUserMgmt(){
   var div=document.getElementById('userMgmtList');if(!div)return;
@@ -6649,15 +6794,10 @@ function renderUserMgmt(){
     return true;
   });
   filtered.sort(function(a,b){
-    if(umSort==='role'){
-      var oa=a==='Admin'?0:(adminUsers[a]===true?1:2), ob=b==='Admin'?0:(adminUsers[b]===true?1:2);
-      if(oa!==ob) return oa-ob;
-    }
-    if(umSort==='status'){
-      var sa=isBanned(a)?0:isMuted(a)?1:onlineUsers[a]?2:3;
-      var sb=isBanned(b)?0:isMuted(b)?1:onlineUsers[b]?2:3;
-      if(sa!==sb) return sa-sb;
-    }
+    var aPenalty=isBanned(a)||isMuted(a),bPenalty=isBanned(b)||isMuted(b);
+    if(aPenalty!==bPenalty)return aPenalty?1:-1;
+    var oa=a==='Admin'?0:(adminUsers[a]===true?1:2), ob=b==='Admin'?0:(adminUsers[b]===true?1:2);
+    if(oa!==ob)return oa-ob;
     var la=(roleDisplayNames[a]||a).toLowerCase(), lb=(roleDisplayNames[b]||b).toLowerCase();
     return la.localeCompare(lb);
   });
@@ -6669,10 +6809,10 @@ function renderUserMgmt(){
   filtered.forEach(function(role){
     var displayName=roleDisplayNames[role]||role, passcode=roleToPass[role]||'?', uname=usernames[role]||'';
     var isOwner=role==='Admin', isAdmin=adminUsers[role]===true, isB=isBanned(role), isM=isMuted(role), isOn=!!onlineUsers[role];
-    var roleLabel=isOwner?'Owner':isAdmin?'Admin':'Member';
-    var roleClass=isOwner?'um-role-owner':isAdmin?'um-role-admin':'um-role-member';
+    var roleLabel=isOwner||isAdmin?'Admin':'Member';
+    var roleClass=isOwner||isAdmin?'um-role-admin':'um-role-member';
     var card=document.createElement('div');card.className='um-card'+(isB?' banned':'')+(isM && !isB?' muted':'');card.dataset.role=role;
-    var avatarBg=isOwner?'linear-gradient(135deg,#ffd700,#ffb300)':isAdmin?'linear-gradient(135deg,#0af,#08c)':'linear-gradient(135deg,#667,#445)';
+    var avatarBg=isOwner||isAdmin?'linear-gradient(135deg,#0af,#08c)':'linear-gradient(135deg,#667,#445)';
     var avatarLetter=displayName.charAt(0).toUpperCase();
     var pfp=profilePictures[role];
     var avatarHtml=pfp?'<img src="'+pfp+'" style="width:100%;height:100%;object-fit:cover;border-radius:10px">':avatarLetter;
@@ -6683,7 +6823,7 @@ function renderUserMgmt(){
     if(isOn) statusBadges+='<span style="font-size:9px;padding:2px 6px;border-radius:6px;background:rgba(76,175,80,.12);color:#4caf50;border:1px solid rgba(76,175,80,.25);font-weight:700">ONLINE</span>';
     card.innerHTML='<div class="um-card-top">'
       +'<div class="um-avatar" style="background:'+avatarBg+';position:relative">'+avatarHtml+onlineDot+'</div>'
-      +'<div class="um-info"><div class="um-name">'+escHtml(displayName)+'</div><div class="um-username">'+(uname?'@'+escHtml(uname):'<span style="opacity:.4">no username</span>')+'</div><div class="um-badges"><span class="um-role-badge '+roleClass+'">'+roleLabel+'</span>'+statusBadges+'</div></div>'
+       +'<div class="um-info"><div class="um-name">'+escHtml(displayName)+'</div><div class="um-badges"><span class="um-role-badge '+roleClass+'">'+roleLabel+'</span>'+statusBadges+'</div></div>'
       +'</div>';
     var actions=document.createElement('div');actions.className='um-card-actions';
     if(currentRole==='Admin' && role!=='Admin'){
@@ -6708,50 +6848,70 @@ function renderUserMgmt(){
         btn.onclick=startConfirm;
       })(role,passcode,delBtn);
       actions.appendChild(delBtn);
-    } else {
-      var ownerBadge=document.createElement('div');ownerBadge.style.cssText='font-size:10px;color:var(--text6);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);padding:4px 8px;border-radius:6px;font-weight:600';ownerBadge.textContent='Protected';
-      actions.appendChild(ownerBadge);
     }
     card.appendChild(actions);
     div.appendChild(card);
   });
 }
+function _openAdminPermissions(role,displayName){
+  if(currentRole!=='Admin')return;
+  var old=document.querySelector('.admin-permissions-overlay');if(old)old.remove();
+  var overlay=document.createElement('div');overlay.className='admin-permissions-overlay';overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:99999;backdrop-filter:blur(6px)';
+  var modal=document.createElement('div');modal.style.cssText='width:390px;max-width:92%;max-height:85vh;overflow-y:auto;padding:22px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.55)';
+  var title=document.createElement('div');title.style.cssText='font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px';title.textContent='Admin Permissions';modal.appendChild(title);
+  var sub=document.createElement('div');sub.style.cssText='font-size:12px;color:var(--text5);margin-bottom:16px';sub.textContent='Choose what '+displayName+' can access.';modal.appendChild(sub);
+  var options=[['actions','Actions'],['penalties','Penalties'],['announcements','Announcements'],['feedback','Feedback'],['appbans','App Bans'],['adminsettings','Admin Settings'],['accountRequests','Account Requests in Feedback']];
+  var saved=adminPermissions[role]||{};var checks={};
+  options.forEach(function(pair){var row=document.createElement('label');row.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);color:var(--text2);font-size:13px;cursor:pointer';var cb=document.createElement('input');cb.type='checkbox';var key=pair[0];cb.checked=saved[key]!==undefined?saved[key]===true:_defaultAdminPermissions[key]===true;cb.style.accentColor='var(--accent)';checks[key]=cb;var text=document.createElement('span');text.textContent=pair[1];row.appendChild(cb);row.appendChild(text);modal.appendChild(row)});
+  var buttons=document.createElement('div');buttons.style.cssText='display:flex;gap:8px;margin-top:16px';var cancel=document.createElement('button');cancel.textContent='Cancel';cancel.style.cssText='flex:1;padding:9px;border:1px solid var(--border);border-radius:9px;background:var(--bg3);color:var(--text4);cursor:pointer';cancel.onclick=function(){overlay.remove()};var save=document.createElement('button');save.textContent='Save Permissions';save.style.cssText='flex:1;padding:9px;border:0;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer';save.onclick=function(){var values={};Object.keys(checks).forEach(function(key){values[key]=checks[key].checked});db.ref('adminPermissions/'+role).set(values).then(function(){showToast('Permissions updated.');overlay.remove();_applyAdminPermissions()}).catch(function(err){showToast('Error: '+err.message)})};buttons.appendChild(cancel);buttons.appendChild(save);modal.appendChild(buttons);overlay.appendChild(modal);overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
+}
 function showEditForm(item,role,passcode,displayName,uname,roleTag){
   var editRow=document.createElement('div');editRow.className='um-edit-form';editRow.style.cssText='margin-top:12px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;display:flex;flex-direction:column;gap:8px;animation:slideDown .15s ease-out';
   var inpStyle='width:100%;padding:9px 12px;font-size:13px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text);box-sizing:border-box;outline:none;transition:border-color .15s';
-  var unameInp=document.createElement('input');unameInp.placeholder='Username (optional)';unameInp.value=uname;unameInp.setAttribute('style',inpStyle);
+  var unameField=document.createElement('div');unameField.className='um-edit-field';
+  var unameLabel=document.createElement('span');unameLabel.className='um-edit-field-label';unameLabel.textContent='Username';
+  var unameWrap=document.createElement('div');unameWrap.className='um-username-wrap';
+  var unameInp=document.createElement('input');unameInp.type='password';unameInp.placeholder='Username (optional)';unameInp.value=uname;unameInp.setAttribute('style',inpStyle);
+  var unameEye=document.createElement('button');unameEye.type='button';unameEye.className='um-username-eye';unameEye.title='Show or hide username';unameEye.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  unameEye.onclick=function(){unameInp.type=unameInp.type==='password'?'text':'password'};
+  unameWrap.appendChild(unameInp);unameWrap.appendChild(unameEye);unameField.appendChild(unameLabel);unameField.appendChild(unameWrap);
+  var nameField=document.createElement('div');nameField.className='um-edit-field';
+  var nameLabel=document.createElement('span');nameLabel.className='um-edit-field-label';nameLabel.textContent='Display name';
   var nameInp=document.createElement('input');nameInp.placeholder='Display name';nameInp.value=displayName;nameInp.setAttribute('style',inpStyle);
-  var passBtn=document.createElement('button');passBtn.className='small-btn';passBtn.textContent='Reset Password';passBtn.style.cssText='background:var(--bg2);color:var(--text);border:1px solid var(--border);padding:7px 12px;font-size:11px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s';
-  passBtn.onmouseover=function(){this.style.background='#ffe0b2'};
-  passBtn.onmouseout=function(){this.style.background='#fff3e0'};
-  passBtn.onclick=function(){
-    var newPass=prompt('Enter new password for '+(roleDisplayNames[role]||role)+':');
-    if(!newPass)return;
-    if(validPasswords[newPass]&&validPasswords[newPass]!==role){showToast('Password already in use');return}
-    var oldPass=passcode;var updates={};
-    if(oldPass&&oldPass!=='?')updates['/validPasswords/'+oldPass]=null;
-    updates['/validPasswords/'+newPass]=role;
-    db.ref().update(updates).then(()=>showToast('Password reset for '+(roleDisplayNames[role]||role))).catch(console.error);
-  };
+  nameField.appendChild(nameLabel);nameField.appendChild(nameInp);
+  var passField=document.createElement('div');passField.className='um-edit-field';
+  var passLabel=document.createElement('span');passLabel.className='um-edit-field-label';passLabel.textContent='Password';
+  var passWrap=document.createElement('div');passWrap.className='um-password-wrap';
+  var passInp=document.createElement('input');passInp.type='password';passInp.placeholder='Password';passInp.value=passcode==='?'?'':passcode;passInp.setAttribute('style',inpStyle);
+  var passEye=document.createElement('button');passEye.type='button';passEye.className='um-password-eye';passEye.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  passEye.onclick=function(){passInp.type=passInp.type==='password'?'text':'password'};
+  passWrap.appendChild(passInp);passWrap.appendChild(passEye);passField.appendChild(passLabel);passField.appendChild(passWrap);
   var roleSelect=document.createElement('select');roleSelect.setAttribute('style',inpStyle+'cursor:pointer;');
   var optM=document.createElement('option');optM.value='Member';optM.textContent='Member';
   var optA=document.createElement('option');optA.value='Admin';optA.textContent='Admin';
   roleSelect.appendChild(optM);roleSelect.appendChild(optA);
   var curPerm=(role==='Admin'||adminUsers[role]===true)?'Admin':'Member';roleSelect.value=curPerm;
   if(role==='Admin'){roleSelect.disabled=true;roleSelect.style.opacity='0.5'}
+  var permissionBtn=null;
+  if(role!=='Admin'&&adminUsers[role]===true){permissionBtn=document.createElement('button');permissionBtn.type='button';permissionBtn.className='small-btn';permissionBtn.textContent='Permissions';permissionBtn.style.cssText='background:var(--bg3);color:var(--accent);border:1px solid var(--accent);padding:8px 12px;font-size:11px;font-weight:700;border-radius:8px;cursor:pointer';permissionBtn.onclick=function(){_openAdminPermissions(role,displayName)}}
   var saveBtn=document.createElement('button');saveBtn.className='small-btn';saveBtn.style.background='linear-gradient(135deg,var(--accent),var(--accent2))';saveBtn.style.color='#fff';saveBtn.style.fontSize='12px';saveBtn.style.padding='9px 16px';saveBtn.style.borderRadius='10px';saveBtn.style.fontWeight='700';saveBtn.textContent='Save Changes';
-  saveBtn.onclick=(function(r,oldPass,uInp,nInp,rSel,origPerm){return function(){
-    var newUname=uInp.value.trim(),newName=nInp.value.trim(),newPerm=rSel.value,changed=false,updates={};
+  saveBtn.onclick=(function(r,oldPass,uInp,nInp,rSel,origPerm,pInp){return function(){
+    var newUname=uInp.value.trim(),newName=nInp.value.trim(),newPass=pInp.value.trim(),newPerm=rSel.value,changed=false,updates={};
     if(newUname&&newUname!==(usernames[r]||'')){
       if(_isUsernameTaken(newUname)&&!(usernames[r]&&usernames[r].toLowerCase()===newUname.toLowerCase())){showToast('Username "'+newUname+'" is unavailable.');return}
       updates['/usernames/'+r]=newUname;updates['/usedUsernames/'+newUname.toLowerCase()]=true;changed=true;
     }
     if(newName&&newName!==(roleDisplayNames[r]||r)){updates['/roleDisplayNames/'+r]=newName;changed=true}
+    if(newPass&&newPass!==oldPass){
+      if(validPasswords[newPass]&&validPasswords[newPass]!==r){showToast('That password is already in use.');return}
+      if(oldPass&&oldPass!=='?')updates['/validPasswords/'+oldPass]=null;
+      updates['/validPasswords/'+newPass]=r;changed=true;
+    }
     if(newPerm!==origPerm){if(newPerm==='Admin'&&r!=='Admin')updates['/adminUsers/'+r]=true;else if(newPerm==='Member')updates['/adminUsers/'+r]=null;changed=true;logAudit(newPerm==='Admin'?'promote':'demote',(newPerm==='Admin'?'Promoted ':'Demoted ')+(newName||roleDisplayNames[r]||r))}
     if(!changed){showToast('Nothing to change');return}
     db.ref().update(updates).then(()=>{showToast('Updated '+(newName||roleDisplayNames[r]||r));hideEditForm(item)}).catch(console.error);
-  }})(role,passcode,unameInp,nameInp,roleSelect,curPerm);
-  editRow.appendChild(unameInp);editRow.appendChild(nameInp);editRow.appendChild(passBtn);editRow.appendChild(roleSelect);editRow.appendChild(saveBtn);
+  }})(role,passcode,unameInp,nameInp,roleSelect,curPerm,passInp);
+  editRow.appendChild(nameField);editRow.appendChild(unameField);editRow.appendChild(passField);editRow.appendChild(roleSelect);if(permissionBtn)editRow.appendChild(permissionBtn);editRow.appendChild(saveBtn);
   item.appendChild(editRow);
 }
 function hideEditForm(item){
@@ -6776,9 +6936,36 @@ document.getElementById('addUserButton').addEventListener('click',function(){
 /* ==============================
    ADMIN TOOLS
    ============================== */
+function _setupTimedChatClearButton(buttonId,label,paths){
+  var button=document.getElementById(buttonId);if(!button)return;
+  var timer=null,remaining=0;
+  button.addEventListener('click',function(){
+    if(currentRole!=='Admin')return;
+    if(button.dataset.confirming==='ready'){
+      button.disabled=true;button.textContent='Clearing...';
+      Promise.all(paths.map(function(path){return db.ref(path).remove()})).then(function(){
+        showToast(label+' cleared.');
+        logAudit('delete','Cleared '+label.toLowerCase());
+      }).catch(function(err){showToast('Could not clear chat: '+err.message)}).then(function(){
+        button.disabled=false;delete button.dataset.confirming;button.textContent=label;
+      });
+      return;
+    }
+    if(button.dataset.confirming)return;
+    button.dataset.confirming='counting';remaining=5;button.textContent='Confirm in '+remaining+'s';
+    timer=setInterval(function(){
+      remaining--;
+      if(remaining>0){button.textContent='Confirm in '+remaining+'s';return}
+      clearInterval(timer);timer=null;button.dataset.confirming='ready';button.textContent='Confirm '+label;
+    },1000);
+  });
+}
+_setupTimedChatClearButton('clearGlobalChatButton','Clear Global Chat',['chatMessages']);
+_setupTimedChatClearButton('clearAllChatButton','Clear All Chat',['chatMessages','dmMessages','groupMessages']);
 document.getElementById('togglePenalty').addEventListener('change',function(){db.ref('showPenaltyInOnline').set(this.checked)});
 document.getElementById('toggleRateLimit').addEventListener('change',function(){
   if(!isAnyAdmin())return;
+  rateLimitEnabled=this.checked;
   db.ref('rateLimitEnabled').set(this.checked);
   logAudit('lock',(this.checked?'Enabled':'Disabled')+' rate limiting');
 });
@@ -7369,6 +7556,46 @@ var openWindows={};
 var windowZIndex=10;
 var activeWindowId=null;
 var _restoringWindows=false;
+var _fullscreenPeekTimer=null;
+function _updateFullscreenChrome(){
+  var desk=document.getElementById('desktop');
+  if(!desk)return;
+  var fullscreen=window.innerWidth>768&&Object.keys(openWindows).some(function(id){return openWindows[id]&&openWindows[id].maximized&&!openWindows[id].minimized});
+  desk.classList.toggle('fullscreen-app',fullscreen);
+  if(!fullscreen)desk.classList.remove('taskbar-peek','top-peek');
+}
+(function(){
+  var desk=document.getElementById('desktop');
+  var zone=document.getElementById('fullscreenRevealZone');
+  var bar=document.getElementById('taskbar');
+  if(!desk||!zone||!bar)return;
+  function peek(){
+    clearTimeout(_fullscreenPeekTimer);
+    desk.classList.add('taskbar-peek');
+  }
+  function unpeek(){
+    clearTimeout(_fullscreenPeekTimer);
+    _fullscreenPeekTimer=setTimeout(function(){desk.classList.remove('taskbar-peek')},350);
+  }
+  function topPeek(){
+    if(!desk.classList.contains('fullscreen-app'))return;
+    clearTimeout(_fullscreenPeekTimer);
+    desk.classList.add('top-peek');
+    _fullscreenPeekTimer=setTimeout(function(){desk.classList.remove('top-peek')},1200);
+  }
+  document.addEventListener('mousemove',function(e){
+    if(e.clientY<=55)topPeek();
+  });
+  zone.addEventListener('mouseenter',peek);
+  zone.addEventListener('mouseleave',unpeek);
+  bar.addEventListener('mouseenter',peek);
+  bar.addEventListener('mouseleave',unpeek);
+  var touchStartY=0;
+  zone.addEventListener('touchstart',function(e){touchStartY=e.touches[0].clientY},{passive:true});
+  zone.addEventListener('touchend',function(e){
+    if(touchStartY-e.changedTouches[0].clientY>20){peek();_fullscreenPeekTimer=setTimeout(unpeek,2500)}
+  },{passive:true});
+})();
 function _saveOpenWindows(){
   var data={};
   for(var id in openWindows){
@@ -7418,7 +7645,7 @@ var appDefs={
   },
   mod:{
     title:'Mod Panel',
-    icon:'&#128736;',
+    icon:'&#128737;',
     iconBg:'linear-gradient(135deg,#e65100,#bf360c)',
     width:750,height:600,
     getContent:function(){
@@ -7513,16 +7740,6 @@ var appDefs={
         '<button id="settingsChatColorReset" style="'+btnStyle+';margin-left:auto">Reset</button>'+
         '</div>'+
         '<div style="'+smallStyle+';margin-top:6px">Customize the color of all text (chat, headers, UI)</div></div>'+
-        '<div style="'+secStyle+';display:'+(isAnyAdmin()?'':'none')+'" id="settingsAdminChatColorSection"><label style="'+lblStyle+'">Admin Chat Color <span style="font-size:9px;color:var(--orange);font-weight:400;text-transform:none;letter-spacing:0">(visible to everyone)</span></label>'+
-        '<div style="display:flex;gap:10px;align-items:center">'+
-        '<input type="color" id="settingsAdminChatColor" value="'+(chatColors[currentRole]||'#00aaff')+'" style="width:44px;height:36px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:var(--bg3)">'+
-        '<span id="settingsAdminChatColorLabel" style="'+smallStyle+'">'+(chatColors[currentRole]||'Not set')+'</span>'+
-        '<button id="settingsAdminChatColorReset" style="'+btnStyle+';margin-left:auto">Reset</button>'+
-        '</div>'+
-        '<div style="'+smallStyle+';margin-top:6px">Set a chat color that everyone can see on your messages</div></div>'+
-        '<div style="'+secStyle+';display:'+(isAnyAdmin()?'':'none')+'" id="settingsAdminHideIndicatorSection"><label style="'+lblStyle+'">Admin Chat Background</label>'+
-        '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">Hide admin chat background</span>'+makeToggle('settingsAdminHideIndicator',hideAdminChatIndicators[currentRole]===true)+'</div>'+
-        '<div style="'+smallStyle+'">Removes the blue background and border from your chat messages</div></div>'+
         '<div style="'+secStyle+'"><label style="'+lblStyle+'">Desktop</label>'+
         '<div style="'+toggleRowStyle+'"><span style="'+toggleLblStyle+'">App Folder Bubbles</span>'+makeToggle('settingsBubbleFiles',(localStorage.getItem('docosBubbleFiles_'+role)!=='false'))+'</div>'+
         '<div style="'+smallStyle+';margin-bottom:10px">Show iOS-style app folder bubbles on the desktop</div>'+
@@ -7895,37 +8112,6 @@ var appDefs={
             showToast('Text color reset to default.');
           };
         }
-        /* Admin Chat Color */
-        var acc=d.querySelector('#settingsAdminChatColor');
-        var accSection=d.getElementById('settingsAdminChatColorSection');
-        if(accSection)accSection.style.display=isAnyAdmin()?'':'none';
-        if(acc){
-          acc.oninput=function(){
-            var lbl=d.querySelector('#settingsAdminChatColorLabel');
-            if(lbl)lbl.textContent=acc.value;
-            if(currentRole){db.ref('chatColors/'+currentRole).set(acc.value);showToast('Chat color saved!')}
-          };
-        }
-          var accReset=d.querySelector('#settingsAdminChatColorReset');
-          if(accReset){
-            accReset.onclick=function(){
-              if(currentRole){db.ref('chatColors/'+currentRole).remove();showToast('Chat color reset.')}
-              if(acc)acc.value='#00aaff';
-              var lbl=d.querySelector('#settingsAdminChatColorLabel');
-              if(lbl)lbl.textContent='Not set';
-            };
-          }
-          /* Hide admin chat indicator */
-          var hideToggle=d.querySelector('#settingsAdminHideIndicator');
-          var hideSection=d.getElementById('settingsAdminHideIndicatorSection');
-          if(hideSection)hideSection.style.display=isAnyAdmin()?'':'none';
-          if(hideToggle&&currentRole){
-            hideToggle.checked=hideAdminChatIndicators[currentRole]===true;
-            hideToggle.onchange=function(){
-              db.ref('hideAdminChatIndicators/'+currentRole).set(hideToggle.checked?true:null);
-              showToast(hideToggle.checked?'Admin chat background hidden':'Admin chat background visible');
-            };
-          }
           /* Reset desktop */
         var rb=d.querySelector('#settingsResetDesktop');
         if(rb){
@@ -7960,21 +8146,26 @@ var appDefs={
             overlay.addEventListener('mousedown',function(e){if(e.target===overlay)overlay.remove()});
             document.body.appendChild(overlay);
             setTimeout(function(){
-              document.getElementById('cuSubmitBtn').onclick=function(){
-                var msg=document.getElementById('cuMsg');
-                var newU=document.getElementById('cuNewUsername').value.trim();
+              var cuSubmit=overlay.querySelector('#cuSubmitBtn');
+              var cuInput=overlay.querySelector('#cuNewUsername');
+              cuSubmit.onclick=function(){
+                var msg=overlay.querySelector('#cuMsg');
+                var newU=cuInput.value.trim();
                 msg.style.color='#f44336';msg.textContent='';
                 if(!newU){msg.textContent='Please enter a username.';return}
                 var curU=usernames[currentRole]||(roleDisplayNames[currentRole]||currentRole);
                 if(newU.toLowerCase()===curU.toLowerCase()){msg.textContent='That is already your username.';return}
                 if(_isUsernameTaken(newU)){msg.textContent='That username is unavailable.';return}
                 var updates={};updates['/usernames/'+currentRole]=newU;updates['/usedUsernames/'+newU.toLowerCase()]=true;
+                cuSubmit.disabled=true;cuSubmit.textContent='Saving...';
                 db.ref().update(updates).then(function(){
+                  usernames[currentRole]=newU;
                   msg.style.color='#4caf50';msg.textContent='Username changed to @'+newU+'!';
-                  var lbl=document.getElementById('settingsCurUsername');if(lbl)lbl.textContent='@'+newU;
+                  var lbl=d.querySelector('#settingsCurUsername');if(lbl)lbl.textContent='@'+newU;
                   setTimeout(function(){overlay.remove()},1200);
-                }).catch(function(e){msg.textContent='Error: '+e.message});
+                }).catch(function(e){cuSubmit.disabled=false;cuSubmit.textContent='Change Username';msg.textContent='Error: '+e.message});
               };
+              cuInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();cuSubmit.click()}});
             },0);
           };
         }
@@ -8014,11 +8205,15 @@ var appDefs={
                 btn.addEventListener('mouseover',function(){this.style.opacity='.7'});
                 btn.addEventListener('mouseout',function(){var inp=document.getElementById(this.dataset.for);this.style.opacity=inp.type==='text'?'.7':'.4'});
               });
-              document.getElementById('cpSubmitBtn').onclick=function(){
-                var msg=document.getElementById('cpMsg');
-                var oldP=document.getElementById('cpOldPass').value.trim();
-                var newP=document.getElementById('cpNewPass').value.trim();
-                var confP=document.getElementById('cpConfirmPass').value.trim();
+              var cpSubmit=overlay.querySelector('#cpSubmitBtn');
+              var cpOld=overlay.querySelector('#cpOldPass');
+              var cpNew=overlay.querySelector('#cpNewPass');
+              var cpConfirm=overlay.querySelector('#cpConfirmPass');
+              cpSubmit.onclick=function(){
+                var msg=overlay.querySelector('#cpMsg');
+                var oldP=cpOld.value.trim();
+                var newP=cpNew.value.trim();
+                var confP=cpConfirm.value.trim();
                 msg.style.color='#f44336';msg.textContent='';
                 if(!oldP||!newP||!confP){msg.textContent='Please fill in all fields.';return}
                 if(validPasswords[oldP]!==currentRole){msg.textContent='Current password is incorrect.';return}
@@ -8026,11 +8221,14 @@ var appDefs={
                 if(newP===oldP){msg.textContent='New password must be different.';return}
                 if(validPasswords[newP]){msg.textContent='That password is already in use.';return}
                 var updates={};updates['/validPasswords/'+oldP]=null;updates['/validPasswords/'+newP]=currentRole;
+                cpSubmit.disabled=true;cpSubmit.textContent='Saving...';
                 db.ref().update(updates).then(function(){
+                  delete validPasswords[oldP];validPasswords[newP]=currentRole;
                   msg.style.color='#4caf50';msg.textContent='Password changed!';
                   setTimeout(function(){overlay.remove()},1200);
-                }).catch(function(e){msg.textContent='Error: '+e.message});
+                }).catch(function(e){cpSubmit.disabled=false;cpSubmit.textContent='Change Password';msg.textContent='Error: '+e.message});
               };
+              [cpOld,cpNew,cpConfirm].forEach(function(input){input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();cpSubmit.click()}})});
             },0);
           };
         }
@@ -8727,9 +8925,10 @@ var appDefs={
         '</div>'+
         '<div id="vcGroupVideoArea" style="display:none"></div>'+
         '<div class="vc-controls" id="vcControls" style="display:none">'+
-                '<button class="vc-btn vc-btn-mute" id="vcMuteBtn" title="Mute">'+_vcIconMicOn+'</button>'+
-                '<button class="vc-btn vc-btn-video" id="vcVideoToggle" title="Camera">'+_vcIconCamOn+'</button>'+
-                '<button class="vc-btn vc-btn-hangup" id="vcHangupBtn" title="Hang Up">'+_vcIconHangup+'</button>'+
+                 '<button class="vc-btn vc-btn-mute" id="vcMuteBtn" title="Mute">'+_vcIconMicOn+'</button>'+
+                 '<button class="vc-btn vc-btn-video" id="vcVideoToggle" title="Camera">'+_vcIconCamOn+'</button>'+
+                 '<button class="vc-btn vc-btn-switch" id="vcCameraSwitch" title="Flip camera" aria-label="Flip camera">&#8635;</button>'+
+                 '<button class="vc-btn vc-btn-hangup" id="vcHangupBtn" title="Hang Up">'+_vcIconHangup+'</button>'+
         '</div>';
       setTimeout(function(){_vcRenderUsers();_vcUpdateNotifBtn();
         var nb=document.getElementById('vcNotifBtn');
@@ -10251,7 +10450,8 @@ function toggleMaximize(winId){
     w.maximized=true;
   }
   var btn=w.el.querySelector('.win-btn-max');
-  if(btn)btn.innerHTML=w.maximized?'&#9635;':'&#9634;';
+  if(btn)btn.innerHTML='&#9634;';
+  _updateFullscreenChrome();
 }
 
 function closeWindow(winId){
@@ -10278,6 +10478,7 @@ function closeWindow(winId){
   delete openWindows[winId];
   activeWindowId=null;
   updateTaskbar();
+  _updateFullscreenChrome();
 }
 
 function _getPinnedApps(){
@@ -10469,6 +10670,14 @@ function _tbGetDragAfter(container,x){
 /* Drag windows */
 function initDrag(win,titlebar){
   var dragging=false,startX,startY,origLeft,origTop,overlay=null;
+  function constrainPosition(left,top){
+    var parent=win.parentElement;
+    if(!parent)return{left:left,top:top};
+    var minLeft=0,minTop=0;
+    var maxLeft=Math.max(minLeft,parent.clientWidth-win.offsetWidth);
+    var maxTop=Math.max(minTop,parent.clientHeight-42);
+    return{left:Math.max(minLeft,Math.min(maxLeft,left)),top:Math.max(minTop,Math.min(maxTop,top))};
+  }
   function addIframeOverlay(){
     var iframes=win.querySelectorAll('iframe');
     if(iframes.length){
@@ -10505,7 +10714,9 @@ function initDrag(win,titlebar){
           if(wData.prevStyle)win.style.cssText=wData.prevStyle;
           var w2=win.offsetWidth;
           origLeft=e.clientX-w2/2;origTop=e.clientY;
-          win.style.left=origLeft+'px';win.style.top=origTop+'px';
+           var restoredPos=constrainPosition(origLeft,origTop);
+           origLeft=restoredPos.left;origTop=restoredPos.top;
+           win.style.left=origLeft+'px';win.style.top=origTop+'px';
           startX=e.clientX;startY=e.clientY;
         }
       }
@@ -10513,8 +10724,9 @@ function initDrag(win,titlebar){
       addIframeOverlay();
     }
     if(dragActive){
-      win.style.left=(origLeft+dx)+'px';
-      win.style.top=(origTop+dy)+'px';
+      var nextPos=constrainPosition(origLeft+dx,origTop+dy);
+      win.style.left=nextPos.left+'px';
+      win.style.top=nextPos.top+'px';
     }
   });
   document.addEventListener('mouseup',function(){if(dragActive){dragActive=false;removeIframeOverlay();_saveOpenWindows()}dragPending=false});
@@ -14081,6 +14293,7 @@ db.ref('customApps').on('value',function(snap){
   /* Update App Store if open */
   var asList=document.getElementById('appStoreList');
   if(asList)renderAppStore(asList);
+  if(typeof _rebuildAppBanAppDropdown==='function')_rebuildAppBanAppDropdown();
 });
 
 /* Show App Designer & App Management icons for owner */
@@ -14405,6 +14618,7 @@ var _vcIsCaller=false;
 var _vcTargetRole=null;
 var _vcMuted=false;
 var _vcCamOff=false;
+var _vcFacingMode='user';
 var _vcPendingCandidates=[];
 var _vcTimerInterval=null;
 var _vcTimerSeconds=0;
@@ -15011,6 +15225,32 @@ function _vcToggleCamera(){
   if(callId)db.ref('videoCalls/'+callId+'/state_'+currentRole+'/camOff').set(_vcCamOff);
 }
 
+async function _vcSwitchCamera(){
+  var stream=_gcInGroupCall?_gcLocalStream:_vcLocalStream;
+  if(!stream||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){showToast('Camera switching is not supported.');return}
+  var oldTrack=stream.getVideoTracks()[0];
+  if(!oldTrack){showToast('No camera is available.');return}
+  var nextFacing=_vcFacingMode==='user'?'environment':'user';
+  try{
+    var nextStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:nextFacing}},audio:false});
+    var newTrack=nextStream.getVideoTracks()[0];
+    if(!newTrack)return;
+    if(_gcInGroupCall){
+      Object.keys(_gcPeers).forEach(function(role){
+        _gcPeers[role].getSenders().forEach(function(sender){if(sender.track&&sender.track.kind==='video')sender.replaceTrack(newTrack)});
+      });
+      _gcLocalStream.removeTrack(oldTrack);_gcLocalStream.addTrack(newTrack);
+      var groupLocal=document.querySelector('#vcGroupVideoArea .vc-grid-local-video');if(groupLocal)groupLocal.srcObject=_gcLocalStream;
+    }else{
+      var sender=_vcPeerConnection&&_vcPeerConnection.getSenders().find(function(s){return s.track&&s.track.kind==='video'});
+      if(sender)await sender.replaceTrack(newTrack);
+      _vcLocalStream.removeTrack(oldTrack);_vcLocalStream.addTrack(newTrack);
+      var localVid=document.getElementById('vcLocalVideo');if(localVid)localVid.srcObject=_vcLocalStream;
+    }
+    oldTrack.stop();_vcFacingMode=nextFacing;showToast('Camera flipped.');
+  }catch(e){console.warn('[VC] Camera switch failed',e);showToast('Unable to switch camera.');}
+}
+
 var _vcRemoteStateRef=null;
 function _vcListenRemoteState(callId,remoteRole,remoteName){
   if(_vcRemoteStateRef)_vcRemoteStateRef.off();
@@ -15106,9 +15346,11 @@ function _vcBindButtons(){
     var muteBtn=document.getElementById('vcMuteBtn');
     var vidBtn=document.getElementById('vcVideoToggle');
     var hangBtn=document.getElementById('vcHangupBtn');
+    var switchBtn=document.getElementById('vcCameraSwitch');
     if(muteBtn)muteBtn.onclick=function(){if(_gcInGroupCall)_gcToggleMute();else _vcToggleMute()};
     if(vidBtn)vidBtn.onclick=function(){if(_gcInGroupCall)_gcToggleCamera();else _vcToggleCamera()};
     if(hangBtn)hangBtn.onclick=function(){if(_gcInGroupCall)_gcHangUp();else _vcHangUp()};
+    if(switchBtn)switchBtn.onclick=function(){_vcSwitchCamera()};
   },100);
 }
 
@@ -15286,7 +15528,7 @@ function _gcUpdateGrid(){
 
   var localCell=document.createElement('div');
   localCell.className='vc-grid-cell vc-local-cell';
-  var lv=document.createElement('video');lv.autoplay=true;lv.playsInline=true;lv.muted=true;
+  var lv=document.createElement('video');lv.className='vc-grid-local-video';lv.autoplay=true;lv.playsInline=true;lv.muted=true;
   if(_gcLocalStream)lv.srcObject=_gcLocalStream;
   lv.play().catch(function(){});
   var ll=document.createElement('div');ll.className='vc-grid-label';ll.textContent=(currentDisplayName||currentRole)+' (You)';
@@ -17016,12 +17258,13 @@ window.addEventListener('keyup',function(e){
 /* Notification Center */
 var _notifications=[];
 var _notifPanelOpen=false;
-function addNotification(title,msg,icon,appId){
-  var n={id:Date.now()+'-'+Math.random().toString(36).substr(2,5),title:title,msg:msg,icon:icon||'&#128276;',appId:appId||'',time:Date.now()};
+function addNotification(title,msg,icon,appId,sourceKey){
+  var n={id:Date.now()+'-'+Math.random().toString(36).substr(2,5),title:title,msg:msg,icon:icon||'&#128276;',appId:appId||'',sourceKey:sourceKey||'',time:Date.now()};
   _notifications.unshift(n);
   if(_notifications.length>50)_notifications.pop();
   _updateNotifBadge();
   if(_notifPanelOpen)_renderNotifPanel();
+  return n.id;
 }
 function _updateNotifBadge(){
   var btn=document.getElementById('taskbarNotifBtn');
