@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,6 +86,19 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .lockdown-popup-icon{font-size:48px;margin-bottom:12px;display:block}
 .lockdown-popup-title{color:#fff;font-size:18px;font-weight:700;margin-bottom:8px}
 .lockdown-popup-msg{color:rgba(255,255,255,.55);font-size:13px;line-height:1.5}
+.ban-popup-overlay{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(3,5,15,.72);backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
+.ban-popup{width:360px;max-width:92%;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:var(--bg2);box-shadow:0 18px 55px rgba(0,0,0,.55);color:var(--text);animation:banPopupBounce .3s ease-out}
+.ban-popup-head{padding:24px 26px 8px}
+.ban-popup-icon,.ban-popup-kicker{display:none}
+.ban-popup-title{font-size:20px;font-weight:700;color:var(--text);text-align:center}
+.ban-popup-body{padding:8px 26px 24px;text-align:center}
+.ban-popup-detail{font-size:13px;color:var(--text4);line-height:1.6}
+.ban-popup-detail-label,.ban-popup-detail-value{font-size:inherit;color:inherit;font-weight:400}
+.ban-popup-detail-label::after{content:': '}
+.ban-popup-reason{padding:8px 0;margin:10px 0 16px;color:var(--text4);font-size:12px;line-height:1.45}
+.ban-popup-wait{text-align:center;color:rgba(255,255,255,.45);font-size:11px;margin:14px 0 0}
+.ban-popup-ok{display:block;width:auto;margin:16px auto 0;padding:8px 24px;border:1px solid var(--accent);border-radius:8px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;box-shadow:none;transition:filter .15s,transform .15s}
+.ban-popup-ok:hover{filter:brightness(1.1);transform:translateY(-1px)}
 
 /* ===== DESKTOP OS ===== */
 .desktop{position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(circle at 20% 10%,#1c2340 0%,transparent 45%),radial-gradient(circle at 85% 80%,#1a2b3d 0%,transparent 50%),linear-gradient(150deg,#0a0a16 0%,#141428 45%,#0c1420 100%);overflow:hidden;display:flex;flex-direction:column}
@@ -107,7 +121,7 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .desktop-icon .icon-label[contenteditable="true"]{outline:1px solid var(--accent);background:rgba(0,0,0,.5);border-radius:3px;padding:1px 4px;white-space:normal;word-break:break-word}
 
 /* Taskbar */
-.taskbar{height:58px;margin:0 12px 12px;background:rgba(20,20,28,.72);border:1px solid rgba(255,255,255,.08);border-radius:18px;display:flex;align-items:center;padding:0 10px;gap:4px;backdrop-filter:blur(28px) saturate(1.5);-webkit-backdrop-filter:blur(28px) saturate(1.5);box-shadow:0 12px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);z-index:100}
+.taskbar{height:48px;margin:0 8px 8px;background:rgba(20,20,28,.72);border:1px solid rgba(255,255,255,.08);border-radius:14px;display:flex;align-items:center;padding:0 6px;gap:3px;backdrop-filter:blur(28px) saturate(1.5);-webkit-backdrop-filter:blur(28px) saturate(1.5);box-shadow:0 12px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);z-index:100}
 .taskbar-start{width:40px;height:40px;border-radius:12px;border:none;background:none;color:#fff;font-size:19px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center}
 .taskbar-start:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
 .taskbar-divider{width:1px;height:26px;background:rgba(255,255,255,.1);margin:0 6px}
@@ -117,7 +131,7 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .fullscreen-home-indicator{display:none}
 .desktop.fullscreen-app .taskbar{transform:translateY(calc(100% + 14px));opacity:.12;pointer-events:none;transition:transform .25s ease,opacity .25s ease}
 .desktop.fullscreen-app .fullscreen-home-indicator{display:block;position:fixed;z-index:251;bottom:7px;left:50%;width:74px;height:5px;border-radius:4px;background:rgba(255,255,255,.7);transform:translateX(-50%);box-shadow:0 0 12px rgba(255,255,255,.25);pointer-events:none;transition:opacity .2s}
-.desktop.fullscreen-app .fullscreen-reveal-zone{display:block;position:fixed;z-index:252;bottom:0;left:0;right:0;height:30px;cursor:pointer}
+.desktop.fullscreen-app .fullscreen-reveal-zone{display:block;position:fixed;z-index:252;bottom:0;left:0;right:0;height:30px;cursor:pointer;pointer-events:none}
 .desktop.fullscreen-app.taskbar-peek .taskbar{transform:translateY(0);opacity:1;pointer-events:auto}
 .desktop.fullscreen-app.taskbar-peek .fullscreen-home-indicator{opacity:0}
 .desktop.fullscreen-app .desktop-area{overflow:visible}
@@ -126,6 +140,9 @@ input::-ms-reveal,input::-ms-clear{display:none!important}
 .desktop.fullscreen-app .os-window.maximized .win-titlebar .win-title,.desktop.fullscreen-app .os-window.maximized .win-titlebar .win-btn-aboutblank{display:none}
 .desktop.fullscreen-app .os-window.maximized .win-titlebar .win-btns{position:absolute;top:5px;right:8px}
 .desktop.fullscreen-app.top-peek .os-window.maximized .win-titlebar{opacity:1;pointer-events:auto}
+.taskbar-start{width:34px;height:34px}
+.taskbar-item{width:36px;height:36px;border-radius:9px}
+.taskbar-reco,.taskbar-logout,.taskbar-moon,.taskbar-notif-btn{height:34px}
 .taskbar-item{width:42px;height:42px;border-radius:12px;border:none;background:rgba(255,255,255,.05);color:var(--text4,rgba(255,255,255,.6));font-size:11px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;position:relative}
 .taskbar-item:hover{background:rgba(255,255,255,.12);color:var(--text2,rgba(255,255,255,.85));transform:translateY(-2px)}
 .taskbar-item.active{background:rgba(255,255,255,.13);color:#fff}
@@ -3097,7 +3114,7 @@ db.ref('bannedRoles').on('value',s=>{
   _prevBannedRoles=bannedRoles; bannedRoles=next; renderBannedList();renderOnlineUsers();rebuildUserDropdown();queueRenderUserMgmt();
   if(currentRole&&bannedRoles[currentRole]){
     const remaining=bannedRoles[currentRole]-Date.now();
-    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var _bannedRole=currentRole;var _isPerm=remaining>315360000000;loginError.textContent='You are banned for '+(_isPerm?'Permanent':formatRemaining(remaining))+'.';logout();_showBanPopup(_bannedRole)}
+    if(remaining>0){if(skipAutoKick){skipAutoKick=false;return}var _bannedRole=currentRole;var _isPerm=remaining>315360000000;loginError.textContent='You are banned for '+(_isPerm?'Permanent':formatRemaining(remaining))+'.';logout();setTimeout(function(){_showBanPopup(_bannedRole)},0)}
   }
   Object.keys(bannedRoles).forEach(function(role){
     if(bannedRoles[role]-Date.now()>0)banAllLinkedDevices(role);
@@ -3482,22 +3499,29 @@ function _showBanPopup(role){
     var overlay=document.createElement('div');overlay.className='ban-popup-overlay';
     overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;z-index:999999;backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2);animation:banFadeIn .35s ease';
     var popup=document.createElement('div');popup.className='ban-popup';
-    popup.style.cssText='background:rgba(15,15,30,.92);border:1px solid rgba(255,70,70,.25);border-radius:24px;padding:32px 36px;max-width:420px;width:90%;box-shadow:0 24px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,70,70,.08);text-align:center;animation:banPopupBounce .5s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden';
-    popup.innerHTML=
-      '<div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,50,50,.06);pointer-events:none"></div>'+
-      '<div style="position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;border-radius:50%;background:rgba(255,50,50,.04);pointer-events:none"></div>'+
-      '<div style="font-size:52px;margin-bottom:10px;line-height:1">&#128683;</div>'+
-      '<div style="font-size:22px;font-weight:800;color:#ff4444;margin-bottom:6px;letter-spacing:-.3px">You Have Been Banned</div>'+
-      '<div style="width:40px;height:3px;border-radius:2px;background:rgba(255,70,70,.3);margin:0 auto 14px"></div>'+
-      '<div style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:3px">Account: <strong style="color:rgba(255,255,255,.9);font-weight:600">'+_escHtml(name)+'</strong></div>'+
-      '<div style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:'+(reason?'3px':'18px')+'">Duration: <strong style="color:#ff7777;font-weight:700">'+_escHtml(durationStr)+'</strong></div>'+
-      (reason?'<div style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:18px;padding:8px 12px;background:rgba(255,70,70,.08);border-radius:10px;border:1px solid rgba(255,70,70,.12)">Reason: <strong style="color:#ff9977;font-weight:600">'+_escHtml(reason)+'</strong></div>':'')+
-      (isPerm?'<div style="font-size:11px;color:rgba(255,255,255,.25);margin-bottom:16px;font-style:italic">This ban is permanent. Appeals are not available.</div>':'')+
-      '<button class="ban-popup-ok" style="padding:11px 36px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff4444,#cc2222);color:#fff;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:opacity .2s;box-shadow:0 4px 16px rgba(255,50,50,.25)">OK</button>';
+    popup.innerHTML='<div class="ban-popup-head"><div class="ban-popup-title">You Have Been Banned</div></div>'+
+      '<div class="ban-popup-body"><div class="ban-popup-detail">Account: '+escHtml(name)+'<br>Duration: '+escHtml(durationStr)+'</div>'+
+      (reason?'<div class="ban-popup-reason">Reason: '+escHtml(reason)+'</div>':'')+
+      (isPerm?'<div class="ban-popup-wait">This ban is permanent. Appeals are not available.</div>':'')+
+      '<div class="ban-popup-wait">Please wait 5 seconds...</div><button class="ban-popup-ok" disabled style="display:none">OK</button></div>';
     overlay.appendChild(popup);document.body.appendChild(overlay);
     popup.querySelector('.ban-popup-ok').addEventListener('mouseenter',function(){this.style.opacity='.85'});
     popup.querySelector('.ban-popup-ok').addEventListener('mouseleave',function(){this.style.opacity='1'});
-    popup.querySelector('.ban-popup-ok').onclick=function(){overlay.remove()};
+    popup.querySelector('.ban-popup-ok').onclick=function(){
+      overlay.remove();
+      if(currentRole)logout();
+      else{
+        desktop.classList.add('hidden');
+        lockScreen.classList.remove('hidden');
+        usernameInput.value='';passwordInput.value='';usernameInput.focus();
+      }
+    };
+    var wait=5,waitEl=popup.querySelector('.ban-popup-wait'),ok=popup.querySelector('.ban-popup-ok');
+    var timer=setInterval(function(){
+      wait--;
+      if(wait>0){waitEl.textContent='Please wait '+wait+' seconds...';return}
+      clearInterval(timer);waitEl.remove();ok.disabled=false;ok.style.display='inline-block';
+    },1000);
   }catch(e){console.error('[BanPopup Error]',e)}
 }
 db.ref('lockdown').on('value',snap=>{
@@ -3742,7 +3766,7 @@ function _unbanDevicesForRole(role){
   });
 }
 function isAnyAdmin(){return currentRole==='Admin'||(currentRole&&adminUsers[currentRole]===true)}
-var _defaultAdminPermissions={actions:true,penalties:true,announcements:true,feedback:true,appbans:true,adminsettings:true,accountRequests:false};
+var _defaultAdminPermissions={actions:true,penalties:true,announcements:true,feedback:true,appbans:true,adminsettings:false,accountRequests:false};
 function _hasAdminPermission(key){
   if(currentRole==='Admin')return true;
   if(!currentRole||adminUsers[currentRole]!==true)return false;
@@ -3758,7 +3782,7 @@ function _applyAdminPermissions(){
     'sec-announcements':isOwner||_hasAdminPermission('announcements'),
     'sec-feedback':isOwner||_hasAdminPermission('feedback'),
     'sec-appbans':isOwner||_hasAdminPermission('appbans'),
-    'sec-adminsettings':isOwner||_hasAdminPermission('adminsettings'),
+    'sec-adminsettings':isOwner,
     'sec-usermgmt':isOwner,
     'sec-tools':isOwner
   };
@@ -4976,28 +5000,6 @@ function loginAsRole(role){
       });
     }
   },1200);
-  /* Cloaking feature popup - one time only */
-  var cloakPopupKey='docosCloakPopupSeen_'+currentRole;
-  function _dismissCloakPopup(ov){localStorage.setItem(cloakPopupKey,'1');if(ov)ov.remove()}
-  if(!localStorage.getItem(cloakPopupKey)){
-    setTimeout(function(){
-      var existing=document.querySelector('.cloak-popup-overlay');if(existing)return;
-      var overlay=document.createElement('div');overlay.className='cloak-popup-overlay';
-      overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99999;animation:fadeIn .3s';
-      overlay.addEventListener('mousedown',function(e){if(e.target===overlay)_dismissCloakPopup(overlay)});
-      var modal=document.createElement('div');
-      modal.style.cssText='background:var(--bg2,#1e1e2e);border:1px solid var(--border,rgba(255,255,255,.1));border-radius:16px;padding:32px 28px 24px;width:400px;max-width:90%;box-shadow:0 12px 48px rgba(0,0,0,.8);text-align:center';
-      modal.innerHTML='<div style="font-size:48px;margin-bottom:8px">&#128373;</div><h3 style="margin:0 0 6px;font-size:18px;font-weight:700;color:var(--text,#eee)">New: Cloaking Key</h3><p style="font-size:13px;color:var(--text5,#888);line-height:1.6;margin-bottom:16px">Press <strong style="color:var(--text,#eee)">Escape</strong> to instantly close the page. Customize the key, action (Close page or go to a URL), and target URL in <strong style="color:var(--accent,#00aaff)">Settings</strong> under the Cloaking section.</p><button id="cloakPopupGotIt" style="padding:10px 32px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent,#00aaff),var(--accent2,#0066cc));color:#fff;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s">Got it</button>';
-      overlay.appendChild(modal);
-      document.body.appendChild(overlay);
-      overlay.querySelector('#cloakPopupGotIt').onclick=function(){
-        localStorage.setItem(cloakPopupKey,'1');overlay.remove();
-        try{document.querySelector('.cloak-popup-overlay')&&document.querySelector('.cloak-popup-overlay').remove()}catch(e){}
-      };
-      /* Auto-dismiss after a few seconds so the popup can never wedge the desktop */
-      setTimeout(function(){if(document.body.contains(overlay))_dismissCloakPopup(overlay)},5000);
-    },2500);
-  }
   return true;
 }
 
@@ -5125,6 +5127,7 @@ function _doLogin(uname,pass){
   var expectedUsername=usernames[role]||(roleDisplayNames[role]||role);
   if(uname.toLowerCase()!==expectedUsername.toLowerCase()){_recordFailedLogin();return}
   if(isBanned(role)){
+    _showBanPopup(role);
     var fp=getDeviceFingerprint();
     if(!EXCLUDED_DEVICES[fp]){
       db.ref('bannedDevices/'+fp).set({role:role,bannedAt:Date.now()});
@@ -5182,7 +5185,7 @@ document.getElementById('lockLoginBtn').addEventListener('click',login);
       var banVal=banSnap.val();
       if(banVal){
         var remaining=banVal-Date.now();
-        if(remaining>0){loginError.textContent='You are banned for '+(remaining>315360000000?'Permanent':formatRemaining(remaining))+'.';return}
+        if(remaining>0){loginError.textContent='You are banned for '+(remaining>315360000000?'Permanent':formatRemaining(remaining))+'.';setTimeout(function(){_showBanPopup(savedRole)},0);return}
       }
       if(siteInLockdown){var isAdminOrOwner=savedRole==='Admin'||(adminUsers[savedRole]===true);if(!isAdminOrOwner)return}
       if(loginAsRole(savedRole)){
@@ -5429,6 +5432,7 @@ if(typeof userSelect!=='undefined' && userSelect){
       if(!role||!appId||!dur){showToast('Select a user, app, and duration.');return}
       if(typeof appDefs!=='object'||!appDefs[appId]){showToast('Invalid app.');return}
       var appTitle=appDefs[appId].title||appId;
+      if(role==='Admin'){showToast('You cannot ban the Owner from apps.');return}
       if(currentRole!=='Admin'&&adminUsers[role]===true){showToast('You cannot ban another admin from apps.');return}
       if(appBans[role]&&appBans[role][appId]&&appBans[role][appId]>Date.now()){showToast((roleDisplayNames[role]||role)+' is already banned from '+appTitle+'.');return}
       var displayName=roleDisplayNames[role]||role;
@@ -6493,7 +6497,7 @@ function updateNotifBadge(){
   var recoCount=Object.keys(pendingRecos).length;
   var acctReqCount=(currentRole==='Admin'||_hasAdminPermission('accountRequests'))?Object.keys(pendingAccountRequests).length:0;
   var isOwner=currentRole==='Admin';
-  const count=isOwner?(appealCount+recoCount+acctReqCount):appealCount;
+  const count=appealCount+(isOwner?recoCount:0)+acctReqCount;
   var nba=document.getElementById('notifBadgeAcctReq');
   if(nba){if(acctReqCount>0){nba.style.display='inline-block';nba.textContent=acctReqCount}else{nba.style.display='none'}}
   var nbp=document.getElementById('notifBadgeAppeals');
@@ -6539,7 +6543,7 @@ function updateNotifBadge(){
 }
 function renderAccountReqs(){
   var sec=document.getElementById('acctReqSection');if(sec){sec.style.display=(currentRole==='Admin'||_hasAdminPermission('accountRequests'))?'':'none'}
-  var div=document.getElementById('acctReqList');if(!div)return;div.innerHTML='';if(currentRole!=='Admin')return;
+  var div=document.getElementById('acctReqList');if(!div)return;div.innerHTML='';if(currentRole!=='Admin'&&!_hasAdminPermission('accountRequests'))return;
   var keys=Object.keys(pendingAccountRequests);
   if(!keys.length){div.innerHTML='<span style="color:#66bb6a;font-size:12px;opacity:.6">No pending requests</span>';return}
   keys.forEach(function(key){
@@ -6860,7 +6864,7 @@ function _openAdminPermissions(role,displayName){
   var modal=document.createElement('div');modal.style.cssText='width:390px;max-width:92%;max-height:85vh;overflow-y:auto;padding:22px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.55)';
   var title=document.createElement('div');title.style.cssText='font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px';title.textContent='Admin Permissions';modal.appendChild(title);
   var sub=document.createElement('div');sub.style.cssText='font-size:12px;color:var(--text5);margin-bottom:16px';sub.textContent='Choose what '+displayName+' can access.';modal.appendChild(sub);
-  var options=[['actions','Actions'],['penalties','Penalties'],['announcements','Announcements'],['feedback','Feedback'],['appbans','App Bans'],['adminsettings','Admin Settings'],['accountRequests','Account Requests in Feedback']];
+  var options=[['actions','Actions'],['penalties','Penalties'],['announcements','Announcements'],['feedback','Feedback'],['appbans','App Bans'],['accountRequests','Account Requests in Feedback']];
   var saved=adminPermissions[role]||{};var checks={};
   options.forEach(function(pair){var row=document.createElement('label');row.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);color:var(--text2);font-size:13px;cursor:pointer';var cb=document.createElement('input');cb.type='checkbox';var key=pair[0];cb.checked=saved[key]!==undefined?saved[key]===true:_defaultAdminPermissions[key]===true;cb.style.accentColor='var(--accent)';checks[key]=cb;var text=document.createElement('span');text.textContent=pair[1];row.appendChild(cb);row.appendChild(text);modal.appendChild(row)});
   var buttons=document.createElement('div');buttons.style.cssText='display:flex;gap:8px;margin-top:16px';var cancel=document.createElement('button');cancel.textContent='Cancel';cancel.style.cssText='flex:1;padding:9px;border:1px solid var(--border);border-radius:9px;background:var(--bg3);color:var(--text4);cursor:pointer';cancel.onclick=function(){overlay.remove()};var save=document.createElement('button');save.textContent='Save Permissions';save.style.cssText='flex:1;padding:9px;border:0;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer';save.onclick=function(){var values={};Object.keys(checks).forEach(function(key){values[key]=checks[key].checked});db.ref('adminPermissions/'+role).set(values).then(function(){showToast('Permissions updated.');overlay.remove();_applyAdminPermissions()}).catch(function(err){showToast('Error: '+err.message)})};buttons.appendChild(cancel);buttons.appendChild(save);modal.appendChild(buttons);overlay.appendChild(modal);overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};document.body.appendChild(overlay);
@@ -7585,6 +7589,7 @@ function _updateFullscreenChrome(){
   }
   document.addEventListener('mousemove',function(e){
     if(e.clientY<=55)topPeek();
+    if(e.clientY>=window.innerHeight-30)peek();
   });
   zone.addEventListener('mouseenter',peek);
   zone.addEventListener('mouseleave',unpeek);
@@ -7594,6 +7599,10 @@ function _updateFullscreenChrome(){
   zone.addEventListener('touchstart',function(e){touchStartY=e.touches[0].clientY},{passive:true});
   zone.addEventListener('touchend',function(e){
     if(touchStartY-e.changedTouches[0].clientY>20){peek();_fullscreenPeekTimer=setTimeout(unpeek,2500)}
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    var t=e.changedTouches&&e.changedTouches[0];
+    if(t&&touchStartY-t.clientY>20){peek();_fullscreenPeekTimer=setTimeout(unpeek,2500)}
   },{passive:true});
 })();
 function _saveOpenWindows(){
@@ -10312,7 +10321,7 @@ function openApp(appId){
       }
     }
   /* Block if banned from this app */
-  if(currentRole&&appBans[currentRole]&&appBans[currentRole][appId]){
+  if(currentRole&&currentRole!=='Admin'&&appBans[currentRole]&&appBans[currentRole][appId]){
     var abExpiry=appBans[currentRole][appId];
     if(abExpiry>Date.now()){
       var abRemaining=abExpiry-Date.now();
@@ -14794,17 +14803,11 @@ function _vcRemoveIncomingOverlay(){
 }
 
 async function _vcGetMedia(){
-  try{
-    var stream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-    return stream;
-  }catch(e1){
-    try{
-      var stream=await navigator.mediaDevices.getUserMedia({video:false,audio:true});
-      return stream;
-    }catch(e2){
-      return null;
-    }
-  }
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return null;
+  var tracks=[];
+  try{var video=await navigator.mediaDevices.getUserMedia({video:true,audio:false});tracks=tracks.concat(video.getVideoTracks())}catch(e){console.warn('[VC] Camera unavailable',e)}
+  try{var audio=await navigator.mediaDevices.getUserMedia({video:false,audio:true});tracks=tracks.concat(audio.getAudioTracks())}catch(e){console.warn('[VC] Microphone unavailable',e)}
+  return tracks.length?new MediaStream(tracks):null;
 }
 
 function _vcShowPermissionError(onRetry,onCancel){
@@ -15283,7 +15286,6 @@ function _vcStopListenRemoteState(){
 function _vcShowIncomingCall(callId,callerRole,callerName){
   if(_vcInCall)return;
   if(isBlockedByMe(callerRole)||hasBlockedMe(callerRole)){db.ref('videoCalls/'+callId+'/status').set('ended');return}
-  if(!_inAppNotifsEnabled())return;
   _vcRemoveIncomingOverlay();
   var overlay=document.createElement('div');
   overlay.className='vc-incoming';
@@ -15907,7 +15909,6 @@ function _gcDeclineGroupCall(roomId){
 
 function _gcShowIncomingGroupCall(roomId,hostName,participantNames){
   if(_gcInGroupCall||_vcInCall)return;
-  if(!_inAppNotifsEnabled())return;
   _vcRemoveIncomingOverlay();
   var overlay=document.createElement('div');
   overlay.className='vc-incoming';
